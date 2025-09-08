@@ -32,9 +32,9 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
-            textBox1 = new TextBox();
+            TBNombre = new TextBox();
             label3 = new Label();
-            textBox2 = new TextBox();
+            TBApellido = new TextBox();
             label4 = new Label();
             textBox3 = new TextBox();
             label5 = new Label();
@@ -87,12 +87,14 @@
             label2.Text = "Nombre:";
             label2.Click += label1_Click;
             // 
-            // textBox1
+            // TBNombre
             // 
-            textBox1.Location = new Point(135, 147);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(215, 23);
-            textBox1.TabIndex = 2;
+            TBNombre.Location = new Point(135, 147);
+            TBNombre.Name = "TBNombre";
+            TBNombre.Size = new Size(215, 23);
+            TBNombre.TabIndex = 2;
+            TBNombre.TextChanged += textBox1_TextChanged;
+            TBNombre.KeyPress += TBNombre_KeyPress;
             // 
             // label3
             // 
@@ -105,12 +107,13 @@
             label3.Text = "Apellido:";
             label3.Click += label1_Click;
             // 
-            // textBox2
+            // TBApellido
             // 
-            textBox2.Location = new Point(135, 185);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(215, 23);
-            textBox2.TabIndex = 2;
+            TBApellido.Location = new Point(135, 185);
+            TBApellido.Name = "TBApellido";
+            TBApellido.Size = new Size(215, 23);
+            TBApellido.TabIndex = 2;
+            TBApellido.KeyPress += TBNombre_KeyPress;
             // 
             // label4
             // 
@@ -283,8 +286,8 @@
             Controls.Add(textBox5);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(TBApellido);
+            Controls.Add(TBNombre);
             Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -310,9 +313,9 @@
         private PictureBox pictureBox1;
         private Label label1;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox TBNombre;
         private Label label3;
-        private TextBox textBox2;
+        private TextBox TBApellido;
         private Label label4;
         private TextBox textBox3;
         private Label label5;

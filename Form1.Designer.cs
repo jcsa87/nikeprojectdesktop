@@ -280,7 +280,7 @@
             // 
             panel3.Location = new Point(127, 6);
             panel3.Name = "panel3";
-            panel3.Size = new Size(637, 689);
+            panel3.Size = new Size(700, 689);
             panel3.TabIndex = 1;
             panel3.Paint += panel3_Paint;
             // 
@@ -288,7 +288,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(776, 707);
+            ClientSize = new Size(839, 707);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Name = "Form1";
