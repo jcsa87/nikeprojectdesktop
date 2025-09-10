@@ -62,6 +62,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = SystemColors.ControlLight;
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
@@ -73,6 +74,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = SystemColors.ControlLight;
             panel2.Controls.Add(label8);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label6);
@@ -256,6 +258,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
             label1.FlatStyle = FlatStyle.Popup;
             label1.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label1.Location = new Point(33, 61);
@@ -267,6 +270,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = SystemColors.ControlLight;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(22, 3);
             pictureBox1.Name = "pictureBox1";
@@ -280,7 +284,7 @@
             // 
             panel3.Location = new Point(127, 6);
             panel3.Name = "panel3";
-            panel3.Size = new Size(700, 689);
+            panel3.Size = new Size(919, 689);
             panel3.TabIndex = 1;
             panel3.Paint += panel3_Paint;
             // 
@@ -288,7 +292,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(839, 707);
+            ClientSize = new Size(1072, 707);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Name = "Form1";

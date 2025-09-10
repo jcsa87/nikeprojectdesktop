@@ -34,7 +34,7 @@ namespace nikeproject
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            MostrarUsuariosControl();
+            MostrarBackUpControl();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -53,6 +53,14 @@ namespace nikeproject
             var usuariosControl = new UsuariosControl();
             usuariosControl.Dock = DockStyle.Fill;
             panel3.Controls.Add(usuariosControl);
+        }
+
+        private void MostrarBackUpControl()
+        {
+            panel3.Controls.Clear();
+            var backUpControl = new BackUpControl();
+            backUpControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(backUpControl);
         }
 
 
