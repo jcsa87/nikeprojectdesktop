@@ -147,7 +147,7 @@
             Controls.Add(panel1);
             Name = "BackUpControl";
             Size = new Size(915, 670);
-            Load += this.BackUpControl_Load;
+//            Load += this.BackUpControl_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);

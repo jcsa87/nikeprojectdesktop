@@ -125,7 +125,7 @@
             label2.Size = new Size(78, 25);
             label2.TabIndex = 3;
             label2.Text = "Nombre";
-            label2.Click += this.label2_Click;
+//            label2.Click += this.label2_Click;
             // 
             // textBox2
             // 
@@ -133,7 +133,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(142, 23);
             textBox2.TabIndex = 4;
-            textBox2.TextChanged += this.textBox2_TextChanged;
+ //           textBox2.TextChanged += this.textBox2_TextChanged;
             // 
             // label3
             // 
