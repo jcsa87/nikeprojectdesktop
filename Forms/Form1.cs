@@ -34,7 +34,42 @@ namespace nikeproject
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            panel3.Controls.Clear();
+            var usuariosControl = new UsuariosControl();
+            usuariosControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(usuariosControl);
+        }
 
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var backUpControl = new BackUpControl();
+            backUpControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(backUpControl);
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            //panel3.Controls.Clear();
+            //var ventasControl = new VentasControl();
+            //ventasControl.Dock = DockStyle.Fill;
+            //panel3.Controls.Add(ventasControl);
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var clientesControl = new ClienteControl();
+            clientesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(clientesControl);
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            //panel3.Controls.Clear();
+            //var productosControl = new ProductosControl();
+            //productosControl.Dock = DockStyle.Fill;
+            //panel3.Controls.Add(productosControl);
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -65,7 +100,7 @@ namespace nikeproject
 
         private void pictureBox8_DoubleClick(object sender, EventArgs e)
         {
-            
+
         }
 
         private void pictureBox8_Click(object sender, EventArgs e)
@@ -83,7 +118,7 @@ namespace nikeproject
             }
             else
             {
-                
+
             }
         }
     }
