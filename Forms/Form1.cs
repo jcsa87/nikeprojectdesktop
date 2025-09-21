@@ -61,14 +61,14 @@ namespace nikeproject
         private void pbReportes_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
+            var reportesControl = new ReportesControl();
             reportesControl.Dock = DockStyle.Fill;
             panel3.Controls.Add(reportesControl);
         }
         private void lbMenu_Click_1(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
+            var reportesControl = new ReportesControl();
             reportesControl.Dock = DockStyle.Fill;
             panel3.Controls.Add(reportesControl);
         }
@@ -77,16 +77,16 @@ namespace nikeproject
         private void pbVentas_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            var ventasControl = new VentaControl();
+            ventasControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(ventasControl);
         }
         private void label4_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            var ventasControl = new VentaControl();
+            ventasControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(ventasControl);
         }
 
         //clientes
@@ -109,18 +109,18 @@ namespace nikeproject
         private void pbProductos_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            var productosControl = new ProductoControl();
+            productosControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(productosControl);
         }
 
 
         private void label6_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            var productosControl = new ProductoControl();
+            productosControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(productosControl);
         }
 
 
