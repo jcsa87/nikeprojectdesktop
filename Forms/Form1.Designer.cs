@@ -244,7 +244,7 @@
             // 
             pictureBox1.BackColor = SystemColors.ControlLight;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(29, 3);
+            pictureBox1.Location = new Point(23, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(74, 74);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -254,6 +254,7 @@
             // 
             // panel3
             // 
+            panel3.BackgroundImage = (Image)resources.GetObject("panel3.BackgroundImage");
             panel3.Location = new Point(127, 6);
             panel3.Name = "panel3";
             panel3.Size = new Size(919, 689);
