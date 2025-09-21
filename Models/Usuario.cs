@@ -8,7 +8,6 @@ namespace nikeproject.Models
 {
     public class Usuario
     {
-        // Propiedades que representan las columnas de la tabla USUARIO
         public int IdUsuario { get; set; }
         public string NombreCompleto { get; set; } = string.Empty;
         public string Documento { get; set; } = string.Empty;

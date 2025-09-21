@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="DataAccess\" />
-    <Folder Include="UserControls\" />
   </ItemGroup>
 
   <ItemGroup>

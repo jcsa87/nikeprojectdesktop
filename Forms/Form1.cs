@@ -1,4 +1,6 @@
+using nikeproject;
 using nikeproject.Forms;
+using nikeproject.UserControls;
 
 namespace nikeproject
 {
@@ -28,28 +30,20 @@ namespace nikeproject
         {
             panel3.Controls.Clear();
         }
-
-        private void lbMenu_Click_1(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-        }
-
         private void pbUsuario_Click(object sender, EventArgs e)
 
         {
             MostrarUsuariosControl();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-            MostrarUsuariosControl();
-        }
+
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-
+            panel3.Controls.Clear();
         }
 
+        //usuarios
         private void MostrarUsuariosControl()
         {
             panel3.Controls.Clear();
@@ -58,19 +52,81 @@ namespace nikeproject
             panel3.Controls.Add(usuariosControl);
         }
 
-        private void MostrarBackUpControl()
+        private void label2_Click(object sender, EventArgs e)
+        {
+            MostrarUsuariosControl();
+        }
+
+        //reportes
+        private void pbReportes_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            var backUpControl = new BackUpControl();
-            backUpControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(backUpControl);
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
         }
-
-        private void pbSalir_DoubleClick(object sender, EventArgs e)
+        private void lbMenu_Click_1(object sender, EventArgs e)
         {
-
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
         }
 
+        //ventas
+        private void pbVentas_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+        private void label4_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+
+        //clientes
+        private void pbClientes_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var clienteControl = new ClienteControl();
+            clienteControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(clienteControl);
+        }
+        private void label5Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var clienteControl = new ClienteControl();
+            clienteControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(clienteControl);
+        }
+
+        //productos
+        private void pbProductos_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+
+
+        
+
+        //boton salir
         private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -93,24 +149,20 @@ namespace nikeproject
             }
         }
 
-        private void pbReportes_Click(object sender, EventArgs e)
+        private void pbSalir_DoubleClick(object sender, EventArgs e)
         {
 
         }
 
-        private void pbVentas_Click(object sender, EventArgs e)
-        {
 
-        }
+        //back up (fuera de uso)
+        //private void MostrarBackUpControl()
+        //{
+        //    panel3.Controls.Clear();
+        //    var backUpControl = new BackUpControl();
+        //    backUpControl.Dock = DockStyle.Fill;
+        //    panel3.Controls.Add(backUpControl);
+        //}
 
-        private void pbClientes_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pbProductos_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
