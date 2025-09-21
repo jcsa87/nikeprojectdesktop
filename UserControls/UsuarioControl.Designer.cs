@@ -28,465 +28,251 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UsuariosControl));
-            pictureBox1 = new PictureBox();
             label1 = new Label();
-            label2 = new Label();
-            TBNombre = new TextBox();
-            label3 = new Label();
-            TBApellido = new TextBox();
-            label4 = new Label();
-            textBox3 = new TextBox();
-            label5 = new Label();
-            textBox4 = new TextBox();
-            label6 = new Label();
-            textBox5 = new TextBox();
-            label7 = new Label();
-            textBox6 = new TextBox();
-            label8 = new Label();
-            textBox7 = new TextBox();
-            label9 = new Label();
-            textBox8 = new TextBox();
-            label10 = new Label();
-            textBox9 = new TextBox();
-            label11 = new Label();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
-            dataGridView1 = new DataGridView();
-            Nombre = new DataGridViewTextBoxColumn();
-            button1 = new Button();
-            button2 = new Button();
-            pictureBox2 = new PictureBox();
-            panel1 = new Panel();
-            label12 = new Label();
-            panel2 = new Panel();
-            label13 = new Label();
-            pictureBox3 = new PictureBox();
-            panel3 = new Panel();
-            panel4 = new Panel();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            lbDocumentoUsu = new Label();
+            lbNombreCompleto = new Label();
+            lbClave = new Label();
+            txtNombreCompleto = new TextBox();
+            txtNroDocumento = new TextBox();
+            txtClave = new TextBox();
+            lbConfirmarClave = new Label();
+            txtConfirmarClave = new TextBox();
+            lbRol = new Label();
+            cbRol = new ComboBox();
+            cbEstado = new ComboBox();
+            lbEstado = new Label();
+            btnEditar = new Button();
+            btnEliminar = new Button();
+            btnGuardar = new Button();
+            lbTitulo = new Label();
             SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(28, 34);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(74, 74);
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 22F, FontStyle.Bold | FontStyle.Underline);
-            label1.Location = new Point(108, 50);
+            label1.BackColor = Color.White;
+            label1.Dock = DockStyle.Left;
+            label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(126, 41);
-            label1.TabIndex = 1;
-            label1.Text = "Usuario";
-            label1.Click += label1_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 15F);
-            label2.Location = new Point(25, 132);
-            label2.Name = "label2";
-            label2.Size = new Size(89, 28);
-            label2.TabIndex = 1;
-            label2.Text = "Nombre:";
-            label2.Click += label1_Click;
-            // 
-            // TBNombre
-            // 
-            TBNombre.Location = new Point(120, 137);
-            TBNombre.Name = "TBNombre";
-            TBNombre.Size = new Size(215, 23);
-            TBNombre.TabIndex = 2;
-            TBNombre.TextChanged += textBox1_TextChanged;
-            TBNombre.KeyPress += TBNombre_KeyPress;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 15F);
-            label3.Location = new Point(25, 170);
-            label3.Name = "label3";
-            label3.Size = new Size(90, 28);
-            label3.TabIndex = 1;
-            label3.Text = "Apellido:";
-            label3.Click += label1_Click;
-            // 
-            // TBApellido
-            // 
-            TBApellido.Location = new Point(120, 175);
-            TBApellido.Name = "TBApellido";
-            TBApellido.Size = new Size(215, 23);
-            TBApellido.TabIndex = 2;
-            TBApellido.KeyPress += TBNombre_KeyPress;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(28, 215);
-            label4.Name = "label4";
-            label4.Size = new Size(86, 20);
-            label4.TabIndex = 1;
-            label4.Text = "Contraseña:";
-            label4.Click += label1_Click;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(120, 212);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(215, 23);
-            textBox3.TabIndex = 2;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 15F);
-            label5.Location = new Point(25, 247);
-            label5.Name = "label5";
-            label5.Size = new Size(63, 28);
-            label5.TabIndex = 1;
-            label5.Text = "Email:";
-            label5.Click += label1_Click;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(120, 252);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(215, 23);
-            textBox4.TabIndex = 2;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 15F);
-            label6.Location = new Point(25, 286);
-            label6.Name = "label6";
-            label6.Size = new Size(59, 28);
-            label6.TabIndex = 1;
-            label6.Text = "Perfil:";
-            label6.Click += label1_Click;
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(120, 291);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(215, 23);
-            textBox5.TabIndex = 2;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 15F);
-            label7.Location = new Point(375, 132);
-            label7.Name = "label7";
-            label7.Size = new Size(50, 28);
-            label7.TabIndex = 1;
-            label7.Text = "DNI:";
-            label7.Click += label1_Click;
-            // 
-            // textBox6
-            // 
-            textBox6.Location = new Point(470, 137);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(215, 23);
-            textBox6.TabIndex = 2;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 15F);
-            label8.Location = new Point(375, 175);
-            label8.Name = "label8";
-            label8.Size = new Size(98, 28);
-            label8.TabIndex = 1;
-            label8.Text = "Dirección:";
-            label8.Click += label1_Click;
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(470, 180);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(215, 23);
-            textBox7.TabIndex = 2;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 15F);
-            label9.Location = new Point(369, 212);
-            label9.Name = "label9";
-            label9.Size = new Size(105, 28);
-            label9.TabIndex = 1;
-            label9.Text = "Fecha Nac.";
-            label9.Click += label1_Click;
-            // 
-            // textBox8
-            // 
-            textBox8.Location = new Point(470, 217);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(215, 23);
-            textBox8.TabIndex = 2;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 15F);
-            label10.Location = new Point(375, 252);
-            label10.Name = "label10";
-            label10.Size = new Size(90, 28);
-            label10.TabIndex = 1;
-            label10.Text = "Teléfono:";
-            label10.Click += label1_Click;
-            // 
-            // textBox9
-            // 
-            textBox9.Location = new Point(470, 257);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(215, 23);
-            textBox9.TabIndex = 2;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 15F);
-            label11.Location = new Point(375, 291);
-            label11.Name = "label11";
-            label11.Size = new Size(58, 28);
-            label11.TabIndex = 1;
-            label11.Text = "Sexo:";
-            label11.Click += label1_Click;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(490, 300);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(81, 19);
-            checkBox1.TabIndex = 3;
-            checkBox1.Text = "Masculino";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            // 
-            // checkBox2
-            // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(591, 300);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(79, 19);
-            checkBox2.TabIndex = 3;
-            checkBox2.Text = "Femenino";
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Nombre });
-            dataGridView1.Location = new Point(25, 389);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(859, 243);
-            dataGridView1.TabIndex = 4;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // Nombre
-            // 
-            Nombre.HeaderText = "Column1";
-            Nombre.Name = "Nombre";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(40, 360);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 5;
-            button1.Text = "Activos";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(145, 360);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 5;
-            button2.Text = "Inactivos";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(14, 6);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(46, 50);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.Silver;
-            panel1.Controls.Add(label12);
-            panel1.Controls.Add(pictureBox2);
-            panel1.Location = new Point(720, 142);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(164, 61);
-            panel1.TabIndex = 7;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label12.Location = new Point(85, 24);
-            label12.Name = "label12";
-            label12.Size = new Size(52, 15);
-            label12.TabIndex = 7;
-            label12.Text = "Guardar";
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.Silver;
-            panel2.Controls.Add(label13);
-            panel2.Controls.Add(pictureBox3);
-            panel2.Location = new Point(720, 219);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(164, 61);
-            panel2.TabIndex = 7;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label13.Location = new Point(85, 24);
-            label13.Name = "label13";
-            label13.Size = new Size(43, 15);
-            label13.TabIndex = 7;
-            label13.Text = "Borrar";
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(14, 6);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(46, 50);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.TabIndex = 6;
-            pictureBox3.TabStop = false;
-            pictureBox3.Click += pictureBox2_Click;
-            // 
-            // panel3
-            // 
-            panel3.BackColor = SystemColors.ControlLight;
-            panel3.Location = new Point(3, 60);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(904, 280);
-            panel3.TabIndex = 8;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = SystemColors.ControlLight;
-            panel4.Location = new Point(3, 346);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(904, 309);
-            panel4.TabIndex = 9;
+            label1.Size = new Size(281, 499);
+            label1.TabIndex = 8;
+            // 
+            // lbDocumentoUsu
+            // 
+            lbDocumentoUsu.AutoSize = true;
+            lbDocumentoUsu.BackColor = Color.White;
+            lbDocumentoUsu.Location = new Point(20, 100);
+            lbDocumentoUsu.Name = "lbDocumentoUsu";
+            lbDocumentoUsu.Size = new Size(96, 15);
+            lbDocumentoUsu.TabIndex = 9;
+            lbDocumentoUsu.Text = "Nro Documento:";
+            lbDocumentoUsu.Click += lbDocumentoUsu_Click;
+            // 
+            // lbNombreCompleto
+            // 
+            lbNombreCompleto.AutoSize = true;
+            lbNombreCompleto.BackColor = Color.White;
+            lbNombreCompleto.Location = new Point(20, 45);
+            lbNombreCompleto.Name = "lbNombreCompleto";
+            lbNombreCompleto.Size = new Size(110, 15);
+            lbNombreCompleto.TabIndex = 9;
+            lbNombreCompleto.Text = "Nombre Completo:";
+            lbNombreCompleto.Click += label3_Click;
+            // 
+            // lbClave
+            // 
+            lbClave.AutoSize = true;
+            lbClave.BackColor = Color.White;
+            lbClave.Location = new Point(20, 159);
+            lbClave.Name = "lbClave";
+            lbClave.Size = new Size(39, 15);
+            lbClave.TabIndex = 9;
+            lbClave.Text = "Clave:";
+            lbClave.Click += lbClave_Click;
+            // 
+            // txtNombreCompleto
+            // 
+            txtNombreCompleto.Location = new Point(20, 63);
+            txtNombreCompleto.Name = "txtNombreCompleto";
+            txtNombreCompleto.Size = new Size(207, 23);
+            txtNombreCompleto.TabIndex = 10;
+            // 
+            // txtNroDocumento
+            // 
+            txtNroDocumento.Location = new Point(20, 118);
+            txtNroDocumento.Name = "txtNroDocumento";
+            txtNroDocumento.Size = new Size(207, 23);
+            txtNroDocumento.TabIndex = 10;
+            txtNroDocumento.TextChanged += txtNroDocumento_TextChanged;
+            // 
+            // txtClave
+            // 
+            txtClave.Location = new Point(20, 177);
+            txtClave.Name = "txtClave";
+            txtClave.Size = new Size(207, 23);
+            txtClave.TabIndex = 10;
+            txtClave.TextChanged += textBox3_TextChanged;
+            // 
+            // lbConfirmarClave
+            // 
+            lbConfirmarClave.AutoSize = true;
+            lbConfirmarClave.BackColor = Color.White;
+            lbConfirmarClave.Location = new Point(20, 221);
+            lbConfirmarClave.Name = "lbConfirmarClave";
+            lbConfirmarClave.Size = new Size(96, 15);
+            lbConfirmarClave.TabIndex = 9;
+            lbConfirmarClave.Text = "Confirmar Clave:";
+            lbConfirmarClave.Click += label2_Click;
+            // 
+            // txtConfirmarClave
+            // 
+            txtConfirmarClave.Location = new Point(20, 239);
+            txtConfirmarClave.Name = "txtConfirmarClave";
+            txtConfirmarClave.Size = new Size(207, 23);
+            txtConfirmarClave.TabIndex = 10;
+            txtConfirmarClave.TextChanged += textBox3_TextChanged;
+            // 
+            // lbRol
+            // 
+            lbRol.AutoSize = true;
+            lbRol.BackColor = Color.White;
+            lbRol.Location = new Point(20, 277);
+            lbRol.Name = "lbRol";
+            lbRol.Size = new Size(27, 15);
+            lbRol.TabIndex = 9;
+            lbRol.Text = "Rol:";
+            lbRol.Click += label2_Click;
+            // 
+            // cbRol
+            // 
+            cbRol.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbRol.FormattingEnabled = true;
+            cbRol.Location = new Point(20, 295);
+            cbRol.Name = "cbRol";
+            cbRol.Size = new Size(205, 23);
+            cbRol.TabIndex = 11;
+            // 
+            // cbEstado
+            // 
+            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEstado.FormattingEnabled = true;
+            cbEstado.Location = new Point(20, 349);
+            cbEstado.Name = "cbEstado";
+            cbEstado.Size = new Size(207, 23);
+            cbEstado.TabIndex = 11;
+            // 
+            // lbEstado
+            // 
+            lbEstado.AutoSize = true;
+            lbEstado.BackColor = Color.White;
+            lbEstado.Location = new Point(22, 331);
+            lbEstado.Name = "lbEstado";
+            lbEstado.Size = new Size(45, 15);
+            lbEstado.TabIndex = 9;
+            lbEstado.Text = "Estado:";
+            lbEstado.Click += label2_Click;
+            // 
+            // btnEditar
+            // 
+            btnEditar.BackColor = Color.RoyalBlue;
+            btnEditar.Cursor = Cursors.Hand;
+            btnEditar.FlatAppearance.BorderColor = Color.Black;
+            btnEditar.FlatStyle = FlatStyle.Flat;
+            btnEditar.ForeColor = Color.White;
+            btnEditar.Location = new Point(20, 417);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(207, 23);
+            btnEditar.TabIndex = 12;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.Firebrick;
+            btnEliminar.Cursor = Cursors.Hand;
+            btnEliminar.FlatAppearance.BorderColor = Color.Black;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(20, 446);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(207, 23);
+            btnEliminar.TabIndex = 12;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.BackColor = Color.ForestGreen;
+            btnGuardar.Cursor = Cursors.Hand;
+            btnGuardar.FlatAppearance.BorderColor = Color.Black;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.Location = new Point(20, 388);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(207, 23);
+            btnGuardar.TabIndex = 12;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += button3_Click;
+            // 
+            // lbTitulo
+            // 
+            lbTitulo.AutoSize = true;
+            lbTitulo.BackColor = Color.White;
+            lbTitulo.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbTitulo.Location = new Point(20, 10);
+            lbTitulo.Name = "lbTitulo";
+            lbTitulo.Size = new Size(159, 25);
+            lbTitulo.TabIndex = 9;
+            lbTitulo.Text = "Detalle Usuario";
+            lbTitulo.Click += label3_Click;
             // 
             // UsuariosControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(dataGridView1);
-            Controls.Add(checkBox2);
-            Controls.Add(checkBox1);
-            Controls.Add(textBox9);
-            Controls.Add(textBox8);
-            Controls.Add(textBox7);
-            Controls.Add(textBox6);
-            Controls.Add(textBox5);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(TBApellido);
-            Controls.Add(TBNombre);
-            Controls.Add(label11);
-            Controls.Add(label10);
-            Controls.Add(label9);
-            Controls.Add(label8);
-            Controls.Add(label7);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
+            BackColor = Color.Black;
+            BorderStyle = BorderStyle.FixedSingle;
+            Controls.Add(btnEliminar);
+            Controls.Add(btnGuardar);
+            Controls.Add(btnEditar);
+            Controls.Add(cbEstado);
+            Controls.Add(cbRol);
+            Controls.Add(txtConfirmarClave);
+            Controls.Add(txtClave);
+            Controls.Add(txtNroDocumento);
+            Controls.Add(txtNombreCompleto);
+            Controls.Add(lbEstado);
+            Controls.Add(lbRol);
+            Controls.Add(lbConfirmarClave);
+            Controls.Add(lbClave);
+            Controls.Add(lbTitulo);
+            Controls.Add(lbNombreCompleto);
+            Controls.Add(lbDocumentoUsu);
             Controls.Add(label1);
-            Controls.Add(pictureBox1);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
-            Controls.Add(panel3);
-            Controls.Add(panel4);
             Name = "UsuariosControl";
-            Size = new Size(910, 658);
+            Size = new Size(745, 499);
             Load += UserControl1_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
         private Label label1;
-        private Label label2;
-        private TextBox TBNombre;
-        private Label label3;
-        private TextBox TBApellido;
-        private Label label4;
-        private TextBox textBox3;
-        private Label label5;
-        private TextBox textBox4;
-        private Label label6;
-        private TextBox textBox5;
-        private Label label7;
-        private TextBox textBox6;
-        private Label label8;
-        private TextBox textBox7;
-        private Label label9;
-        private TextBox textBox8;
-        private Label label10;
-        private TextBox textBox9;
-        private Label label11;
-        private CheckBox checkBox1;
-        private CheckBox checkBox2;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Nombre;
-        private Button button1;
-        private Button button2;
-        private PictureBox pictureBox2;
-        private Panel panel1;
-        private Label label12;
-        private Panel panel2;
-        private Label label13;
-        private PictureBox pictureBox3;
-        private Panel panel3;
-        private Panel panel4;
+        private Label lbDocumentoUsu;
+        private Label lbNombreCompleto;
+        private Label lbClave;
+        private TextBox txtNombreCompleto;
+        private TextBox txtNroDocumento;
+        private TextBox txtClave;
+        private Label lbConfirmarClave;
+        private TextBox txtConfirmarClave;
+        private Label lbRol;
+        private ComboBox cbRol;
+        private ComboBox cbEstado;
+        private Label lbEstado;
+        private Button btnEditar;
+        private Button btnEliminar;
+        private Button btnGuardar;
+        private Label lbTitulo;
     }
 }

@@ -11,10 +11,10 @@ namespace nikeproject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //MostrarUsuariosControl();
+            MostrarUsuariosControl();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pbMenu_Click(object sender, EventArgs e)
         {
 
         }
@@ -24,22 +24,20 @@ namespace nikeproject
 
         }
 
-        private void pictureBox1_Click_1(object sender, EventArgs e)
+        private void pbMenu_Click_1(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
         }
 
-        private void label1_Click_1(object sender, EventArgs e)
+        private void lbMenu_Click_1(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm();
-
-            loginForm.Show();
-            this.Hide();
+            panel3.Controls.Clear();
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void pbUsuario_Click(object sender, EventArgs e)
+
         {
-            MostrarBackUpControl();
+            MostrarUsuariosControl();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -68,12 +66,12 @@ namespace nikeproject
             panel3.Controls.Add(backUpControl);
         }
 
-        private void pictureBox8_DoubleClick(object sender, EventArgs e)
+        private void pbSalir_DoubleClick(object sender, EventArgs e)
         {
 
         }
 
-        private void pictureBox8_Click(object sender, EventArgs e)
+        private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
                 "¿Estás seguro de que deseas salir del programa?",
@@ -84,12 +82,35 @@ namespace nikeproject
 
             if (result == DialogResult.Yes)
             {
-                Environment.Exit(0);
+                LoginForm loginForm = new LoginForm();
+
+                loginForm.Show();
+                this.Hide();
             }
             else
             {
 
             }
+        }
+
+        private void pbReportes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbVentas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbClientes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbProductos_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

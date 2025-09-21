@@ -63,6 +63,16 @@ namespace nikeproject.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap iconoeliminar {
+            get {
+                object obj = ResourceManager.GetObject("iconoeliminar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ingresar {
             get {
                 object obj = ResourceManager.GetObject("Ingresar", resourceCulture);
