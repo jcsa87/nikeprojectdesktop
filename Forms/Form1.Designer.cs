@@ -111,7 +111,7 @@
             label6.Size = new Size(83, 21);
             label6.TabIndex = 0;
             label6.Text = "Productos";
-            label6.Click += lbMenu_Click_1;
+            label6.Click += label6_Click;
             // 
             // label5
             // 
@@ -123,7 +123,7 @@
             label5.Size = new Size(68, 21);
             label5.TabIndex = 0;
             label5.Text = "Clientes";
-            label5.Click += lbMenu_Click_1;
+            label5.Click += label5Click;
             // 
             // label4
             // 
@@ -135,7 +135,7 @@
             label4.Size = new Size(60, 21);
             label4.TabIndex = 0;
             label4.Text = "Ventas";
-            label4.Click += lbMenu_Click_1;
+            label4.Click += label4_Click;
             // 
             // label3
             // 
