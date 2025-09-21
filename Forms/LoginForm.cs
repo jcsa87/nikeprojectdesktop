@@ -50,13 +50,8 @@ namespace nikeproject.Forms
         {
             txtDocumento.Text = "";
             txtClave.Text = ""; 
-
-
-
             this.Show();
         }
-
-
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {

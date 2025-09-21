@@ -39,10 +39,7 @@ namespace nikeproject
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm();
-
-            loginForm.Show();
-            this.Hide();
+            MostrarBackUpControl();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -71,6 +68,28 @@ namespace nikeproject
             panel3.Controls.Add(backUpControl);
         }
 
+        private void pictureBox8_DoubleClick(object sender, EventArgs e)
+        {
 
+        }
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "¿Estás seguro de que deseas salir del programa?",
+                "Confirmar operación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+
+            }
+        }
     }
 }
