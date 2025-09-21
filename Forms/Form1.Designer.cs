@@ -170,7 +170,7 @@
             pictureBox8.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox8.TabIndex = 0;
             pictureBox8.TabStop = false;
-            pictureBox8.Click += pictureBox8_Click;
+            
             // 
             // pictureBox6
             // 

@@ -43,10 +43,10 @@ namespace nikeproject.Forms
             form.Show();
             this.Hide();
 
-            form.FormClosing += new FormClosingEventHandler(frm_closing);
+            form.FormClosing += FrmClosing;
         }
 
-        private void frm_closing(object sender, FormClosingEventArgs e)
+        private void FrmClosing(object? sender, FormClosingEventArgs e)
         {
             txtDocumento.Text = "";
             txtClave.Text = ""; 
