@@ -259,8 +259,7 @@
             dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarios.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idUsuario, NombreCompleto, Documento, Clave, Rol, Estado, EstadoValor });
-            dgvUsuarios.Dock = DockStyle.Fill;
-            dgvUsuarios.Location = new Point(3, 75);
+            dgvUsuarios.Location = new Point(293, 118);
             dgvUsuarios.MultiSelect = false;
             dgvUsuarios.Name = "dgvUsuarios";
             dgvUsuarios.ReadOnly = true;
@@ -335,23 +334,32 @@
             EstadoValor.ReadOnly = true;
             EstadoValor.Visible = false;
             // 
-            // lbListaUsuarios
+            // label2
             // 
-            lbListaUsuarios.BackColor = Color.White;
-            lbListaUsuarios.Dock = DockStyle.Bottom;
-            lbListaUsuarios.Font = new Font("Segoe UI", 15F);
-            lbListaUsuarios.Location = new Point(3, 0);
-            lbListaUsuarios.Name = "lbListaUsuarios";
-            lbListaUsuarios.Size = new Size(782, 72);
-            lbListaUsuarios.TabIndex = 9;
-            lbListaUsuarios.Text = "Lista de Usuarios:";
-            lbListaUsuarios.TextAlign = ContentAlignment.BottomLeft;
+            label2.BackColor = Color.White;
+            label2.Font = new Font("Segoe UI", 15F);
+            label2.Location = new Point(293, 20);
+            label2.Name = "label2";
+            label2.Size = new Size(736, 66);
+            label2.TabIndex = 9;
+            label2.Text = "Lista de Usuarios:";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lbBusqueda
+            // 
+            lbBusqueda.AutoSize = true;
+            lbBusqueda.BackColor = Color.White;
+            lbBusqueda.Location = new Point(529, 50);
+            lbBusqueda.Name = "lbBusqueda";
+            lbBusqueda.Size = new Size(66, 15);
+            lbBusqueda.TabIndex = 9;
+            lbBusqueda.Text = "Buscar por:";
             // 
             // cbBusqueda
             // 
             cbBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
             cbBusqueda.FormattingEnabled = true;
-            cbBusqueda.Location = new Point(601, 47);
+            cbBusqueda.Location = new Point(547, 42);
             cbBusqueda.Name = "cbBusqueda";
             cbBusqueda.Size = new Size(164, 23);
             cbBusqueda.TabIndex = 11;
@@ -360,7 +368,7 @@
             // txtBusqueda
             // 
             txtBusqueda.BorderStyle = BorderStyle.FixedSingle;
-            txtBusqueda.Location = new Point(771, 47);
+            txtBusqueda.Location = new Point(717, 42);
             txtBusqueda.Name = "txtBusqueda";
             txtBusqueda.PasswordChar = '*';
             txtBusqueda.Size = new Size(166, 23);
@@ -386,47 +394,35 @@
             // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = Color.DarkGray;
-            btnLimpiar.Cursor = Cursors.Hand;
-            btnLimpiar.FlatAppearance.BorderColor = Color.Black;
-            btnLimpiar.FlatStyle = FlatStyle.Flat;
-            btnLimpiar.IconChar = FontAwesome.Sharp.IconChar.Broom;
-            btnLimpiar.IconColor = Color.Black;
-            btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnLimpiar.IconSize = 18;
-            btnLimpiar.Location = new Point(982, 47);
-            btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(33, 23);
-            btnLimpiar.TabIndex = 14;
-            btnLimpiar.UseVisualStyleBackColor = false;
-            btnLimpiar.Click += btnLimpiar_Click;
+            ibBusqueda.BackColor = Color.DarkGray;
+            ibBusqueda.Cursor = Cursors.Hand;
+            ibBusqueda.FlatAppearance.BorderColor = Color.Black;
+            ibBusqueda.FlatStyle = FlatStyle.Flat;
+            ibBusqueda.IconChar = FontAwesome.Sharp.IconChar.Search;
+            ibBusqueda.IconColor = Color.Black;
+            ibBusqueda.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            ibBusqueda.IconSize = 16;
+            ibBusqueda.Location = new Point(943, 47);
+            ibBusqueda.Name = "ibBusqueda";
+            ibBusqueda.Size = new Size(33, 23);
+            ibBusqueda.TabIndex = 14;
+            ibBusqueda.UseVisualStyleBackColor = false;
             // 
             // tblPanelBusqueda
             // 
-            tblPanelBusqueda.ColumnCount = 1;
-            tblPanelBusqueda.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblPanelBusqueda.Controls.Add(lbListaUsuarios, 0, 0);
-            tblPanelBusqueda.Controls.Add(dgvUsuarios, 0, 1);
-            tblPanelBusqueda.Dock = DockStyle.Fill;
-            tblPanelBusqueda.Location = new Point(258, 0);
-            tblPanelBusqueda.Name = "tblPanelBusqueda";
-            tblPanelBusqueda.RowCount = 2;
-            tblPanelBusqueda.RowStyles.Add(new RowStyle(SizeType.Absolute, 72F));
-            tblPanelBusqueda.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblPanelBusqueda.Size = new Size(788, 652);
-            tblPanelBusqueda.TabIndex = 15;
-            tblPanelBusqueda.Paint += tblPanelBusqueda_Paint;
-            // 
-            // lbBusqueda
-            // 
-            lbBusqueda.AutoSize = true;
-            lbBusqueda.BackColor = Color.White;
-            lbBusqueda.Dock = DockStyle.Bottom;
-            lbBusqueda.Location = new Point(258, 637);
-            lbBusqueda.Name = "lbBusqueda";
-            lbBusqueda.Size = new Size(66, 15);
-            lbBusqueda.TabIndex = 9;
-            lbBusqueda.Text = "Buscar por:";
+            ibFiltro.BackColor = Color.DarkGray;
+            ibFiltro.Cursor = Cursors.Hand;
+            ibFiltro.FlatAppearance.BorderColor = Color.Black;
+            ibFiltro.FlatStyle = FlatStyle.Flat;
+            ibFiltro.IconChar = FontAwesome.Sharp.IconChar.Broom;
+            ibFiltro.IconColor = Color.Black;
+            ibFiltro.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            ibFiltro.IconSize = 18;
+            ibFiltro.Location = new Point(982, 47);
+            ibFiltro.Name = "ibFiltro";
+            ibFiltro.Size = new Size(33, 23);
+            ibFiltro.TabIndex = 14;
+            ibFiltro.UseVisualStyleBackColor = false;
             // 
             // UsuariosControl
             // 
