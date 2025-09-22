@@ -261,9 +261,10 @@
             // panelContenedor
             // 
             panelContenedor.BackgroundImage = (Image)resources.GetObject("panelContenedor.BackgroundImage");
+            panelContenedor.Dock = DockStyle.Fill;
             panelContenedor.Location = new Point(121, 0);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(873, 699);
+            panelContenedor.Size = new Size(866, 702);
             panelContenedor.TabIndex = 1;
             panelContenedor.Paint += panelContenedor_Paint;
             // 

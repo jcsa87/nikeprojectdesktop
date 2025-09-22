@@ -34,6 +34,15 @@ namespace nikeproject
             cbEstado.Items.Add("Activo");
             cbEstado.Items.Add("Inactivo");
             cbEstado.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+
+            // Llenar el ComboBox de búsqueda
+            cbBusqueda.Items.Add("NombreCompleto");
+            cbBusqueda.Items.Add("Documento");
+            cbBusqueda.Items.Add("Rol");
+            cbBusqueda.Items.Add("Estado");
+            cbBusqueda.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void CargarUsuarios()
@@ -188,6 +197,82 @@ namespace nikeproject
             }
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            // Asegúrate de que el valor del ComboBox no sea nulo antes de usarlo
+            string columnaBusqueda = cbBusqueda.SelectedItem?.ToString() ?? string.Empty;
+            string valorBusqueda = txtBusqueda.Text?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(valorBusqueda))
+            {
+                MessageBox.Show("⚠️ Por favor, ingrese un valor de búsqueda.", "Error de búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                UsuarioData usuarioData = new UsuarioData();
+
+                // La llamada a tu método de búsqueda ya está bien
+                List<Usuario> listaFiltrada = usuarioData.BuscarUsuarios(columnaBusqueda, valorBusqueda);
+
+                dgvUsuarios.DataSource = listaFiltrada;
+
+                if (listaFiltrada.Count == 0)
+                {
+                    MessageBox.Show("ℹ️ No se encontraron usuarios que coincidan con la búsqueda.", "Resultado de búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar usuarios: " + ex.Message);
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            // Limpiar el campo de búsqueda y el ComboBox
+            txtBusqueda.Clear();
+            cbBusqueda.SelectedIndex = 0;
+
+            // Volver a cargar la lista completa de usuarios
+            CargarUsuarios();
+        }
+
+        private void lbBusqueda_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbBusqueda_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbListaUsuarios_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tblPanelBusqueda_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lbListaUsuarios_Click_1(object sender, EventArgs e)
+        {
+
+        }
 
 
         // --- MÉTODOS Y EVENTOS SIN FUNCIONALIDAD ---
