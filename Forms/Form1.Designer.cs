@@ -45,7 +45,7 @@
             pbUsuario = new PictureBox();
             lbMenu = new Label();
             pbMenu = new PictureBox();
-            panel3 = new Panel();
+            panelContenedor = new Panel();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSalir).BeginInit();
@@ -66,7 +66,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(121, 707);
+            panel1.Size = new Size(121, 702);
             panel1.TabIndex = 0;
             // 
             // panel2
@@ -86,12 +86,13 @@
             panel2.Controls.Add(pbUsuario);
             panel2.Location = new Point(9, 88);
             panel2.Name = "panel2";
-            panel2.Size = new Size(104, 593);
+            panel2.Size = new Size(104, 602);
             panel2.TabIndex = 2;
             // 
             // label8
             // 
             label8.AutoSize = true;
+            label8.Cursor = Cursors.Hand;
             label8.FlatStyle = FlatStyle.Popup;
             label8.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label8.Location = new Point(28, 558);
@@ -99,11 +100,11 @@
             label8.Size = new Size(43, 21);
             label8.TabIndex = 0;
             label8.Text = "Salir";
-            label8.Click += lbMenu_Click_1;
             // 
             // label6
             // 
             label6.AutoSize = true;
+            label6.Cursor = Cursors.Hand;
             label6.FlatStyle = FlatStyle.Popup;
             label6.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label6.Location = new Point(13, 461);
@@ -111,11 +112,11 @@
             label6.Size = new Size(83, 21);
             label6.TabIndex = 0;
             label6.Text = "Productos";
-            label6.Click += label6_Click;
             // 
             // label5
             // 
             label5.AutoSize = true;
+            label5.Cursor = Cursors.Hand;
             label5.FlatStyle = FlatStyle.Popup;
             label5.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label5.Location = new Point(20, 365);
@@ -123,11 +124,11 @@
             label5.Size = new Size(68, 21);
             label5.TabIndex = 0;
             label5.Text = "Clientes";
-            label5.Click += label5Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
+            label4.Cursor = Cursors.Hand;
             label4.FlatStyle = FlatStyle.Popup;
             label4.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label4.Location = new Point(24, 272);
@@ -135,11 +136,11 @@
             label4.Size = new Size(60, 21);
             label4.TabIndex = 0;
             label4.Text = "Ventas";
-            label4.Click += label4_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
+            label3.Cursor = Cursors.Hand;
             label3.FlatStyle = FlatStyle.Popup;
             label3.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             label3.Location = new Point(20, 177);
@@ -147,11 +148,11 @@
             label3.Size = new Size(76, 21);
             label3.TabIndex = 0;
             label3.Text = "Reportes";
-            label3.Click += lbMenu_Click_1;
             // 
             // lbUsuario
             // 
             lbUsuario.AutoSize = true;
+            lbUsuario.Cursor = Cursors.Hand;
             lbUsuario.FlatStyle = FlatStyle.Popup;
             lbUsuario.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             lbUsuario.Location = new Point(15, 83);
@@ -159,10 +160,10 @@
             lbUsuario.Size = new Size(73, 21);
             lbUsuario.TabIndex = 0;
             lbUsuario.Text = "Usuarios";
-            lbUsuario.Click += label2_Click;
             // 
             // pbSalir
             // 
+            pbSalir.Cursor = Cursors.Hand;
             pbSalir.Image = (Image)resources.GetObject("pbSalir.Image");
             pbSalir.Location = new Point(28, 505);
             pbSalir.Name = "pbSalir";
@@ -174,6 +175,7 @@
             // 
             // pbProductos
             // 
+            pbProductos.Cursor = Cursors.Hand;
             pbProductos.Image = (Image)resources.GetObject("pbProductos.Image");
             pbProductos.Location = new Point(28, 408);
             pbProductos.Name = "pbProductos";
@@ -185,6 +187,7 @@
             // 
             // pbClientes
             // 
+            pbClientes.Cursor = Cursors.Hand;
             pbClientes.Image = (Image)resources.GetObject("pbClientes.Image");
             pbClientes.Location = new Point(28, 312);
             pbClientes.Name = "pbClientes";
@@ -196,6 +199,7 @@
             // 
             // pbVentas
             // 
+            pbVentas.Cursor = Cursors.Hand;
             pbVentas.Image = (Image)resources.GetObject("pbVentas.Image");
             pbVentas.Location = new Point(28, 219);
             pbVentas.Name = "pbVentas";
@@ -207,6 +211,7 @@
             // 
             // pbReportes
             // 
+            pbReportes.Cursor = Cursors.Hand;
             pbReportes.Image = (Image)resources.GetObject("pbReportes.Image");
             pbReportes.Location = new Point(28, 124);
             pbReportes.Name = "pbReportes";
@@ -218,6 +223,7 @@
             // 
             // pbUsuario
             // 
+            pbUsuario.Cursor = Cursors.Hand;
             pbUsuario.Image = (Image)resources.GetObject("pbUsuario.Image");
             pbUsuario.Location = new Point(28, 30);
             pbUsuario.Name = "pbUsuario";
@@ -231,6 +237,7 @@
             // 
             lbMenu.AutoSize = true;
             lbMenu.BackColor = Color.Transparent;
+            lbMenu.Cursor = Cursors.Hand;
             lbMenu.FlatStyle = FlatStyle.Popup;
             lbMenu.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
             lbMenu.Location = new Point(37, 64);
@@ -238,11 +245,11 @@
             lbMenu.Size = new Size(51, 21);
             lbMenu.TabIndex = 0;
             lbMenu.Text = "Menú";
-            lbMenu.Click += lbMenu_Click_1;
             // 
             // pbMenu
             // 
             pbMenu.BackColor = SystemColors.ControlLight;
+            pbMenu.Cursor = Cursors.Hand;
             pbMenu.Image = (Image)resources.GetObject("pbMenu.Image");
             pbMenu.Location = new Point(23, 3);
             pbMenu.Name = "pbMenu";
@@ -250,23 +257,22 @@
             pbMenu.SizeMode = PictureBoxSizeMode.CenterImage;
             pbMenu.TabIndex = 1;
             pbMenu.TabStop = false;
-            pbMenu.Click += pbMenu_Click_1;
             // 
-            // panel3
+            // panelContenedor
             // 
-            panel3.BackgroundImage = (Image)resources.GetObject("panel3.BackgroundImage");
-            panel3.Location = new Point(127, 6);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(919, 689);
-            panel3.TabIndex = 1;
-            panel3.Paint += panel3_Paint;
+            panelContenedor.BackgroundImage = (Image)resources.GetObject("panelContenedor.BackgroundImage");
+            panelContenedor.Location = new Point(121, 0);
+            panelContenedor.Name = "panelContenedor";
+            panelContenedor.Size = new Size(873, 699);
+            panelContenedor.TabIndex = 1;
+            panelContenedor.Paint += panelContenedor_Paint;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1072, 707);
-            Controls.Add(panel3);
+            ClientSize = new Size(987, 702);
+            Controls.Add(panelContenedor);
             Controls.Add(panel1);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -304,6 +310,6 @@
         private PictureBox pbClientes;
         private PictureBox pbVentas;
         private PictureBox pbReportes;
-        private Panel panel3;
+        private Panel panelContenedor;
     }
 }

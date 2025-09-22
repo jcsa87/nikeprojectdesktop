@@ -935,7 +935,7 @@
         85t0cHBwcHBwcHBwcHBwcHBwcHBwcHBwcAgbZs36D9z1ljB2KYtwAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="panel3.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="panelContenedor.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA5QAAAKxCAIAAACjQnQuAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         DAAACwwBP0AiyAAAb5lJREFUeF7t3Xd4VGX+/vFVILTQO4giRUGaoKBrAQVWUNfC2kVdxIKCuooNxYoN

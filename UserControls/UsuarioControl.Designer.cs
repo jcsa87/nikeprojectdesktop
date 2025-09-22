@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             lbDocumentoUsu = new Label();
             lbNombreCompleto = new Label();
@@ -45,15 +47,29 @@
             btnEliminar = new Button();
             btnGuardar = new Button();
             lbTitulo = new Label();
+            dataGridView1 = new DataGridView();
+            btnSeleccionar = new DataGridViewButtonColumn();
+            idUsuario = new DataGridViewTextBoxColumn();
+            NombreCompleto = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Clave = new DataGridViewTextBoxColumn();
+            idRol = new DataGridViewTextBoxColumn();
+            idEstado = new DataGridViewTextBoxColumn();
+            Rol = new DataGridViewTextBoxColumn();
+            EstadoValor = new DataGridViewTextBoxColumn();
+            label2 = new Label();
+            txtId = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.BackColor = Color.White;
+            label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(281, 499);
+            label1.Size = new Size(261, 499);
             label1.TabIndex = 8;
             // 
             // lbDocumentoUsu
@@ -226,12 +242,121 @@
             lbTitulo.Text = "Detalle Usuario";
             lbTitulo.Click += label3_Click;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idUsuario, NombreCompleto, Documento, Clave, idRol, idEstado, Rol, EstadoValor });
+            dataGridView1.Location = new Point(293, 88);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridView1.RowTemplate.Height = 28;
+            dataGridView1.Size = new Size(726, 381);
+            dataGridView1.TabIndex = 13;
+            // 
+            // btnSeleccionar
+            // 
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Width = 30;
+            // 
+            // idUsuario
+            // 
+            idUsuario.HeaderText = "idUsuario";
+            idUsuario.Name = "idUsuario";
+            idUsuario.ReadOnly = true;
+            idUsuario.Visible = false;
+            // 
+            // NombreCompleto
+            // 
+            NombreCompleto.HeaderText = "Nombre Completo";
+            NombreCompleto.Name = "NombreCompleto";
+            NombreCompleto.ReadOnly = true;
+            NombreCompleto.Width = 180;
+            // 
+            // Documento
+            // 
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Clave
+            // 
+            Clave.HeaderText = "Clave";
+            Clave.Name = "Clave";
+            Clave.ReadOnly = true;
+            Clave.Visible = false;
+            // 
+            // idRol
+            // 
+            idRol.HeaderText = "idRol";
+            idRol.Name = "idRol";
+            idRol.ReadOnly = true;
+            idRol.Visible = false;
+            // 
+            // idEstado
+            // 
+            idEstado.HeaderText = "Rol";
+            idEstado.Name = "idEstado";
+            idEstado.ReadOnly = true;
+            // 
+            // Rol
+            // 
+            Rol.HeaderText = "Estado";
+            Rol.Name = "Rol";
+            Rol.ReadOnly = true;
+            // 
+            // EstadoValor
+            // 
+            EstadoValor.HeaderText = "EstadoValor";
+            EstadoValor.Name = "EstadoValor";
+            EstadoValor.ReadOnly = true;
+            EstadoValor.Visible = false;
+            // 
+            // label2
+            // 
+            label2.BackColor = Color.White;
+            label2.Font = new Font("Segoe UI", 15F);
+            label2.Location = new Point(293, 31);
+            label2.Name = "label2";
+            label2.Size = new Size(726, 39);
+            label2.TabIndex = 9;
+            label2.Text = "Lista de Usuarios:";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            label2.Click += label3_Click;
+            // 
+            // txtId
+            // 
+            txtId.Location = new Point(204, 31);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(23, 23);
+            txtId.TabIndex = 14;
+            txtId.Visible = false;
+            txtId.TextChanged += textBox1_TextChanged_1;
+            // 
             // UsuariosControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             BorderStyle = BorderStyle.FixedSingle;
+            Controls.Add(txtId);
+            Controls.Add(dataGridView1);
             Controls.Add(btnEliminar);
             Controls.Add(btnGuardar);
             Controls.Add(btnEditar);
@@ -246,12 +371,14 @@
             Controls.Add(lbConfirmarClave);
             Controls.Add(lbClave);
             Controls.Add(lbTitulo);
+            Controls.Add(label2);
             Controls.Add(lbNombreCompleto);
             Controls.Add(lbDocumentoUsu);
             Controls.Add(label1);
             Name = "UsuariosControl";
-            Size = new Size(745, 499);
+            Size = new Size(1035, 499);
             Load += UserControl1_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -274,5 +401,17 @@
         private Button btnEliminar;
         private Button btnGuardar;
         private Label lbTitulo;
+        private DataGridView dataGridView1;
+        private Label label2;
+        private DataGridViewButtonColumn btnSeleccionar;
+        private DataGridViewTextBoxColumn idUsuario;
+        private DataGridViewTextBoxColumn NombreCompleto;
+        private DataGridViewTextBoxColumn Documento;
+        private DataGridViewTextBoxColumn Clave;
+        private DataGridViewTextBoxColumn idRol;
+        private DataGridViewTextBoxColumn idEstado;
+        private DataGridViewTextBoxColumn Rol;
+        private DataGridViewTextBoxColumn EstadoValor;
+        private TextBox txtId;
     }
 }

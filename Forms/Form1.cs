@@ -1,6 +1,9 @@
-using nikeproject;
+using System;
+using System.Windows.Forms;
 using nikeproject.Forms;
 using nikeproject.UserControls;
+using nikeproject.DataAccess;
+using Microsoft.Data.SqlClient;
 
 namespace nikeproject
 {
@@ -13,120 +16,46 @@ namespace nikeproject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MostrarUsuariosControl();
+            ProbarConexion();
+            MostrarControl(new UsuariosControl());
         }
 
-        private void pbMenu_Click(object sender, EventArgs e)
+        // Método general para mostrar cualquier UserControl
+        private void MostrarControl(UserControl control)
         {
-
+            panelContenedor.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            panelContenedor.Controls.Add(control);
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pbMenu_Click_1(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-        }
+        // Lógica de los botones de navegación
         private void pbUsuario_Click(object sender, EventArgs e)
-
         {
-            MostrarUsuariosControl();
+            MostrarControl(new UsuariosControl());
         }
 
-
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-            panel3.Controls.Clear();
-        }
-
-        //usuarios
-        private void MostrarUsuariosControl()
-        {
-            panel3.Controls.Clear();
-            var usuariosControl = new UsuariosControl();
-            usuariosControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(usuariosControl);
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            MostrarUsuariosControl();
-        }
-
-        //reportes
+        // Mantienes el método para mostrar el control de Mantenimiento
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-        private void lbMenu_Click_1(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
-        //ventas
         private void pbVentas_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-        private void label4_Click(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
-        //clientes
         private void pbClientes_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var clienteControl = new ClienteControl();
-            clienteControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(clienteControl);
-        }
-        private void label5Click(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var clienteControl = new ClienteControl();
-            clienteControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(clienteControl);
+            MostrarControl(new ClienteControl());
         }
 
-        //productos
         private void pbProductos_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-
-
-        
-
-        //boton salir
+        // Lógica del botón de salir
         private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -138,31 +67,34 @@ namespace nikeproject
 
             if (result == DialogResult.Yes)
             {
-                LoginForm loginForm = new LoginForm();
-
+                var loginForm = new LoginForm();
                 loginForm.Show();
                 this.Hide();
             }
-            else
-            {
+        }
 
+        // Método para probar la conexión a la base de datos
+        private void ProbarConexion()
+        {
+            try
+            {
+                using (var oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    MessageBox.Show("¡Conexión exitosa a la base de datos!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void pbSalir_DoubleClick(object sender, EventArgs e)
+        private void panelContenedor_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-
-        //back up (fuera de uso)
-        //private void MostrarBackUpControl()
-        //{
-        //    panel3.Controls.Clear();
-        //    var backUpControl = new BackUpControl();
-        //    backUpControl.Dock = DockStyle.Fill;
-        //    panel3.Controls.Add(backUpControl);
-        //}
-
+        // Los demás métodos redundantes o vacíos que habías mencionado han sido eliminados.
     }
 }
