@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             label1 = new Label();
             lbDocumentoUsu = new Label();
             lbNombreCompleto = new Label();
@@ -61,10 +61,8 @@
             txtBusqueda = new TextBox();
             btnBuscar = new FontAwesome.Sharp.IconButton();
             btnLimpiar = new FontAwesome.Sharp.IconButton();
-            tblPanelBusqueda = new TableLayoutPanel();
             lbBusqueda = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
-            tblPanelBusqueda.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -74,7 +72,7 @@
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(258, 652);
+            label1.Size = new Size(258, 545);
             label1.TabIndex = 8;
             // 
             // lbDocumentoUsu
@@ -248,24 +246,24 @@
             // dgvUsuarios
             // 
             dgvUsuarios.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.Padding = new Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.Padding = new Padding(2);
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuarios.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idUsuario, NombreCompleto, Documento, Clave, Rol, Estado, EstadoValor });
             dgvUsuarios.Location = new Point(293, 118);
             dgvUsuarios.MultiSelect = false;
             dgvUsuarios.Name = "dgvUsuarios";
             dgvUsuarios.ReadOnly = true;
-            dataGridViewCellStyle2.SelectionBackColor = Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dgvUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.SelectionBackColor = Color.White;
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dgvUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvUsuarios.RowTemplate.Height = 28;
             dgvUsuarios.Size = new Size(782, 574);
             dgvUsuarios.TabIndex = 13;
@@ -334,26 +332,16 @@
             EstadoValor.ReadOnly = true;
             EstadoValor.Visible = false;
             // 
-            // label2
+            // lbListaUsuarios
             // 
             lbListaUsuarios.BackColor = Color.White;
             lbListaUsuarios.Font = new Font("Segoe UI", 15F);
             lbListaUsuarios.Location = new Point(293, 20);
-            lbListaUsuarios.Name = "label2";
+            lbListaUsuarios.Name = "lbListaUsuarios";
             lbListaUsuarios.Size = new Size(736, 66);
             lbListaUsuarios.TabIndex = 9;
             lbListaUsuarios.Text = "Lista de Usuarios:";
             lbListaUsuarios.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lbBusqueda
-            // 
-            lbBusqueda.AutoSize = true;
-            lbBusqueda.BackColor = Color.White;
-            lbBusqueda.Location = new Point(529, 50);
-            lbBusqueda.Name = "lbBusqueda";
-            lbBusqueda.Size = new Size(66, 15);
-            lbBusqueda.TabIndex = 9;
-            lbBusqueda.Text = "Buscar por:";
             // 
             // cbBusqueda
             // 
@@ -385,7 +373,7 @@
             btnBuscar.IconColor = Color.Black;
             btnBuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnBuscar.IconSize = 16;
-            btnBuscar.Location = new Point(943, 47);
+            btnBuscar.Location = new Point(936, 39);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(33, 24);
             btnBuscar.TabIndex = 14;
@@ -394,7 +382,6 @@
             // 
             // btnLimpiar
             // 
-
             btnLimpiar.BackColor = Color.DarkGray;
             btnLimpiar.Cursor = Cursors.Hand;
             btnLimpiar.FlatAppearance.BorderColor = Color.Black;
@@ -403,15 +390,21 @@
             btnLimpiar.IconColor = Color.Black;
             btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnLimpiar.IconSize = 16;
-            btnLimpiar.Location = new Point(943, 47);
-            btnLimpiar  .Name = "ibBusqueda";
+            btnLimpiar.Location = new Point(995, 41);
+            btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(33, 23);
             btnLimpiar.TabIndex = 14;
             btnLimpiar.UseVisualStyleBackColor = false;
             // 
-            // tblPanelBusqueda
+            // lbBusqueda
             // 
-
+            lbBusqueda.AutoSize = true;
+            lbBusqueda.BackColor = Color.White;
+            lbBusqueda.Location = new Point(475, 45);
+            lbBusqueda.Name = "lbBusqueda";
+            lbBusqueda.Size = new Size(66, 15);
+            lbBusqueda.TabIndex = 9;
+            lbBusqueda.Text = "Buscar por:";
             // 
             // UsuariosControl
             // 
@@ -425,7 +418,6 @@
             Controls.Add(cbBusqueda);
             Controls.Add(txtBusqueda);
             Controls.Add(lbBusqueda);
-            Controls.Add(tblPanelBusqueda);
             Controls.Add(btnEliminar);
             Controls.Add(btnGuardar);
             Controls.Add(btnEditar);
@@ -444,10 +436,9 @@
             Controls.Add(lbDocumentoUsu);
             Controls.Add(label1);
             Name = "UsuariosControl";
-            Size = new Size(1046, 652);
+            Size = new Size(1151, 545);
             Load += UsuariosControl_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
-            tblPanelBusqueda.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -484,7 +475,6 @@
         private TextBox txtBusqueda;
         private FontAwesome.Sharp.IconButton btnBuscar;
         private FontAwesome.Sharp.IconButton btnLimpiar;
-        private TableLayoutPanel tblPanelBusqueda;
         private Label lbBusqueda;
     }
 }
