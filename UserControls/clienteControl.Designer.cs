@@ -198,6 +198,11 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
+
+
+
+
+
         }
 
         #endregion

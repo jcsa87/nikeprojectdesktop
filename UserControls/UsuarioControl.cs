@@ -229,7 +229,6 @@ namespace nikeproject
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Asegúrate de que el valor del ComboBox no sea nulo antes de usarlo
             string columnaBusqueda = cbBusqueda.SelectedItem?.ToString() ?? string.Empty;
             string valorBusqueda = txtBusqueda.Text?.Trim() ?? string.Empty;
 
@@ -239,11 +238,29 @@ namespace nikeproject
                 return;
             }
 
+            UsuarioData usuarioData = new UsuarioData();
+            dgvUsuario.DataSource = usuarioData.BuscarUsuarios(columnaBusqueda, valorBusqueda);
+        }
 
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            txtBusqueda.Clear();
+            cbBusqueda.SelectedIndex = 0;
+            CargarUsuarios();
+        }
 
-            // --- MÉTODOS Y EVENTOS SIN FUNCIONALIDAD ---
-            // Se han eliminado todos los métodos y eventos vacíos o sin usar
-            // para mantener el código limpio y organizado.
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNroDocumento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

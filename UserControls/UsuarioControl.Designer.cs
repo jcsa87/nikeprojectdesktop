@@ -121,6 +121,7 @@
             txtNroDocumento.Name = "txtNroDocumento";
             txtNroDocumento.Size = new Size(207, 23);
             txtNroDocumento.TabIndex = 10;
+            txtNroDocumento.KeyPress += txtNroDocumento_KeyPress;
             // 
             // txtClave
             // 
@@ -149,7 +150,6 @@
             txtConfirmarClave.PasswordChar = '*';
             txtConfirmarClave.Size = new Size(207, 23);
             txtConfirmarClave.TabIndex = 10;
-            txtConfirmarClave.KeyPress += txtConfirmarClave_KeyPress;
             // 
             // lbRol
             // 
@@ -245,34 +245,6 @@
             lbTitulo.TabIndex = 9;
             lbTitulo.Text = "Detalle Usuario";
             // 
-            // dgvUsuarios
-            // 
-            dgvUsuarios.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.Padding = new Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsuarios.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idUsuario, NombreCompleto, Documento, Clave, Rol, Estado, EstadoValor });
-            dgvUsuarios.Location = new Point(293, 118);
-            dgvUsuarios.MultiSelect = false;
-            dgvUsuarios.Name = "dgvUsuarios";
-            dgvUsuarios.ReadOnly = true;
-            dataGridViewCellStyle2.SelectionBackColor = Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dgvUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dgvUsuarios.RowTemplate.Height = 28;
-            dgvUsuarios.Size = new Size(782, 574);
-            dgvUsuarios.TabIndex = 13;
-            dgvUsuarios.CellClick += dgvUsuarios_CellClick;
-            dgvUsuarios.CellContentClick += dgvUsuarios_CellContentClick;
-            dgvUsuarios.CellFormatting += dgvUsuarios_CellFormatting;
-            // 
             // btnSeleccionar
             // 
             btnSeleccionar.DataPropertyName = "idUsuario";
@@ -353,16 +325,15 @@
             cbBusqueda.Name = "cbBusqueda";
             cbBusqueda.Size = new Size(164, 23);
             cbBusqueda.TabIndex = 11;
-            cbBusqueda.SelectedIndexChanged += cbBusqueda_SelectedIndexChanged;
             // 
             // txtBusqueda
             // 
             txtBusqueda.BorderStyle = BorderStyle.FixedSingle;
             txtBusqueda.Location = new Point(717, 33);
             txtBusqueda.Name = "txtBusqueda";
-            txtBusqueda.PasswordChar = '*';
             txtBusqueda.Size = new Size(166, 23);
             txtBusqueda.TabIndex = 10;
+            txtBusqueda.TextChanged += txtBusqueda_TextChanged;
             // 
             // btnBuscar
             // 
@@ -397,6 +368,7 @@
             btnLimpiar.Size = new Size(33, 23);
             btnLimpiar.TabIndex = 14;
             btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // lbBusqueda
             // 
@@ -410,6 +382,7 @@
             // 
             // lbListaUsuario
             // 
+            lbListaUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lbListaUsuario.BackColor = Color.White;
             lbListaUsuario.Font = new Font("Segoe UI", 15F);
             lbListaUsuario.Location = new Point(257, 0);
@@ -520,5 +493,8 @@
         private Label lbBusqueda;
         private Label lbListaUsuario;
         private DataGridView dgvUsuario;
+
+
     }
+
 }
