@@ -49,7 +49,7 @@ namespace nikeproject.Forms
         private void FrmClosing(object? sender, FormClosingEventArgs e)
         {
             txtDocumento.Text = "";
-            txtClave.Text = ""; 
+            txtClave.Text = "";
             this.Show();
         }
 
@@ -57,6 +57,11 @@ namespace nikeproject.Forms
         {
             this.Close();
             Environment.Exit(0);
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

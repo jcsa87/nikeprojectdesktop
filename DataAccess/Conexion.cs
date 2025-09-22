@@ -1,34 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
 namespace nikeproject.DataAccess
 {
     public class Conexion
     {
-        private static string cadenaConexion = string.Empty;
+        private static string? cadenaConexion;
 
         public static string CadenaConexion
         {
             get
             {
-                if (cadenaConexion == null)
-                {
-                    // Obtiene la cadena de conexión del archivo App.config
-                    cadenaConexion = ConfigurationManager.ConnectionStrings["cadena_conexion"].ConnectionString;
-                }
-                return cadenaConexion;
+                // El operador ??= (null-coalescing assignment) es la forma más limpia
+                // de hacer lo que intentas. Si cadenaConexion es null, asigna el valor
+                // de la cadena de conexión.
+                return cadenaConexion ??= ConfigurationManager.ConnectionStrings["cadena_conexion"].ConnectionString;
             }
         }
 
         public static SqlConnection Conectar()
         {
-            SqlConnection conexion = new SqlConnection(CadenaConexion);
-            return conexion;
+            return new SqlConnection(CadenaConexion);
         }
     }
 }
