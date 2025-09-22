@@ -40,13 +40,13 @@ namespace nikeproject
         // Muestra el control de Mantenimiento para Reportes
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            MostrarControl(new ReportesControl());
         }
 
         // Muestra el control de Mantenimiento para Ventas
         private void pbVentas_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            MostrarControl(new VentaControl());
         }
 
         // Muestra el control de Clientes
@@ -58,7 +58,7 @@ namespace nikeproject
         // Muestra el control de Mantenimiento para Productos
         private void pbProductos_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            MostrarControl(new ProductoControl());
         }
 
         // Lógica del botón de salir
