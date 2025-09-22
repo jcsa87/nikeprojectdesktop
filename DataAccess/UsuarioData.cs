@@ -16,10 +16,11 @@ namespace nikeproject.DataAccess
             using (SqlConnection oConexion = Conexion.Conectar())
             {
                 oConexion.Open();
-                string query = "INSERT INTO USUARIO (NombreCompleto, Documento, Clave, Rol, Estado) VALUES (@nombre, @documento, @clave, @rol, @estado)";
+                string query = "INSERT INTO USUARIO (Nombre, Apellido, Documento, Clave, Rol, Estado) VALUES (@nombre, @apellido, @documento, @clave, @rol, @estado)";
                 using (SqlCommand cmd = new SqlCommand(query, oConexion))
                 {
-                    cmd.Parameters.AddWithValue("@nombre", oUsuario.NombreCompleto);
+                    cmd.Parameters.AddWithValue("@nombre", oUsuario.Nombre);
+                    cmd.Parameters.AddWithValue("@apellido", oUsuario.Apellido);
                     cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
                     cmd.Parameters.AddWithValue("@clave", oUsuario.Clave);
                     cmd.Parameters.AddWithValue("@rol", oUsuario.Rol);
@@ -45,15 +46,16 @@ namespace nikeproject.DataAccess
 
                     using (SqlCommand cmd = new SqlCommand(query, oConexion))
                     {
-                        cmd.Parameters.AddWithValue("@nombrecompleto", oUsuario.NombreCompleto);
+                        cmd.Parameters.AddWithValue("@nombre", oUsuario.Nombre);
+                        cmd.Parameters.AddWithValue("@apellido", oUsuario.Apellido);
                         cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
                         cmd.Parameters.AddWithValue("@clave", oUsuario.Clave);
                         cmd.Parameters.AddWithValue("@rol", oUsuario.Rol);
                         cmd.Parameters.AddWithValue("@estado", oUsuario.Estado);
                         cmd.Parameters.AddWithValue("@idusuario", oUsuario.IdUsuario);
                         cmd.CommandType = CommandType.Text;
-
                         int filasAfectadas = cmd.ExecuteNonQuery();
+
                         if (filasAfectadas > 0)
                         {
                             resultado = true;
@@ -77,7 +79,8 @@ namespace nikeproject.DataAccess
                 using (SqlConnection oConexion = Conexion.Conectar())
                 {
                     oConexion.Open();
-                    string query = "DELETE FROM USUARIO WHERE IdUsuario = @idusuario";
+                    // En lugar de DELETE, usamos UPDATE
+                    string query = "UPDATE USUARIO SET Estado = 0 WHERE IdUsuario = @idusuario";
 
                     using (SqlCommand cmd = new SqlCommand(query, oConexion))
                     {
@@ -98,6 +101,7 @@ namespace nikeproject.DataAccess
             }
             return resultado;
         }
+
 
         // Se agrega el '?' para indicar que el método puede devolver un valor nulo
         public Usuario? ObtenerUsuario(string documento, string clave)
@@ -122,7 +126,8 @@ namespace nikeproject.DataAccess
                             oUsuario = new Usuario()
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                                NombreCompleto = dr["NombreCompleto"].ToString()!, // Usas '!' porque sabes que no es nulo
+                                Nombre = dr["Nombre"].ToString()!, // Usas '!' porque sabes que no es nulo
+                                Apellido = dr["Apellido"].ToString()!, // Usas '!' porque sabes que no es nulo
                                 Documento = dr["Documento"].ToString()!, // Usas '!'
                                 Clave = dr["Clave"].ToString()!, // Usas '!'
                                 Rol = dr["Rol"].ToString()!, // Usas '!'
@@ -154,7 +159,8 @@ namespace nikeproject.DataAccess
                             lista.Add(new Usuario()
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                                NombreCompleto = dr["NombreCompleto"].ToString()!,
+                                Nombre = dr["Nombre"].ToString()!,
+                                Apellido = dr["Apellido"].ToString()!,
                                 Documento = dr["Documento"].ToString()!,
                                 Clave = dr["Clave"].ToString()!,
                                 Rol = dr["Rol"].ToString()!,
@@ -201,7 +207,8 @@ namespace nikeproject.DataAccess
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
                                 // Usa 'as string ?? string.Empty' para manejar la nulabilidad de los datos
-                                NombreCompleto = dr["NombreCompleto"] as string ?? string.Empty,
+                                Nombre = dr["NombreCompleto"] as string ?? string.Empty,
+                                Apellido = dr["Apellido"] as string ?? string.Empty,
                                 Documento = dr["Documento"] as string ?? string.Empty,
                                 Clave = dr["Clave"] as string ?? string.Empty,
                                 Rol = dr["Rol"] as string ?? string.Empty,

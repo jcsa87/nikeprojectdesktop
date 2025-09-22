@@ -76,5 +76,10 @@ namespace nikeproject.Forms
         {
 
         }
+
+        private void lbNroDocumento_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

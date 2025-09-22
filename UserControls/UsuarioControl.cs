@@ -36,7 +36,8 @@ namespace nikeproject
             cbEstado.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
 
             // Llenar el ComboBox de búsqueda
-            cbBusqueda.Items.Add("NombreCompleto");
+            cbBusqueda.Items.Add("Nombre");
+            cbBusqueda.Items.Add("Apellido");
             cbBusqueda.Items.Add("Documento");
             cbBusqueda.Items.Add("Rol");
             cbBusqueda.Items.Add("Estado");
@@ -56,10 +57,17 @@ namespace nikeproject
             try
             {
                 // Validación de campos usando UsuarioValidacion
-                if (!UsuarioValidacion.NombreValido(txtNombreCompleto.Text))
+                if (!UsuarioValidacion.NombreValido(txtNombre.Text))
                 {
                     MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombreCompleto.Focus();
+                    txtNombre.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.Apellido(txtApellido.Text))
+                {
+                    MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
                     return;
                 }
 
@@ -95,7 +103,8 @@ namespace nikeproject
 
                 Usuario oUsuario = new Usuario()
                 {
-                    NombreCompleto = txtNombreCompleto.Text.Trim(),
+                    Nombre = txtNombre.Text.Trim(),
+                    Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
                     Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
@@ -126,7 +135,8 @@ namespace nikeproject
 
         private void LimpiarCampos()
         {
-            txtNombreCompleto.Clear();
+            txtNombre.Clear();
+            txtApellido.Clear();
             txtNroDocumento.Clear();
             txtClave.Clear();
             txtConfirmarClave.Clear();
@@ -162,7 +172,8 @@ namespace nikeproject
                 idUsuarioSeleccionado = Convert.ToInt32(filaSeleccionada.Cells["IdUsuario"].Value);
 
                 // Opcional: llenar los campos del formulario con los datos de la fila
-                txtNombreCompleto.Text = filaSeleccionada.Cells["NombreCompleto"].Value.ToString();
+                txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
+                txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
                 txtClave.Text = filaSeleccionada.Cells["Clave"].Value.ToString();
                 cbRol.Text = filaSeleccionada.Cells["Rol"].Value.ToString();
@@ -177,7 +188,8 @@ namespace nikeproject
                 Usuario oUsuario = new Usuario()
                 {
                     IdUsuario = idUsuarioSeleccionado,
-                    NombreCompleto = txtNombreCompleto.Text.Trim(),
+                    Nombre = txtNombre.Text.Trim(),
+                    Apellido = txtNombre.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
                     Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",

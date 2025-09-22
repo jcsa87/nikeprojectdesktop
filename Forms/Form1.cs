@@ -23,10 +23,11 @@ namespace nikeproject
         private void Form1_Load(object sender, EventArgs e)
         {
             // Prueba la conexión a la base de datos al iniciar el programa
-            ProbarConexion();
+            //ProbarConexion();
 
             // Muestra el control de usuarios por defecto
-            MostrarControl(new UsuariosControl());
+            panelContenedor.Controls.Clear();
+           // MostrarControl(new UsuariosControl());
         }
 
         // Método general para mostrar cualquier UserControl en el panelContenedor
@@ -87,6 +88,7 @@ namespace nikeproject
         }
 
         // Método para probar la conexión a la base de datos
+        /*
         private void ProbarConexion()
         {
             try
@@ -101,7 +103,7 @@ namespace nikeproject
             {
                 MessageBox.Show("Error de conexión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        }*/
 
         private void panelContenedor_Paint(object sender, PaintEventArgs e)
         {

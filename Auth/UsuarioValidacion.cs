@@ -11,6 +11,11 @@ namespace nikeproject.Auth
             return !string.IsNullOrWhiteSpace(p_nombre) && Regex.IsMatch(p_nombre, @"^[a-zA-Z\s]+$");
         }
 
+        public static bool Apellido(string p_apellido)
+        {
+            return !string.IsNullOrWhiteSpace(p_apellido) && Regex.IsMatch(p_apellido, @"^[a-zA-Z\s]+$");
+        }
+
         public static bool UsuarioValido(string p_usuario)
         {
             return !string.IsNullOrWhiteSpace(p_usuario);
