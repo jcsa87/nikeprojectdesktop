@@ -336,14 +336,14 @@
             // 
             // label2
             // 
-            label2.BackColor = Color.White;
-            label2.Font = new Font("Segoe UI", 15F);
-            label2.Location = new Point(293, 20);
-            label2.Name = "label2";
-            label2.Size = new Size(736, 66);
-            label2.TabIndex = 9;
-            label2.Text = "Lista de Usuarios:";
-            label2.TextAlign = ContentAlignment.MiddleLeft;
+            lbListaUsuarios.BackColor = Color.White;
+            lbListaUsuarios.Font = new Font("Segoe UI", 15F);
+            lbListaUsuarios.Location = new Point(293, 20);
+            lbListaUsuarios.Name = "label2";
+            lbListaUsuarios.Size = new Size(736, 66);
+            lbListaUsuarios.TabIndex = 9;
+            lbListaUsuarios.Text = "Lista de Usuarios:";
+            lbListaUsuarios.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lbBusqueda
             // 
@@ -394,35 +394,24 @@
             // 
             // btnLimpiar
             // 
-            ibBusqueda.BackColor = Color.DarkGray;
-            ibBusqueda.Cursor = Cursors.Hand;
-            ibBusqueda.FlatAppearance.BorderColor = Color.Black;
-            ibBusqueda.FlatStyle = FlatStyle.Flat;
-            ibBusqueda.IconChar = FontAwesome.Sharp.IconChar.Search;
-            ibBusqueda.IconColor = Color.Black;
-            ibBusqueda.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ibBusqueda.IconSize = 16;
-            ibBusqueda.Location = new Point(943, 47);
-            ibBusqueda.Name = "ibBusqueda";
-            ibBusqueda.Size = new Size(33, 23);
-            ibBusqueda.TabIndex = 14;
-            ibBusqueda.UseVisualStyleBackColor = false;
+
+            btnLimpiar.BackColor = Color.DarkGray;
+            btnLimpiar.Cursor = Cursors.Hand;
+            btnLimpiar.FlatAppearance.BorderColor = Color.Black;
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.IconChar = FontAwesome.Sharp.IconChar.Search;
+            btnLimpiar.IconColor = Color.Black;
+            btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLimpiar.IconSize = 16;
+            btnLimpiar.Location = new Point(943, 47);
+            btnLimpiar  .Name = "ibBusqueda";
+            btnLimpiar.Size = new Size(33, 23);
+            btnLimpiar.TabIndex = 14;
+            btnLimpiar.UseVisualStyleBackColor = false;
             // 
             // tblPanelBusqueda
             // 
-            ibFiltro.BackColor = Color.DarkGray;
-            ibFiltro.Cursor = Cursors.Hand;
-            ibFiltro.FlatAppearance.BorderColor = Color.Black;
-            ibFiltro.FlatStyle = FlatStyle.Flat;
-            ibFiltro.IconChar = FontAwesome.Sharp.IconChar.Broom;
-            ibFiltro.IconColor = Color.Black;
-            ibFiltro.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ibFiltro.IconSize = 18;
-            ibFiltro.Location = new Point(982, 47);
-            ibFiltro.Name = "ibFiltro";
-            ibFiltro.Size = new Size(33, 23);
-            ibFiltro.TabIndex = 14;
-            ibFiltro.UseVisualStyleBackColor = false;
+
             // 
             // UsuariosControl
             // 

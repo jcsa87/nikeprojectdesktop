@@ -265,7 +265,7 @@
             panelContenedor.Dock = DockStyle.Fill;
             panelContenedor.Location = new Point(121, 0);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(873, 699);
+
             panelContenedor.TabIndex = 1;
             panelContenedor.Paint += panelContenedor_Paint;
             // 
