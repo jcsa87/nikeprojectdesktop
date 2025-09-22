@@ -56,6 +56,7 @@ namespace nikeproject.Forms
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+            Environment.Exit(0);
         }
     }
 }

@@ -37,12 +37,32 @@ namespace nikeproject
         // Mantienes el método para mostrar el control de Mantenimiento
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            panel3.Controls.Clear();
+            var reportesControl = new ReportesControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+        private void lbMenu_Click_1(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new ReportesControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
         }
 
         private void pbVentas_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+        private void label4_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
         }
 
         private void pbClientes_Click(object sender, EventArgs e)
@@ -52,10 +72,25 @@ namespace nikeproject
 
         private void pbProductos_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
         }
 
-        // Lógica del botón de salir
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            panel3.Controls.Clear();
+            var reportesControl = new MantenimientoControl();
+            reportesControl.Dock = DockStyle.Fill;
+            panel3.Controls.Add(reportesControl);
+        }
+
+
+        
+
+        //boton salir
         private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
