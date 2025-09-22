@@ -265,7 +265,7 @@
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(873, 699);
             panelContenedor.TabIndex = 1;
-            panelContenedor.Paint += panelContenedor_Paint;
+            //panelContenedor.Paint += panelContenedor_Paint;
             // 
             // Form1
             // 

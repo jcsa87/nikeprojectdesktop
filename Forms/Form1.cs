@@ -16,11 +16,14 @@ namespace nikeproject
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Prueba la conexión a la base de datos al iniciar el programa
             ProbarConexion();
+
+            // Muestra el control de usuarios por defecto
             MostrarControl(new UsuariosControl());
         }
 
-        // Método general para mostrar cualquier UserControl
+        // Método general para mostrar cualquier UserControl en el panelContenedor
         private void MostrarControl(UserControl control)
         {
             panelContenedor.Controls.Clear();
@@ -34,63 +37,31 @@ namespace nikeproject
             MostrarControl(new UsuariosControl());
         }
 
-        // Mantienes el método para mostrar el control de Mantenimiento
+        // Muestra el control de Mantenimiento para Reportes
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new ReportesControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-        private void lbMenu_Click_1(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new ReportesControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
+        // Muestra el control de Mantenimiento para Ventas
         private void pbVentas_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-        private void label4_Click(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
+        // Muestra el control de Clientes
         private void pbClientes_Click(object sender, EventArgs e)
         {
             MostrarControl(new ClienteControl());
         }
 
+        // Muestra el control de Mantenimiento para Productos
         private void pbProductos_Click(object sender, EventArgs e)
         {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
+            MostrarControl(new MantenimientoControl());
         }
 
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            panel3.Controls.Clear();
-            var reportesControl = new MantenimientoControl();
-            reportesControl.Dock = DockStyle.Fill;
-            panel3.Controls.Add(reportesControl);
-        }
-
-
-        
-
-        //boton salir
+        // Lógica del botón de salir
         private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -125,11 +96,7 @@ namespace nikeproject
             }
         }
 
-        private void panelContenedor_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        // Los demás métodos redundantes o vacíos que habías mencionado han sido eliminados.
+        // Se eliminan los métodos duplicados o vacíos, y las referencias a panel3
+        // lbMenu_Click_1, label4_Click, label6_Click y panelContenedor_Paint, entre otros, no son necesarios.
     }
 }
