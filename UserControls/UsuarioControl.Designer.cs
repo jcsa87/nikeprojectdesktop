@@ -148,7 +148,7 @@
             txtConfirmarClave.PasswordChar = '*';
             txtConfirmarClave.Size = new Size(207, 23);
             txtConfirmarClave.TabIndex = 10;
-            txtConfirmarClave.KeyPress += txtConfirmarClave_KeyPress;
+            //txtConfirmarClave.KeyPress += txtConfirmarClave_KeyPress;
             // 
             // lbRol
             // 
@@ -269,7 +269,7 @@
             dgvUsuarios.Size = new Size(782, 574);
             dgvUsuarios.TabIndex = 13;
             dgvUsuarios.CellClick += dgvUsuarios_CellClick;
-            dgvUsuarios.CellContentClick += dgvUsuarios_CellContentClick;
+         //   dgvUsuarios.CellContentClick += dgvUsuarios_CellContentClick;
             dgvUsuarios.CellFormatting += dgvUsuarios_CellFormatting;
             // 
             // btnSeleccionar
@@ -352,7 +352,7 @@
             cbBusqueda.Name = "cbBusqueda";
             cbBusqueda.Size = new Size(164, 23);
             cbBusqueda.TabIndex = 11;
-            cbBusqueda.SelectedIndexChanged += cbBusqueda_SelectedIndexChanged;
+           // cbBusqueda.SelectedIndexChanged += cbBusqueda_SelectedIndexChanged;
             // 
             // txtBusqueda
             // 
