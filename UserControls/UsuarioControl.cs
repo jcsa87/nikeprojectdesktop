@@ -55,13 +55,43 @@ namespace nikeproject
         {
             try
             {
-                // 1. Validar la confirmación de la clave
-                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                // Validación de campos usando UsuarioValidacion
+                if (!UsuarioValidacion.NombreValido(txtNombreCompleto.Text))
                 {
-                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombreCompleto.Focus();
                     return;
                 }
 
+                if (!UsuarioValidacion.UsuarioValido(txtNroDocumento.Text) || !txtNroDocumento.Text.All(char.IsDigit))
+                {
+                    MessageBox.Show("El documento debe ser numérico y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                {
+                    MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtClave.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                {
+                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtConfirmarClave.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.RolValido(cbRol.SelectedItem?.ToString() ?? ""))
+                {
+                    MessageBox.Show("Seleccione un rol válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cbRol.Focus();
+                    return;
+                }
+
+                // Estado siempre será válido porque el ComboBox solo tiene dos opciones
 
                 Usuario oUsuario = new Usuario()
                 {
@@ -69,7 +99,7 @@ namespace nikeproject
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
                     Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
-                    Estado = (cbEstado.SelectedItem?.ToString() == "Activo") // <-- Corregido aquí
+                    Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
                 UsuarioData usuarioData = new UsuarioData();
@@ -209,70 +239,6 @@ namespace nikeproject
                 return;
             }
 
-            try
-            {
-                UsuarioData usuarioData = new UsuarioData();
-
-                // La llamada a tu método de búsqueda ya está bien
-                List<Usuario> listaFiltrada = usuarioData.BuscarUsuarios(columnaBusqueda, valorBusqueda);
-
-                dgvUsuarios.DataSource = listaFiltrada;
-
-                if (listaFiltrada.Count == 0)
-                {
-                    MessageBox.Show("ℹ️ No se encontraron usuarios que coincidan con la búsqueda.", "Resultado de búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al buscar usuarios: " + ex.Message);
-            }
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            // Limpiar el campo de búsqueda y el ComboBox
-            txtBusqueda.Clear();
-            cbBusqueda.SelectedIndex = 0;
-
-            // Volver a cargar la lista completa de usuarios
-            CargarUsuarios();
-        }
-
-        private void lbBusqueda_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbBusqueda_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbBusqueda_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbListaUsuarios_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void tblPanelBusqueda_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lbListaUsuarios_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
 
         // --- MÉTODOS Y EVENTOS SIN FUNCIONALIDAD ---

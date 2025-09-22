@@ -39,11 +39,24 @@ namespace nikeproject.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1 form = new Form1();
-            form.Show();
-            this.Hide();
+            // Suponiendo que los TextBox se llaman txtDocumento y txtClave
+            string usuario = txtDocumento.Text.Trim();
+            string clave = txtClave.Text.Trim();
 
-            form.FormClosing += FrmClosing;
+            if (usuario == "admin" && clave == "admin")
+            {
+                Form1 form = new Form1();
+                form.Show();
+                this.Hide();
+
+                form.FormClosing += FrmClosing;
+            }
+            else
+            {
+                MessageBox.Show("Usuario o contraseña incorrectos. Intente nuevamente.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtClave.Clear();
+                txtClave.Focus();
+            }
         }
 
         private void FrmClosing(object? sender, FormClosingEventArgs e)
