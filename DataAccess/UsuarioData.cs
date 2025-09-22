@@ -30,6 +30,75 @@ namespace nikeproject.DataAccess
             }
         }
 
+        public bool EditarUsuario(Usuario oUsuario)
+        {
+            bool resultado = false;
+
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+
+                    // Usa un comando parametrizado para evitar inyección de SQL
+                    string query = "UPDATE USUARIO SET NombreCompleto = @nombrecompleto, Documento = @documento, Clave = @clave, Rol = @rol, Estado = @estado WHERE IdUsuario = @idusuario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@nombrecompleto", oUsuario.NombreCompleto);
+                        cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
+                        cmd.Parameters.AddWithValue("@clave", oUsuario.Clave);
+                        cmd.Parameters.AddWithValue("@rol", oUsuario.Rol);
+                        cmd.Parameters.AddWithValue("@estado", oUsuario.Estado);
+                        cmd.Parameters.AddWithValue("@idusuario", oUsuario.IdUsuario);
+                        cmd.CommandType = CommandType.Text;
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            resultado = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
+        public bool EliminarUsuario(int idUsuario)
+        {
+            bool resultado = false;
+
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    string query = "DELETE FROM USUARIO WHERE IdUsuario = @idusuario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@idusuario", idUsuario);
+                        cmd.CommandType = CommandType.Text;
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            resultado = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
         // Se agrega el '?' para indicar que el método puede devolver un valor nulo
         public Usuario? ObtenerUsuario(string documento, string clave)
         {
@@ -65,6 +134,38 @@ namespace nikeproject.DataAccess
                 }
             }
             return oUsuario;
+        }
+
+        public List<Usuario> ListarUsuarios()
+        {
+            List<Usuario> lista = new List<Usuario>();
+
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                oConexion.Open();
+                string query = "SELECT * FROM USUARIO";
+
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Usuario()
+                            {
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                NombreCompleto = dr["NombreCompleto"].ToString()!,
+                                Documento = dr["Documento"].ToString()!,
+                                Clave = dr["Clave"].ToString()!,
+                                Rol = dr["Rol"].ToString()!,
+                                Estado = Convert.ToBoolean(dr["Estado"]),
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
+                            });
+                        }
+                    }
+                }
+            }
+            return lista;
         }
     }
 }

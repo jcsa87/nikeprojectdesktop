@@ -40,7 +40,7 @@ namespace nikeproject
         // Muestra el control de Mantenimiento para Reportes
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            MostrarControl(new ReportesControl());
+            MostrarControl(new MantenimientoControl());
         }
 
         // Muestra el control de Mantenimiento para Ventas
@@ -94,6 +94,11 @@ namespace nikeproject
             {
                 MessageBox.Show("Error de conexión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void panelContenedor_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         // Se eliminan los métodos duplicados o vacíos, y las referencias a panel3
