@@ -42,13 +42,13 @@ namespace nikeproject
             cbBusqueda.Items.Add("Estado");
             cbBusqueda.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
 
-            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsuario.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void CargarUsuarios()
         {
             UsuarioData usuarioData = new UsuarioData();
-            dgvUsuarios.DataSource = usuarioData.ListarUsuarios();
+            dgvUsuario.DataSource = usuarioData.ListarUsuarios();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -134,10 +134,10 @@ namespace nikeproject
             cbEstado.SelectedIndex = 0; // <-- Corregido aquí
         }
 
-        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dgvUsuario_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // Asegúrate de que estás en la columna 'Estado'
-            if (dgvUsuarios.Columns[e.ColumnIndex].Name == "Estado")
+            if (dgvUsuario.Columns[e.ColumnIndex].Name == "Estado")
             {
                 // Verifica si el valor de la celda es un booleano
                 if (e.Value is bool)
@@ -150,12 +150,12 @@ namespace nikeproject
             }
         }
 
-        private void dgvUsuarios_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvUsuario_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Asegúrate de que no se haga clic en la fila de encabezado
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow filaSeleccionada = dgvUsuarios.Rows[e.RowIndex];
+                DataGridViewRow filaSeleccionada = dgvUsuario.Rows[e.RowIndex];
 
                 // Asigna el IdUsuario de la fila seleccionada a la variable
                 // Convert.ToInt32 es necesario porque el valor en la celda es un objeto
