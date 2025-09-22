@@ -14,6 +14,12 @@ namespace nikeproject
             InitializeComponent();
         }
 
+
+        private void pbMenu_Click(object sender, EventArgs e)
+        {
+            panelContenedor.Controls.Clear();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             // Prueba la conexión a la base de datos al iniciar el programa
@@ -40,7 +46,7 @@ namespace nikeproject
         // Muestra el control de Mantenimiento para Reportes
         private void pbReportes_Click(object sender, EventArgs e)
         {
-            MostrarControl(new MantenimientoControl());
+            MostrarControl(new ReportesControl());
         }
 
         // Muestra el control de Mantenimiento para Ventas
@@ -100,6 +106,7 @@ namespace nikeproject
         {
 
         }
+
 
         // Se eliminan los métodos duplicados o vacíos, y las referencias a panel3
         // lbMenu_Click_1, label4_Click, label6_Click y panelContenedor_Paint, entre otros, no son necesarios.
