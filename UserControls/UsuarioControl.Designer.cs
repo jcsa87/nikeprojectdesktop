@@ -148,6 +148,7 @@
             txtConfirmarClave.PasswordChar = '*';
             txtConfirmarClave.Size = new Size(207, 23);
             txtConfirmarClave.TabIndex = 10;
+            txtConfirmarClave.KeyPress += txtConfirmarClave_KeyPress;
             // 
             // lbRol
             // 
