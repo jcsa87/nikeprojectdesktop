@@ -167,5 +167,53 @@ namespace nikeproject.DataAccess
             }
             return lista;
         }
+
+        public List<Usuario> BuscarUsuarios(string columna, string valor)
+        {
+            List<Usuario> lista = new List<Usuario>();
+
+            // 1. Validar la columna para evitar inyección SQL
+            string[] columnasPermitidas = { "NombreCompleto", "Documento", "Rol" };
+            if (!columnasPermitidas.Contains(columna))
+            {
+                // Puedes lanzar una excepción o devolver una lista vacía si la columna no es válida
+                return lista;
+            }
+
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                oConexion.Open();
+
+                // 2. Construir la consulta de forma segura
+                string query = $"SELECT * FROM USUARIO WHERE {columna} LIKE @valor";
+
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    // 3. Usar un parámetro para el valor de búsqueda
+                    cmd.Parameters.AddWithValue("@valor", $"%{valor}%");
+                    cmd.CommandType = CommandType.Text;
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Usuario()
+                            {
+                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                // Usa 'as string ?? string.Empty' para manejar la nulabilidad de los datos
+                                NombreCompleto = dr["NombreCompleto"] as string ?? string.Empty,
+                                Documento = dr["Documento"] as string ?? string.Empty,
+                                Clave = dr["Clave"] as string ?? string.Empty,
+                                Rol = dr["Rol"] as string ?? string.Empty,
+                                Estado = Convert.ToBoolean(dr["Estado"]),
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
+                            });
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
     }
 }

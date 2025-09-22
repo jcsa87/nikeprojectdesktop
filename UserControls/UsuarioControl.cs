@@ -34,6 +34,15 @@ namespace nikeproject
             cbEstado.Items.Add("Activo");
             cbEstado.Items.Add("Inactivo");
             cbEstado.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+
+            // Llenar el ComboBox de búsqueda
+            cbBusqueda.Items.Add("NombreCompleto");
+            cbBusqueda.Items.Add("Documento");
+            cbBusqueda.Items.Add("Rol");
+            cbBusqueda.Items.Add("Estado");
+            cbBusqueda.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void CargarUsuarios()
@@ -218,13 +227,17 @@ namespace nikeproject
             }
         }
 
-        private void txtConfirmarClave_KeyPress(object sender, KeyPressEventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            // Asegúrate de que el valor del ComboBox no sea nulo antes de usarlo
+            string columnaBusqueda = cbBusqueda.SelectedItem?.ToString() ?? string.Empty;
+            string valorBusqueda = txtBusqueda.Text?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(valorBusqueda))
             {
-                e.Handled = true;
+                MessageBox.Show("⚠️ Por favor, ingrese un valor de búsqueda.", "Error de búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-        }
 
 
 

@@ -41,6 +41,7 @@ namespace nikeproject
         private void pbUsuario_Click(object sender, EventArgs e)
         {
             MostrarControl(new UsuariosControl());
+
         }
 
         // Muestra el control de Mantenimiento para Reportes
