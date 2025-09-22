@@ -12,9 +12,6 @@ namespace nikeproject.DataAccess
         {
             get
             {
-                // El operador ??= (null-coalescing assignment) es la forma más limpia
-                // de hacer lo que intentas. Si cadenaConexion es null, asigna el valor
-                // de la cadena de conexión.
                 return cadenaConexion ??= ConfigurationManager.ConnectionStrings["cadena_conexion"].ConnectionString;
             }
         }

@@ -241,8 +241,9 @@ namespace nikeproject
 
 
 
-        // --- MÉTODOS Y EVENTOS SIN FUNCIONALIDAD ---
-        // Se han eliminado todos los métodos y eventos vacíos o sin usar
-        // para mantener el código limpio y organizado.
+            // --- MÉTODOS Y EVENTOS SIN FUNCIONALIDAD ---
+            // Se han eliminado todos los métodos y eventos vacíos o sin usar
+            // para mantener el código limpio y organizado.
+        }
     }
 }
