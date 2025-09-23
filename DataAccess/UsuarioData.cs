@@ -79,7 +79,6 @@ namespace nikeproject.DataAccess
                 using (SqlConnection oConexion = Conexion.Conectar())
                 {
                     oConexion.Open();
-                    // En lugar de DELETE, usamos UPDATE
                     string query = "UPDATE USUARIO SET Estado = 0 WHERE IdUsuario = @idusuario";
 
                     using (SqlCommand cmd = new SqlCommand(query, oConexion))

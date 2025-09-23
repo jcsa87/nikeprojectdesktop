@@ -28,7 +28,8 @@ namespace nikeproject
             // Llenar el ComboBox de roles
             cbRol.Items.Add("Administrador");
             cbRol.Items.Add("Vendedor");
-            cbRol.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+            cbRol.Items.Add("Supervisor"); // <-- Añadido
+            cbRol.SelectedIndex = 0;
 
             // Llenar el ComboBox de estados
             cbEstado.Items.Add("Activo");
