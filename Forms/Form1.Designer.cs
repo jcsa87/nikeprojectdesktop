@@ -43,6 +43,7 @@
             pbVentas = new PictureBox();
             pbReportes = new PictureBox();
             pbUsuario = new PictureBox();
+            lRol = new Label();
             lbMenu = new Label();
             pbMenu = new PictureBox();
             panelContenedor = new Panel();
@@ -61,6 +62,7 @@
             // 
             panel1.BackColor = SystemColors.ControlLight;
             panel1.Controls.Add(panel2);
+            panel1.Controls.Add(lRol);
             panel1.Controls.Add(lbMenu);
             panel1.Controls.Add(pbMenu);
             panel1.Dock = DockStyle.Left;
@@ -84,9 +86,9 @@
             panel2.Controls.Add(pbVentas);
             panel2.Controls.Add(pbReportes);
             panel2.Controls.Add(pbUsuario);
-            panel2.Location = new Point(9, 88);
+            panel2.Location = new Point(9, 102);
             panel2.Name = "panel2";
-            panel2.Size = new Size(104, 602);
+            panel2.Size = new Size(104, 588);
             panel2.TabIndex = 2;
             // 
             // label8
@@ -233,6 +235,20 @@
             pbUsuario.TabStop = false;
             pbUsuario.Click += pbUsuario_Click;
             // 
+            // lRol
+            // 
+            lRol.AutoSize = true;
+            lRol.BackColor = Color.Transparent;
+            lRol.Cursor = Cursors.Hand;
+            lRol.FlatStyle = FlatStyle.Popup;
+            lRol.Font = new Font("Corbel", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lRol.Location = new Point(36, 84);
+            lRol.Name = "lRol";
+            lRol.Size = new Size(23, 14);
+            lRol.TabIndex = 0;
+            lRol.Text = "Rol";
+            lRol.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // lbMenu
             // 
             lbMenu.AutoSize = true;
@@ -265,9 +281,8 @@
             panelContenedor.Dock = DockStyle.Fill;
             panelContenedor.Location = new Point(121, 0);
             panelContenedor.Name = "panelContenedor";
-
+            panelContenedor.Size = new Size(866, 702);
             panelContenedor.TabIndex = 1;
-            panelContenedor.Paint += panelContenedor_Paint;
             // 
             // Form1
             // 
@@ -313,5 +328,6 @@
         private PictureBox pbVentas;
         private PictureBox pbReportes;
         private Panel panelContenedor;
+        private Label lRol;
     }
 }

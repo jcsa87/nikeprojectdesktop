@@ -28,7 +28,7 @@ namespace nikeproject
             // Llenar el ComboBox de roles
             cbRol.Items.Add("Administrador");
             cbRol.Items.Add("Vendedor");
-            cbRol.Items.Add("Supervisor"); // <-- Añadido
+            cbRol.Items.Add("Supervisor");
             cbRol.SelectedIndex = 0;
 
             // Llenar el ComboBox de estados
@@ -67,7 +67,7 @@ namespace nikeproject
 
                 if (!UsuarioValidacion.Apellido(txtApellido.Text))
                 {
-                    MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El apellido solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNombre.Focus();
                     return;
                 }
@@ -190,7 +190,7 @@ namespace nikeproject
                 {
                     IdUsuario = idUsuarioSeleccionado,
                     Nombre = txtNombre.Text.Trim(),
-                    Apellido = txtNombre.Text.Trim(),
+                    Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
                     Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
@@ -274,6 +274,11 @@ namespace nikeproject
             {
                 e.Handled = true;
             }
+        }
+
+        private void dgvUsuario_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
