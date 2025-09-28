@@ -280,5 +280,10 @@ namespace nikeproject
         {
 
         }
+
+        private void cbEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
