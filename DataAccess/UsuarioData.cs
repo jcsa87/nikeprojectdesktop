@@ -42,7 +42,7 @@ namespace nikeproject.DataAccess
                     oConexion.Open();
 
                     // Usa un comando parametrizado para evitar inyección de SQL
-                    string query = "UPDATE USUARIO SET NombreCompleto = @nombrecompleto, Documento = @documento, Clave = @clave, Rol = @rol, Estado = @estado WHERE IdUsuario = @idusuario";
+                    string query = "UPDATE USUARIO SET Nombre = @nombre, Apellido = @apellido, Documento = @documento, Clave = @clave, Rol = @rol, Estado = @estado WHERE IdUsuario = @idusuario";
 
                     using (SqlCommand cmd = new SqlCommand(query, oConexion))
                     {
@@ -79,7 +79,6 @@ namespace nikeproject.DataAccess
                 using (SqlConnection oConexion = Conexion.Conectar())
                 {
                     oConexion.Open();
-                    // En lugar de DELETE, usamos UPDATE
                     string query = "UPDATE USUARIO SET Estado = 0 WHERE IdUsuario = @idusuario";
 
                     using (SqlCommand cmd = new SqlCommand(query, oConexion))
@@ -148,7 +147,7 @@ namespace nikeproject.DataAccess
             using (SqlConnection oConexion = Conexion.Conectar())
             {
                 oConexion.Open();
-                string query = "SELECT * FROM USUARIO";
+                string query = "SELECT * FROM USUARIO WHERE Estado <> 0";
 
                 using (SqlCommand cmd = new SqlCommand(query, oConexion))
                 {
@@ -179,7 +178,7 @@ namespace nikeproject.DataAccess
             List<Usuario> lista = new List<Usuario>();
 
             // 1. Validar la columna para evitar inyección SQL
-            string[] columnasPermitidas = { "NombreCompleto", "Documento", "Rol" };
+            string[] columnasPermitidas = { "Nombre", "Apellido", "Documento", "Rol" };
             if (!columnasPermitidas.Contains(columna))
             {
                 // Puedes lanzar una excepción o devolver una lista vacía si la columna no es válida
@@ -207,7 +206,7 @@ namespace nikeproject.DataAccess
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
                                 // Usa 'as string ?? string.Empty' para manejar la nulabilidad de los datos
-                                Nombre = dr["NombreCompleto"] as string ?? string.Empty,
+                                Nombre = dr["Nombre"] as string ?? string.Empty,
                                 Apellido = dr["Apellido"] as string ?? string.Empty,
                                 Documento = dr["Documento"] as string ?? string.Empty,
                                 Clave = dr["Clave"] as string ?? string.Empty,

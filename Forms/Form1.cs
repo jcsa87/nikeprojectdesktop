@@ -9,9 +9,16 @@ namespace nikeproject
 {
     public partial class Form1 : Form
     {
-        public Form1()
+
+        private readonly string _rol;
+        public Form1(string rol)
         {
             InitializeComponent();
+            _rol = rol;
+        }
+
+        public Form1() : this("Vendedor") // Rol por defecto para diseño
+        {
         }
 
 
@@ -22,12 +29,38 @@ namespace nikeproject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Prueba la conexión a la base de datos al iniciar el programa
-            //ProbarConexion();
-
-            // Muestra el control de usuarios por defecto
+            // Habilita/deshabilita íconos según el rol
+            ConfigurarMenuPorRol(_rol);
             panelContenedor.Controls.Clear();
-           // MostrarControl(new UsuariosControl());
+        }
+
+        private void ConfigurarMenuPorRol(string rol)
+        {
+
+            lRol.Enabled = true;
+            pbUsuario.Enabled = true;
+            pbReportes.Enabled = true;
+            pbVentas.Enabled = true;
+            pbClientes.Enabled = true;
+            pbProductos.Enabled = true;
+
+            if (rol == "Administrador")
+            {
+                lRol.Text = "Administrador";
+            }
+            else if (rol == "Supervisor")
+            {
+                pbUsuario.Enabled = false;   // No puede gestionar usuarios
+                pbProductos.Enabled = false; // No puede gestionar productos
+                lRol.Text = "Supervisor";
+            }
+            else if (rol == "Vendedor")
+            {
+                pbUsuario.Enabled = false;
+                pbReportes.Enabled = false;
+                pbProductos.Enabled = false;
+                lRol.Text = "Vendedor";
+            }
         }
 
         // Método general para mostrar cualquier UserControl en el panelContenedor
@@ -105,10 +138,10 @@ namespace nikeproject
             }
         }*/
 
-        private void panelContenedor_Paint(object sender, PaintEventArgs e)
-        {
+        //private void panelContenedor_Paint(object sender, PaintEventArgs e)
+        //{
 
-        }
+        //}
 
 
         // Se eliminan los métodos duplicados o vacíos, y las referencias a panel3

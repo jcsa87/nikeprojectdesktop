@@ -33,7 +33,7 @@ namespace nikeproject.Auth
         }
 
         public static bool RolValido(string p_rol)
-            => p_rol == "Administrador" || p_rol == "Vendedor";
+            => p_rol == "Administrador" || p_rol == "Vendedor" || p_rol == "Supervisor";
 
         public static bool EstadoValido(bool p_estado)
             => p_estado == true || p_estado == false;

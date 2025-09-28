@@ -39,16 +39,23 @@ namespace nikeproject.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Suponiendo que los TextBox se llaman txtDocumento y txtClave
-            string usuario = txtDocumento.Text.Trim();
+            string usuario = txtDocumento.Text.Trim().ToLower();
             string clave = txtClave.Text.Trim();
 
-            if (usuario == "admin" && clave == "admin")
+            // Usuarios válidos y sus roles
+            var roles = new Dictionary<string, string>
+    {
+        { "admin", "Administrador" },
+        { "supervisor", "Supervisor" },
+        { "vendedor", "Vendedor" }
+    };
+
+            if (roles.ContainsKey(usuario) && clave == usuario)
             {
-                Form1 form = new Form1();
+                string rol = roles[usuario];
+                Form1 form = new Form1(rol); // Pasa el rol al formulario principal
                 form.Show();
                 this.Hide();
-
                 form.FormClosing += FrmClosing;
             }
             else

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             lbDocumentoUsu = new Label();
             lbNombreCompleto = new Label();
@@ -41,8 +41,6 @@
             txtConfirmarClave = new TextBox();
             lbRol = new Label();
             cbRol = new ComboBox();
-            cbEstado = new ComboBox();
-            lbEstado = new Label();
             btnEditar = new Button();
             btnEliminar = new Button();
             btnGuardar = new Button();
@@ -57,6 +55,8 @@
             dgvUsuario = new DataGridView();
             txtApellido = new TextBox();
             label2 = new Label();
+            lbEstado = new Label();
+            cbEstado = new ComboBox();
             btnSeleccionar = new DataGridViewButtonColumn();
             idUsuario = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
@@ -173,25 +173,6 @@
             cbRol.Size = new Size(205, 23);
             cbRol.TabIndex = 11;
             // 
-            // cbEstado
-            // 
-            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbEstado.FormattingEnabled = true;
-            cbEstado.Location = new Point(20, 398);
-            cbEstado.Name = "cbEstado";
-            cbEstado.Size = new Size(207, 23);
-            cbEstado.TabIndex = 11;
-            // 
-            // lbEstado
-            // 
-            lbEstado.AutoSize = true;
-            lbEstado.BackColor = Color.White;
-            lbEstado.Location = new Point(20, 380);
-            lbEstado.Name = "lbEstado";
-            lbEstado.Size = new Size(45, 15);
-            lbEstado.TabIndex = 9;
-            lbEstado.Text = "Estado:";
-            // 
             // btnEditar
             // 
             btnEditar.BackColor = Color.RoyalBlue;
@@ -199,7 +180,7 @@
             btnEditar.FlatAppearance.BorderColor = Color.Black;
             btnEditar.FlatStyle = FlatStyle.Flat;
             btnEditar.ForeColor = Color.White;
-            btnEditar.Location = new Point(20, 482);
+            btnEditar.Location = new Point(18, 456);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(207, 23);
             btnEditar.TabIndex = 12;
@@ -214,7 +195,7 @@
             btnEliminar.FlatAppearance.BorderColor = Color.Black;
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(20, 511);
+            btnEliminar.Location = new Point(20, 485);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(207, 23);
             btnEliminar.TabIndex = 12;
@@ -229,7 +210,7 @@
             btnGuardar.FlatAppearance.BorderColor = Color.Black;
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.ForeColor = Color.White;
-            btnGuardar.Location = new Point(20, 453);
+            btnGuardar.Location = new Point(20, 427);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(207, 23);
             btnGuardar.TabIndex = 12;
@@ -338,28 +319,29 @@
             // 
             dgvUsuario.AllowUserToAddRows = false;
             dgvUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.Padding = new Padding(2);
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvUsuario.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvUsuario.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsuario.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idUsuario, Nombre, Apellido, Documento, Clave, Rol, Estado, EstadoValor });
             dgvUsuario.Location = new Point(257, 82);
             dgvUsuario.MultiSelect = false;
             dgvUsuario.Name = "dgvUsuario";
             dgvUsuario.ReadOnly = true;
-            dataGridViewCellStyle4.SelectionBackColor = Color.White;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dgvUsuario.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dgvUsuario.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvUsuario.RowTemplate.Height = 28;
             dgvUsuario.Size = new Size(798, 463);
             dgvUsuario.TabIndex = 16;
             dgvUsuario.CellClick += dgvUsuario_CellClick;
+            dgvUsuario.CellContentClick += dgvUsuario_CellContentClick;
             dgvUsuario.CellFormatting += dgvUsuario_CellFormatting;
             // 
             // txtApellido
@@ -379,6 +361,28 @@
             label2.Size = new Size(54, 15);
             label2.TabIndex = 18;
             label2.Text = "Apellido:";
+            // 
+            // lbEstado
+            // 
+            lbEstado.AutoSize = true;
+            lbEstado.BackColor = Color.White;
+            lbEstado.Location = new Point(20, 369);
+            lbEstado.Name = "lbEstado";
+            lbEstado.Size = new Size(45, 15);
+            lbEstado.TabIndex = 9;
+            lbEstado.Text = "Estado:";
+            lbEstado.Visible = false;
+            // 
+            // cbEstado
+            // 
+            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEstado.FormattingEnabled = true;
+            cbEstado.Location = new Point(18, 387);
+            cbEstado.Name = "cbEstado";
+            cbEstado.Size = new Size(207, 23);
+            cbEstado.TabIndex = 11;
+            cbEstado.Visible = false;
+            cbEstado.SelectedIndexChanged += cbEstado_SelectedIndexChanged;
             // 
             // btnSeleccionar
             // 
@@ -406,6 +410,7 @@
             // 
             // Apellido
             // 
+            Apellido.DataPropertyName = "Apellido";
             Apellido.HeaderText = "Apellido";
             Apellido.Name = "Apellido";
             Apellido.ReadOnly = true;
@@ -439,6 +444,7 @@
             Estado.HeaderText = "Estado";
             Estado.Name = "Estado";
             Estado.ReadOnly = true;
+            Estado.Visible = false;
             // 
             // EstadoValor
             // 
@@ -500,8 +506,6 @@
         private TextBox txtConfirmarClave;
         private Label lbRol;
         private ComboBox cbRol;
-        private ComboBox cbEstado;
-        private Label lbEstado;
         private Button btnEditar;
         private Button btnEliminar;
         private Button btnGuardar;
@@ -517,6 +521,8 @@
         private DataGridView dgvUsuario;
         private TextBox txtApellido;
         private Label label2;
+        private Label lbEstado;
+        private ComboBox cbEstado;
         private DataGridViewButtonColumn btnSeleccionar;
         private DataGridViewTextBoxColumn idUsuario;
         private DataGridViewTextBoxColumn Nombre;
