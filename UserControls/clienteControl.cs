@@ -82,18 +82,17 @@ namespace nikeproject
                     return;
                 }
 
+
                 if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
                 {
-                    MessageBox.Show("El correo ingresado no es válido.",
-                        "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("⚠️ El correo debe ser válido y terminar en .com", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtCorreo.Focus();
                     return;
                 }
 
                 if (!ClienteValidacion.TelefonoValido(txtTelefono.Text))
                 {
-                    MessageBox.Show("El teléfono ingresado no es válido.",
-                        "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("⚠️ El teléfono solo puede contener números", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtTelefono.Focus();
                     return;
                 }
@@ -127,6 +126,7 @@ namespace nikeproject
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+
         }
 
         private void dgvCliente_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -208,6 +208,25 @@ namespace nikeproject
         {
             if (idClienteSeleccionado > 0)
             {
+                // Validar correo
+                if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
+                {
+                    MessageBox.Show("⚠️ El correo debe ser válido y terminar en .com",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCorreo.Focus();
+                    return;
+                }
+
+                // Validar teléfono
+                if (!ClienteValidacion.TelefonoValido(txtTelefono.Text))
+                {
+                    MessageBox.Show("⚠️ El teléfono solo puede contener números",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTelefono.Focus();
+                    return;
+                }
+
+                // Crear objeto cliente con datos del formulario
                 Cliente oCliente = new Cliente()
                 {
                     IdCliente = idClienteSeleccionado,
@@ -238,6 +257,7 @@ namespace nikeproject
         }
 
 
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string columnaBusqueda = cbBusqueda.SelectedItem?.ToString() ?? string.Empty;
@@ -245,7 +265,8 @@ namespace nikeproject
 
             if (string.IsNullOrEmpty(valorBusqueda))
             {
-                MessageBox.Show("⚠️ Ingrese un valor de búsqueda.");
+                MessageBox.Show("⚠️ Por favor, ingrese un valor de búsqueda.", "Error de búsqueda",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -253,31 +274,33 @@ namespace nikeproject
             dgvCliente.DataSource = clienteData.BuscarClientes(columnaBusqueda, valorBusqueda);
         }
 
+
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            LimpiarCampos();
             txtBusqueda.Clear();
-            cbBusqueda.SelectedIndex = 0;
+            if (cbBusqueda.Items.Count > 0)
+                cbBusqueda.SelectedIndex = 0;
+
+            // Volver a cargar todos los clientes
             CargarClientes();
         }
 
- 
+
+
 
         private void dgvCliente_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Asegúrate de que estás en la columna 'Estado'
-            if (dgvCliente.Columns[e.ColumnIndex].Name == "Estado")
+            // Validar que estamos en la columna Estado
+            if (dgvCliente.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
             {
-                // Verifica si el valor de la celda es un booleano
-                if (e.Value is bool)
+                if (e.Value is bool estado)
                 {
-                    bool estado = (bool)e.Value;
-                    // Asigna el valor de texto correspondiente
                     e.Value = estado ? "Activo" : "Inactivo";
                     e.FormattingApplied = true;
                 }
             }
         }
+
 
         private void LimpiarCampos()
         {
@@ -325,6 +348,12 @@ namespace nikeproject
             }
         }
 
-
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

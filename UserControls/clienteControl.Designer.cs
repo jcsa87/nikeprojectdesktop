@@ -42,12 +42,6 @@
             Telefono = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             btnSeleccionar = new DataGridViewButtonColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Apellido = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Correo = new DataGridViewTextBoxColumn();
-            Telefono = new DataGridViewTextBoxColumn();
             clienteBindingSource3 = new BindingSource(components);
             clienteBindingSource = new BindingSource(components);
             btnLimpiar = new FontAwesome.Sharp.IconButton();
@@ -73,13 +67,6 @@
             lbListaUsuario = new Label();
             clienteBindingSource2 = new BindingSource(components);
             clienteBindingSource1 = new BindingSource(components);
-            IdCliente = new DataGridViewTextBoxColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Apellido = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Correo = new DataGridViewTextBoxColumn();
-            Telefono = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
@@ -132,6 +119,58 @@
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
             dgvCliente.CellClick += dgvCliente_CellClick;
+            // 
+            // IdCliente
+            // 
+            IdCliente.DataPropertyName = "IdCliente";
+            IdCliente.HeaderText = "IdCliente";
+            IdCliente.Name = "IdCliente";
+            IdCliente.ReadOnly = true;
+            IdCliente.Visible = false;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 180;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.DataPropertyName = "Documento";
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
             // 
             // btnSeleccionar
             // 
@@ -283,6 +322,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(182, 23);
             txtTelefono.TabIndex = 32;
+            txtTelefono.KeyPress += txtTelefono_KeyPress;
             // 
             // txtNroDocumento
             // 
@@ -392,58 +432,6 @@
             // clienteBindingSource1
             // 
             clienteBindingSource1.DataSource = typeof(Models.Cliente);
-            // 
-            // IdCliente
-            // 
-            IdCliente.DataPropertyName = "IdCliente";
-            IdCliente.HeaderText = "IdCliente";
-            IdCliente.Name = "IdCliente";
-            IdCliente.ReadOnly = true;
-            IdCliente.Visible = false;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 180;
-            // 
-            // Apellido
-            // 
-            Apellido.DataPropertyName = "Apellido";
-            Apellido.HeaderText = "Apellido";
-            Apellido.Name = "Apellido";
-            Apellido.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.DataPropertyName = "Documento";
-            Documento.HeaderText = "Nro Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            Documento.Width = 150;
-            // 
-            // Correo
-            // 
-            Correo.DataPropertyName = "Correo";
-            Correo.HeaderText = "Correo";
-            Correo.Name = "Correo";
-            Correo.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            Telefono.DataPropertyName = "Telefono";
-            Telefono.HeaderText = "Telefono";
-            Telefono.Name = "Telefono";
-            Telefono.ReadOnly = true;
-            // 
-            // Estado
-            // 
-            Estado.DataPropertyName = "Estado";
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
             // 
             // ClienteControl
             // 
