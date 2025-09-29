@@ -320,6 +320,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(182, 23);
             txtTelefono.TabIndex = 32;
+            txtTelefono.KeyPress += txtNroDocumento_KeyPress;
             // 
             // txtNroDocumento
             // 
