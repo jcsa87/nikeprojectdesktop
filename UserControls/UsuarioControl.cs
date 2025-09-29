@@ -53,7 +53,7 @@ namespace nikeproject
             dgvUsuario.DataSource = usuarioData.ListarUsuarios();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)y
+        private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {

@@ -28,174 +28,440 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblTituloClientes = new Label();
-            textBox1 = new TextBox();
-            lblBuscador = new Label();
-            btnBuscar = new Button();
-            gbInformacion = new GroupBox();
-            textBox5 = new TextBox();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            lbApellido = new Label();
+            txtApellido = new TextBox();
+            dgvCliente = new DataGridView();
+            clienteBindingSource = new BindingSource(components);
+            btnLimpiar = new FontAwesome.Sharp.IconButton();
+            btnBuscar = new FontAwesome.Sharp.IconButton();
+            cbBusqueda = new ComboBox();
+            txtBusqueda = new TextBox();
+            lbBusqueda = new Label();
+            btnBaja = new Button();
+            btnGuardar = new Button();
+            btnEditar = new Button();
+            cbEstado = new ComboBox();
+            txtCorreo = new TextBox();
+            txtTelefono = new TextBox();
+            txtNroDocumento = new TextBox();
+            txtNombre = new TextBox();
+            lbEstado = new Label();
+            lbCorreo = new Label();
+            lbTelefono = new Label();
+            lbTitulo = new Label();
+            lbNombre = new Label();
+            lbDocumentoUsu = new Label();
             label1 = new Label();
-            dataGridView1 = new DataGridView();
-            gbInformacion.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            lbListaUsuario = new Label();
+            btnSeleccionar = new DataGridViewButtonColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            idClienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            estadoDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            fechaCreacionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             SuspendLayout();
             // 
-            // lblTituloClientes
+            // lbApellido
             // 
-            lblTituloClientes.AutoSize = true;
-            lblTituloClientes.Font = new Font("Segoe UI", 22F, FontStyle.Bold | FontStyle.Underline);
-            lblTituloClientes.Location = new Point(15, 15);
-            lblTituloClientes.Name = "lblTituloClientes";
-            lblTituloClientes.Size = new Size(288, 41);
-            lblTituloClientes.TabIndex = 0;
-            lblTituloClientes.Text = "Gestion de Clientes\r\n";
-            lblTituloClientes.Click += label1_Click;
+            lbApellido.AutoSize = true;
+            lbApellido.BackColor = Color.White;
+            lbApellido.Location = new Point(27, 119);
+            lbApellido.Name = "lbApellido";
+            lbApellido.Size = new Size(54, 15);
+            lbApellido.TabIndex = 45;
+            lbApellido.Text = "Apellido:";
             // 
-            // textBox1
+            // txtApellido
             // 
-            textBox1.Location = new Point(22, 90);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Buscar por Nombre, Apellido o DNI";
-            textBox1.Size = new Size(281, 23);
-            textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtApellido.BorderStyle = BorderStyle.FixedSingle;
+            txtApellido.Location = new Point(23, 137);
+            txtApellido.Name = "txtApellido";
+            txtApellido.Size = new Size(182, 23);
+            txtApellido.TabIndex = 44;
             // 
-            // lblBuscador
+            // dgvCliente
             // 
-            lblBuscador.AutoSize = true;
-            lblBuscador.Font = new Font("Malgun Gothic Semilight", 9F, FontStyle.Bold);
-            lblBuscador.Location = new Point(22, 71);
-            lblBuscador.Name = "lblBuscador";
-            lblBuscador.Size = new Size(131, 15);
-            lblBuscador.TabIndex = 2;
-            lblBuscador.Text = "Buscar cliente por...";
+            dgvCliente.AllowUserToAddRows = false;
+            dgvCliente.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvCliente.AutoGenerateColumns = false;
+            dgvCliente.BackgroundColor = Color.White;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvCliente.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, Nombre, Apellido, Documento, Estado, Correo, Telefono, idClienteDataGridViewTextBoxColumn, estadoDataGridViewCheckBoxColumn, fechaCreacionDataGridViewTextBoxColumn });
+            dgvCliente.DataSource = clienteBindingSource;
+            dgvCliente.Location = new Point(247, 127);
+            dgvCliente.MultiSelect = false;
+            dgvCliente.Name = "dgvCliente";
+            dgvCliente.ReadOnly = true;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dgvCliente.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dgvCliente.RowTemplate.Height = 28;
+            dgvCliente.Size = new Size(773, 424);
+            dgvCliente.TabIndex = 43;
+            // 
+            // clienteBindingSource
+            // 
+            clienteBindingSource.DataSource = typeof(Models.Cliente);
+            // 
+            // btnLimpiar
+            // 
+            btnLimpiar.BackColor = Color.DarkGray;
+            btnLimpiar.Cursor = Cursors.Hand;
+            btnLimpiar.FlatAppearance.BorderColor = Color.Black;
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.IconChar = FontAwesome.Sharp.IconChar.Broom;
+            btnLimpiar.IconColor = Color.Black;
+            btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLimpiar.IconSize = 16;
+            btnLimpiar.Location = new Point(945, 49);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(39, 25);
+            btnLimpiar.TabIndex = 41;
+            btnLimpiar.UseVisualStyleBackColor = false;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(309, 90);
+            btnBuscar.AutoSize = true;
+            btnBuscar.BackColor = Color.DarkGray;
+            btnBuscar.Cursor = Cursors.Hand;
+            btnBuscar.FlatAppearance.BorderColor = Color.Black;
+            btnBuscar.FlatStyle = FlatStyle.Flat;
+            btnBuscar.IconChar = FontAwesome.Sharp.IconChar.Search;
+            btnBuscar.IconColor = Color.Black;
+            btnBuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnBuscar.IconSize = 16;
+            btnBuscar.Location = new Point(887, 49);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(75, 23);
-            btnBuscar.TabIndex = 3;
-            btnBuscar.Text = "Buscar";
-            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Size = new Size(41, 24);
+            btnBuscar.TabIndex = 40;
+            btnBuscar.UseVisualStyleBackColor = false;
             // 
-            // gbInformacion
+            // cbBusqueda
             // 
-            gbInformacion.BackColor = SystemColors.ButtonFace;
-            gbInformacion.Controls.Add(textBox5);
-            gbInformacion.Controls.Add(textBox4);
-            gbInformacion.Controls.Add(textBox3);
-            gbInformacion.Controls.Add(textBox2);
-            gbInformacion.Controls.Add(label4);
-            gbInformacion.Controls.Add(label3);
-            gbInformacion.Controls.Add(label2);
-            gbInformacion.Controls.Add(label1);
-            gbInformacion.Location = new Point(22, 131);
-            gbInformacion.Name = "gbInformacion";
-            gbInformacion.Size = new Size(767, 252);
-            gbInformacion.TabIndex = 4;
-            gbInformacion.TabStop = false;
-            gbInformacion.Text = "Información del Cliente";
+            cbBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbBusqueda.FormattingEnabled = true;
+            cbBusqueda.Location = new Point(546, 47);
+            cbBusqueda.Name = "cbBusqueda";
+            cbBusqueda.Size = new Size(139, 23);
+            cbBusqueda.TabIndex = 35;
             // 
-            // textBox5
+            // txtBusqueda
             // 
-            textBox5.Location = new Point(6, 38);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(407, 23);
-            textBox5.TabIndex = 1;
-            textBox5.TextChanged += textBox5_TextChanged;
+            txtBusqueda.BorderStyle = BorderStyle.FixedSingle;
+            txtBusqueda.Location = new Point(700, 48);
+            txtBusqueda.Name = "txtBusqueda";
+            txtBusqueda.Size = new Size(141, 23);
+            txtBusqueda.TabIndex = 29;
             // 
-            // textBox4
+            // lbBusqueda
             // 
-            textBox4.Location = new Point(6, 83);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(407, 23);
-            textBox4.TabIndex = 1;
-            textBox4.TextChanged += textBox4_TextChanged;
+            lbBusqueda.AutoSize = true;
+            lbBusqueda.BackColor = Color.DimGray;
+            lbBusqueda.Font = new Font("Segoe UI", 10F);
+            lbBusqueda.Location = new Point(458, 49);
+            lbBusqueda.Name = "lbBusqueda";
+            lbBusqueda.Size = new Size(77, 19);
+            lbBusqueda.TabIndex = 27;
+            lbBusqueda.Text = "Buscar por:";
             // 
-            // textBox3
+            // btnBaja
             // 
-            textBox3.Location = new Point(6, 128);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(407, 23);
-            textBox3.TabIndex = 1;
+            btnBaja.BackColor = Color.Firebrick;
+            btnBaja.Cursor = Cursors.Hand;
+            btnBaja.FlatAppearance.BorderColor = Color.Black;
+            btnBaja.FlatStyle = FlatStyle.Flat;
+            btnBaja.ForeColor = Color.White;
+            btnBaja.Location = new Point(23, 466);
+            btnBaja.Name = "btnBaja";
+            btnBaja.Size = new Size(182, 26);
+            btnBaja.TabIndex = 38;
+            btnBaja.Text = "Dar de Baja";
+            btnBaja.UseVisualStyleBackColor = false;
+            btnBaja.Click += btnBaja_Click;
             // 
-            // textBox2
+            // btnGuardar
             // 
-            textBox2.Location = new Point(6, 173);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(407, 23);
-            textBox2.TabIndex = 1;
+            btnGuardar.BackColor = Color.ForestGreen;
+            btnGuardar.Cursor = Cursors.Hand;
+            btnGuardar.FlatAppearance.BorderColor = Color.Black;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.Location = new Point(23, 408);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(182, 23);
+            btnGuardar.TabIndex = 37;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
-            // label4
+            // btnEditar
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Mongolian Baiti", 12F, FontStyle.Bold);
-            label4.Location = new Point(6, 154);
-            label4.Name = "label4";
-            label4.Size = new Size(44, 16);
-            label4.TabIndex = 0;
-            label4.Text = "DNI:";
+            btnEditar.BackColor = Color.RoyalBlue;
+            btnEditar.Cursor = Cursors.Hand;
+            btnEditar.FlatAppearance.BorderColor = Color.Black;
+            btnEditar.FlatStyle = FlatStyle.Flat;
+            btnEditar.ForeColor = Color.White;
+            btnEditar.Location = new Point(23, 437);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(182, 23);
+            btnEditar.TabIndex = 39;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
-            // label3
+            // cbEstado
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Mongolian Baiti", 12F, FontStyle.Bold);
-            label3.Location = new Point(6, 109);
-            label3.Name = "label3";
-            label3.Size = new Size(54, 16);
-            label3.TabIndex = 0;
-            label3.Text = "Email:";
+            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEstado.FormattingEnabled = true;
+            cbEstado.Location = new Point(23, 355);
+            cbEstado.Name = "cbEstado";
+            cbEstado.Size = new Size(180, 23);
+            cbEstado.TabIndex = 36;
+            cbEstado.Visible = false;
             // 
-            // label2
+            // txtCorreo
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Mongolian Baiti", 12F, FontStyle.Bold);
-            label2.Location = new Point(6, 64);
-            label2.Name = "label2";
-            label2.Size = new Size(75, 16);
-            label2.TabIndex = 0;
-            label2.Text = "Apellido:";
+            txtCorreo.BorderStyle = BorderStyle.FixedSingle;
+            txtCorreo.Location = new Point(23, 247);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(182, 23);
+            txtCorreo.TabIndex = 33;
+            // 
+            // txtTelefono
+            // 
+            txtTelefono.BorderStyle = BorderStyle.FixedSingle;
+            txtTelefono.Location = new Point(23, 302);
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.Size = new Size(182, 23);
+            txtTelefono.TabIndex = 32;
+            // 
+            // txtNroDocumento
+            // 
+            txtNroDocumento.BorderStyle = BorderStyle.FixedSingle;
+            txtNroDocumento.Location = new Point(23, 191);
+            txtNroDocumento.Name = "txtNroDocumento";
+            txtNroDocumento.Size = new Size(182, 23);
+            txtNroDocumento.TabIndex = 31;
+            // 
+            // txtNombre
+            // 
+            txtNombre.BorderStyle = BorderStyle.FixedSingle;
+            txtNombre.Location = new Point(23, 83);
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(182, 23);
+            txtNombre.TabIndex = 30;
+            // 
+            // lbEstado
+            // 
+            lbEstado.AutoSize = true;
+            lbEstado.BackColor = Color.White;
+            lbEstado.Location = new Point(23, 337);
+            lbEstado.Name = "lbEstado";
+            lbEstado.Size = new Size(45, 15);
+            lbEstado.TabIndex = 26;
+            lbEstado.Text = "Estado:";
+            lbEstado.Visible = false;
+            // 
+            // lbCorreo
+            // 
+            lbCorreo.AutoSize = true;
+            lbCorreo.BackColor = Color.White;
+            lbCorreo.Location = new Point(21, 229);
+            lbCorreo.Name = "lbCorreo";
+            lbCorreo.Size = new Size(46, 15);
+            lbCorreo.TabIndex = 23;
+            lbCorreo.Text = "Correo:";
+            // 
+            // lbTelefono
+            // 
+            lbTelefono.AutoSize = true;
+            lbTelefono.BackColor = Color.White;
+            lbTelefono.Location = new Point(23, 284);
+            lbTelefono.Name = "lbTelefono";
+            lbTelefono.Size = new Size(55, 15);
+            lbTelefono.TabIndex = 28;
+            lbTelefono.Text = "Telefono:";
+            // 
+            // lbTitulo
+            // 
+            lbTitulo.AutoSize = true;
+            lbTitulo.BackColor = Color.White;
+            lbTitulo.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lbTitulo.Location = new Point(23, 18);
+            lbTitulo.Name = "lbTitulo";
+            lbTitulo.Size = new Size(153, 25);
+            lbTitulo.TabIndex = 20;
+            lbTitulo.Text = "Detalle Cliente";
+            // 
+            // lbNombre
+            // 
+            lbNombre.AutoSize = true;
+            lbNombre.BackColor = Color.White;
+            lbNombre.Location = new Point(27, 65);
+            lbNombre.Name = "lbNombre";
+            lbNombre.Size = new Size(54, 15);
+            lbNombre.TabIndex = 22;
+            lbNombre.Text = "Nombre:";
+            // 
+            // lbDocumentoUsu
+            // 
+            lbDocumentoUsu.AutoSize = true;
+            lbDocumentoUsu.BackColor = Color.White;
+            lbDocumentoUsu.Location = new Point(23, 173);
+            lbDocumentoUsu.Name = "lbDocumentoUsu";
+            lbDocumentoUsu.Size = new Size(96, 15);
+            lbDocumentoUsu.TabIndex = 21;
+            lbDocumentoUsu.Text = "Nro Documento:";
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Mongolian Baiti", 12F, FontStyle.Bold);
-            label1.Location = new Point(6, 19);
+            label1.BackColor = Color.White;
+            label1.BorderStyle = BorderStyle.FixedSingle;
+            label1.Dock = DockStyle.Left;
+            label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(70, 16);
-            label1.TabIndex = 0;
-            label1.Text = "Nombre:";
+            label1.Size = new Size(233, 622);
+            label1.TabIndex = 19;
             // 
-            // dataGridView1
+            // lbListaUsuario
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(22, 389);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(767, 211);
-            dataGridView1.TabIndex = 5;
+            lbListaUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbListaUsuario.BackColor = Color.DimGray;
+            lbListaUsuario.Font = new Font("Segoe UI", 15F);
+            lbListaUsuario.Location = new Point(247, 16);
+            lbListaUsuario.Name = "lbListaUsuario";
+            lbListaUsuario.Size = new Size(773, 76);
+            lbListaUsuario.TabIndex = 42;
+            lbListaUsuario.Text = "Lista de Clientes";
+            lbListaUsuario.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnSeleccionar
+            // 
+            btnSeleccionar.DataPropertyName = "idCliente";
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Visible = false;
+            btnSeleccionar.Width = 30;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 180;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.DataPropertyName = "Documento";
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Visible = false;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            // 
+            // idClienteDataGridViewTextBoxColumn
+            // 
+            idClienteDataGridViewTextBoxColumn.DataPropertyName = "IdCliente";
+            idClienteDataGridViewTextBoxColumn.HeaderText = "IdCliente";
+            idClienteDataGridViewTextBoxColumn.Name = "idClienteDataGridViewTextBoxColumn";
+            idClienteDataGridViewTextBoxColumn.ReadOnly = true;
+            idClienteDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // estadoDataGridViewCheckBoxColumn
+            // 
+            estadoDataGridViewCheckBoxColumn.DataPropertyName = "Estado";
+            estadoDataGridViewCheckBoxColumn.HeaderText = "Estado";
+            estadoDataGridViewCheckBoxColumn.Name = "estadoDataGridViewCheckBoxColumn";
+            estadoDataGridViewCheckBoxColumn.ReadOnly = true;
+            estadoDataGridViewCheckBoxColumn.Visible = false;
+            // 
+            // fechaCreacionDataGridViewTextBoxColumn
+            // 
+            fechaCreacionDataGridViewTextBoxColumn.DataPropertyName = "FechaCreacion";
+            fechaCreacionDataGridViewTextBoxColumn.HeaderText = "FechaCreacion";
+            fechaCreacionDataGridViewTextBoxColumn.Name = "fechaCreacionDataGridViewTextBoxColumn";
+            fechaCreacionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // ClienteControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(dataGridView1);
-            Controls.Add(gbInformacion);
+            Controls.Add(lbApellido);
+            Controls.Add(txtApellido);
+            Controls.Add(dgvCliente);
+            Controls.Add(btnLimpiar);
             Controls.Add(btnBuscar);
-            Controls.Add(lblBuscador);
-            Controls.Add(textBox1);
-            Controls.Add(lblTituloClientes);
+            Controls.Add(cbBusqueda);
+            Controls.Add(txtBusqueda);
+            Controls.Add(lbBusqueda);
+            Controls.Add(btnBaja);
+            Controls.Add(btnGuardar);
+            Controls.Add(btnEditar);
+            Controls.Add(cbEstado);
+            Controls.Add(txtCorreo);
+            Controls.Add(txtTelefono);
+            Controls.Add(txtNroDocumento);
+            Controls.Add(txtNombre);
+            Controls.Add(lbEstado);
+            Controls.Add(lbCorreo);
+            Controls.Add(lbTelefono);
+            Controls.Add(lbTitulo);
+            Controls.Add(lbNombre);
+            Controls.Add(lbDocumentoUsu);
+            Controls.Add(label1);
+            Controls.Add(lbListaUsuario);
             Name = "ClienteControl";
-            Size = new Size(833, 622);
-            gbInformacion.ResumeLayout(false);
-            gbInformacion.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Size = new Size(1045, 622);
+            ((System.ComponentModel.ISupportInitialize)dgvCliente).EndInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
@@ -207,19 +473,40 @@
 
         #endregion
 
-        private Label lblTituloClientes;
-        private TextBox textBox1;
-        private Label lblBuscador;
-        private Button btnBuscar;
-        private GroupBox gbInformacion;
-        private Label label4;
-        private Label label3;
-        private Label label2;
+        private Label lbApellido;
+        private TextBox txtApellido;
+        private DataGridView dgvCliente;
+        private FontAwesome.Sharp.IconButton btnLimpiar;
+        private FontAwesome.Sharp.IconButton btnBuscar;
+        private ComboBox cbBusqueda;
+        private TextBox txtBusqueda;
+        private Label lbBusqueda;
+        private Button btnBaja;
+        private Button btnGuardar;
+        private Button btnEditar;
+        private ComboBox cbEstado;
+        private TextBox txtCorreo;
+        private TextBox txtTelefono;
+        private TextBox txtNroDocumento;
+        private TextBox txtNombre;
+        private Label lbEstado;
+        private Label lbCorreo;
+        private Label lbTelefono;
+        private Label lbTitulo;
+        private Label lbNombre;
+        private Label lbDocumentoUsu;
         private Label label1;
-        private TextBox textBox5;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private DataGridView dataGridView1;
+        private Label lbListaUsuario;
+        private BindingSource clienteBindingSource;
+        private DataGridViewButtonColumn btnSeleccionar;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Documento;
+        private DataGridViewTextBoxColumn Estado;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn idClienteDataGridViewTextBoxColumn;
+        private DataGridViewCheckBoxColumn estadoDataGridViewCheckBoxColumn;
+        private DataGridViewTextBoxColumn fechaCreacionDataGridViewTextBoxColumn;
     }
 }
