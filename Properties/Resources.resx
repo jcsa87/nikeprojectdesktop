@@ -130,4 +130,7 @@
   <data name="iconoeliminar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\iconoeliminar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ChatGPT Image 29 sept 2025, 15_06_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChatGPT Image 29 sept 2025, 15_06_06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -63,6 +63,16 @@ namespace nikeproject.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ChatGPT_Image_29_sept_2025__15_06_06 {
+            get {
+                object obj = ResourceManager.GetObject("ChatGPT Image 29 sept 2025, 15_06_06", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconoeliminar {
             get {
                 object obj = ResourceManager.GetObject("iconoeliminar", resourceCulture);
