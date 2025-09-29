@@ -32,10 +32,10 @@
             panel1 = new Panel();
             panel2 = new Panel();
             label8 = new Label();
-            label6 = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
+            lbProductos = new Label();
+            lbCliente = new Label();
+            lbVentas = new Label();
+            lbReporte = new Label();
             lbUsuario = new Label();
             pbSalir = new PictureBox();
             pbProductos = new PictureBox();
@@ -75,10 +75,10 @@
             // 
             panel2.BackColor = SystemColors.ControlLight;
             panel2.Controls.Add(label8);
-            panel2.Controls.Add(label6);
-            panel2.Controls.Add(label5);
-            panel2.Controls.Add(label4);
-            panel2.Controls.Add(label3);
+            panel2.Controls.Add(lbProductos);
+            panel2.Controls.Add(lbCliente);
+            panel2.Controls.Add(lbVentas);
+            panel2.Controls.Add(lbReporte);
             panel2.Controls.Add(lbUsuario);
             panel2.Controls.Add(pbSalir);
             panel2.Controls.Add(pbProductos);
@@ -90,6 +90,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(104, 588);
             panel2.TabIndex = 2;
+            panel2.Paint += panel2_Paint;
             // 
             // label8
             // 
@@ -103,53 +104,53 @@
             label8.TabIndex = 0;
             label8.Text = "Salir";
             // 
-            // label6
+            // lbProductos
             // 
-            label6.AutoSize = true;
-            label6.Cursor = Cursors.Hand;
-            label6.FlatStyle = FlatStyle.Popup;
-            label6.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label6.Location = new Point(13, 461);
-            label6.Name = "label6";
-            label6.Size = new Size(83, 21);
-            label6.TabIndex = 0;
-            label6.Text = "Productos";
+            lbProductos.AutoSize = true;
+            lbProductos.Cursor = Cursors.Hand;
+            lbProductos.FlatStyle = FlatStyle.Popup;
+            lbProductos.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
+            lbProductos.Location = new Point(13, 461);
+            lbProductos.Name = "lbProductos";
+            lbProductos.Size = new Size(83, 21);
+            lbProductos.TabIndex = 0;
+            lbProductos.Text = "Productos";
             // 
-            // label5
+            // lbCliente
             // 
-            label5.AutoSize = true;
-            label5.Cursor = Cursors.Hand;
-            label5.FlatStyle = FlatStyle.Popup;
-            label5.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label5.Location = new Point(20, 365);
-            label5.Name = "label5";
-            label5.Size = new Size(68, 21);
-            label5.TabIndex = 0;
-            label5.Text = "Clientes";
+            lbCliente.AutoSize = true;
+            lbCliente.Cursor = Cursors.Hand;
+            lbCliente.FlatStyle = FlatStyle.Popup;
+            lbCliente.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
+            lbCliente.Location = new Point(20, 365);
+            lbCliente.Name = "lbCliente";
+            lbCliente.Size = new Size(68, 21);
+            lbCliente.TabIndex = 0;
+            lbCliente.Text = "Clientes";
             // 
-            // label4
+            // lbVentas
             // 
-            label4.AutoSize = true;
-            label4.Cursor = Cursors.Hand;
-            label4.FlatStyle = FlatStyle.Popup;
-            label4.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label4.Location = new Point(24, 272);
-            label4.Name = "label4";
-            label4.Size = new Size(60, 21);
-            label4.TabIndex = 0;
-            label4.Text = "Ventas";
+            lbVentas.AutoSize = true;
+            lbVentas.Cursor = Cursors.Hand;
+            lbVentas.FlatStyle = FlatStyle.Popup;
+            lbVentas.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
+            lbVentas.Location = new Point(24, 272);
+            lbVentas.Name = "lbVentas";
+            lbVentas.Size = new Size(60, 21);
+            lbVentas.TabIndex = 0;
+            lbVentas.Text = "Ventas";
             // 
-            // label3
+            // lbReporte
             // 
-            label3.AutoSize = true;
-            label3.Cursor = Cursors.Hand;
-            label3.FlatStyle = FlatStyle.Popup;
-            label3.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label3.Location = new Point(20, 177);
-            label3.Name = "label3";
-            label3.Size = new Size(76, 21);
-            label3.TabIndex = 0;
-            label3.Text = "Reportes";
+            lbReporte.AutoSize = true;
+            lbReporte.Cursor = Cursors.Hand;
+            lbReporte.FlatStyle = FlatStyle.Popup;
+            lbReporte.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
+            lbReporte.Location = new Point(20, 177);
+            lbReporte.Name = "lbReporte";
+            lbReporte.Size = new Size(76, 21);
+            lbReporte.TabIndex = 0;
+            lbReporte.Text = "Reportes";
             // 
             // lbUsuario
             // 
@@ -162,6 +163,7 @@
             lbUsuario.Size = new Size(73, 21);
             lbUsuario.TabIndex = 0;
             lbUsuario.Text = "Usuarios";
+            lbUsuario.Click += lbUsuario_Click;
             // 
             // pbSalir
             // 
@@ -318,10 +320,10 @@
         private PictureBox pbUsuario;
         private Label lbUsuario;
         private Label label8;
-        private Label label6;
-        private Label label5;
-        private Label label4;
-        private Label label3;
+        private Label lbProductos;
+        private Label lbCliente;
+        private Label lbVentas;
+        private Label lbReporte;
         private PictureBox pbSalir;
         private PictureBox pbProductos;
         private PictureBox pbClientes;

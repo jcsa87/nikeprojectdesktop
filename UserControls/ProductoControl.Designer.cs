@@ -89,7 +89,7 @@
             lblTituloDetalle.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Bold | FontStyle.Italic | FontStyle.Underline, GraphicsUnit.Point, 0);
             lblTituloDetalle.Location = new Point(20, 10);
             lblTituloDetalle.Name = "lblTituloDetalle";
-            lblTituloDetalle.Size = new Size(183, 25);
+            lblTituloDetalle.Size = new Size(171, 25);
             lblTituloDetalle.TabIndex = 9;
             lblTituloDetalle.Text = "Detalle Producto";
             // 
@@ -191,7 +191,7 @@
             lblPrecioCompra.BackColor = Color.White;
             lblPrecioCompra.Location = new Point(20, 326);
             lblPrecioCompra.Name = "lblPrecioCompra";
-            lblPrecioCompra.Size = new Size(88, 15);
+            lblPrecioCompra.Size = new Size(89, 15);
             lblPrecioCompra.TabIndex = 9;
             lblPrecioCompra.Text = "Precio Compra:";
             // 
@@ -209,7 +209,7 @@
             lblPrecioVenta.BackColor = Color.White;
             lblPrecioVenta.Location = new Point(20, 378);
             lblPrecioVenta.Name = "lblPrecioVenta";
-            lblPrecioVenta.Size = new Size(74, 15);
+            lblPrecioVenta.Size = new Size(75, 15);
             lblPrecioVenta.TabIndex = 9;
             lblPrecioVenta.Text = "Precio Venta:";
             // 
@@ -289,7 +289,7 @@
             lblListaProductos.Font = new Font("Segoe UI", 15F);
             lblListaProductos.Location = new Point(257, 0);
             lblListaProductos.Name = "lblListaProductos";
-            lblListaProductos.Size = new Size(616, 86);
+            lblListaProductos.Size = new Size(822, 86);
             lblListaProductos.TabIndex = 15;
             lblListaProductos.Text = "Lista de Productos:";
             lblListaProductos.TextAlign = ContentAlignment.MiddleLeft;

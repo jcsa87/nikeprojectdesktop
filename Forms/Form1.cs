@@ -52,6 +52,13 @@ namespace nikeproject
             {
                 pbUsuario.Enabled = false;   // No puede gestionar usuarios
                 pbProductos.Enabled = false; // No puede gestionar productos
+
+                pbUsuario.Visible = false;   // No puede gestionar usuarios
+                pbProductos.Visible = false; // No puede gestionar productos
+                lbUsuario.Visible = false;
+                lbProductos.Visible = false;
+
+
                 lRol.Text = "Supervisor";
             }
             else if (rol == "Vendedor")
@@ -59,7 +66,44 @@ namespace nikeproject
                 pbUsuario.Enabled = false;
                 pbReportes.Enabled = false;
                 pbProductos.Enabled = false;
+
+                pbUsuario.Visible = false;
+                pbReportes.Visible = false;
+                pbProductos.Visible = false;
+                lbUsuario.Visible = false;
+                lbReporte.Visible = false;
+                lbProductos.Visible = false;
+
                 lRol.Text = "Vendedor";
+
+            }
+
+            ReordenarMenu();
+        }
+
+        private void ReordenarMenu()
+        {
+            int y = 20; // posición inicial en Y
+            int separacion = 100; // espacio entre iconos
+
+            // Lista de pares PictureBox + Label en el orden que querés
+            var items = new (PictureBox, Label)[]
+            {
+        (pbUsuario, lbUsuario),
+        (pbReportes, lbReporte),
+        (pbVentas, lbVentas),
+        (pbClientes, lbCliente),
+        (pbProductos, lbProductos)
+            };
+
+            foreach (var (pb, lb) in items)
+            {
+                if (pb.Visible)
+                {
+                    pb.Location = new Point(pb.Location.X, y);
+                    lb.Location = new Point(lb.Location.X, y + pb.Height + 2); // label debajo del icono
+                    y += separacion; // avanzar para el próximo
+                }
             }
         }
 
@@ -118,6 +162,16 @@ namespace nikeproject
                 loginForm.Show();
                 this.Hide();
             }
+        }
+
+        private void lbUsuario_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         // Método para probar la conexión a la base de datos
