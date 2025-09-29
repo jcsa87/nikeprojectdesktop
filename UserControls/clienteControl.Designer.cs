@@ -107,7 +107,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvCliente.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { IdCliente, Nombre, Apellido, Documento, Correo, Telefono, Estado });
+            //dgvCliente.Columns.AddRange(new DataGridViewColumn[] { IdCliente, Nombre, Apellido, Documento, Correo, Telefono, Estado });
             dgvCliente.Location = new Point(247, 127);
             dgvCliente.MultiSelect = false;
             dgvCliente.Name = "dgvCliente";

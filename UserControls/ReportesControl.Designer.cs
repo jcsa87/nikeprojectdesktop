@@ -20,6 +20,7 @@
             // 
             // pbReportes
             // 
+            pbReportes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pbReportes.Image = Properties.Resources.ChatGPT_Image_29_sept_2025__15_06_06;
             pbReportes.InitialImage = (Image)resources.GetObject("pbReportes.InitialImage");
             pbReportes.Location = new Point(0, 0);
