@@ -7,8 +7,11 @@ namespace nikeproject.Auth
 {
     public static class ClienteValidacion
     {
-        public static bool NombreCompletoValido(string nombre)
-            => !string.IsNullOrWhiteSpace(nombre) && nombre.Length <= 100;
+        public static bool NombreValido(string nombre)
+            => !string.IsNullOrWhiteSpace(nombre) && Regex.IsMatch(nombre, @"^[a-zA-Z\s]+$") && nombre.Length <= 100;
+
+        public static bool ApellidoValido(string apellido)
+            => !string.IsNullOrWhiteSpace(apellido) && Regex.IsMatch(apellido, @"^[a-zA-Z\s]+$") && apellido.Length <= 100;
 
         public static bool DocumentoValido(string documento)
             => !string.IsNullOrWhiteSpace(documento) && documento.Length <= 20;
