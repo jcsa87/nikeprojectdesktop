@@ -66,6 +66,13 @@
             lbListaUsuario = new Label();
             clienteBindingSource2 = new BindingSource(components);
             clienteBindingSource1 = new BindingSource(components);
+            btnSeleccionar = new DataGridViewButtonColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
@@ -106,7 +113,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvCliente.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, Nombre, Apellido, Documento, Estado, Correo, Telefono });
+            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { IdCliente, Nombre, Apellido, Documento, Correo, Telefono, Estado });
             dgvCliente.Location = new Point(247, 127);
             dgvCliente.MultiSelect = false;
             dgvCliente.Name = "dgvCliente";
@@ -117,60 +124,7 @@
             dgvCliente.RowTemplate.Height = 28;
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
-            // 
-            // btnSeleccionar
-            // 
-            btnSeleccionar.DataPropertyName = "idCliente";
-            btnSeleccionar.HeaderText = "";
-            btnSeleccionar.Name = "btnSeleccionar";
-            btnSeleccionar.ReadOnly = true;
-            btnSeleccionar.Visible = false;
-            btnSeleccionar.Width = 30;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 180;
-            // 
-            // Apellido
-            // 
-            Apellido.DataPropertyName = "Apellido";
-            Apellido.HeaderText = "Apellido";
-            Apellido.Name = "Apellido";
-            Apellido.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.DataPropertyName = "Documento";
-            Documento.HeaderText = "Nro Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            Documento.Width = 150;
-            // 
-            // Estado
-            // 
-            Estado.DataPropertyName = "Estado";
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            Estado.Visible = false;
-            // 
-            // Correo
-            // 
-            Correo.DataPropertyName = "Correo";
-            Correo.HeaderText = "Correo";
-            Correo.Name = "Correo";
-            Correo.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            Telefono.DataPropertyName = "Telefono";
-            Telefono.HeaderText = "Telefono";
-            Telefono.Name = "Telefono";
-            Telefono.ReadOnly = true;
+            dgvCliente.CellClick += dgvCliente_CellClick;
             // 
             // clienteBindingSource3
             // 
@@ -422,6 +376,60 @@
             // 
             clienteBindingSource1.DataSource = typeof(Models.Cliente);
             // 
+            // btnSeleccionar
+            // 
+            btnSeleccionar.DataPropertyName = "idCliente";
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Visible = false;
+            btnSeleccionar.Width = 30;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 180;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.DataPropertyName = "Documento";
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Visible = false;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            // 
             // ClienteControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -505,11 +513,12 @@
         private BindingSource clienteBindingSource2;
         private BindingSource clienteBindingSource3;
         private DataGridViewButtonColumn btnSeleccionar;
+        private DataGridViewTextBoxColumn IdCliente;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Apellido;
         private DataGridViewTextBoxColumn Documento;
-        private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn Correo;
         private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn Estado;
     }
 }

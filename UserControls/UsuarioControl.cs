@@ -41,7 +41,7 @@ namespace nikeproject
             cbBusqueda.Items.Add("Apellido");
             cbBusqueda.Items.Add("Documento");
             cbBusqueda.Items.Add("Rol");
-            cbBusqueda.Items.Add("Estado");
+            
             cbBusqueda.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
 
             dgvUsuario.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

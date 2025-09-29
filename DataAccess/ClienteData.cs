@@ -28,6 +28,22 @@ namespace nikeproject.DataAccess
             }
         }
 
+        public bool CambiarEstadoCliente(int idCliente, bool activo)
+        {
+            using (SqlConnection conn = Conexion.Conectar())
+            {
+                conn.Open();
+                string query = "UPDATE CLIENTE SET Estado = @estado WHERE IdCliente = @idCliente";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@estado", activo ? 1 : 0);
+                    cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+
         public bool EditarCliente(Cliente oCliente)
         {
             bool resultado = false;
@@ -194,34 +210,6 @@ namespace nikeproject.DataAccess
             return lista;
         }
 
-        public bool CambiarEstadoCliente(int idCliente, bool estado)
-        {
-            bool resultado = false;
-
-            try
-            {
-                using (SqlConnection oConexion = Conexion.Conectar())
-                {
-                    oConexion.Open();
-                    string query = "UPDATE CLIENTE SET Estado = @estado WHERE IdCliente = @idcliente";
-                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
-                    {
-                        cmd.Parameters.AddWithValue("@estado", estado);
-                        cmd.Parameters.AddWithValue("@idcliente", idCliente);
-                        cmd.CommandType = CommandType.Text;
-
-                        int filasAfectadas = cmd.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                            resultado = true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                resultado = false;
-            }
-            return resultado;
-        }
 
         public Cliente? ObtenerClientePorId(int idCliente)
         {
