@@ -208,6 +208,24 @@ namespace nikeproject
         {
             if (idClienteSeleccionado > 0)
             {
+                // Validar nombre
+                if (!ClienteValidacion.NombreValido(txtNombre.Text))
+                {
+                    MessageBox.Show("⚠️ El nombre solo puede contener letras y espacios, y no puede estar vacío.",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return;
+                }
+
+                // Validar apellido
+                if (!ClienteValidacion.ApellidoValido(txtApellido.Text))
+                {
+                    MessageBox.Show("⚠️ El apellido solo puede contener letras y espacios, y no puede estar vacío.",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtApellido.Focus();
+                    return;
+                }
+
                 // Validar correo
                 if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
                 {
@@ -255,6 +273,7 @@ namespace nikeproject
                 MessageBox.Show("⚠️ Seleccione un cliente para editar.");
             }
         }
+
 
 
 
