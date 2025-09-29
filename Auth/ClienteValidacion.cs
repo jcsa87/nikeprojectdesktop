@@ -18,7 +18,7 @@ namespace nikeproject.Auth
 
         public static bool CorreoValido(string correo)
             => string.IsNullOrWhiteSpace(correo) ||
-               (correo.Length <= 100 && Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"));
+               (correo.Length <= 100 && Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+.[^@\s]+$"));
 
         public static bool TelefonoValido(string telefono)
             => string.IsNullOrWhiteSpace(telefono) || telefono.Length <= 20;
@@ -27,4 +27,3 @@ namespace nikeproject.Auth
             => estado == true || estado == false;
     }
 }
- 

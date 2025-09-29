@@ -193,5 +193,67 @@ namespace nikeproject.DataAccess
             }
             return lista;
         }
+
+        public bool CambiarEstadoCliente(int idCliente, bool estado)
+        {
+            bool resultado = false;
+
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    string query = "UPDATE CLIENTE SET Estado = @estado WHERE IdCliente = @idcliente";
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@estado", estado);
+                        cmd.Parameters.AddWithValue("@idcliente", idCliente);
+                        cmd.CommandType = CommandType.Text;
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                            resultado = true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
+        public Cliente? ObtenerClientePorId(int idCliente)
+        {
+            Cliente? oCliente = null;
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                oConexion.Open();
+                string query = "SELECT * FROM CLIENTE WHERE IdCliente = @idcliente";
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    cmd.Parameters.AddWithValue("@idcliente", idCliente);
+                    cmd.CommandType = CommandType.Text;
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            oCliente = new Cliente()
+                            {
+                                IdCliente = Convert.ToInt32(dr["IdCliente"]),
+                                Nombre = dr["Nombre"].ToString()!,
+                                Apellido = dr["Apellido"].ToString()!,
+                                Documento = dr["Documento"].ToString()!,
+                                Correo = dr["Correo"].ToString()!,
+                                Telefono = dr["Telefono"].ToString()!,
+                                Estado = Convert.ToBoolean(dr["Estado"]),
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
+                            };
+                        }
+                    }
+                }
+            }
+            return oCliente;
+        }
     }
 }
