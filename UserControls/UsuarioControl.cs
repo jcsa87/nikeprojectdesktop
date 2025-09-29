@@ -199,6 +199,49 @@ namespace nikeproject
         {
             if (idUsuarioSeleccionado > 0)
             {
+                if (!UsuarioValidacion.NombreValido(txtNombre.Text))
+                {
+                    MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.Apellido(txtApellido.Text))
+                {
+                    MessageBox.Show("El apellido solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtApellido.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.UsuarioValido(txtNroDocumento.Text) || !txtNroDocumento.Text.All(char.IsDigit))
+                {
+                    MessageBox.Show("El documento debe ser numérico y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                {
+                    MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtClave.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                {
+                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtConfirmarClave.Focus();
+                    return;
+                }
+
+                if (!UsuarioValidacion.RolValido(cbRol.SelectedItem?.ToString() ?? ""))
+                {
+                    MessageBox.Show("Seleccione un rol válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cbRol.Focus();
+                    return;
+                }
+
+
                 Usuario oUsuario = new Usuario()
                 {
                     IdUsuario = idUsuarioSeleccionado,

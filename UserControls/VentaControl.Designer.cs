@@ -20,12 +20,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new();
             this.pnlDetalle = new System.Windows.Forms.Label();
-            this.lbIdUsuario = new System.Windows.Forms.Label();
-            this.lbIdCliente = new System.Windows.Forms.Label();
             this.lbDocumento = new System.Windows.Forms.Label();
             this.lbMontoTotal = new System.Windows.Forms.Label();
-            this.txtIdUsuario = new System.Windows.Forms.TextBox();
-            this.txtIdCliente = new System.Windows.Forms.TextBox();
             this.txtNumeroDocumento = new System.Windows.Forms.TextBox();
             this.txtMontoTotal = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -36,8 +32,6 @@
             this.dgvVentas = new System.Windows.Forms.DataGridView();
             this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.idVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumeroDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FechaRegistro = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MontoTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,31 +48,11 @@
             this.pnlDetalle.Size = new System.Drawing.Size(258, 556);
             this.pnlDetalle.TabIndex = 0;
             // 
-            // lbIdUsuario
-            // 
-            this.lbIdUsuario.AutoSize = true;
-            this.lbIdUsuario.BackColor = System.Drawing.Color.White;
-            this.lbIdUsuario.Location = new System.Drawing.Point(20, 60);
-            this.lbIdUsuario.Name = "lbIdUsuario";
-            this.lbIdUsuario.Size = new System.Drawing.Size(61, 15);
-            this.lbIdUsuario.TabIndex = 1;
-            this.lbIdUsuario.Text = "Id Usuario:";
-            // 
-            // lbIdCliente
-            // 
-            this.lbIdCliente.AutoSize = true;
-            this.lbIdCliente.BackColor = System.Drawing.Color.White;
-            this.lbIdCliente.Location = new System.Drawing.Point(20, 110);
-            this.lbIdCliente.Name = "lbIdCliente";
-            this.lbIdCliente.Size = new System.Drawing.Size(59, 15);
-            this.lbIdCliente.TabIndex = 2;
-            this.lbIdCliente.Text = "Id Cliente:";
-            // 
             // lbDocumento
             // 
             this.lbDocumento.AutoSize = true;
             this.lbDocumento.BackColor = System.Drawing.Color.White;
-            this.lbDocumento.Location = new System.Drawing.Point(20, 160);
+            this.lbDocumento.Location = new System.Drawing.Point(20, 60);
             this.lbDocumento.Name = "lbDocumento";
             this.lbDocumento.Size = new System.Drawing.Size(96, 15);
             this.lbDocumento.TabIndex = 3;
@@ -88,32 +62,16 @@
             // 
             this.lbMontoTotal.AutoSize = true;
             this.lbMontoTotal.BackColor = System.Drawing.Color.White;
-            this.lbMontoTotal.Location = new System.Drawing.Point(20, 210);
+            this.lbMontoTotal.Location = new System.Drawing.Point(20, 110);
             this.lbMontoTotal.Name = "lbMontoTotal";
             this.lbMontoTotal.Size = new System.Drawing.Size(72, 15);
             this.lbMontoTotal.TabIndex = 4;
             this.lbMontoTotal.Text = "Monto Total:";
             // 
-            // txtIdUsuario
-            // 
-            this.txtIdUsuario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdUsuario.Location = new System.Drawing.Point(20, 78);
-            this.txtIdUsuario.Name = "txtIdUsuario";
-            this.txtIdUsuario.Size = new System.Drawing.Size(207, 23);
-            this.txtIdUsuario.TabIndex = 5;
-            // 
-            // txtIdCliente
-            // 
-            this.txtIdCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdCliente.Location = new System.Drawing.Point(20, 128);
-            this.txtIdCliente.Name = "txtIdCliente";
-            this.txtIdCliente.Size = new System.Drawing.Size(207, 23);
-            this.txtIdCliente.TabIndex = 6;
-            // 
             // txtNumeroDocumento
             // 
             this.txtNumeroDocumento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumeroDocumento.Location = new System.Drawing.Point(20, 178);
+            this.txtNumeroDocumento.Location = new System.Drawing.Point(20, 78);
             this.txtNumeroDocumento.Name = "txtNumeroDocumento";
             this.txtNumeroDocumento.Size = new System.Drawing.Size(207, 23);
             this.txtNumeroDocumento.TabIndex = 7;
@@ -121,7 +79,7 @@
             // txtMontoTotal
             // 
             this.txtMontoTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMontoTotal.Location = new System.Drawing.Point(20, 228);
+            this.txtMontoTotal.Location = new System.Drawing.Point(20, 128);
             this.txtMontoTotal.Name = "txtMontoTotal";
             this.txtMontoTotal.Size = new System.Drawing.Size(207, 23);
             this.txtMontoTotal.TabIndex = 8;
@@ -130,7 +88,7 @@
             // 
             this.btnGuardar.BackColor = System.Drawing.Color.ForestGreen;
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(20, 280);
+            this.btnGuardar.Location = new System.Drawing.Point(20, 180);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(207, 23);
             this.btnGuardar.TabIndex = 9;
@@ -141,7 +99,7 @@
             // 
             this.btnEditar.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(20, 310);
+            this.btnEditar.Location = new System.Drawing.Point(20, 210);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(207, 23);
             this.btnEditar.TabIndex = 10;
@@ -152,7 +110,7 @@
             // 
             this.btnEliminar.BackColor = System.Drawing.Color.Firebrick;
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(20, 340);
+            this.btnEliminar.Location = new System.Drawing.Point(20, 240);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(207, 23);
             this.btnEliminar.TabIndex = 11;
@@ -202,8 +160,6 @@
             this.dgvVentas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btnSeleccionar,
             this.idVenta,
-            this.idUsuario,
-            this.idCliente,
             this.NumeroDocumento,
             this.FechaRegistro,
             this.MontoTotal});
@@ -234,20 +190,6 @@
             this.idVenta.Name = "idVenta";
             this.idVenta.ReadOnly = true;
             this.idVenta.Visible = false;
-            // 
-            // idUsuario
-            // 
-            this.idUsuario.DataPropertyName = "IdUsuario";
-            this.idUsuario.HeaderText = "IdUsuario";
-            this.idUsuario.Name = "idUsuario";
-            this.idUsuario.ReadOnly = true;
-            // 
-            // idCliente
-            // 
-            this.idCliente.DataPropertyName = "IdCliente";
-            this.idCliente.HeaderText = "IdCliente";
-            this.idCliente.Name = "idCliente";
-            this.idCliente.ReadOnly = true;
             // 
             // NumeroDocumento
             // 
@@ -286,16 +228,12 @@
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtMontoTotal);
             this.Controls.Add(this.txtNumeroDocumento);
-            this.Controls.Add(this.txtIdCliente);
-            this.Controls.Add(this.txtIdUsuario);
             this.Controls.Add(this.lbMontoTotal);
             this.Controls.Add(this.lbDocumento);
-            this.Controls.Add(this.lbIdCliente);
-            this.Controls.Add(this.lbIdUsuario);
             this.Controls.Add(this.pnlDetalle);
             this.Name = "VentaControl";
             this.Size = new System.Drawing.Size(1058, 556);
-           // this.Load += new System.EventHandler(this.VentaControl_Load);
+            // this.Load += new System.EventHandler(this.VentaControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -305,12 +243,10 @@
         #endregion
 
         private System.Windows.Forms.Label pnlDetalle;
-        private System.Windows.Forms.Label lbIdUsuario;
-        private System.Windows.Forms.Label lbIdCliente;
+        // Se eliminaron: lbIdUsuario, lbIdCliente
         private System.Windows.Forms.Label lbDocumento;
         private System.Windows.Forms.Label lbMontoTotal;
-        private System.Windows.Forms.TextBox txtIdUsuario;
-        private System.Windows.Forms.TextBox txtIdCliente;
+        // Se eliminaron: txtIdUsuario, txtIdCliente
         private System.Windows.Forms.TextBox txtNumeroDocumento;
         private System.Windows.Forms.TextBox txtMontoTotal;
         private System.Windows.Forms.Button btnGuardar;
@@ -321,8 +257,7 @@
         private System.Windows.Forms.DataGridView dgvVentas;
         private System.Windows.Forms.DataGridViewButtonColumn btnSeleccionar;
         private System.Windows.Forms.DataGridViewTextBoxColumn idVenta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idUsuario;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idCliente;
+        // Se eliminaron: idUsuario, idCliente
         private System.Windows.Forms.DataGridViewTextBoxColumn NumeroDocumento;
         private System.Windows.Forms.DataGridViewTextBoxColumn FechaRegistro;
         private System.Windows.Forms.DataGridViewTextBoxColumn MontoTotal;
