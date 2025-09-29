@@ -34,6 +34,16 @@
             lbApellido = new Label();
             txtApellido = new TextBox();
             dgvCliente = new DataGridView();
+            btnSeleccionar = new DataGridViewButtonColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            idClienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            estadoDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            fechaCreacionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             clienteBindingSource = new BindingSource(components);
             btnLimpiar = new FontAwesome.Sharp.IconButton();
             btnBuscar = new FontAwesome.Sharp.IconButton();
@@ -56,16 +66,6 @@
             lbDocumentoUsu = new Label();
             label1 = new Label();
             lbListaUsuario = new Label();
-            btnSeleccionar = new DataGridViewButtonColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Apellido = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Correo = new DataGridViewTextBoxColumn();
-            Telefono = new DataGridViewTextBoxColumn();
-            idClienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            estadoDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
-            fechaCreacionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             SuspendLayout();
@@ -116,6 +116,84 @@
             dgvCliente.RowTemplate.Height = 28;
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
+            dgvCliente.CellFormatting += dgvCliente_CellFormatting;
+            // 
+            // btnSeleccionar
+            // 
+            btnSeleccionar.DataPropertyName = "idCliente";
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Visible = false;
+            btnSeleccionar.Width = 30;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 180;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.DataPropertyName = "Documento";
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Visible = false;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            // 
+            // idClienteDataGridViewTextBoxColumn
+            // 
+            idClienteDataGridViewTextBoxColumn.DataPropertyName = "IdCliente";
+            idClienteDataGridViewTextBoxColumn.HeaderText = "IdCliente";
+            idClienteDataGridViewTextBoxColumn.Name = "idClienteDataGridViewTextBoxColumn";
+            idClienteDataGridViewTextBoxColumn.ReadOnly = true;
+            idClienteDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // estadoDataGridViewCheckBoxColumn
+            // 
+            estadoDataGridViewCheckBoxColumn.DataPropertyName = "Estado";
+            estadoDataGridViewCheckBoxColumn.HeaderText = "Estado";
+            estadoDataGridViewCheckBoxColumn.Name = "estadoDataGridViewCheckBoxColumn";
+            estadoDataGridViewCheckBoxColumn.ReadOnly = true;
+            estadoDataGridViewCheckBoxColumn.Visible = false;
+            // 
+            // fechaCreacionDataGridViewTextBoxColumn
+            // 
+            fechaCreacionDataGridViewTextBoxColumn.DataPropertyName = "FechaCreacion";
+            fechaCreacionDataGridViewTextBoxColumn.HeaderText = "FechaCreacion";
+            fechaCreacionDataGridViewTextBoxColumn.Name = "fechaCreacionDataGridViewTextBoxColumn";
+            fechaCreacionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // clienteBindingSource
             // 
@@ -352,83 +430,6 @@
             lbListaUsuario.TabIndex = 42;
             lbListaUsuario.Text = "Lista de Clientes";
             lbListaUsuario.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnSeleccionar
-            // 
-            btnSeleccionar.DataPropertyName = "idCliente";
-            btnSeleccionar.HeaderText = "";
-            btnSeleccionar.Name = "btnSeleccionar";
-            btnSeleccionar.ReadOnly = true;
-            btnSeleccionar.Visible = false;
-            btnSeleccionar.Width = 30;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 180;
-            // 
-            // Apellido
-            // 
-            Apellido.DataPropertyName = "Apellido";
-            Apellido.HeaderText = "Apellido";
-            Apellido.Name = "Apellido";
-            Apellido.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.DataPropertyName = "Documento";
-            Documento.HeaderText = "Nro Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            Documento.Width = 150;
-            // 
-            // Estado
-            // 
-            Estado.DataPropertyName = "Estado";
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            Estado.Visible = false;
-            // 
-            // Correo
-            // 
-            Correo.DataPropertyName = "correo";
-            Correo.HeaderText = "Correo";
-            Correo.Name = "Correo";
-            Correo.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            Telefono.DataPropertyName = "telefono";
-            Telefono.HeaderText = "Telefono";
-            Telefono.Name = "Telefono";
-            Telefono.ReadOnly = true;
-            // 
-            // idClienteDataGridViewTextBoxColumn
-            // 
-            idClienteDataGridViewTextBoxColumn.DataPropertyName = "IdCliente";
-            idClienteDataGridViewTextBoxColumn.HeaderText = "IdCliente";
-            idClienteDataGridViewTextBoxColumn.Name = "idClienteDataGridViewTextBoxColumn";
-            idClienteDataGridViewTextBoxColumn.ReadOnly = true;
-            idClienteDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // estadoDataGridViewCheckBoxColumn
-            // 
-            estadoDataGridViewCheckBoxColumn.DataPropertyName = "Estado";
-            estadoDataGridViewCheckBoxColumn.HeaderText = "Estado";
-            estadoDataGridViewCheckBoxColumn.Name = "estadoDataGridViewCheckBoxColumn";
-            estadoDataGridViewCheckBoxColumn.ReadOnly = true;
-            estadoDataGridViewCheckBoxColumn.Visible = false;
-            // 
-            // fechaCreacionDataGridViewTextBoxColumn
-            // 
-            fechaCreacionDataGridViewTextBoxColumn.DataPropertyName = "FechaCreacion";
-            fechaCreacionDataGridViewTextBoxColumn.HeaderText = "FechaCreacion";
-            fechaCreacionDataGridViewTextBoxColumn.Name = "fechaCreacionDataGridViewTextBoxColumn";
-            fechaCreacionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // ClienteControl
             // 
