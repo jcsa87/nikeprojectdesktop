@@ -34,6 +34,7 @@
             lbApellido = new Label();
             txtApellido = new TextBox();
             dgvCliente = new DataGridView();
+            clienteBindingSource3 = new BindingSource(components);
             clienteBindingSource = new BindingSource(components);
             btnLimpiar = new FontAwesome.Sharp.IconButton();
             btnBuscar = new FontAwesome.Sharp.IconButton();
@@ -56,6 +57,8 @@
             lbDocumentoUsu = new Label();
             label1 = new Label();
             lbListaUsuario = new Label();
+            clienteBindingSource2 = new BindingSource(components);
+            clienteBindingSource1 = new BindingSource(components);
             btnSeleccionar = new DataGridViewButtonColumn();
             Nombre = new DataGridViewTextBoxColumn();
             Apellido = new DataGridViewTextBoxColumn();
@@ -63,11 +66,10 @@
             Estado = new DataGridViewTextBoxColumn();
             Correo = new DataGridViewTextBoxColumn();
             Telefono = new DataGridViewTextBoxColumn();
-            idClienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            estadoDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
-            fechaCreacionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource1).BeginInit();
             SuspendLayout();
             // 
@@ -93,7 +95,6 @@
             // 
             dgvCliente.AllowUserToAddRows = false;
             dgvCliente.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvCliente.AutoGenerateColumns = false;
             dgvCliente.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -105,8 +106,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvCliente.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, Nombre, Apellido, Documento, Estado, Correo, Telefono, idClienteDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, apellidoDataGridViewTextBoxColumn, documentoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, estadoDataGridViewCheckBoxColumn, fechaCreacionDataGridViewTextBoxColumn });
-            dgvCliente.DataSource = clienteBindingSource1;
+            dgvCliente.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, Nombre, Apellido, Documento, Estado, Correo, Telefono });
             dgvCliente.Location = new Point(247, 127);
             dgvCliente.MultiSelect = false;
             dgvCliente.Name = "dgvCliente";
@@ -117,6 +117,10 @@
             dgvCliente.RowTemplate.Height = 28;
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
+            // 
+            // clienteBindingSource3
+            // 
+            clienteBindingSource3.DataSource = typeof(Models.Cliente);
             // 
             // clienteBindingSource
             // 
@@ -354,6 +358,14 @@
             lbListaUsuario.Text = "Lista de Clientes";
             lbListaUsuario.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // clienteBindingSource2
+            // 
+            clienteBindingSource2.DataSource = typeof(Models.Cliente);
+            // 
+            // clienteBindingSource1
+            // 
+            clienteBindingSource1.DataSource = typeof(Models.Cliente);
+            // 
             // btnSeleccionar
             // 
             btnSeleccionar.DataPropertyName = "idCliente";
@@ -396,40 +408,17 @@
             // 
             // Correo
             // 
-            Correo.DataPropertyName = "correo";
+            Correo.DataPropertyName = "Correo";
             Correo.HeaderText = "Correo";
             Correo.Name = "Correo";
             Correo.ReadOnly = true;
             // 
             // Telefono
             // 
-            Telefono.DataPropertyName = "telefono";
+            Telefono.DataPropertyName = "Telefono";
             Telefono.HeaderText = "Telefono";
             Telefono.Name = "Telefono";
             Telefono.ReadOnly = true;
-            // 
-            // idClienteDataGridViewTextBoxColumn
-            // 
-            idClienteDataGridViewTextBoxColumn.DataPropertyName = "IdCliente";
-            idClienteDataGridViewTextBoxColumn.HeaderText = "IdCliente";
-            idClienteDataGridViewTextBoxColumn.Name = "idClienteDataGridViewTextBoxColumn";
-            idClienteDataGridViewTextBoxColumn.ReadOnly = true;
-            idClienteDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // estadoDataGridViewCheckBoxColumn
-            // 
-            estadoDataGridViewCheckBoxColumn.DataPropertyName = "Estado";
-            estadoDataGridViewCheckBoxColumn.HeaderText = "Estado";
-            estadoDataGridViewCheckBoxColumn.Name = "estadoDataGridViewCheckBoxColumn";
-            estadoDataGridViewCheckBoxColumn.ReadOnly = true;
-            estadoDataGridViewCheckBoxColumn.Visible = false;
-            // 
-            // fechaCreacionDataGridViewTextBoxColumn
-            // 
-            fechaCreacionDataGridViewTextBoxColumn.DataPropertyName = "FechaCreacion";
-            fechaCreacionDataGridViewTextBoxColumn.HeaderText = "FechaCreacion";
-            fechaCreacionDataGridViewTextBoxColumn.Name = "fechaCreacionDataGridViewTextBoxColumn";
-            fechaCreacionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // ClienteControl
             // 
@@ -462,7 +451,9 @@
             Name = "ClienteControl";
             Size = new Size(1045, 622);
             ((System.ComponentModel.ISupportInitialize)dgvCliente).EndInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).EndInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource2).EndInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -500,6 +491,17 @@
         private Label label1;
         private Label lbListaUsuario;
         private BindingSource clienteBindingSource;
+        private BindingSource clienteBindingSource1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private BindingSource clienteBindingSource2;
+        private BindingSource clienteBindingSource3;
         private DataGridViewButtonColumn btnSeleccionar;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Apellido;
@@ -507,14 +509,5 @@
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn Correo;
         private DataGridViewTextBoxColumn Telefono;
-        private DataGridViewTextBoxColumn idClienteDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn apellidoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn documentoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn correoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn telefonoDataGridViewTextBoxColumn;
-        private DataGridViewCheckBoxColumn estadoDataGridViewCheckBoxColumn;
-        private DataGridViewTextBoxColumn fechaCreacionDataGridViewTextBoxColumn;
-        private BindingSource clienteBindingSource1;
     }
 }

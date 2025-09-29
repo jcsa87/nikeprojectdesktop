@@ -131,7 +131,7 @@ namespace nikeproject.DataAccess
             using (SqlConnection oConexion = Conexion.Conectar())
             {
                 oConexion.Open();
-                string query = "SELECT * FROM CLIENTE WHERE Estado <> 0";
+                string query = "SELECT * FROM CLIENTE";
                 using (SqlCommand cmd = new SqlCommand(query, oConexion))
                 {
                     using (SqlDataReader dr = cmd.ExecuteReader())

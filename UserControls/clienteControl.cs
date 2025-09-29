@@ -1,8 +1,15 @@
-﻿using nikeproject.Auth;
+﻿using Microsoft.Data.SqlClient;
+using nikeproject.Auth;
 using nikeproject.DataAccess;
 using nikeproject.Models;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace nikeproject
@@ -14,8 +21,9 @@ namespace nikeproject
         public ClienteControl()
         {
             InitializeComponent();
-
+            InicializarControles();
             CargarClientes();
+
         }
 
         private void ClienteControl_Load(object sender, EventArgs e)
@@ -253,6 +261,28 @@ namespace nikeproject
         private void dgvCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void InicializarControles()
+        {
+            // --- ⚠️ ORDEN CORREGIDO para evitar 'InvalidArgument=Value of 0 is not valid' ---
+
+            // ComboBox Estado
+            cbEstado.Items.Clear();
+            cbEstado.Items.Add("Activo"); // Índice 0
+            cbEstado.Items.Add("Inactivo"); // Índice 1
+            cbEstado.SelectedIndex = 0; // Ahora sí se puede establecer el índice 0 ("Activo")
+
+            // ComboBox Búsqueda
+            cbBusqueda.Items.Clear();
+            cbBusqueda.Items.Add("Nombre");
+            cbBusqueda.Items.Add("Apellido");
+            cbBusqueda.Items.Add("Documento");
+            cbBusqueda.Items.Add("Correo");
+            cbBusqueda.Items.Add("Telefono");
+            cbBusqueda.SelectedIndex = 0;
+
+            dgvCliente.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
     }
 }
