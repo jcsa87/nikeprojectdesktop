@@ -54,11 +54,6 @@
             lbBusqueda = new Label();
             lbListaUsuario = new Label();
             dgvUsuario = new DataGridView();
-            clienteBindingSource = new BindingSource(components);
-            txtApellido = new TextBox();
-            lbApellido = new Label();
-            lbEstado = new Label();
-            cbEstado = new ComboBox();
             btnSeleccionar = new DataGridViewButtonColumn();
             idUsuario = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
@@ -68,6 +63,11 @@
             Rol = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             EstadoValor = new DataGridViewTextBoxColumn();
+            clienteBindingSource = new BindingSource(components);
+            txtApellido = new TextBox();
+            lbApellido = new Label();
+            lbEstado = new Label();
+            cbEstado = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvUsuario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             SuspendLayout();
@@ -347,48 +347,6 @@
             dgvUsuario.CellContentClick += dgvUsuario_CellContentClick;
             dgvUsuario.CellFormatting += dgvUsuario_CellFormatting;
             // 
-            // clienteBindingSource
-            // 
-            clienteBindingSource.DataSource = typeof(Models.Cliente);
-            // 
-            // txtApellido
-            // 
-            txtApellido.BorderStyle = BorderStyle.FixedSingle;
-            txtApellido.Location = new Point(20, 107);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(207, 23);
-            txtApellido.TabIndex = 17;
-            // 
-            // lbApellido
-            // 
-            lbApellido.AutoSize = true;
-            lbApellido.BackColor = Color.White;
-            lbApellido.Location = new Point(20, 89);
-            lbApellido.Name = "lbApellido";
-            lbApellido.Size = new Size(54, 15);
-            lbApellido.TabIndex = 18;
-            lbApellido.Text = "Apellido:";
-            // 
-            // lbEstado
-            // 
-            lbEstado.AutoSize = true;
-            lbEstado.BackColor = Color.White;
-            lbEstado.Location = new Point(20, 369);
-            lbEstado.Name = "lbEstado";
-            lbEstado.Size = new Size(45, 15);
-            lbEstado.TabIndex = 9;
-            lbEstado.Text = "Estado:";
-            // 
-            // cbEstado
-            // 
-            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbEstado.FormattingEnabled = true;
-            cbEstado.Location = new Point(20, 387);
-            cbEstado.Name = "cbEstado";
-            cbEstado.Size = new Size(205, 23);
-            cbEstado.TabIndex = 11;
-            cbEstado.SelectedIndexChanged += cbEstado_SelectedIndexChanged;
-            // 
             // btnSeleccionar
             // 
             btnSeleccionar.DataPropertyName = "idUsuario";
@@ -456,6 +414,50 @@
             EstadoValor.Name = "EstadoValor";
             EstadoValor.ReadOnly = true;
             EstadoValor.Visible = false;
+            // 
+            // clienteBindingSource
+            // 
+            clienteBindingSource.DataSource = typeof(Models.Cliente);
+            // 
+            // txtApellido
+            // 
+            txtApellido.BorderStyle = BorderStyle.FixedSingle;
+            txtApellido.Location = new Point(20, 107);
+            txtApellido.Name = "txtApellido";
+            txtApellido.Size = new Size(207, 23);
+            txtApellido.TabIndex = 17;
+            // 
+            // lbApellido
+            // 
+            lbApellido.AutoSize = true;
+            lbApellido.BackColor = Color.White;
+            lbApellido.Location = new Point(20, 89);
+            lbApellido.Name = "lbApellido";
+            lbApellido.Size = new Size(54, 15);
+            lbApellido.TabIndex = 18;
+            lbApellido.Text = "Apellido:";
+            // 
+            // lbEstado
+            // 
+            lbEstado.AutoSize = true;
+            lbEstado.BackColor = Color.White;
+            lbEstado.Location = new Point(20, 369);
+            lbEstado.Name = "lbEstado";
+            lbEstado.Size = new Size(45, 15);
+            lbEstado.TabIndex = 9;
+            lbEstado.Text = "Estado:";
+            lbEstado.Visible = false;
+            // 
+            // cbEstado
+            // 
+            cbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEstado.FormattingEnabled = true;
+            cbEstado.Location = new Point(20, 387);
+            cbEstado.Name = "cbEstado";
+            cbEstado.Size = new Size(205, 23);
+            cbEstado.TabIndex = 11;
+            cbEstado.Visible = false;
+            cbEstado.SelectedIndexChanged += cbEstado_SelectedIndexChanged;
             // 
             // UsuariosControl
             // 
@@ -525,8 +527,6 @@
         private DataGridView dgvUsuario;
         private TextBox txtApellido;
         private Label lbApellido;
-        private Label lbEstado;
-        private ComboBox cbEstado;
         private DataGridViewButtonColumn btnSeleccionar;
         private DataGridViewTextBoxColumn idUsuario;
         private DataGridViewTextBoxColumn Nombre;
@@ -545,6 +545,8 @@
         private DataGridViewCheckBoxColumn estadoDataGridViewCheckBoxColumn;
         private DataGridViewTextBoxColumn fechaCreacionDataGridViewTextBoxColumn;
         private BindingSource clienteBindingSource;
+        private Label lbEstado;
+        private ComboBox cbEstado;
     }
 
 }

@@ -163,16 +163,12 @@ namespace nikeproject
 
         private void dgvUsuario_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Asegúrate de que no se haga clic en la fila de encabezado
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow filaSeleccionada = dgvUsuario.Rows[e.RowIndex];
 
-                // Asigna el IdUsuario de la fila seleccionada a la variable
-                // Convert.ToInt32 es necesario porque el valor en la celda es un objeto
                 idUsuarioSeleccionado = Convert.ToInt32(filaSeleccionada.Cells["IdUsuario"].Value);
 
-                // Opcional: llenar los campos del formulario con los datos de la fila
                 txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
                 txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
@@ -181,9 +177,23 @@ namespace nikeproject
                 cbEstado.Text = (Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value) == true) ? "Activo" : "Inactivo";
 
                 bool estadoEsActivo = Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value);
+
+                // 👇 Actualizar el botón según estado
+                if (estadoEsActivo)
+                {
+                    btnEliminar.Text = "Dar de Baja";
+                    btnEliminar.BackColor = Color.Firebrick;  // rojo
+                }
+                else
+                {
+                    btnEliminar.Text = "Reactivar Usuario";
+                    btnEliminar.BackColor = Color.SeaGreen;  // verde distinto
+                }
+
                 cbEstado.Enabled = !estadoEsActivo;
             }
         }
+
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
@@ -222,26 +232,48 @@ namespace nikeproject
         {
             if (idUsuarioSeleccionado > 0)
             {
-                if (MessageBox.Show("¿Está seguro que desea eliminar este usuario?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                UsuarioData usuarioData = new UsuarioData();
+
+                bool reactivar = (btnEliminar.Text == "Reactivar Usuario");
+
+                string mensajeConfirmacion = reactivar
+                    ? "¿Está seguro que desea reactivar este usuario?"
+                    : "¿Está seguro que desea dar de baja este usuario?";
+
+                if (MessageBox.Show(mensajeConfirmacion, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    UsuarioData usuarioData = new UsuarioData();
-                    if (usuarioData.EliminarUsuario(idUsuarioSeleccionado))
+                    bool resultado;
+
+                    if (reactivar)
                     {
-                        MessageBox.Show("✅ Usuario eliminado correctamente.");
+                        resultado = usuarioData.CambiarEstadoUsuario(idUsuarioSeleccionado, true); // activo
+                    }
+                    else
+                    {
+                        resultado = usuarioData.CambiarEstadoUsuario(idUsuarioSeleccionado, false); // inactivo
+                    }
+
+                    if (resultado)
+                    {
+                        MessageBox.Show(reactivar
+                            ? "✅ Usuario reactivado correctamente."
+                            : "✅ Usuario dado de baja correctamente.");
+
                         CargarUsuarios();
                         LimpiarCampos();
                     }
                     else
                     {
-                        MessageBox.Show("⚠️ No se pudo eliminar el usuario.");
+                        MessageBox.Show("⚠️ No se pudo actualizar el usuario.");
                     }
                 }
             }
             else
             {
-                MessageBox.Show("⚠️ Seleccione un usuario para eliminar.");
+                MessageBox.Show("⚠️ Seleccione un usuario.");
             }
         }
+
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {

@@ -31,6 +31,34 @@ namespace nikeproject.DataAccess
             }
         }
 
+        public bool CambiarEstadoUsuario(int idUsuario, bool activo)
+        {
+            bool resultado = false;
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    string query = "UPDATE USUARIO SET Estado = @estado WHERE IdUsuario = @idusuario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@estado", activo ? 1 : 0);
+                        cmd.Parameters.AddWithValue("@idusuario", idUsuario);
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        resultado = filasAfectadas > 0;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
+
         public bool EditarUsuario(Usuario oUsuario)
         {
             bool resultado = false;
