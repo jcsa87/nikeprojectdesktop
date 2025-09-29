@@ -129,6 +129,80 @@ namespace nikeproject
             }
         }
 
+        private void dgvCliente_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow filaSeleccionada = dgvCliente.Rows[e.RowIndex];
+
+                // Guardar id
+                idClienteSeleccionado = Convert.ToInt32(filaSeleccionada.Cells["IdCliente"].Value);
+
+                // Llenar campos
+                txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
+                txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
+                txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
+                txtCorreo.Text = filaSeleccionada.Cells["Correo"].Value.ToString();
+                txtTelefono.Text = filaSeleccionada.Cells["Telefono"].Value.ToString();
+
+                // Estado
+                bool estadoEsActivo = Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value);
+                cbEstado.Text = estadoEsActivo ? "Activo" : "Inactivo";
+
+                // Cambiar botón según estado
+                if (estadoEsActivo)
+                {
+                    btnBaja.Text = "Dar de Baja";
+                    btnBaja.BackColor = Color.Firebrick; // rojo
+                }
+                else
+                {
+                    btnBaja.Text = "Reactivar Cliente";
+                    btnBaja.BackColor = Color.SeaGreen; // verde
+                }
+            }
+        }
+
+
+
+
+        private void btnBaja_Click(object sender, EventArgs e)
+        {
+            if (idClienteSeleccionado > 0)
+            {
+                ClienteData clienteData = new ClienteData();
+                // Tomamos el estado actual desde el combo
+                bool estadoActual = (cbEstado.Text == "Activo");
+
+                string accion = estadoActual ? "dar de baja" : "reactivar";
+                if (MessageBox.Show($"¿Está seguro que desea {accion} este cliente?",
+                                    "Confirmar acción", MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    // Cambiar estado en DB
+                    bool resultado = clienteData.CambiarEstadoCliente(idClienteSeleccionado, !estadoActual);
+
+                    if (resultado)
+                    {
+                        string msg = estadoActual ? "Cliente dado de baja correctamente."
+                                                  : "Cliente reactivado correctamente.";
+                        MessageBox.Show("✅ " + msg);
+                        CargarClientes();
+                        LimpiarCampos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("⚠️ No se pudo completar la acción.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("⚠️ Seleccione un cliente de la lista.");
+            }
+        }
+
+
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
@@ -163,30 +237,6 @@ namespace nikeproject
             }
         }
 
-        private void btnBaja_Click(object sender, EventArgs e)
-        {
-            if (idClienteSeleccionado > 0)
-            {
-                if (MessageBox.Show("¿Está seguro que desea eliminar este cliente?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    ClienteData clienteData = new ClienteData();
-                    if (clienteData.EliminarCliente(idClienteSeleccionado))
-                    {
-                        MessageBox.Show("✅ Cliente eliminado correctamente.");
-                        CargarClientes();
-                        LimpiarCampos();
-                    }
-                    else
-                    {
-                        MessageBox.Show("⚠️ No se pudo eliminar el cliente.");
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("⚠️ Seleccione un cliente para eliminar.");
-            }
-        }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -211,25 +261,7 @@ namespace nikeproject
             CargarClientes();
         }
 
-        private void dgvCliente_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Asegúrate de que no se haga clic en la fila de encabezado
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow filaSeleccionada = dgvCliente.Rows[e.RowIndex];
-
-                // Asigna el IdCliente de la fila seleccionada a la variable
-                idClienteSeleccionado = Convert.ToInt32(filaSeleccionada.Cells["IdCliente"].Value);
-
-                // Llenar los campos del formulario con los datos de la fila
-                txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
-                txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
-                txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
-                txtCorreo.Text = filaSeleccionada.Cells["Correo"].Value.ToString();
-                txtTelefono.Text = filaSeleccionada.Cells["Telefono"].Value.ToString();
-                cbEstado.Text = (Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value) == true) ? "Activo" : "Inactivo";
-            }
-        }
+ 
 
         private void dgvCliente_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
