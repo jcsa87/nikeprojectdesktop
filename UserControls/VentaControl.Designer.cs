@@ -2,173 +2,239 @@
 {
     partial class VentaControl
     {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.Panel panelHeader;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox cbCliente;
-        private System.Windows.Forms.ComboBox cbUsuario;
-        private System.Windows.Forms.DateTimePicker dtpFecha;
-        private System.Windows.Forms.Button btnFiltrar;
-        private System.Windows.Forms.DataGridView dgvVentas;
-        private System.Windows.Forms.Button btnNuevaVenta;
-        private System.Windows.Forms.Panel panelSeparator;
 
+        /// <summary 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
+            {
                 components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
+        #region Component Designer generated code
+
+        /// <summary 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VentaControl));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            panelHeader = new Panel();
-            pictureBox1 = new PictureBox();
-            lblTitulo = new Label();
-            panelSeparator = new Panel();
-            cbCliente = new ComboBox();
-            cbUsuario = new ComboBox();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            lblListaVentas = new Label();
+            lblFechaFiltro = new Label();
             dtpFecha = new DateTimePicker();
-            btnFiltrar = new Button();
+            btnFiltrar = new FontAwesome.Sharp.IconButton();
+            btnLimpiarFiltro = new FontAwesome.Sharp.IconButton();
             btnNuevaVenta = new Button();
             dgvVentas = new DataGridView();
-            panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            idVenta = new DataGridViewTextBoxColumn();
+            FechaRegistro = new DataGridViewTextBoxColumn();
+            TipoDocumento = new DataGridViewTextBoxColumn();
+            NumeroDocumento = new DataGridViewTextBoxColumn();
+            MontoTotal = new DataGridViewTextBoxColumn();
+            btnDetalle = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             SuspendLayout();
             // 
-            // panelHeader
+            // lblListaVentas
             // 
-            panelHeader.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panelHeader.BackColor = Color.FromArgb(240, 240, 240);
-            panelHeader.Controls.Add(pictureBox1);
-            panelHeader.Controls.Add(lblTitulo);
-            panelHeader.Location = new Point(0, 0);
-            panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(1596, 90);
-            panelHeader.TabIndex = 0;
+            lblListaVentas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblListaVentas.BackColor = Color.White;
+            lblListaVentas.Font = new Font("Segoe UI", 15F);
+            lblListaVentas.Location = new Point(0, 0);
+            lblListaVentas.Name = "lblListaVentas";
+            lblListaVentas.Padding = new Padding(15, 0, 0, 0);
+            lblListaVentas.Size = new Size(873, 86);
+            lblListaVentas.TabIndex = 15;
+            lblListaVentas.Text = "Lista de Ventas";
+            lblListaVentas.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // pictureBox1
+            // lblFechaFiltro
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(30, 14);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(49, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // lblTitulo
-            // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.Black;
-            lblTitulo.Location = new Point(85, 23);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(218, 32);
-            lblTitulo.TabIndex = 1;
-            lblTitulo.Text = "Gestión de Ventas";
-            // 
-            // panelSeparator
-            // 
-            panelSeparator.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panelSeparator.BackColor = Color.DarkGray;
-            panelSeparator.Location = new Point(0, 90);
-            panelSeparator.Name = "panelSeparator";
-            panelSeparator.Size = new Size(1596, 2);
-            panelSeparator.TabIndex = 1;
-            // 
-            // cbCliente
-            // 
-            cbCliente.BackColor = Color.WhiteSmoke;
-            cbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbCliente.FlatStyle = FlatStyle.Flat;
-            cbCliente.ForeColor = Color.Black;
-            cbCliente.Items.AddRange(new object[] { "Todos los clientes" });
-            cbCliente.Location = new Point(30, 105);
-            cbCliente.Name = "cbCliente";
-            cbCliente.Size = new Size(180, 23);
-            cbCliente.TabIndex = 1;
-            // 
-            // cbUsuario
-            // 
-            cbUsuario.BackColor = Color.WhiteSmoke;
-            cbUsuario.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbUsuario.FlatStyle = FlatStyle.Flat;
-            cbUsuario.ForeColor = Color.Black;
-            cbUsuario.Items.AddRange(new object[] { "Todos los usuarios" });
-            cbUsuario.Location = new Point(230, 105);
-            cbUsuario.Name = "cbUsuario";
-            cbUsuario.Size = new Size(180, 23);
-            cbUsuario.TabIndex = 2;
+            lblFechaFiltro.AutoSize = true;
+            lblFechaFiltro.BackColor = Color.White;
+            lblFechaFiltro.Location = new Point(20, 36);
+            lblFechaFiltro.Name = "lblFechaFiltro";
+            lblFechaFiltro.Size = new Size(41, 15);
+            lblFechaFiltro.TabIndex = 9;
+            lblFechaFiltro.Text = "Fecha:";
             // 
             // dtpFecha
             // 
-            dtpFecha.CalendarMonthBackground = Color.WhiteSmoke;
             dtpFecha.Format = DateTimePickerFormat.Short;
-            dtpFecha.Location = new Point(430, 105);
+            dtpFecha.Location = new Point(67, 34);
             dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(180, 23);
+            dtpFecha.Size = new Size(120, 23);
             dtpFecha.TabIndex = 3;
             // 
             // btnFiltrar
             // 
             btnFiltrar.BackColor = Color.DimGray;
+            btnFiltrar.Cursor = Cursors.Hand;
+            btnFiltrar.FlatAppearance.BorderColor = Color.Black;
             btnFiltrar.FlatStyle = FlatStyle.Flat;
-            btnFiltrar.ForeColor = Color.White;
-            btnFiltrar.Location = new Point(630, 105);
+            btnFiltrar.IconChar = FontAwesome.Sharp.IconChar.Filter;
+            btnFiltrar.IconColor = Color.White;
+            btnFiltrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnFiltrar.IconSize = 16;
+            btnFiltrar.Location = new Point(200, 33);
             btnFiltrar.Name = "btnFiltrar";
-            btnFiltrar.Size = new Size(80, 23);
+            btnFiltrar.Size = new Size(43, 24);
             btnFiltrar.TabIndex = 4;
-            btnFiltrar.Text = "Filtrar";
             btnFiltrar.UseVisualStyleBackColor = false;
+            // 
+            // btnLimpiarFiltro
+            // 
+            btnLimpiarFiltro.BackColor = Color.DarkGray;
+            btnLimpiarFiltro.Cursor = Cursors.Hand;
+            btnLimpiarFiltro.FlatAppearance.BorderColor = Color.Black;
+            btnLimpiarFiltro.FlatStyle = FlatStyle.Flat;
+            btnLimpiarFiltro.IconChar = FontAwesome.Sharp.IconChar.Broom;
+            btnLimpiarFiltro.IconColor = Color.Black;
+            btnLimpiarFiltro.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLimpiarFiltro.IconSize = 16;
+            btnLimpiarFiltro.Location = new Point(249, 34);
+            btnLimpiarFiltro.Name = "btnLimpiarFiltro";
+            btnLimpiarFiltro.Size = new Size(43, 24);
+            btnLimpiarFiltro.TabIndex = 14;
+            btnLimpiarFiltro.UseVisualStyleBackColor = false;
             // 
             // btnNuevaVenta
             // 
-            btnNuevaVenta.Location = new Point(0, 0);
+            btnNuevaVenta.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnNuevaVenta.BackColor = Color.ForestGreen;
+            btnNuevaVenta.Cursor = Cursors.Hand;
+            btnNuevaVenta.FlatAppearance.BorderColor = Color.Black;
+            btnNuevaVenta.FlatStyle = FlatStyle.Flat;
+            btnNuevaVenta.ForeColor = Color.White;
+            btnNuevaVenta.Location = new Point(768, 33);
             btnNuevaVenta.Name = "btnNuevaVenta";
-            btnNuevaVenta.Size = new Size(75, 23);
+            btnNuevaVenta.Size = new Size(88, 24);
             btnNuevaVenta.TabIndex = 5;
+            btnNuevaVenta.Text = "Nueva Venta";
+            btnNuevaVenta.UseVisualStyleBackColor = false;
             // 
             // dgvVentas
             // 
+            dgvVentas.AllowUserToAddRows = false;
             dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvVentas.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.LightGray;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(2);
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvVentas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvVentas.EnableHeadersVisualStyles = false;
-            dgvVentas.GridColor = Color.DarkGray;
-            dgvVentas.Location = new Point(30, 145);
+            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { idVenta, FechaRegistro, TipoDocumento, NumeroDocumento, MontoTotal, btnDetalle });
+            dgvVentas.Location = new Point(20, 95);
+            dgvVentas.MultiSelect = false;
             dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(800, 540);
+            dgvVentas.ReadOnly = true;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dgvVentas.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dgvVentas.RowTemplate.Height = 28;
+            dgvVentas.Size = new Size(836, 595);
             dgvVentas.TabIndex = 6;
+            // 
+            // idVenta
+            // 
+            idVenta.DataPropertyName = "idVenta";
+            idVenta.HeaderText = "Id Venta";
+            idVenta.Name = "idVenta";
+            idVenta.ReadOnly = true;
+            idVenta.Visible = false;
+            // 
+            // FechaRegistro
+            // 
+            FechaRegistro.DataPropertyName = "FechaRegistro";
+            FechaRegistro.HeaderText = "Fecha";
+            FechaRegistro.Name = "FechaRegistro";
+            FechaRegistro.ReadOnly = true;
+            FechaRegistro.Width = 150;
+            // 
+            // TipoDocumento
+            // 
+            TipoDocumento.DataPropertyName = "TipoDocumento";
+            TipoDocumento.HeaderText = "Tipo Doc.";
+            TipoDocumento.Name = "TipoDocumento";
+            TipoDocumento.ReadOnly = true;
+            TipoDocumento.Width = 150;
+            // 
+            // NumeroDocumento
+            // 
+            NumeroDocumento.DataPropertyName = "NumeroDocumento";
+            NumeroDocumento.HeaderText = "Nro. Documento";
+            NumeroDocumento.Name = "NumeroDocumento";
+            NumeroDocumento.ReadOnly = true;
+            NumeroDocumento.Width = 180;
+            // 
+            // MontoTotal
+            // 
+            MontoTotal.DataPropertyName = "MontoTotal";
+            MontoTotal.HeaderText = "Monto Total";
+            MontoTotal.Name = "MontoTotal";
+            MontoTotal.ReadOnly = true;
+            MontoTotal.Width = 150;
+            // 
+            // btnDetalle
+            // 
+            btnDetalle.HeaderText = "";
+            btnDetalle.Name = "btnDetalle";
+            btnDetalle.ReadOnly = true;
+            btnDetalle.Text = "Ver Detalle";
+            btnDetalle.UseColumnTextForButtonValue = true;
+            btnDetalle.Width = 80;
             // 
             // VentaControl
             // 
-            Controls.Add(panelHeader);
-            Controls.Add(panelSeparator);
-            Controls.Add(cbCliente);
-            Controls.Add(cbUsuario);
-            Controls.Add(dtpFecha);
-            Controls.Add(btnFiltrar);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            BackColor = Color.Black;
             Controls.Add(btnNuevaVenta);
+            Controls.Add(btnLimpiarFiltro);
+            Controls.Add(btnFiltrar);
+            Controls.Add(dtpFecha);
+            Controls.Add(lblFechaFiltro);
             Controls.Add(dgvVentas);
+            Controls.Add(lblListaVentas);
             Name = "VentaControl";
             Size = new Size(873, 702);
-            panelHeader.ResumeLayout(false);
-            panelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
+
+        #endregion
+
+        private Label lblListaVentas;
+        private Label lblFechaFiltro;
+        private DateTimePicker dtpFecha;
+        // Se removieron: cbCliente, lblClienteFiltro, cbUsuario, lblUsuarioFiltro
+        private FontAwesome.Sharp.IconButton btnFiltrar;
+        private FontAwesome.Sharp.IconButton btnLimpiarFiltro;
+        private Button btnNuevaVenta;
+        private DataGridView dgvVentas;
+        private DataGridViewTextBoxColumn idVenta;
+        private DataGridViewTextBoxColumn FechaRegistro;
+        private DataGridViewTextBoxColumn TipoDocumento;
+        private DataGridViewTextBoxColumn NumeroDocumento;
+        private DataGridViewTextBoxColumn MontoTotal;
+        private DataGridViewButtonColumn btnDetalle;
     }
 }

@@ -179,6 +179,9 @@ namespace nikeproject
                 txtClave.Text = filaSeleccionada.Cells["Clave"].Value.ToString();
                 cbRol.Text = filaSeleccionada.Cells["Rol"].Value.ToString();
                 cbEstado.Text = (Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value) == true) ? "Activo" : "Inactivo";
+
+                bool estadoEsActivo = Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value);
+                cbEstado.Enabled = !estadoEsActivo;
             }
         }
 
