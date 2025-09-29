@@ -34,6 +34,13 @@
             lbApellido = new Label();
             txtApellido = new TextBox();
             dgvCliente = new DataGridView();
+            btnSeleccionar = new DataGridViewButtonColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
             clienteBindingSource3 = new BindingSource(components);
             clienteBindingSource = new BindingSource(components);
             btnLimpiar = new FontAwesome.Sharp.IconButton();
@@ -59,13 +66,6 @@
             lbListaUsuario = new Label();
             clienteBindingSource2 = new BindingSource(components);
             clienteBindingSource1 = new BindingSource(components);
-            btnSeleccionar = new DataGridViewButtonColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Apellido = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Correo = new DataGridViewTextBoxColumn();
-            Telefono = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
@@ -117,6 +117,60 @@
             dgvCliente.RowTemplate.Height = 28;
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
+            // 
+            // btnSeleccionar
+            // 
+            btnSeleccionar.DataPropertyName = "idCliente";
+            btnSeleccionar.HeaderText = "";
+            btnSeleccionar.Name = "btnSeleccionar";
+            btnSeleccionar.ReadOnly = true;
+            btnSeleccionar.Visible = false;
+            btnSeleccionar.Width = 30;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 180;
+            // 
+            // Apellido
+            // 
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.DataPropertyName = "Documento";
+            Documento.HeaderText = "Nro Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            Documento.Width = 150;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Visible = false;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
             // 
             // clienteBindingSource3
             // 
@@ -365,60 +419,6 @@
             // clienteBindingSource1
             // 
             clienteBindingSource1.DataSource = typeof(Models.Cliente);
-            // 
-            // btnSeleccionar
-            // 
-            btnSeleccionar.DataPropertyName = "idCliente";
-            btnSeleccionar.HeaderText = "";
-            btnSeleccionar.Name = "btnSeleccionar";
-            btnSeleccionar.ReadOnly = true;
-            btnSeleccionar.Visible = false;
-            btnSeleccionar.Width = 30;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 180;
-            // 
-            // Apellido
-            // 
-            Apellido.DataPropertyName = "Apellido";
-            Apellido.HeaderText = "Apellido";
-            Apellido.Name = "Apellido";
-            Apellido.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.DataPropertyName = "Documento";
-            Documento.HeaderText = "Nro Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            Documento.Width = 150;
-            // 
-            // Estado
-            // 
-            Estado.DataPropertyName = "Estado";
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            Estado.Visible = false;
-            // 
-            // Correo
-            // 
-            Correo.DataPropertyName = "Correo";
-            Correo.HeaderText = "Correo";
-            Correo.Name = "Correo";
-            Correo.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            Telefono.DataPropertyName = "Telefono";
-            Telefono.HeaderText = "Telefono";
-            Telefono.Name = "Telefono";
-            Telefono.ReadOnly = true;
             // 
             // ClienteControl
             // 

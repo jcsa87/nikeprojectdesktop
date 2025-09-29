@@ -284,5 +284,7 @@ namespace nikeproject
 
             dgvCliente.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+    
     }
 }
