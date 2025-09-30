@@ -544,5 +544,11 @@
         private DataGridViewTextBoxColumn PrecioVenta;
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn EstadoValor;
+
+        private Label lblImagen;
+        private TextBox txtImagenRuta;
+        private Button btnCargarImagen;
+        private PictureBox pbPreview;
+
     }
 }
