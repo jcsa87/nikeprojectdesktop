@@ -23,7 +23,7 @@ namespace nikeproject.Auth
             => estado == true || estado == false;
 
         public static bool ImagenRutaValida(string ruta)
-    => string.IsNullOrWhiteSpace(ruta) || ruta.Length <= 255;
+            => string.IsNullOrWhiteSpace(ruta) || ruta.Length <= 255;
 
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using nikeproject.Models;
@@ -12,106 +9,159 @@ namespace nikeproject.Data
 {
     public static class ProductoData
     {
-        // CREATE
-        public static bool Agregar(Producto p)
+
+        public static bool AgregarProducto(Producto p)
         {
-            using (SqlConnection oConexion = Conexion.Conectar())
+            bool resultado = false;
+
+            try
             {
-                string query = @"INSERT INTO PRODUCTO
-                                (Codigo, Nombre, Descripcion, Categoria, Stock, PrecioCompra, PrecioVenta, Estado, ImagenRuta, FechaCreacion)
-                                VALUES (@Codigo, @Nombre, @Descripcion, @Categoria, @Stock, @PrecioCompra, @PrecioVenta, @Estado, @ImagenRuta, GETDATE())";
-
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                cmd.Parameters.AddWithValue("@Codigo", p.Codigo);
-                cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
-                cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
-                cmd.Parameters.AddWithValue("@Categoria", p.Categoria);
-                cmd.Parameters.AddWithValue("@Stock", p.Stock);
-                cmd.Parameters.AddWithValue("@PrecioCompra", p.PrecioCompra);
-                cmd.Parameters.AddWithValue("@PrecioVenta", p.PrecioVenta);
-                cmd.Parameters.AddWithValue("@Estado", p.Estado);
-                cmd.Parameters.AddWithValue("@ImagenRuta", p.ImagenRuta);
-
-                oConexion.Open();
-                return cmd.ExecuteNonQuery() > 0;
-            }
-        }
-
-        // READ
-        public static List<Producto> Listar()
-        {
-            List<Producto> lista = new List<Producto>();
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                string query = "SELECT * FROM PRODUCTO";
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                oConexion.Open();
-
-                using (SqlDataReader dr = cmd.ExecuteReader())
+                using (SqlConnection oConexion = Conexion.Conectar())
                 {
-                    while (dr.Read())
+                    string query = @"INSERT INTO PRODUCTO
+                            (Codigo, Nombre, Descripcion, Stock, PrecioCompra, PrecioVenta, Estado, ImagenRuta, IdCategoria, FechaCreacion)
+                            VALUES (@Codigo, @Nombre, @Descripcion, @Stock, @PrecioCompra, @PrecioVenta, @Estado, @ImagenRuta, @IdCategoria, GETDATE())";
+
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
                     {
-                        lista.Add(new Producto
-                        {
-                            IdProducto = Convert.ToInt32(dr["IdProducto"]),
-                            Codigo = dr["Codigo"].ToString(),
-                            Nombre = dr["Nombre"].ToString(),
-                            Descripcion = dr["Descripcion"].ToString(),
-                            Categoria = dr["Categoria"].ToString(),
-                            Stock = Convert.ToInt32(dr["Stock"]),
-                            PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"]),
-                            PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"]),
-                            Estado = Convert.ToBoolean(dr["Estado"]),
-                            ImagenRuta = dr["ImagenRuta"].ToString(),
-                            FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
-                        });
+                        cmd.Parameters.AddWithValue("@Codigo", p.Codigo);
+                        cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
+                        cmd.Parameters.AddWithValue("@Descripcion", string.IsNullOrEmpty(p.Descripcion) ? DBNull.Value : p.Descripcion);
+                        cmd.Parameters.AddWithValue("@Stock", p.Stock);
+                        cmd.Parameters.AddWithValue("@PrecioCompra", p.PrecioCompra);
+                        cmd.Parameters.AddWithValue("@PrecioVenta", p.PrecioVenta);
+                        cmd.Parameters.AddWithValue("@Estado", p.Estado);
+                        cmd.Parameters.AddWithValue("@ImagenRuta", string.IsNullOrEmpty(p.ImagenRuta) ? DBNull.Value : p.ImagenRuta);
+                        cmd.Parameters.AddWithValue("@IdCategoria", p.IdCategoria);
+
+                        oConexion.Open();
+                        resultado = cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                // Te recomiendo loguear el error para debug
+                Console.WriteLine("Error al insertar producto: " + ex.Message);
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
+
+        public static List<Producto> ListarProductos()
+        {
+            List<Producto> lista = new List<Producto>();
+
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    string query = @"SELECT p.IdProducto, p.Codigo, p.Nombre, p.Descripcion,
+       p.Stock, p.PrecioCompra, p.PrecioVenta,
+       p.Estado, p.ImagenRuta, p.FechaCreacion,
+       p.IdCategoria, c.Descripcion AS CategoriaNombre
+FROM PRODUCTO p
+INNER JOIN CATEGORIA c ON p.IdCategoria = c.IdCategoria
+";
+
+                    SqlCommand cmd = new SqlCommand(query, oConexion);
+                    oConexion.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Producto
+                            {
+                                IdProducto = Convert.ToInt32(dr["IdProducto"]),
+                                Codigo = dr["Codigo"].ToString(),
+                                Nombre = dr["Nombre"].ToString(),
+                                Descripcion = dr["Descripcion"].ToString(),
+                                Stock = Convert.ToInt32(dr["Stock"]),
+                                PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"]),
+                                PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"]),
+                                Estado = Convert.ToBoolean(dr["Estado"]),
+                                ImagenRuta = dr["ImagenRuta"].ToString(),
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
+                                IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
+                                CategoriaNombre = dr["CategoriaNombre"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Producto>(); // si falla, devolvemos lista vacía
+            }
+
             return lista;
         }
 
-        // UPDATE
-        public static bool Editar(Producto p)
+
+        public static bool EditarProducto(Producto p)
         {
-            using (SqlConnection oConexion = Conexion.Conectar())
+            bool resultado = false;
+
+            try
             {
-                string query = @"UPDATE PRODUCTO SET
-                                Codigo=@Codigo, Nombre=@Nombre, Descripcion=@Descripcion, 
-                                Categoria=@Categoria, Stock=@Stock, 
-                                PrecioCompra=@PrecioCompra, PrecioVenta=@PrecioVenta, Estado=@Estado,
-                                ImagenRuta=@ImagenRuta
-                                WHERE IdProducto=@IdProducto";
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    string query = @"UPDATE PRODUCTO SET
+                Codigo=@Codigo, Nombre=@Nombre, Descripcion=@Descripcion,
+                Stock=@Stock, PrecioCompra=@PrecioCompra, PrecioVenta=@PrecioVenta,
+                Estado=@Estado, ImagenRuta=@ImagenRuta, IdCategoria=@IdCategoria
+                WHERE IdProducto=@IdProducto";
 
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                cmd.Parameters.AddWithValue("@IdProducto", p.IdProducto);
-                cmd.Parameters.AddWithValue("@Codigo", p.Codigo);
-                cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
-                cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
-                cmd.Parameters.AddWithValue("@Categoria", p.Categoria);
-                cmd.Parameters.AddWithValue("@Stock", p.Stock);
-                cmd.Parameters.AddWithValue("@PrecioCompra", p.PrecioCompra);
-                cmd.Parameters.AddWithValue("@PrecioVenta", p.PrecioVenta);
-                cmd.Parameters.AddWithValue("@Estado", p.Estado);
-                cmd.Parameters.AddWithValue("@ImagenRuta", p.ImagenRuta);
 
-                oConexion.Open();
-                return cmd.ExecuteNonQuery() > 0;
+                    SqlCommand cmd = new SqlCommand(query, oConexion);
+                    cmd.Parameters.AddWithValue("@IdProducto", p.IdProducto);
+                    cmd.Parameters.AddWithValue("@Codigo", p.Codigo);
+                    cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
+                    cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
+                    cmd.Parameters.AddWithValue("@Categoria", p.IdCategoria);
+                    cmd.Parameters.AddWithValue("@Stock", p.Stock);
+                    cmd.Parameters.AddWithValue("@PrecioCompra", p.PrecioCompra);
+                    cmd.Parameters.AddWithValue("@PrecioVenta", p.PrecioVenta);
+                    cmd.Parameters.AddWithValue("@Estado", p.Estado);
+                    cmd.Parameters.AddWithValue("@ImagenRuta", p.ImagenRuta ?? string.Empty);
+
+                    oConexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0;
+                }
             }
+            catch (Exception ex)
+            {
+                resultado = false;
+            }
+
+            return resultado;
         }
 
-        // DELETE (baja lógica)
-        public static bool Eliminar(int idProducto)
+        public static bool EliminarProducto(int idProducto)
         {
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                string query = "UPDATE PRODUCTO SET Estado = 0 WHERE IdProducto=@IdProducto";
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+            bool resultado = false;
 
-                oConexion.Open();
-                return cmd.ExecuteNonQuery() > 0;
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    string query = "UPDATE PRODUCTO SET Estado = 0 WHERE IdProducto=@IdProducto";
+                    SqlCommand cmd = new SqlCommand(query, oConexion);
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+
+                    oConexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0;
+                }
             }
+            catch (Exception ex)
+            {
+                resultado = false;
+            }
+
+            return resultado;
         }
     }
 }
