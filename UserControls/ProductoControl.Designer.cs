@@ -30,6 +30,7 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductoControl));
             label1 = new Label();
             lblTituloDetalle = new Label();
             lblNombreProd = new Label();
@@ -54,12 +55,6 @@
             btnLimpiar = new FontAwesome.Sharp.IconButton();
             lblBusqueda = new Label();
             dgvProductos = new DataGridView();
-            lbCargarImagen = new Label();
-            btnCargarImagen = new Button();
-            pBImagenProducto = new PictureBox();
-            txtImagenRuta = new TextBox();
-            lbCodigo = new Label();
-            txtCodigo = new TextBox();
             idProducto = new DataGridViewTextBoxColumn();
             Codigo = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
@@ -70,6 +65,12 @@
             PrecioVenta = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             EstadoValor = new DataGridViewTextBoxColumn();
+            lbCargarImagen = new Label();
+            btnCargarImagen = new Button();
+            pBImagenProducto = new PictureBox();
+            txtImagenRuta = new TextBox();
+            lbCodigo = new Label();
+            txtCodigo = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBImagenProducto).BeginInit();
             SuspendLayout();
@@ -349,63 +350,6 @@
             dgvProductos.TabIndex = 16;
             dgvProductos.DataBindingComplete += dgvProductos_DataBindingComplete;
             // 
-            // lbCargarImagen
-            // 
-            lbCargarImagen.AutoSize = true;
-            lbCargarImagen.BackColor = Color.White;
-            lbCargarImagen.Location = new Point(15, 524);
-            lbCargarImagen.Name = "lbCargarImagen";
-            lbCargarImagen.Size = new Size(50, 15);
-            lbCargarImagen.TabIndex = 17;
-            lbCargarImagen.Text = "Imagen:";
-            // 
-            // btnCargarImagen
-            // 
-            btnCargarImagen.Location = new Point(13, 542);
-            btnCargarImagen.Name = "btnCargarImagen";
-            btnCargarImagen.Size = new Size(114, 23);
-            btnCargarImagen.TabIndex = 18;
-            btnCargarImagen.Text = "Cargar Imagen";
-            btnCargarImagen.UseVisualStyleBackColor = true;
-            btnCargarImagen.Click += btnCargarImagen_Click;
-            // 
-            // pBImagenProducto
-            // 
-            pBImagenProducto.BackColor = SystemColors.ButtonFace;
-            pBImagenProducto.Location = new Point(52, 36);
-            pBImagenProducto.Name = "pBImagenProducto";
-            pBImagenProducto.Size = new Size(130, 73);
-            pBImagenProducto.TabIndex = 19;
-            pBImagenProducto.TabStop = false;
-            // 
-            // txtImagenRuta
-            // 
-            txtImagenRuta.BorderStyle = BorderStyle.None;
-            txtImagenRuta.Location = new Point(17, 571);
-            txtImagenRuta.Name = "txtImagenRuta";
-            txtImagenRuta.Size = new Size(207, 16);
-            txtImagenRuta.TabIndex = 0;
-            txtImagenRuta.TextChanged += txtImagenRuta_TextChanged;
-            // 
-            // lbCodigo
-            // 
-            lbCodigo.AutoSize = true;
-            lbCodigo.BackColor = Color.White;
-            lbCodigo.Location = new Point(13, 131);
-            lbCodigo.Name = "lbCodigo";
-            lbCodigo.Size = new Size(46, 15);
-            lbCodigo.TabIndex = 9;
-            lbCodigo.Text = "Código";
-            lbCodigo.Click += lbCodigo_Click;
-            // 
-            // txtCodigo
-            // 
-            txtCodigo.BorderStyle = BorderStyle.FixedSingle;
-            txtCodigo.Location = new Point(13, 149);
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(207, 23);
-            txtCodigo.TabIndex = 10;
-            // 
             // idProducto
             // 
             idProducto.DataPropertyName = "idProducto";
@@ -480,6 +424,65 @@
             EstadoValor.ReadOnly = true;
             EstadoValor.Visible = false;
             // 
+            // lbCargarImagen
+            // 
+            lbCargarImagen.AutoSize = true;
+            lbCargarImagen.BackColor = Color.White;
+            lbCargarImagen.Location = new Point(15, 524);
+            lbCargarImagen.Name = "lbCargarImagen";
+            lbCargarImagen.Size = new Size(50, 15);
+            lbCargarImagen.TabIndex = 17;
+            lbCargarImagen.Text = "Imagen:";
+            // 
+            // btnCargarImagen
+            // 
+            btnCargarImagen.Location = new Point(13, 542);
+            btnCargarImagen.Name = "btnCargarImagen";
+            btnCargarImagen.Size = new Size(114, 23);
+            btnCargarImagen.TabIndex = 18;
+            btnCargarImagen.Text = "Cargar Imagen";
+            btnCargarImagen.UseVisualStyleBackColor = true;
+            btnCargarImagen.Click += btnCargarImagen_Click;
+            // 
+            // pBImagenProducto
+            // 
+            pBImagenProducto.BackColor = SystemColors.ButtonFace;
+            pBImagenProducto.Image = (Image)resources.GetObject("pBImagenProducto.Image");
+            pBImagenProducto.Location = new Point(52, 36);
+            pBImagenProducto.Name = "pBImagenProducto";
+            pBImagenProducto.Size = new Size(130, 73);
+            pBImagenProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pBImagenProducto.TabIndex = 19;
+            pBImagenProducto.TabStop = false;
+            // 
+            // txtImagenRuta
+            // 
+            txtImagenRuta.BorderStyle = BorderStyle.None;
+            txtImagenRuta.Location = new Point(17, 571);
+            txtImagenRuta.Name = "txtImagenRuta";
+            txtImagenRuta.Size = new Size(207, 16);
+            txtImagenRuta.TabIndex = 0;
+            txtImagenRuta.TextChanged += txtImagenRuta_TextChanged;
+            // 
+            // lbCodigo
+            // 
+            lbCodigo.AutoSize = true;
+            lbCodigo.BackColor = Color.White;
+            lbCodigo.Location = new Point(13, 131);
+            lbCodigo.Name = "lbCodigo";
+            lbCodigo.Size = new Size(46, 15);
+            lbCodigo.TabIndex = 9;
+            lbCodigo.Text = "Código";
+            lbCodigo.Click += lbCodigo_Click;
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.BorderStyle = BorderStyle.FixedSingle;
+            txtCodigo.Location = new Point(13, 149);
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.Size = new Size(207, 23);
+            txtCodigo.TabIndex = 10;
+            // 
             // ProductoControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -526,48 +529,48 @@
 
         #endregion
 
-        private Label label1;
-        private Label lblTituloDetalle;
-        private Label lblNombreProd;
-        private TextBox txtNombreProd;
-        private Label lblDescripcion;
-        private TextBox txtDescripcion;
-        private Label lblCategoria;
-        private ComboBox cbCategoria;
-        private Label lblStock;
-        private TextBox txtStock;
-        private Label lblPrecioCompra;
-        private TextBox txtPrecioCompra;
-        private Label lblPrecioVenta;
-        private TextBox txtPrecioVenta;
-        private Button btnGuardar;
-        private Button btnEditar;
-        private Button btnEliminar;
-        private Label lblListaProductos;
-        private ComboBox cbBusqueda;
-        private TextBox txtBusqueda;
-        private FontAwesome.Sharp.IconButton btnBuscar;
-        private FontAwesome.Sharp.IconButton btnLimpiar;
-        private Label lblBusqueda;
-        private DataGridView dgvProductos;
+        public Label label1;
+        public Label lblTituloDetalle;
+        public Label lblNombreProd;
+        public TextBox txtNombreProd;
+        public Label lblDescripcion;
+        public TextBox txtDescripcion;
+        public Label lblCategoria;
+        public ComboBox cbCategoria;
+        public Label lblStock;
+        public TextBox txtStock;
+        public Label lblPrecioCompra;
+        public TextBox txtPrecioCompra;
+        public Label lblPrecioVenta;
+        public TextBox txtPrecioVenta;
+        public Button btnGuardar;
+        public Button btnEditar;
+        public Button btnEliminar;
+        public Label lblListaProductos;
+        public ComboBox cbBusqueda;
+        public TextBox txtBusqueda;
+        public FontAwesome.Sharp.IconButton btnBuscar;
+        public FontAwesome.Sharp.IconButton btnLimpiar;
+        public Label lblBusqueda;
+        public DataGridView dgvProductos;
 
-        private Label lblImagen;
-        private TextBox txtImagenRuta;
-        private Button btnCargarImagen;
-        private PictureBox pBImagenProducto;
-        private PictureBox pbPreview;
-        private Label lbCargarImagen;
-        private Label lbCodigo;
-        private TextBox txtCodigo;
-        private DataGridViewTextBoxColumn idProducto;
-        private DataGridViewTextBoxColumn Codigo;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn Categoria;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Stock;
-        private DataGridViewTextBoxColumn PrecioCompra;
-        private DataGridViewTextBoxColumn PrecioVenta;
-        private DataGridViewTextBoxColumn Estado;
-        private DataGridViewTextBoxColumn EstadoValor;
+        public Label lblImagen;
+        public TextBox txtImagenRuta;
+        public Button btnCargarImagen;
+        public PictureBox pBImagenProducto;
+        public PictureBox pbPreview;
+        public Label lbCargarImagen;
+        public Label lbCodigo;
+        public TextBox txtCodigo;
+        public DataGridViewTextBoxColumn idProducto;
+        public DataGridViewTextBoxColumn Codigo;
+        public DataGridViewTextBoxColumn Nombre;
+        public DataGridViewTextBoxColumn Categoria;
+        public DataGridViewTextBoxColumn Descripcion;
+        public DataGridViewTextBoxColumn Stock;
+        public DataGridViewTextBoxColumn PrecioCompra;
+        public DataGridViewTextBoxColumn PrecioVenta;
+        public DataGridViewTextBoxColumn Estado;
+        public DataGridViewTextBoxColumn EstadoValor;
     }
 }
