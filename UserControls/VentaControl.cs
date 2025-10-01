@@ -48,38 +48,189 @@ namespace nikeproject.UserControls
         {
             InitializeComponent();
             // valores iniciales
+            this.Load += VentaControl_Load;
             _instance = this;
 
         }
 
-        //private void dgvProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    if (dgvProductos.Columns[e.ColumnIndex].Name == "btnSeleccionar" && e.RowIndex >= 0)
-        //    {
-        //        string codigo = dgvProductos.Rows[e.RowIndex].Cells["Codigo"].Value.ToString();
-        //        string nombre = dgvProductos.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
-        //        decimal precioVenta = Convert.ToDecimal(dgvProductos.Rows[e.RowIndex].Cells["PrecioVenta"].Value);
-        //        int stock = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["Stock"].Value);
-        //        string rutaImagen = dgvProductos.Rows[e.RowIndex].Cells["ImagenRuta"].Value.ToString();
+        private void VentaControl_Load(object sender, EventArgs e)
+        {
+            // Cantidad
+            nudCantidad.Minimum = 1;
+            nudCantidad.Value = 1;
 
-        //        // Autocompletar en VentaControl
-        //        VentaControl.Instance.txtCodProducto.Text = codigo;
-        //        VentaControl.Instance.txtNombreProd.Text = nombre;
-        //        VentaControl.Instance.txtPrecio.Text = precioVenta.ToString("0.00");
-        //        VentaControl.Instance.txtStock.Text = stock.ToString();
+            cbTipoDoc.Items.Clear();
+            cbTipoDoc.Items.AddRange(new object[]
+            {
+        "Boleta",
+        "Factura A",
+        "Factura B",
+        "Factura C",
+        "Ticket"
+            });
+            cbTipoDoc.SelectedIndex = 0;
 
-        //        // Mostrar Imagen
-        //        if (!string.IsNullOrEmpty(rutaImagen) && File.Exists(rutaImagen))
-        //        {
-        //            VentaControl.Instance.pbProducto.Image = Image.FromFile(rutaImagen);
-        //            VentaControl.Instance.pbProducto.SizeMode = PictureBoxSizeMode.Zoom;
-        //        }
-        //        else
-        //        {
-        //            VentaControl.Instance.pbProducto.Image = null;
-        //        }
-        //    }
-        //}
+            cbFormaPago.Items.Clear();
+            cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Cheque" });
+            cbFormaPago.SelectedIndex = 0;
+
+            // 👇 muy importante: enganchar el evento
+            cbFormaPago.SelectedIndexChanged += cbFormaPago_SelectedIndexChanged;
+
+            // Estado inicial
+            txtPagaCon.ReadOnly = cbFormaPago.SelectedItem?.ToString() != "Efectivo";
+            txtPagaCon.BackColor = txtPagaCon.ReadOnly ? SystemColors.Control : Color.White;
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            // Validaciones mínimas
+            if (string.IsNullOrWhiteSpace(txtNombreProd.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text))
+            {
+                MessageBox.Show("Seleccione un producto válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtStock.Text, out int stock))
+            {
+                MessageBox.Show("Stock inválido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int cantidad = (int)nudCantidad.Value;
+
+            if (stock == 0)
+            {
+                txtStock.BackColor = Color.LightCoral;
+                MessageBox.Show("No hay stock disponible para este producto.", "Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cantidad > stock)
+            {
+                MessageBox.Show("La cantidad no puede superar el stock disponible.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nudCantidad.Value = stock;
+                return;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
+            {
+                MessageBox.Show("Precio inválido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string producto = txtNombreProd.Text;
+            decimal subTotal = precio * cantidad;
+
+            // Agregar fila (orden: Producto | Precio | Cantidad | Sub Total)
+            dgvDetalle.Rows.Add(producto, precio.ToString("0.00"), cantidad, subTotal.ToString("0.00"));
+
+            // Actualizar stock visual
+            int nuevoStock = stock - cantidad;
+            txtStock.Text = nuevoStock.ToString();
+            nudCantidad.Maximum = Math.Max(nuevoStock, 1);
+            btnAgregar.Enabled = nuevoStock > 0;
+            txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
+
+            // Recalcular totales
+            RecalcularTotales();
+        }
+
+        private void RecalcularTotales()
+        {
+            decimal total = 0m;
+            int idxSubTotal = dgvDetalle.Columns["colSubTotal"].Index;
+
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.Cells[idxSubTotal].Value != null &&
+                    decimal.TryParse(row.Cells[idxSubTotal].Value.ToString(), out decimal st))
+                {
+                    total += st;
+                }
+            }
+
+            txtTotal.Text = total.ToString("0.00");
+            ActualizarCambio();
+        }
+
+
+        private void txtPagaCon_TextChanged(object sender, EventArgs e)
+        {
+            ActualizarCambio();
+        }
+
+        private void cbFormaPago_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool esEfectivo = cbFormaPago.SelectedItem?.ToString() == "Efectivo";
+
+            txtPagaCon.ReadOnly = !esEfectivo;
+            txtPagaCon.BackColor = esEfectivo ? Color.White : SystemColors.Control;
+
+            if (!esEfectivo)
+            {
+                txtPagaCon.Text = string.Empty;
+                txtCambio.Text = "0.00";
+            }
+        }
+
+
+        private void ActualizarCambio()
+        {
+            // Cambio solo aplica en EFECTIVO
+            if (cbFormaPago.SelectedItem?.ToString() != "Efectivo")
+            {
+                txtCambio.Text = "0.00";
+                return;
+            }
+
+            if (!decimal.TryParse(txtTotal.Text, out decimal total)) total = 0m;
+
+            if (decimal.TryParse(txtPagaCon.Text, out decimal pago))
+            {
+                // Si ingresa menos de lo debido, el cambio se queda en 0
+                decimal cambio = Math.Max(0, pago - total);
+                txtCambio.Text = cambio.ToString("0.00");
+            }
+            else
+            {
+                txtCambio.Text = "0.00";
+            }
+        }
+
+
+
+
+        private void nudCantidad_ValueChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtStock.Text, out int stock))
+            {
+                if (stock <= 0)
+                {
+                    txtStock.BackColor = Color.LightCoral;
+                    btnAgregar.Enabled = false;
+                    nudCantidad.Value = 1;
+                    nudCantidad.Maximum = 1;
+                }
+                else
+                {
+                    txtStock.BackColor = Color.White;
+                    btnAgregar.Enabled = true;
+
+                    // Si el usuario sube más que el stock, lo “recorta”
+                    if (nudCantidad.Value > stock) nudCantidad.Value = stock;
+                    nudCantidad.Maximum = stock;
+                }
+            }
+            else
+            {
+                // Stock inválido
+                btnAgregar.Enabled = false;
+                txtStock.BackColor = Color.LightCoral;
+            }
+        }
+
+
 
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
@@ -125,54 +276,6 @@ namespace nikeproject.UserControls
         }
 
 
-        private void btnAgregar_Click(object sender, EventArgs e)
-        {
-            if (_idProducto == 0 || string.IsNullOrWhiteSpace(txtNombreProd.Text))
-            {
-                MessageBox.Show("Seleccione un producto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (!int.TryParse(txtStock.Text, out int stock)) stock = 0;
-            int cantidad = (int)nudCantidad.Value;
-            if (cantidad > stock)
-            {
-                MessageBox.Show("La cantidad supera el stock disponible.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (!decimal.TryParse(txtPrecio.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal precio))
-            {
-                MessageBox.Show("Precio inválido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            decimal sub = precio * cantidad;
-
-            // si el producto ya está en la grilla, acumular cantidad
-            foreach (DataGridViewRow r in dgvDetalle.Rows)
-            {
-                int idProdRow = Convert.ToInt32(r.Cells["colIdProducto"].Value);
-                if (idProdRow == _idProducto)
-                {
-                    int cantActual = Convert.ToInt32(r.Cells["colCantidad"].Value);
-                    int nuevaCant = cantActual + cantidad;
-                    if (nuevaCant > stock)
-                    {
-                        MessageBox.Show("No podés superar el stock.", "Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    r.Cells["colCantidad"].Value = nuevaCant;
-                    r.Cells["colSubTotal"].Value = (precio * nuevaCant).ToString("0.##");
-                    CalcularTotal();
-                    LimpiarProducto();
-                    return;
-                }
-            }
-
-            dgvDetalle.Rows.Add(_idProducto, txtNombreProd.Text, precio.ToString("0.##"), cantidad, sub.ToString("0.##"));
-            CalcularTotal();
-            LimpiarProducto();
-        }
-
         private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
@@ -194,11 +297,6 @@ namespace nikeproject.UserControls
                 }
             }
             txtTotal.Text = total.ToString("0.00");
-            RecalcularCambio();
-        }
-
-        private void txtPagaCon_TextChanged(object sender, EventArgs e)
-        {
             RecalcularCambio();
         }
 

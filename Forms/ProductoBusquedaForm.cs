@@ -23,10 +23,14 @@ namespace nikeproject.Forms
         public ProductoBusquedaForm()
         {
             InitializeComponent();
+            dgvProductos.SelectionChanged += dgvProductos_SelectionChanged;
         }
 
         private void ProductoBusquedaForm_Load(object sender, EventArgs e)
         {
+            cbBusqueda.Items.AddRange(new object[] { "Codigo", "Nombre", "Descripcion" });
+            cbBusqueda.SelectedIndex = 0;
+
             cbBusqueda.Items.Add("Codigo");
             cbBusqueda.Items.Add("Nombre");
             cbBusqueda.Items.Add("Descripcion");
@@ -36,33 +40,68 @@ namespace nikeproject.Forms
 
         private void CargarProductos(string filtro = "", string columna = "")
         {
+            // Mapa seguro de columnas permitidas (whitelist)
+            var columnasPermitidas = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "Codigo", "Codigo" },
+        { "Nombre", "Nombre" },
+        { "Descripcion", "Descripcion" }
+    };
+
+            string columnaSql = null;
+            if (!string.IsNullOrWhiteSpace(columna) && columnasPermitidas.ContainsKey(columna))
+                columnaSql = columnasPermitidas[columna];
+
             using (SqlConnection oConexion = new SqlConnection(Conexion.CadenaConexion))
             {
                 oConexion.Open();
-                string query = @"SELECT IdProducto, Codigo, Nombre, Descripcion, Stock, PrecioVenta, ImagenRuta 
-                                 FROM PRODUCTO WHERE Estado = 1";
 
-                if (!string.IsNullOrEmpty(filtro) && !string.IsNullOrEmpty(columna))
-                {
-                    query += $" AND {columna} LIKE @filtro";
-                }
+                // Solo activos y con stock > 0
+                string query = @"
+                    SELECT IdProducto, Codigo, Nombre, Descripcion, Stock, PrecioVenta, ImagenRuta
+                     FROM PRODUCTO
+                     WHERE Estado = 1 AND Stock > 0";
+
+                if (!string.IsNullOrWhiteSpace(filtro) && !string.IsNullOrWhiteSpace(columnaSql))
+                    query += $" AND {columnaSql} LIKE @filtro";
 
                 using (SqlCommand cmd = new SqlCommand(query, oConexion))
                 {
-                    if (!string.IsNullOrEmpty(filtro))
+                    if (!string.IsNullOrWhiteSpace(filtro) && !string.IsNullOrWhiteSpace(columnaSql))
                         cmd.Parameters.AddWithValue("@filtro", "%" + filtro + "%");
 
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dgvProductos.DataSource = dt;
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        dgvProductos.DataSource = dt;
+                    }
                 }
             }
         }
 
+        private void dgvProductos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvProductos.CurrentRow != null)
+            {
+                var rutaImagen = dgvProductos.CurrentRow.Cells["ImagenRuta"].Value?.ToString();
+
+                if (!string.IsNullOrEmpty(rutaImagen) && File.Exists(rutaImagen))
+                {
+                    pbPreview.Image = Image.FromFile(rutaImagen);
+                }
+                else
+                {
+                    pbPreview.Image = null;
+                }
+            }
+        }
+
+
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            CargarProductos(txtBusqueda.Text.Trim(), cbBusqueda.SelectedItem.ToString());
+            CargarProductos(txtBusqueda.Text.Trim(), cbBusqueda.SelectedItem?.ToString());
         }
 
         public event EventHandler<ProductoSeleccionadoEventArgs> ProductoSeleccionado;

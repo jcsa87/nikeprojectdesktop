@@ -61,7 +61,7 @@ namespace nikeproject.UserControls
                     Stock = int.Parse(txtStock.Text),
                     PrecioCompra = decimal.Parse(txtPrecioCompra.Text),
                     PrecioVenta = decimal.Parse(txtPrecioVenta.Text),
-                   // Estado = cbEstadoDetalle.SelectedItem?.ToString() == "Activo",
+                    Estado = true,
                     ImagenRuta = txtImagenRuta.Text.Trim(),
                     IdCategoria = (int)cbCategoria.SelectedValue
                 };
@@ -175,8 +175,8 @@ namespace nikeproject.UserControls
                 bool reactivar = (btnEliminar.Text == "Reactivar Producto");
 
                 string mensajeConfirmacion = reactivar
-    ? "¿Está seguro que desea reactivar este producto?"
-    : "¿Está seguro que desea dar de baja este producto?";
+                ? "¿Está seguro que desea reactivar este producto?"
+                : "¿Está seguro que desea dar de baja este producto?";
 
 
                 if (MessageBox.Show(mensajeConfirmacion, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)

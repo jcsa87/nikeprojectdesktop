@@ -101,10 +101,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+            // 
+            // pbPreview
+            // 
+            this.pbPreview = new System.Windows.Forms.PictureBox();
+            this.pbPreview.Location = new System.Drawing.Point(600, 0);
+            this.pbPreview.Name = "pbPreview";
+            this.pbPreview.Size = new System.Drawing.Size(65, 65); 
+            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+
+            // Agregar al formulario
+            this.Controls.Add(this.pbPreview);
+
+
         }
 
         #endregion
 
+        private System.Windows.Forms.PictureBox pbPreview;
         private System.Windows.Forms.Label lblBusqueda;
         private System.Windows.Forms.ComboBox cbBusqueda;
         private System.Windows.Forms.TextBox txtBusqueda;
