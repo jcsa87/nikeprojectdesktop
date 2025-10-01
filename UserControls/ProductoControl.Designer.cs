@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             lblTituloDetalle = new Label();
             lblNombreProd = new Label();
@@ -40,7 +40,6 @@
             cbCategoria = new ComboBox();
             lblStock = new Label();
             txtStock = new TextBox();
-            txtCodigo = new TextBox();
             lblPrecioCompra = new Label();
             txtPrecioCompra = new TextBox();
             lblPrecioVenta = new Label();
@@ -55,23 +54,22 @@
             btnLimpiar = new FontAwesome.Sharp.IconButton();
             lblBusqueda = new Label();
             dgvProductos = new DataGridView();
-            btnSeleccionar = new DataGridViewButtonColumn();
-            idProducto = new DataGridViewTextBoxColumn();
-            Codigo = new DataGridViewTextBoxColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Categoria = new DataGridViewTextBoxColumn();
-            Stock = new DataGridViewTextBoxColumn();
-            PrecioCompra = new DataGridViewTextBoxColumn();
-            PrecioVenta = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            EstadoValor = new DataGridViewTextBoxColumn();
             lbCargarImagen = new Label();
             btnCargarImagen = new Button();
             pBImagenProducto = new PictureBox();
             txtImagenRuta = new TextBox();
             lbCodigo = new Label();
-            tbCodigo = new TextBox();
+            txtCodigo = new TextBox();
+            idProducto = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Categoria = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Stock = new DataGridViewTextBoxColumn();
+            PrecioCompra = new DataGridViewTextBoxColumn();
+            PrecioVenta = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            EstadoValor = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBImagenProducto).BeginInit();
             SuspendLayout();
@@ -170,13 +168,6 @@
             txtStock.Name = "txtStock";
             txtStock.Size = new Size(207, 23);
             txtStock.TabIndex = 10;
-            // 
-            // txtCodigo
-            // 
-            txtCodigo.Location = new Point(0, 0);
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(100, 23);
-            txtCodigo.TabIndex = 0;
             // 
             // lblPrecioCompra
             // 
@@ -335,109 +326,28 @@
             // 
             dgvProductos.AllowUserToAddRows = false;
             dgvProductos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.Padding = new Padding(2);
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { btnSeleccionar, idProducto, Codigo, Nombre, Descripcion, Categoria, Stock, PrecioCompra, PrecioVenta, Estado, EstadoValor });
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { idProducto, Codigo, Nombre, Categoria, Descripcion, Stock, PrecioCompra, PrecioVenta, Estado, EstadoValor });
             dgvProductos.Location = new Point(257, 78);
             dgvProductos.MultiSelect = false;
             dgvProductos.Name = "dgvProductos";
             dgvProductos.ReadOnly = true;
-            dataGridViewCellStyle4.SelectionBackColor = Color.White;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dgvProductos.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dgvProductos.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dgvProductos.RowTemplate.Height = 28;
             dgvProductos.Size = new Size(822, 624);
             dgvProductos.TabIndex = 16;
-            // 
-            // btnSeleccionar
-            // 
-            btnSeleccionar.HeaderText = "";
-            btnSeleccionar.Name = "btnSeleccionar";
-            btnSeleccionar.ReadOnly = true;
-            btnSeleccionar.Width = 30;
-            // 
-            // idProducto
-            // 
-            idProducto.DataPropertyName = "idProducto";
-            idProducto.HeaderText = "Id";
-            idProducto.Name = "idProducto";
-            idProducto.ReadOnly = true;
-            idProducto.Visible = false;
-            // 
-            // Codigo
-            // 
-            Codigo.DataPropertyName = "Codigo";
-            Codigo.HeaderText = "Código";
-            Codigo.Name = "Codigo";
-            Codigo.ReadOnly = true;
-            Codigo.Width = 120;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 150;
-            // 
-            // Descripcion
-            // 
-            Descripcion.DataPropertyName = "Descripcion";
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            Descripcion.ReadOnly = true;
-            Descripcion.Width = 180;
-            // 
-            // Categoria
-            // 
-            Categoria.DataPropertyName = "Categoria";
-            Categoria.HeaderText = "Categoría";
-            Categoria.Name = "Categoria";
-            Categoria.ReadOnly = true;
-            // 
-            // Stock
-            // 
-            Stock.DataPropertyName = "Stock";
-            Stock.HeaderText = "Stock";
-            Stock.Name = "Stock";
-            Stock.ReadOnly = true;
-            // 
-            // PrecioCompra
-            // 
-            PrecioCompra.DataPropertyName = "PrecioCompra";
-            PrecioCompra.HeaderText = "P. Compra";
-            PrecioCompra.Name = "PrecioCompra";
-            PrecioCompra.ReadOnly = true;
-            // 
-            // PrecioVenta
-            // 
-            PrecioVenta.DataPropertyName = "PrecioVenta";
-            PrecioVenta.HeaderText = "P. Venta";
-            PrecioVenta.Name = "PrecioVenta";
-            PrecioVenta.ReadOnly = true;
-            // 
-            // Estado
-            // 
-            Estado.DataPropertyName = "Estado";
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            Estado.Visible = false;
-            // 
-            // EstadoValor
-            // 
-            EstadoValor.HeaderText = "EstadoValor";
-            EstadoValor.Name = "EstadoValor";
-            EstadoValor.ReadOnly = true;
-            EstadoValor.Visible = false;
+            dgvProductos.DataBindingComplete += dgvProductos_DataBindingComplete;
             // 
             // lbCargarImagen
             // 
@@ -488,13 +398,87 @@
             lbCodigo.Text = "Código";
             lbCodigo.Click += lbCodigo_Click;
             // 
-            // tbCodigo
+            // txtCodigo
             // 
-            tbCodigo.BorderStyle = BorderStyle.FixedSingle;
-            tbCodigo.Location = new Point(13, 149);
-            tbCodigo.Name = "tbCodigo";
-            tbCodigo.Size = new Size(207, 23);
-            tbCodigo.TabIndex = 10;
+            txtCodigo.BorderStyle = BorderStyle.FixedSingle;
+            txtCodigo.Location = new Point(13, 149);
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.Size = new Size(207, 23);
+            txtCodigo.TabIndex = 10;
+            // 
+            // idProducto
+            // 
+            idProducto.DataPropertyName = "idProducto";
+            idProducto.HeaderText = "Id";
+            idProducto.Name = "idProducto";
+            idProducto.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.DataPropertyName = "Codigo";
+            Codigo.HeaderText = "Código";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            Codigo.Width = 120;
+            // 
+            // Nombre
+            // 
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            Nombre.Width = 150;
+            // 
+            // Categoria
+            // 
+            Categoria.DataPropertyName = "CategoriaNombre";
+            Categoria.HeaderText = "Categoría";
+            Categoria.Name = "Categoria";
+            Categoria.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.DataPropertyName = "Descripcion";
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            Descripcion.ReadOnly = true;
+            Descripcion.Width = 180;
+            // 
+            // Stock
+            // 
+            Stock.DataPropertyName = "Stock";
+            Stock.HeaderText = "Stock";
+            Stock.Name = "Stock";
+            Stock.ReadOnly = true;
+            // 
+            // PrecioCompra
+            // 
+            PrecioCompra.DataPropertyName = "PrecioCompra";
+            PrecioCompra.HeaderText = "P. Compra";
+            PrecioCompra.Name = "PrecioCompra";
+            PrecioCompra.ReadOnly = true;
+            // 
+            // PrecioVenta
+            // 
+            PrecioVenta.DataPropertyName = "PrecioVenta";
+            PrecioVenta.HeaderText = "P. Venta";
+            PrecioVenta.Name = "PrecioVenta";
+            PrecioVenta.ReadOnly = true;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            Estado.Visible = false;
+            // 
+            // EstadoValor
+            // 
+            EstadoValor.HeaderText = "EstadoValor";
+            EstadoValor.Name = "EstadoValor";
+            EstadoValor.ReadOnly = true;
+            EstadoValor.Visible = false;
             // 
             // ProductoControl
             // 
@@ -518,7 +502,7 @@
             Controls.Add(cbCategoria);
             Controls.Add(txtPrecioVenta);
             Controls.Add(txtPrecioCompra);
-            Controls.Add(tbCodigo);
+            Controls.Add(txtCodigo);
             Controls.Add(txtStock);
             Controls.Add(txtDescripcion);
             Controls.Add(txtNombreProd);
@@ -566,17 +550,6 @@
         private FontAwesome.Sharp.IconButton btnLimpiar;
         private Label lblBusqueda;
         private DataGridView dgvProductos;
-        private DataGridViewButtonColumn btnSeleccionar;
-        private DataGridViewTextBoxColumn idProducto;
-        private DataGridViewTextBoxColumn Codigo;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Categoria;
-        private DataGridViewTextBoxColumn Stock;
-        private DataGridViewTextBoxColumn PrecioCompra;
-        private DataGridViewTextBoxColumn PrecioVenta;
-        private DataGridViewTextBoxColumn Estado;
-        private DataGridViewTextBoxColumn EstadoValor;
 
         private Label lblImagen;
         private TextBox txtImagenRuta;
@@ -585,7 +558,16 @@
         private PictureBox pbPreview;
         private Label lbCargarImagen;
         private Label lbCodigo;
-        private TextBox tbCodigo;
         private TextBox txtCodigo;
+        private DataGridViewTextBoxColumn idProducto;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Categoria;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn Stock;
+        private DataGridViewTextBoxColumn PrecioCompra;
+        private DataGridViewTextBoxColumn PrecioVenta;
+        private DataGridViewTextBoxColumn Estado;
+        private DataGridViewTextBoxColumn EstadoValor;
     }
 }

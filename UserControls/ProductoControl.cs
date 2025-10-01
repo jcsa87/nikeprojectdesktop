@@ -1,10 +1,13 @@
 ﻿using nikeproject.Data;
+using nikeproject.DataAccess;
 using nikeproject.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using nikeproject.Helpers;
 
 namespace nikeproject.UserControls
 {
@@ -15,8 +18,11 @@ namespace nikeproject.UserControls
         public ProductoControl()
         {
             InitializeComponent();
+            GridHelper.PintarInactivos(dgvProductos);
+            dgvProductos.CellClick += dgvProductos_CellClick;
             CargarProductos();
             CargarCategorias();
+
         }
 
         private void CargarProductos()
@@ -36,6 +42,15 @@ namespace nikeproject.UserControls
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+
+            if (ProductoData.ExisteCodigo(txtCodigo.Text.Trim()))
+            {
+                MessageBox.Show("⚠️ Ya existe un producto con este código. Ingrese uno distinto.",
+                                "Código duplicado",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
             try
             {
                 Producto p = new Producto
@@ -102,6 +117,20 @@ namespace nikeproject.UserControls
             }
         }
 
+        private void dgvProductos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvProductos.Rows)
+            {
+                if (row.Cells["Estado"].Value != null && row.Cells["Estado"].Value != DBNull.Value)
+                {
+                    bool activo = Convert.ToBoolean(row.Cells["Estado"].Value);
+                    row.DefaultCellStyle.BackColor = activo ? Color.White : Color.LightCoral;
+                    row.DefaultCellStyle.ForeColor = activo ? Color.Black : Color.White;
+                }
+            }
+        }
+
+
         private void btnCargarImagen_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -139,51 +168,122 @@ namespace nikeproject.UserControls
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (idProductoSeleccionado == 0)
+            if (idProductoSeleccionado > 0)
             {
-                MessageBox.Show("⚠️ Seleccione un producto primero.");
-                return;
-            }
+                ProductoData productoData = new ProductoData();
 
-            if (ProductoData.EliminarProducto(idProductoSeleccionado))
-            {
-                MessageBox.Show("🗑️ Producto eliminado (baja lógica).");
-                CargarProductos();
-                LimpiarCampos();
+                bool reactivar = (btnEliminar.Text == "Reactivar Producto");
+
+                string mensajeConfirmacion = reactivar
+    ? "¿Está seguro que desea reactivar este producto?"
+    : "¿Está seguro que desea dar de baja este producto?";
+
+
+                if (MessageBox.Show(mensajeConfirmacion, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    bool resultado;
+
+                    if (reactivar)
+                    {
+                        resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, true); // activo
+                    }
+                    else
+                    {
+                        resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, false); // inactivo
+                    }
+
+                    if (resultado)
+                    {
+                        MessageBox.Show(reactivar
+                            ? "✅ Producto reactivado correctamente."
+                            : "✅ Producto dado de baja correctamente.");
+
+                        CargarProductos();
+                        LimpiarCampos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("⚠️ No se pudo actualizar el producto.");
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("❌ Error al eliminar producto");
+                MessageBox.Show("⚠️ Seleccione un usuario.");
             }
         }
+
+        private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvProductos.Columns[e.ColumnIndex].Name == "Estado") // columna Estado
+            {
+                var estado = dgvProductos.Rows[e.RowIndex].Cells["Estado"].Value;
+                if (estado != null && estado != DBNull.Value && !Convert.ToBoolean(estado))
+                {
+                    // Fila inactiva → rojo suave
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    // Reset a valores por defecto (por si se reusa fila)
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
+
 
         // Autocompletar campos al seleccionar de la grilla
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex < 0) return;
+
+            // Toma el objeto Producto que está enlazado a la fila
+            var prod = dgvProductos.Rows[e.RowIndex].DataBoundItem as Producto;
+            if (prod == null) return;
+
+            idProductoSeleccionado = prod.IdProducto;
+
+            // Autocompleta campos
+            txtCodigo.Text = prod.Codigo;
+            txtNombreProd.Text = prod.Nombre;
+            txtDescripcion.Text = prod.Descripcion;
+            txtStock.Text = prod.Stock.ToString();
+            txtPrecioCompra.Text = prod.PrecioCompra.ToString("0.##");
+            txtPrecioVenta.Text = prod.PrecioVenta.ToString("0.##");
+
+            // Estado
+            if (prod.Estado)
             {
-                DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
+                btnEliminar.Text = "Dar de Baja Producto";
+                btnEliminar.BackColor = Color.Firebrick; // rojo
+            }
+            else
+            {
+                btnEliminar.Text = "Reactivar Producto";
+                btnEliminar.BackColor = Color.SeaGreen; // verde
+            }
 
-                idProductoSeleccionado = Convert.ToInt32(row.Cells["IdProducto"].Value);
-                txtCodigo.Text = row.Cells["Codigo"].Value.ToString();
-                txtNombreProd.Text = row.Cells["Nombre"].Value.ToString();
-                txtDescripcion.Text = row.Cells["Descripcion"].Value.ToString();
-                txtPrecioVenta.Text = row.Cells["PrecioVenta"].Value.ToString();
-                cbCategoria.SelectedValue = Convert.ToInt32(row.Cells["IdCategoria"].Value);
 
 
-                // Imagen
-                txtImagenRuta.Text = row.Cells["ImagenRuta"].Value?.ToString();
-                if (File.Exists(txtImagenRuta.Text))
-                {
-                    pBImagenProducto.Image = Image.FromFile(txtImagenRuta.Text);
-                }
-                else
-                {
-                    pBImagenProducto.Image = null;
-                }
+            // Categoría (usa el Id)
+            cbCategoria.SelectedValue = prod.IdCategoria;
+
+            // Imagen
+            txtImagenRuta.Text = prod.ImagenRuta ?? "";
+            if (!string.IsNullOrWhiteSpace(prod.ImagenRuta) && File.Exists(prod.ImagenRuta))
+            {
+                pBImagenProducto.Image = Image.FromFile(prod.ImagenRuta);
+                pBImagenProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            else
+            {
+                pBImagenProducto.Image = null;
             }
         }
+
+
 
         private void LimpiarCampos()
         {

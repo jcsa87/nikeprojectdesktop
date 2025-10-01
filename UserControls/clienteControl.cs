@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using nikeproject.Auth;
 using nikeproject.DataAccess;
+using nikeproject.Helpers;
 using nikeproject.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using nikeproject.Models;
 
 namespace nikeproject
 {
@@ -24,6 +26,7 @@ namespace nikeproject
             InicializarControles();
             CargarClientes();
 
+            GridHelper.PintarInactivos(dgvCliente);
         }
 
         private void ClienteControl_Load(object sender, EventArgs e)
@@ -245,7 +248,7 @@ namespace nikeproject
                 }
 
                 // Crear objeto cliente con datos del formulario
-                Cliente oCliente = new Cliente()
+                Cliente  oCliente = new Cliente()
                 {
                     IdCliente = idClienteSeleccionado,
                     Nombre = txtNombre.Text.Trim(),

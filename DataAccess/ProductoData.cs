@@ -7,7 +7,7 @@ using nikeproject.DataAccess;
 
 namespace nikeproject.Data
 {
-    public static class ProductoData
+    public class ProductoData
     {
 
         public static bool AgregarProducto(Producto p)
@@ -41,13 +41,60 @@ namespace nikeproject.Data
             }
             catch (Exception ex)
             {
-                // Te recomiendo loguear el error para debug
-                Console.WriteLine("Error al insertar producto: " + ex.Message);
+                MessageBox.Show("Error en AgregarProducto: " + ex.Message,
+                                "Error SQL",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 resultado = false;
             }
 
+
             return resultado;
         }
+
+        public bool CambiarEstadoProducto(int idProducto, bool activo)
+        {
+            bool resultado = false;
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    string query = "UPDATE PRODUCTO SET Estado = @estado WHERE IdProducto = @idproducto";
+
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@estado", activo ? 1 : 0);
+                        cmd.Parameters.AddWithValue("@idproducto", idProducto);
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        resultado = filasAfectadas > 0;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
+        public static bool ExisteCodigo(string codigo)
+        {
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                string query = "SELECT COUNT(*) FROM PRODUCTO WHERE Codigo = @Codigo";
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    cmd.Parameters.AddWithValue("@Codigo", codigo);
+                    oConexion.Open();
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
 
 
         public static List<Producto> ListarProductos()
@@ -121,7 +168,7 @@ INNER JOIN CATEGORIA c ON p.IdCategoria = c.IdCategoria
                     cmd.Parameters.AddWithValue("@Codigo", p.Codigo);
                     cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
-                    cmd.Parameters.AddWithValue("@Categoria", p.IdCategoria);
+                    cmd.Parameters.AddWithValue("@IdCategoria", p.IdCategoria);
                     cmd.Parameters.AddWithValue("@Stock", p.Stock);
                     cmd.Parameters.AddWithValue("@PrecioCompra", p.PrecioCompra);
                     cmd.Parameters.AddWithValue("@PrecioVenta", p.PrecioVenta);

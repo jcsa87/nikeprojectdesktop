@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using nikeproject.Auth;
 using nikeproject.DataAccess;
+using nikeproject.Helpers;
 using nikeproject.Models;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace nikeproject
         public UsuariosControl()
         {
             InitializeComponent();
+            GridHelper.PintarInactivos(dgvUsuario);
         }
 
         private void UsuariosControl_Load(object sender, EventArgs e)

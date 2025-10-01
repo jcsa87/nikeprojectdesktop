@@ -417,7 +417,7 @@
             // 
             // clienteBindingSource
             // 
-            clienteBindingSource.DataSource = typeof(Models.Cliente);
+            clienteBindingSource.DataSource = typeof(Models.Usuario);
             // 
             // txtApellido
             // 
