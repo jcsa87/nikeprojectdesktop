@@ -10,6 +10,8 @@ namespace nikeproject.Forms
 
     public class ClienteSeleccionadoEventArgs : EventArgs
     {
+
+        public int IdCliente { get; set; }
         public string Documento { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
@@ -23,6 +25,8 @@ namespace nikeproject.Forms
         {
             InitializeComponent();
         }
+
+        public event EventHandler<ClienteSeleccionadoEventArgs> ClienteSeleccionado;
 
         private void ClienteBusquedaForm_Load(object sender, EventArgs e)
         {
@@ -66,14 +70,14 @@ namespace nikeproject.Forms
             CargarClientes(txtBusqueda.Text.Trim(), cbBusqueda.SelectedItem.ToString());
         }
 
-        public event EventHandler<ClienteSeleccionadoEventArgs> ClienteSeleccionado;
 
         private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvClientes.Columns[e.ColumnIndex].Name == "btnSeleccionar" && e.RowIndex >= 0)
             {
-                var args = new ClienteSeleccionadoEventArgs
+                var ev = new ClienteSeleccionadoEventArgs
                 {
+                    IdCliente = Convert.ToInt32(dgvClientes.Rows[e.RowIndex].Cells["IdCliente"].Value),
                     Documento = dgvClientes.Rows[e.RowIndex].Cells["Documento"].Value.ToString(),
                     Nombre = dgvClientes.Rows[e.RowIndex].Cells["Nombre"].Value.ToString(),
                     Apellido = dgvClientes.Rows[e.RowIndex].Cells["Apellido"].Value.ToString(),
@@ -81,9 +85,10 @@ namespace nikeproject.Forms
                     Correo = dgvClientes.Rows[e.RowIndex].Cells["Correo"].Value.ToString()
                 };
 
-                ClienteSeleccionado?.Invoke(this, args);
+                ClienteSeleccionado?.Invoke(this, ev); // 🔥 disparamos el evento
                 this.Close();
             }
         }
     }
 }
+

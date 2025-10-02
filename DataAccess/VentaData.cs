@@ -9,6 +9,31 @@ namespace nikeproject.Data
 {
     public class VentaData
     {
+
+        public static int InsertarVenta(Venta v)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string sql = @"
+                INSERT INTO VENTA (IdCliente, IdUsuario, NumeroDocumento, FechaRegistro, MontoTotal, Estado)
+                VALUES (@IdCliente, @IdUsuario, @NumeroDocumento, @FechaRegistro, @MontoTotal, @Estado);
+                SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                using (SqlCommand cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdCliente", v.IdCliente);
+                    cmd.Parameters.AddWithValue("@IdUsuario", v.IdUsuario);
+                    cmd.Parameters.AddWithValue("@NumeroDocumento", v.NumeroDocumento);
+                    cmd.Parameters.AddWithValue("@FechaRegistro", v.FechaRegistro);
+                    cmd.Parameters.AddWithValue("@MontoTotal", v.MontoTotal);
+                    cmd.Parameters.AddWithValue("@Estado", v.Estado ? 1 : 0);
+
+                    object o = cmd.ExecuteScalar();
+                    return (o == null) ? 0 : Convert.ToInt32(o);
+                }
+            }
+        }
         public static bool RegistrarVenta(Venta venta)
         {
             bool resultado = false;

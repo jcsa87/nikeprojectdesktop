@@ -10,6 +10,24 @@ namespace nikeproject.Data
     public class ProductoData
     {
 
+        public static bool DescontarStock(int idProducto, int cantidad)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string sql = @"UPDATE PRODUCTO
+                               SET Stock = Stock - @Cantidad
+                               WHERE IdProducto = @IdProducto AND Stock >= @Cantidad;";
+
+                using (SqlCommand cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+                    cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
         public static bool AgregarProducto(Producto p)
         {
             bool resultado = false;

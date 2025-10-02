@@ -29,6 +29,7 @@
             lblTipoDoc = new Label();
             cbTipoDoc = new ComboBox();
             grpCliente = new GroupBox();
+            pbCliente = new PictureBox();
             lblDocumento = new Label();
             txtDocumentoCliente = new TextBox();
             btnBuscarCliente = new Button();
@@ -68,10 +69,11 @@
             cbFormaPago = new ComboBox();
             lblCambio = new Label();
             txtCambio = new TextBox();
-            btnCrearVenta = new Button();
             txtPagaCon = new TextBox();
+            btnCrearVenta = new Button();
             grpVenta.SuspendLayout();
             grpCliente.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
             grpProducto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
@@ -127,6 +129,7 @@
             // 
             // grpCliente
             // 
+            grpCliente.Controls.Add(pbCliente);
             grpCliente.Controls.Add(lblDocumento);
             grpCliente.Controls.Add(txtDocumentoCliente);
             grpCliente.Controls.Add(btnBuscarCliente);
@@ -144,6 +147,17 @@
             grpCliente.TabIndex = 1;
             grpCliente.TabStop = false;
             grpCliente.Text = "Información Cliente";
+            // 
+            // pbCliente
+            // 
+            pbCliente.Image = (Image)resources.GetObject("pbCliente.Image");
+            pbCliente.InitialImage = (Image)resources.GetObject("pbCliente.InitialImage");
+            pbCliente.Location = new Point(844, 15);
+            pbCliente.Name = "pbCliente";
+            pbCliente.Size = new Size(88, 47);
+            pbCliente.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCliente.TabIndex = 13;
+            pbCliente.TabStop = false;
             // 
             // lblDocumento
             // 
@@ -370,6 +384,7 @@
             btnAgregar.Size = new Size(95, 23);
             btnAgregar.TabIndex = 11;
             btnAgregar.Text = "Agregar";
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // dgvDetalle
             // 
@@ -412,6 +427,7 @@
             colQuitar.Name = "colQuitar";
             colQuitar.Text = "Quitar";
             colQuitar.UseColumnTextForButtonValue = true;
+            dgvDetalle.CellContentClick += dgvDetalle_CellContentClick;
             // 
             // pnlTotales
             // 
@@ -420,10 +436,9 @@
             pnlTotales.Controls.Add(lblPagaCon);
             pnlTotales.Controls.Add(cbFormaPago);
             pnlTotales.Controls.Add(lblCambio);
-            pnlTotales.Controls.Add(btnCrearVenta);
             pnlTotales.Controls.Add(txtCambio);
             pnlTotales.Controls.Add(txtPagaCon);
-            pnlTotales.Location = new Point(550, 520);
+            pnlTotales.Location = new Point(437, 516);
             pnlTotales.Name = "pnlTotales";
             pnlTotales.Size = new Size(415, 80);
             pnlTotales.TabIndex = 4;
@@ -449,16 +464,17 @@
             // lblPagaCon
             // 
             lblPagaCon.AutoSize = true;
-            lblPagaCon.Location = new Point(220, 6);
+            lblPagaCon.Location = new Point(207, 15);
             lblPagaCon.Name = "lblPagaCon";
             lblPagaCon.Size = new Size(59, 15);
             lblPagaCon.TabIndex = 2;
             lblPagaCon.Text = "Paga con:";
+            lblPagaCon.Click += lblPagaCon_Click;
             // 
             // cbFormaPago
             // 
             cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbFormaPago.Location = new Point(285, 3);
+            cbFormaPago.Location = new Point(272, 15);
             cbFormaPago.Name = "cbFormaPago";
             cbFormaPago.Size = new Size(88, 23);
             cbFormaPago.TabIndex = 3;
@@ -481,23 +497,30 @@
             txtCambio.TabIndex = 5;
             txtCambio.Text = "0.00";
             // 
-            // btnCrearVenta
-            // 
-            btnCrearVenta.Location = new Point(284, 53);
-            btnCrearVenta.Name = "btnCrearVenta";
-            btnCrearVenta.Size = new Size(100, 25);
-            btnCrearVenta.TabIndex = 6;
-            btnCrearVenta.Text = "Crear Venta";
-            // 
             // txtPagaCon
             // 
-            txtPagaCon.Location = new Point(285, 29);
+            txtPagaCon.Location = new Point(272, 42);
             txtPagaCon.Name = "txtPagaCon";
             txtPagaCon.Size = new Size(100, 23);
             txtPagaCon.TabIndex = 7;
             // 
+            // btnCrearVenta
+            // 
+            btnCrearVenta.BackColor = Color.SeaGreen;
+            btnCrearVenta.FlatAppearance.BorderSize = 0;
+            btnCrearVenta.FlatStyle = FlatStyle.Flat;
+            btnCrearVenta.ForeColor = Color.White;
+            btnCrearVenta.Location = new Point(872, 527);
+            btnCrearVenta.Name = "btnCrearVenta";
+            btnCrearVenta.Size = new Size(75, 23);
+            btnCrearVenta.TabIndex = 0;
+            btnCrearVenta.Text = "Crear Venta";
+            btnCrearVenta.UseVisualStyleBackColor = false;
+            btnCrearVenta.Click += btnCrearVenta_Click;
+            // 
             // VentaControl
             // 
+            Controls.Add(btnCrearVenta);
             Controls.Add(grpVenta);
             Controls.Add(grpCliente);
             Controls.Add(grpProducto);
@@ -509,6 +532,7 @@
             grpVenta.PerformLayout();
             grpCliente.ResumeLayout(false);
             grpCliente.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).EndInit();
             grpProducto.ResumeLayout(false);
             grpProducto.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbProducto).EndInit();
@@ -518,7 +542,6 @@
             pnlTotales.PerformLayout();
             ResumeLayout(false);
         }
-
 
 
         #endregion
@@ -575,5 +598,6 @@
         public TextBox txtTelefono;
         public ComboBox cbFormaPago;
         public TextBox txtPagaCon;
+        public PictureBox pbCliente;
     }
 }
