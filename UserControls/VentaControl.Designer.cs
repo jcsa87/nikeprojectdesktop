@@ -541,10 +541,31 @@
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
             ResumeLayout(false);
+            // grpHistorial
+            GroupBox grpHistorial = new GroupBox();
+            grpHistorial.Text = "Historial de Ventas";
+            grpHistorial.Location = new Point(980, 10); // al lado derecho
+            grpHistorial.Size = new Size(500, 590);     // ajusta según el form
+            grpHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            // dgvVentas
+            dgvVentas = new DataGridView();
+            dgvVentas.Dock = DockStyle.Fill;
+            dgvVentas.ReadOnly = true;
+            dgvVentas.AllowUserToAddRows = false;
+            dgvVentas.AllowUserToDeleteRows = false;
+            dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            grpHistorial.Controls.Add(dgvVentas);
+            Controls.Add(grpHistorial);
+
+
         }
 
 
         #endregion
+        public DataGridView dgvVentas;
 
         public System.Windows.Forms.GroupBox grpVenta;
         public System.Windows.Forms.Label lblFecha;

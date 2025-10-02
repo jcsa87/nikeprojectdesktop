@@ -14,8 +14,8 @@ namespace nikeproject.DataAccess
             {
                 cn.Open();
                 string sql = @"INSERT INTO DETALLE_VENTA
-(IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal)
-VALUES (@IdVenta, @IdProducto, @Cantidad, @PrecioUnitario, @SubTotal);";
+                (IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal)
+                VALUES (@IdVenta, @IdProducto, @Cantidad, @PrecioUnitario, @SubTotal);";
 
                 using (SqlCommand cmd = new SqlCommand(sql, cn))
                 {

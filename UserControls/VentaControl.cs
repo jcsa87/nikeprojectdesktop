@@ -28,10 +28,36 @@ namespace nikeproject.UserControls
             _idProducto = p.IdProducto;
             txtCodProducto.Text = p.Codigo;
             txtNombreProd.Text = p.Nombre;
-            txtPrecio.Text = p.PrecioVenta.ToString("0.##");
+            txtPrecio.Text = p.PrecioVenta.ToString("0.00");
             txtStock.Text = p.Stock.ToString();
+
+            nudCantidad.Minimum = 1;
             nudCantidad.Value = 1;
+            nudCantidad.Maximum = p.Stock > 0 ? p.Stock : 1;
+
+            if (p.Stock <= 0)
+            {
+                txtStock.BackColor = Color.LightCoral;
+                btnAgregar.Enabled = false;
+            }
+            else
+            {
+                txtStock.BackColor = Color.White;
+                btnAgregar.Enabled = true;
+            }
+
+            // Imagen
+            if (!string.IsNullOrEmpty(p.ImagenRuta) && File.Exists(p.ImagenRuta))
+            {
+                pbProducto.Image = Image.FromFile(p.ImagenRuta);
+                pbProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            else
+            {
+                pbProducto.Image = null;
+            }
         }
+
 
         private int _idCliente = 0;
         private int _idProducto = 0;
@@ -82,65 +108,68 @@ namespace nikeproject.UserControls
             // Estado inicial
             txtPagaCon.ReadOnly = cbFormaPago.SelectedItem?.ToString() != "Efectivo";
             txtPagaCon.BackColor = txtPagaCon.ReadOnly ? SystemColors.Control : Color.White;
+
+            CargarHistorialVentas();
         }
+
+        private void CargarHistorialVentas()
+        {
+            dgvVentas.DataSource = null;
+            dgvVentas.DataSource = VentaData.ListarVentas();
+
+            // opcional: renombrar headers
+            if (dgvVentas.Columns.Contains("IdVenta"))
+                dgvVentas.Columns["IdVenta"].HeaderText = "ID";
+
+            if (dgvVentas.Columns.Contains("NumeroDocumento"))
+                dgvVentas.Columns["NumeroDocumento"].HeaderText = "Documento";
+
+            if (dgvVentas.Columns.Contains("FechaRegistro"))
+                dgvVentas.Columns["FechaRegistro"].HeaderText = "Fecha";
+
+            if (dgvVentas.Columns.Contains("MontoTotal"))
+                dgvVentas.Columns["MontoTotal"].HeaderText = "Total";
+
+            if (dgvVentas.Columns.Contains("Cliente"))
+                dgvVentas.Columns["Cliente"].HeaderText = "Cliente";
+        }
+
+
 
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            if (_idProducto == 0) return;
 
-
-            // Validaciones mínimas
-            if (string.IsNullOrWhiteSpace(txtNombreProd.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text))
-            {
-                MessageBox.Show("Seleccione un producto válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (!int.TryParse(txtStock.Text, out int stock))
-            {
-                MessageBox.Show("Stock inválido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (!int.TryParse(txtStock.Text, out int stockActual)) return;
 
             int cantidad = (int)nudCantidad.Value;
-
-            if (stock == 0)
+            if (cantidad > stockActual)
             {
-                txtStock.BackColor = Color.LightCoral;
-                MessageBox.Show("No hay stock disponible para este producto.", "Stock", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La cantidad no puede superar el stock disponible.");
                 return;
             }
 
-            if (cantidad > stock)
-            {
-                MessageBox.Show("La cantidad no puede superar el stock disponible.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                nudCantidad.Value = stock;
-                return;
-            }
-
-            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
-            {
-                MessageBox.Show("Precio inválido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string producto = txtNombreProd.Text;
+            decimal precio = decimal.Parse(txtPrecio.Text);
             decimal subTotal = precio * cantidad;
 
-            // Agregar fila al DataGridView (Producto | Precio | Cantidad | SubTotal)
-            dgvDetalle.Rows.Add(_idProducto, producto, precio.ToString("0.00"),
-             cantidad, subTotal.ToString("0.00"));
+            dgvDetalle.Rows.Add(_idProducto, txtNombreProd.Text,
+                                precio.ToString("0.00"), cantidad,
+                                subTotal.ToString("0.00"));
 
-            // Restar stock visual
-            int nuevoStock = stock - cantidad;
+            // 🔥 Descontar stock visual
+            int nuevoStock = stockActual - cantidad;
             txtStock.Text = nuevoStock.ToString();
-            nudCantidad.Maximum = Math.Max(nuevoStock, 1);
+
+            nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
             btnAgregar.Enabled = nuevoStock > 0;
             txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
 
-            // Recalcular totales
             RecalcularTotales();
         }
+
+
+
 
         private void btnCrearVenta_Click(object sender, EventArgs e)
         {
@@ -191,30 +220,26 @@ namespace nikeproject.UserControls
             {
                 int idProducto = Convert.ToInt32(r.Cells["colIdProducto"].Value);
                 int cantidad = Convert.ToInt32(r.Cells["colCantidad"].Value);
-                decimal precio = Convert.ToDecimal(r.Cells["colPrecio"].Value);
-                decimal sub = Convert.ToDecimal(r.Cells["colSubTotal"].Value);
 
+                // insertar en detalle_venta
                 var det = new DetalleVenta
                 {
                     IdVenta = idVenta,
                     IdProducto = idProducto,
                     Cantidad = cantidad,
-                    PrecioUnitario = precio,
-                    SubTotal = sub
+                    PrecioUnitario = Convert.ToDecimal(r.Cells["colPrecio"].Value),
+                    SubTotal = Convert.ToDecimal(r.Cells["colSubTotal"].Value)
                 };
-
                 DetalleVentaData.InsertarDetalle(det);
 
-                // restar stock en BD
-                if (!ProductoData.DescontarStock(idProducto, cantidad))
-                {
-                    MessageBox.Show($"No se pudo descontar stock del producto ID {idProducto}.",
-                                    "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                // ahora sí: descontar stock real
+                ProductoData.DescontarStock(idProducto, cantidad);
             }
+
 
             MessageBox.Show("✅ Venta registrada con éxito.", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
+            CargarHistorialVentas();
 
             // 3) Limpiar formulario
             dgvDetalle.Rows.Clear();
@@ -359,10 +384,14 @@ namespace nikeproject.UserControls
             {
                 frm.ProductoSeleccionado += (s, ev) =>
                 {
+                    _idProducto = ev.IdProducto;  // 👈 aquí se carga el id real
                     txtCodProducto.Text = ev.Codigo;
                     txtNombreProd.Text = ev.Nombre;
                     txtPrecio.Text = ev.PrecioVenta.ToString("0.00");
                     txtStock.Text = ev.Stock.ToString();
+
+                    nudCantidad.Value = 1;
+                    nudCantidad.Maximum = ev.Stock > 0 ? ev.Stock : 1;
 
                     if (!string.IsNullOrEmpty(ev.RutaImagen) && File.Exists(ev.RutaImagen))
                     {
@@ -373,6 +402,10 @@ namespace nikeproject.UserControls
                     {
                         pbProducto.Image = null;
                     }
+
+                    // resetear colores según stock real
+                    txtStock.BackColor = ev.Stock <= 0 ? Color.LightCoral : Color.White;
+                    btnAgregar.Enabled = ev.Stock > 0;
                 };
 
                 frm.ShowDialog();
@@ -380,17 +413,32 @@ namespace nikeproject.UserControls
         }
 
 
+
         private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-            // O bien: if (dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
-            if (dgvDetalle.Columns[e.ColumnIndex] == colQuitar)
+            if (e.RowIndex >= 0 && dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
             {
+                int idProdFila = Convert.ToInt32(dgvDetalle.Rows[e.RowIndex].Cells["colIdProducto"].Value);
+                int cantFila = Convert.ToInt32(dgvDetalle.Rows[e.RowIndex].Cells["colCantidad"].Value);
+
+                // 🔥 devolver stock solo si es el producto actualmente cargado en el panel
+                if (idProdFila == _idProducto)
+                {
+                    int stockActual = int.TryParse(txtStock.Text, out int s) ? s : 0;
+                    int nuevoStock = stockActual + cantFila;
+
+                    txtStock.Text = nuevoStock.ToString();
+                    nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
+                    btnAgregar.Enabled = nuevoStock > 0;
+                    txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
+                }
+
                 dgvDetalle.Rows.RemoveAt(e.RowIndex);
-                RecalcularTotales();   // vuelve a calcular Total y Cambio
+                RecalcularTotales();
             }
         }
+
+
 
 
         private void CalcularTotal()

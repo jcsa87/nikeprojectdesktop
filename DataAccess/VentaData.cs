@@ -34,6 +34,45 @@ namespace nikeproject.Data
                 }
             }
         }
+
+        public static List<dynamic> ListarVentas()
+        {
+            var lista = new List<dynamic>();
+
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string sql = @"
+        SELECT v.IdVenta, 
+               v.NumeroDocumento, 
+               v.FechaRegistro, 
+               v.MontoTotal,
+               c.Nombre + ' ' + c.Apellido AS Cliente
+        FROM VENTA v
+        INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
+        ORDER BY v.FechaRegistro DESC";
+
+                using (SqlCommand cmd = new SqlCommand(sql, cn))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        lista.Add(new
+                        {
+                            IdVenta = dr.GetInt32(0),
+                            NumeroDocumento = dr.GetString(1),
+                            FechaRegistro = dr.GetDateTime(2),
+                            MontoTotal = dr.GetDecimal(3),
+                            Cliente = dr.GetString(4)
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+
         public static bool RegistrarVenta(Venta venta)
         {
             bool resultado = false;
@@ -89,57 +128,6 @@ namespace nikeproject.Data
 
             return resultado;
         }
-
-        public static List<Venta> ListarVentas()
-        {
-            var lista = new List<Venta>();
-
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                string query = @"
-            SELECT v.IdVenta, v.NumeroDocumento, v.FechaRegistro, v.MontoTotal, v.Estado,
-                   (c.Nombre + ' ' + c.Apellido) AS ClienteNombre,
-                   (u.Nombre + ' ' + u.Apellido) AS UsuarioNombre
-            FROM VENTA v
-            INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
-            INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario";
-
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                oConexion.Open();
-
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        lista.Add(new Venta
-                        {
-                            IdVenta = Convert.ToInt32(dr["IdVenta"]),
-                            NumeroDocumento = dr["NumeroDocumento"].ToString(),
-                            FechaRegistro = Convert.ToDateTime(dr["FechaRegistro"]),
-                            MontoTotal = Convert.ToDecimal(dr["MontoTotal"]),
-                            Estado = Convert.ToBoolean(dr["Estado"]),
-
-                            // 👇 ahora ClienteNombre es la concatenación
-                            Cliente = new Cliente
-                            {
-                                Nombre = dr["ClienteNombre"].ToString()
-                            },
-
-                            // 👇 igual para el usuario
-                            Usuario = new Usuario
-                            {
-                                Nombre = dr["UsuarioNombre"].ToString()
-                            }
-                        });
-                    }
-                }
-            }
-
-            return lista;
-        }
-
-
-
         public static List<DetalleVenta> ListarDetallesPorVenta(int idVenta)
         {
             var lista = new List<DetalleVenta>();

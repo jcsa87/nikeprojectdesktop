@@ -12,6 +12,7 @@ namespace nikeproject.Forms
 
     public class ProductoSeleccionadoEventArgs : EventArgs
     {
+        public int IdProducto { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public decimal PrecioVenta { get; set; }
@@ -110,8 +111,9 @@ namespace nikeproject.Forms
         {
             if (dgvProductos.Columns[e.ColumnIndex].Name == "btnSeleccionar" && e.RowIndex >= 0)
             {
-                var args = new ProductoSeleccionadoEventArgs
+                var ev = new ProductoSeleccionadoEventArgs
                 {
+                    IdProducto = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["IdProducto"].Value),
                     Codigo = dgvProductos.Rows[e.RowIndex].Cells["Codigo"].Value.ToString(),
                     Nombre = dgvProductos.Rows[e.RowIndex].Cells["Nombre"].Value.ToString(),
                     PrecioVenta = Convert.ToDecimal(dgvProductos.Rows[e.RowIndex].Cells["PrecioVenta"].Value),
@@ -119,7 +121,7 @@ namespace nikeproject.Forms
                     RutaImagen = dgvProductos.Rows[e.RowIndex].Cells["ImagenRuta"].Value.ToString()
                 };
 
-                ProductoSeleccionado?.Invoke(this, args);
+                ProductoSeleccionado?.Invoke(this, ev);
                 this.Close();
             }
         }
