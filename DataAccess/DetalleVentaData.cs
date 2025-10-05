@@ -17,6 +17,14 @@ namespace nikeproject.DataAccess
                 (IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal)
                 VALUES (@IdVenta, @IdProducto, @Cantidad, @PrecioUnitario, @SubTotal);";
 
+                if (d.Cantidad <= 0)
+                {
+                    MessageBox.Show("⚠️ La cantidad debe ser mayor que cero.",
+                        "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+
                 using (SqlCommand cmd = new SqlCommand(sql, cn))
                 {
                     cmd.Parameters.AddWithValue("@IdVenta", d.IdVenta);

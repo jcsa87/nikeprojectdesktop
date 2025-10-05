@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace nikeproject.UserControls
 {
@@ -139,34 +140,40 @@ namespace nikeproject.UserControls
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (_idProducto == 0) return;
+            if (_idProducto == 0)
+            {
+                MessageBox.Show("Seleccione un producto válido.");
+                return;
+            }
 
-            if (!int.TryParse(txtStock.Text, out int stockActual)) return;
+            if (!int.TryParse(txtStock.Text, out int stock) || stock <= 0)
+            {
+                MessageBox.Show("No hay stock disponible para este producto.");
+                return;
+            }
 
             int cantidad = (int)nudCantidad.Value;
-            if (cantidad > stockActual)
+            if (cantidad <= 0)
             {
-                MessageBox.Show("La cantidad no puede superar el stock disponible.");
+                MessageBox.Show("La cantidad debe ser mayor que cero.");
                 return;
             }
 
             decimal precio = decimal.Parse(txtPrecio.Text);
             decimal subTotal = precio * cantidad;
 
-            dgvDetalle.Rows.Add(_idProducto, txtNombreProd.Text,
-                                precio.ToString("0.00"), cantidad,
-                                subTotal.ToString("0.00"));
+            int rowIndex = dgvDetalle.Rows.Add();
+            DataGridViewRow row = dgvDetalle.Rows[rowIndex];
 
-            // 🔥 Descontar stock visual
-            int nuevoStock = stockActual - cantidad;
-            txtStock.Text = nuevoStock.ToString();
-
-            nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
-            btnAgregar.Enabled = nuevoStock > 0;
-            txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
+            row.Cells["colIdProducto"].Value = _idProducto;
+            row.Cells["colProducto"].Value = txtNombreProd.Text;
+            row.Cells["colPrecio"].Value = precio.ToString("0.00");
+            row.Cells["colCantidad"].Value = cantidad;
+            row.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
 
             RecalcularTotales();
         }
+
 
 
 
@@ -184,6 +191,27 @@ namespace nikeproject.UserControls
                 return;
             }
 
+            // ⚠️ NUEVO: verificar que haya al menos un producto válido (no fila vacía)
+            int filasValidas = 0;
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                if (row.Cells["colCantidad"].Value != null &&
+                    int.TryParse(row.Cells["colCantidad"].Value.ToString(), out int cantidad) &&
+                    cantidad > 0)
+                {
+                    filasValidas++;
+                }
+            }
+
+            if (filasValidas == 0)
+            {
+                MessageBox.Show("Debe agregar al menos un producto con cantidad mayor que cero.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             // Si paga en efectivo, validar monto
             if (cbFormaPago.SelectedItem?.ToString() == "Efectivo")
             {
@@ -197,11 +225,11 @@ namespace nikeproject.UserControls
                 }
             }
 
-            // 1) Insertar cabecera de venta
+            // 1) Insertar cabecera
             var venta = new Venta
             {
                 IdCliente = _idCliente,
-                IdUsuario = 1, // TODO: reemplazar por el usuario logueado
+                IdUsuario = 1, // reemplazar por usuario logueado
                 NumeroDocumento = cbTipoDoc.SelectedItem?.ToString() ?? "Boleta",
                 FechaRegistro = DateTime.Now,
                 MontoTotal = decimal.Parse(txtTotal.Text),
@@ -215,33 +243,34 @@ namespace nikeproject.UserControls
                 return;
             }
 
-            // 2) Insertar detalles y descontar stock
-            foreach (DataGridViewRow r in dgvDetalle.Rows)
+            // 2) Insertar detalle
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
-                int idProducto = Convert.ToInt32(r.Cells["colIdProducto"].Value);
-                int cantidad = Convert.ToInt32(r.Cells["colCantidad"].Value);
+                if (row.IsNewRow) continue;
 
-                // insertar en detalle_venta
+                int idProducto = Convert.ToInt32(row.Cells["colIdProducto"].Value);
+                int cantidad = Convert.ToInt32(row.Cells["colCantidad"].Value);
+                decimal precioUnitario = Convert.ToDecimal(row.Cells["colPrecio"].Value);
+                decimal subTotal = Convert.ToDecimal(row.Cells["colSubTotal"].Value);
+
                 var det = new DetalleVenta
                 {
                     IdVenta = idVenta,
                     IdProducto = idProducto,
                     Cantidad = cantidad,
-                    PrecioUnitario = Convert.ToDecimal(r.Cells["colPrecio"].Value),
-                    SubTotal = Convert.ToDecimal(r.Cells["colSubTotal"].Value)
+                    PrecioUnitario = precioUnitario,
+                    SubTotal = subTotal
                 };
-                DetalleVentaData.InsertarDetalle(det);
 
-                // ahora sí: descontar stock real
+                // insert detalle y descuenta stock real
+                DetalleVentaData.InsertarDetalle(det);
                 ProductoData.DescontarStock(idProducto, cantidad);
             }
 
-
-            MessageBox.Show("✅ Venta registrada con éxito.", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("✅ Venta registrada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             CargarHistorialVentas();
 
-            // 3) Limpiar formulario
+            // 3) Limpiar
             dgvDetalle.Rows.Clear();
             txtTotal.Text = "0.00";
             txtPagaCon.Text = "";
@@ -256,6 +285,8 @@ namespace nikeproject.UserControls
             txtStock.Text = "";
             nudCantidad.Value = 1;
         }
+
+
 
 
 
@@ -282,8 +313,28 @@ namespace nikeproject.UserControls
 
         private void txtPagaCon_TextChanged(object sender, EventArgs e)
         {
-            ActualizarCambio();
+            // Solo aplica si la forma de pago es Efectivo
+            if (cbFormaPago.SelectedItem?.ToString() != "Efectivo")
+            {
+                txtCambio.Text = "0.00";
+                return;
+            }
+
+            if (!decimal.TryParse(txtTotal.Text, out decimal total))
+                total = 0;
+
+            if (decimal.TryParse(txtPagaCon.Text, out decimal pagaCon))
+            {
+                decimal cambio = pagaCon - total;
+                if (cambio < 0) cambio = 0;
+                txtCambio.Text = cambio.ToString("0.00");
+            }
+            else
+            {
+                txtCambio.Text = "0.00";
+            }
         }
+
 
         private void cbFormaPago_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -482,6 +533,28 @@ namespace nikeproject.UserControls
 
         private void lblPagaCon_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void txtPagaCon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtEfectivo_TextChanged(object sender, EventArgs e)
+        {
+            // Verifica que los valores sean válidos (numéricos)
+            if (decimal.TryParse(lblCambio.Text, out decimal efectivo) &&
+                decimal.TryParse(lblTotal.Text, out decimal total))
+            {
+                // Calcula el cambio solo si el efectivo es mayor o igual al total
+                decimal cambio = efectivo - total;
+                txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
+
+            }
 
         }
     }
