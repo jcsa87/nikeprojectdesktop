@@ -3,11 +3,15 @@ using nikeproject.DataAccess;
 using nikeproject.Forms;
 using nikeproject.Models;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using Microsoft.SqlServer;
+using System.Data.SqlClient;
+
 
 namespace nikeproject.UserControls
 {
@@ -78,6 +82,7 @@ namespace nikeproject.UserControls
             InitializeComponent();
             // valores iniciales
             this.Load += VentaControl_Load;
+            this.Resize += VentaControl_Resize;
             _instance = this;
 
         }
@@ -111,6 +116,9 @@ namespace nikeproject.UserControls
             txtPagaCon.BackColor = txtPagaCon.ReadOnly ? SystemColors.Control : Color.White;
 
             CargarHistorialVentas();
+
+            groupBox1.BringToFront();
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         }
 
         private void CargarHistorialVentas()
@@ -492,6 +500,8 @@ namespace nikeproject.UserControls
 
 
 
+
+
         private void CalcularTotal()
         {
             decimal total = 0;
@@ -555,6 +565,67 @@ namespace nikeproject.UserControls
                 txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
 
             }
+
+        }
+
+        private void dgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+            CargarDetalleVenta(idVenta);
+        }
+
+        private void CargarDetalleVenta(int idVenta)
+        {
+            try
+            {
+                using (var cn = new SqlConnection(Conexion.CadenaConexion))
+                {
+                    cn.Open();
+
+                    string query = @"
+                SELECT 
+                    P.Nombre AS Producto,
+                    D.Cantidad,
+                    D.PrecioUnitario AS Precio,
+                    D.SubTotal
+                FROM DETALLE_VENTA D
+                INNER JOIN PRODUCTO P ON P.IdProducto = D.IdProducto
+                WHERE D.IdVenta = @idVenta";
+
+                    using (var cmd = new SqlCommand(query, cn))
+                    {
+                        cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        dgvDetalleHistorial.DataSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el detalle de venta: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void VentaControl_Resize(object sender, EventArgs e)
+        {
+            // Si el control está minimizado o muy chico, oculta el historial
+            if (this.Width < 1200)
+            {
+                groupBox1.Visible = false;
+            }
+            else
+            {
+                groupBox1.Visible = true;
+            }
+        }
+
+        private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

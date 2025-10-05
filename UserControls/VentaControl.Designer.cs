@@ -71,8 +71,11 @@
             txtCambio = new TextBox();
             txtPagaCon = new TextBox();
             btnCrearVenta = new Button();
-            grpHistorial = new GroupBox();
+            groupBox1 = new GroupBox();
             dgvVentas = new DataGridView();
+            lblHistorial = new Label();
+            lblDetalleVenta = new Label();
+            dgvDetalleHistorial = new DataGridView();
             grpVenta.SuspendLayout();
             grpCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
@@ -81,8 +84,9 @@
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
             pnlTotales.SuspendLayout();
-            grpHistorial.SuspendLayout();
+            groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).BeginInit();
             SuspendLayout();
             // 
             // grpVenta
@@ -525,16 +529,17 @@
             btnCrearVenta.UseVisualStyleBackColor = false;
             btnCrearVenta.Click += btnCrearVenta_Click;
             // 
-            // grpHistorial
+            // groupBox1
             // 
-            grpHistorial.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            grpHistorial.Controls.Add(dgvVentas);
-            grpHistorial.Location = new Point(980, 10);
-            grpHistorial.Name = "grpHistorial";
-            grpHistorial.Size = new Size(500, 590);
-            grpHistorial.TabIndex = 5;
-            grpHistorial.TabStop = false;
-            grpHistorial.Text = "Historial de Ventas";
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox1.BackColor = Color.WhiteSmoke;
+            groupBox1.Controls.Add(dgvVentas);
+            groupBox1.Location = new Point(1095, 10);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(570, 600);
+            groupBox1.TabIndex = 7;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Historial de Ventas";
             // 
             // dgvVentas
             // 
@@ -546,20 +551,53 @@
             dgvVentas.Name = "dgvVentas";
             dgvVentas.ReadOnly = true;
             dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVentas.Size = new Size(494, 568);
+            dgvVentas.Size = new Size(564, 578);
             dgvVentas.TabIndex = 0;
+            dgvVentas.CellContentClick += dgvVentas_CellContentClick;
+            // 
+            // lblHistorial
+            // 
+            lblHistorial.AutoSize = true;
+            lblHistorial.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblHistorial.Location = new Point(15, 20);
+            lblHistorial.Name = "lblHistorial";
+            lblHistorial.Size = new Size(134, 19);
+            lblHistorial.TabIndex = 0;
+            lblHistorial.Text = "Ventas Registradas";
+            // 
+            // lblDetalleVenta
+            // 
+            lblDetalleVenta.AutoSize = true;
+            lblDetalleVenta.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblDetalleVenta.Location = new Point(15, 280);
+            lblDetalleVenta.Name = "lblDetalleVenta";
+            lblDetalleVenta.Size = new Size(118, 19);
+            lblDetalleVenta.TabIndex = 1;
+            lblDetalleVenta.Text = "Detalle de Venta";
+            // 
+            // dgvDetalleHistorial
+            // 
+            dgvDetalleHistorial.AllowUserToAddRows = false;
+            dgvDetalleHistorial.AllowUserToDeleteRows = false;
+            dgvDetalleHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleHistorial.Location = new Point(15, 305);
+            dgvDetalleHistorial.Name = "dgvDetalleHistorial";
+            dgvDetalleHistorial.ReadOnly = true;
+            dgvDetalleHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetalleHistorial.Size = new Size(470, 270);
+            dgvDetalleHistorial.TabIndex = 1;
             // 
             // VentaControl
             // 
+            Controls.Add(groupBox1);
             Controls.Add(btnCrearVenta);
             Controls.Add(grpVenta);
             Controls.Add(grpCliente);
             Controls.Add(grpProducto);
             Controls.Add(dgvDetalle);
             Controls.Add(pnlTotales);
-            Controls.Add(grpHistorial);
             Name = "VentaControl";
-            Size = new Size(980, 620);
+            Size = new Size(1875, 1065);
             grpVenta.ResumeLayout(false);
             grpVenta.PerformLayout();
             grpCliente.ResumeLayout(false);
@@ -572,8 +610,9 @@
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
-            grpHistorial.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).EndInit();
             ResumeLayout(false);
 
 
@@ -582,6 +621,11 @@
 
         #endregion
         public DataGridView dgvVentas;
+        public Label lblHistorial;
+        public Label lblDetalleVenta;
+        public DataGridView dgvDetalleHistorial;
+ 
+
 
         public System.Windows.Forms.GroupBox grpVenta;
         public System.Windows.Forms.Label lblFecha;
@@ -636,6 +680,6 @@
         public ComboBox cbFormaPago;
         public TextBox txtPagaCon;
         public PictureBox pbCliente;
-        private GroupBox grpHistorial;
+        private GroupBox groupBox1;
     }
 }
