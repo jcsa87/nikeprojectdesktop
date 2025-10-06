@@ -417,7 +417,7 @@
             // 
             // clienteBindingSource
             // 
-            clienteBindingSource.DataSource = typeof(Models.Cliente);
+            clienteBindingSource.DataSource = typeof(Models.Usuario);
             // 
             // txtApellido
             // 
@@ -499,6 +499,9 @@
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
+
+            this.dgvUsuario.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvUsuarios_DataBindingComplete);
+
         }
 
         #endregion

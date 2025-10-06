@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using nikeproject.Auth;
 using nikeproject.DataAccess;
+using nikeproject.Helpers;
 using nikeproject.Models;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace nikeproject
         public UsuariosControl()
         {
             InitializeComponent();
+            GridHelper.PintarInactivos(dgvUsuario);
         }
 
         private void UsuariosControl_Load(object sender, EventArgs e)
@@ -51,7 +53,35 @@ namespace nikeproject
         {
             UsuarioData usuarioData = new UsuarioData();
             dgvUsuario.DataSource = usuarioData.ListarUsuarios();
+
+            // Ocultar la columna Estado, pero mantenerla para el coloreo
+            if (dgvUsuario.Columns.Contains("Estado"))
+                dgvUsuario.Columns["Estado"].Visible = false;
         }
+
+
+        private void dgvUsuarios_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvUsuario.Rows)
+            {
+                if (row.DataBoundItem is Usuario u)
+                {
+                    if (!u.Estado)
+                    {
+                        // Usuario inactivo → rojo
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        // Usuario activo → normal
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {

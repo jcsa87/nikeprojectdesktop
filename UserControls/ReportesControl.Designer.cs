@@ -25,7 +25,7 @@
             pbReportes.InitialImage = (Image)resources.GetObject("pbReportes.InitialImage");
             pbReportes.Location = new Point(0, 0);
             pbReportes.Name = "pbReportes";
-            pbReportes.Size = new Size(870, 702);
+            pbReportes.Size = new Size(872, 702);
             pbReportes.SizeMode = PictureBoxSizeMode.StretchImage;
             pbReportes.TabIndex = 6;
             pbReportes.TabStop = false;
@@ -34,7 +34,7 @@
             // 
             Controls.Add(pbReportes);
             Name = "ReportesControl";
-            Size = new Size(873, 702);
+            Size = new Size(875, 702);
             ((System.ComponentModel.ISupportInitialize)pbReportes).EndInit();
             ResumeLayout(false);
         }

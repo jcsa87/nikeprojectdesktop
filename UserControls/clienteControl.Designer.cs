@@ -20,6 +20,8 @@
             base.Dispose(disposing);
         }
 
+
+
         #region Código generado por el Diseñador de componentes
 
         /// <summary> 
@@ -119,6 +121,7 @@
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
             dgvCliente.CellClick += dgvCliente_CellClick;
+            this.dgvCliente.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvCliente_DataBindingComplete);
             // 
             // IdCliente
             // 

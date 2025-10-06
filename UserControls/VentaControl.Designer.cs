@@ -1,7 +1,10 @@
-﻿namespace nikeproject.Forms
+﻿namespace nikeproject.UserControls
 {
     partial class VentaControl
     {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -15,251 +18,668 @@
 
         #region Component Designer generated code
 
+
+
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new();
-            this.pnlDetalle = new System.Windows.Forms.Label();
-            this.lbDocumento = new System.Windows.Forms.Label();
-            this.lbMontoTotal = new System.Windows.Forms.Label();
-            this.txtNumeroDocumento = new System.Windows.Forms.TextBox();
-            this.txtMontoTotal = new System.Windows.Forms.TextBox();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnEditar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.lbTituloDetalle = new System.Windows.Forms.Label();
-            this.lbListaVentas = new System.Windows.Forms.Label();
-            this.dgvVentas = new System.Windows.Forms.DataGridView();
-            this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.idVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NumeroDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaRegistro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MontoTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).BeginInit();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VentaControl));
+            grpVenta = new GroupBox();
+            lblFecha = new Label();
+            dtpFecha = new DateTimePicker();
+            lblTipoDoc = new Label();
+            cbTipoDoc = new ComboBox();
+            grpCliente = new GroupBox();
+            pbCliente = new PictureBox();
+            lblDocumento = new Label();
+            txtDocumentoCliente = new TextBox();
+            btnBuscarCliente = new Button();
+            lblCorreo = new Label();
+            lblTelefono = new Label();
+            lblApellido = new Label();
+            lblNombreCliente = new Label();
+            txtCorreo = new TextBox();
+            txtApellido = new TextBox();
+            txtTelefono = new TextBox();
+            txtNombreCliente = new TextBox();
+            grpProducto = new GroupBox();
+            pbProducto = new PictureBox();
+            lblCodProd = new Label();
+            txtCodProducto = new TextBox();
+            btnBuscarProducto = new Button();
+            lblNombreProd = new Label();
+            txtNombreProd = new TextBox();
+            lblPrecio = new Label();
+            txtPrecio = new TextBox();
+            lblStock = new Label();
+            txtStock = new TextBox();
+            lblCantidad = new Label();
+            nudCantidad = new NumericUpDown();
+            btnAgregar = new Button();
+            dgvDetalle = new DataGridView();
+            colIdProducto = new DataGridViewTextBoxColumn();
+            colProducto = new DataGridViewTextBoxColumn();
+            colPrecio = new DataGridViewTextBoxColumn();
+            colCantidad = new DataGridViewTextBoxColumn();
+            colSubTotal = new DataGridViewTextBoxColumn();
+            colQuitar = new DataGridViewButtonColumn();
+            pnlTotales = new Panel();
+            lblTotal = new Label();
+            txtTotal = new TextBox();
+            lblPagaCon = new Label();
+            cbFormaPago = new ComboBox();
+            lblCambio = new Label();
+            txtCambio = new TextBox();
+            txtPagaCon = new TextBox();
+            btnCrearVenta = new Button();
+            groupBox1 = new GroupBox();
+            dgvVentas = new DataGridView();
+            lblHistorial = new Label();
+            lblDetalleVenta = new Label();
+            dgvDetalleHistorial = new DataGridView();
+            grpVenta.SuspendLayout();
+            grpCliente.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
+            grpProducto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbProducto).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
+            pnlTotales.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).BeginInit();
+            SuspendLayout();
             // 
-            // pnlDetalle
+            // grpVenta
             // 
-            this.pnlDetalle.BackColor = System.Drawing.Color.White;
-            this.pnlDetalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlDetalle.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlDetalle.Location = new System.Drawing.Point(0, 0);
-            this.pnlDetalle.Name = "pnlDetalle";
-            this.pnlDetalle.Size = new System.Drawing.Size(258, 556);
-            this.pnlDetalle.TabIndex = 0;
+            grpVenta.Controls.Add(lblFecha);
+            grpVenta.Controls.Add(dtpFecha);
+            grpVenta.Controls.Add(lblTipoDoc);
+            grpVenta.Controls.Add(cbTipoDoc);
+            grpVenta.Location = new Point(15, 10);
+            grpVenta.Name = "grpVenta";
+            grpVenta.Size = new Size(950, 60);
+            grpVenta.TabIndex = 0;
+            grpVenta.TabStop = false;
+            grpVenta.Text = "Información Venta";
             // 
-            // lbDocumento
+            // lblFecha
             // 
-            this.lbDocumento.AutoSize = true;
-            this.lbDocumento.BackColor = System.Drawing.Color.White;
-            this.lbDocumento.Location = new System.Drawing.Point(20, 60);
-            this.lbDocumento.Name = "lbDocumento";
-            this.lbDocumento.Size = new System.Drawing.Size(96, 15);
-            this.lbDocumento.TabIndex = 3;
-            this.lbDocumento.Text = "Nro Documento:";
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(15, 28);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(41, 15);
+            lblFecha.TabIndex = 0;
+            lblFecha.Text = "Fecha:";
             // 
-            // lbMontoTotal
+            // dtpFecha
             // 
-            this.lbMontoTotal.AutoSize = true;
-            this.lbMontoTotal.BackColor = System.Drawing.Color.White;
-            this.lbMontoTotal.Location = new System.Drawing.Point(20, 110);
-            this.lbMontoTotal.Name = "lbMontoTotal";
-            this.lbMontoTotal.Size = new System.Drawing.Size(72, 15);
-            this.lbMontoTotal.TabIndex = 4;
-            this.lbMontoTotal.Text = "Monto Total:";
+            dtpFecha.Location = new Point(65, 24);
+            dtpFecha.Name = "dtpFecha";
+            dtpFecha.Size = new Size(200, 23);
+            dtpFecha.TabIndex = 1;
             // 
-            // txtNumeroDocumento
+            // lblTipoDoc
             // 
-            this.txtNumeroDocumento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumeroDocumento.Location = new System.Drawing.Point(20, 78);
-            this.txtNumeroDocumento.Name = "txtNumeroDocumento";
-            this.txtNumeroDocumento.Size = new System.Drawing.Size(207, 23);
-            this.txtNumeroDocumento.TabIndex = 7;
+            lblTipoDoc.AutoSize = true;
+            lblTipoDoc.Location = new Point(290, 28);
+            lblTipoDoc.Name = "lblTipoDoc";
+            lblTipoDoc.Size = new Size(99, 15);
+            lblTipoDoc.TabIndex = 2;
+            lblTipoDoc.Text = "Tipo Documento:";
             // 
-            // txtMontoTotal
+            // cbTipoDoc
             // 
-            this.txtMontoTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMontoTotal.Location = new System.Drawing.Point(20, 128);
-            this.txtMontoTotal.Name = "txtMontoTotal";
-            this.txtMontoTotal.Size = new System.Drawing.Size(207, 23);
-            this.txtMontoTotal.TabIndex = 8;
+            cbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTipoDoc.Location = new Point(400, 24);
+            cbTipoDoc.Name = "cbTipoDoc";
+            cbTipoDoc.Size = new Size(160, 23);
+            cbTipoDoc.TabIndex = 3;
             // 
-            // btnGuardar
+            // grpCliente
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(20, 180);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(207, 23);
-            this.btnGuardar.TabIndex = 9;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = false;
+            grpCliente.Controls.Add(pbCliente);
+            grpCliente.Controls.Add(lblDocumento);
+            grpCliente.Controls.Add(txtDocumentoCliente);
+            grpCliente.Controls.Add(btnBuscarCliente);
+            grpCliente.Controls.Add(lblCorreo);
+            grpCliente.Controls.Add(lblTelefono);
+            grpCliente.Controls.Add(lblApellido);
+            grpCliente.Controls.Add(lblNombreCliente);
+            grpCliente.Controls.Add(txtCorreo);
+            grpCliente.Controls.Add(txtApellido);
+            grpCliente.Controls.Add(txtTelefono);
+            grpCliente.Controls.Add(txtNombreCliente);
+            grpCliente.Location = new Point(15, 80);
+            grpCliente.Name = "grpCliente";
+            grpCliente.Size = new Size(950, 70);
+            grpCliente.TabIndex = 1;
+            grpCliente.TabStop = false;
+            grpCliente.Text = "Información Cliente";
             // 
-            // btnEditar
+            // pbCliente
             // 
-            this.btnEditar.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(20, 210);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(207, 23);
-            this.btnEditar.TabIndex = 10;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = false;
+            pbCliente.Image = (Image)resources.GetObject("pbCliente.Image");
+            pbCliente.InitialImage = (Image)resources.GetObject("pbCliente.InitialImage");
+            pbCliente.Location = new Point(844, 15);
+            pbCliente.Name = "pbCliente";
+            pbCliente.Size = new Size(88, 47);
+            pbCliente.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCliente.TabIndex = 13;
+            pbCliente.TabStop = false;
             // 
-            // btnEliminar
+            // lblDocumento
             // 
-            this.btnEliminar.BackColor = System.Drawing.Color.Firebrick;
-            this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(20, 240);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(207, 23);
-            this.btnEliminar.TabIndex = 11;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = false;
+            lblDocumento.AutoSize = true;
+            lblDocumento.Location = new Point(15, 30);
+            lblDocumento.Name = "lblDocumento";
+            lblDocumento.Size = new Size(96, 15);
+            lblDocumento.TabIndex = 0;
+            lblDocumento.Text = "Nro Documento:";
             // 
-            // lbTituloDetalle
+            // txtDocumentoCliente
             // 
-            this.lbTituloDetalle.AutoSize = true;
-            this.lbTituloDetalle.BackColor = System.Drawing.Color.White;
-            this.lbTituloDetalle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lbTituloDetalle.Location = new System.Drawing.Point(20, 20);
-            this.lbTituloDetalle.Name = "lbTituloDetalle";
-            this.lbTituloDetalle.Size = new System.Drawing.Size(121, 21);
-            this.lbTituloDetalle.TabIndex = 12;
-            this.lbTituloDetalle.Text = "Detalle Venta";
+            txtDocumentoCliente.Location = new Point(120, 27);
+            txtDocumentoCliente.Name = "txtDocumentoCliente";
+            txtDocumentoCliente.Size = new Size(160, 23);
+            txtDocumentoCliente.TabIndex = 1;
             // 
-            // lbListaVentas
+            // btnBuscarCliente
             // 
-            this.lbListaVentas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbListaVentas.BackColor = System.Drawing.Color.White;
-            this.lbListaVentas.Font = new System.Drawing.Font("Segoe UI", 15F);
-            this.lbListaVentas.Location = new System.Drawing.Point(258, 0);
-            this.lbListaVentas.Name = "lbListaVentas";
-            this.lbListaVentas.Size = new System.Drawing.Size(800, 60);
-            this.lbListaVentas.TabIndex = 13;
-            this.lbListaVentas.Text = "Lista de Ventas";
-            this.lbListaVentas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            btnBuscarCliente.Location = new Point(285, 27);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(34, 23);
+            btnBuscarCliente.TabIndex = 2;
+            btnBuscarCliente.Text = "🔍";
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
+            // 
+            // lblCorreo
+            // 
+            lblCorreo.AutoSize = true;
+            lblCorreo.Location = new Point(608, 41);
+            lblCorreo.Name = "lblCorreo";
+            lblCorreo.Size = new Size(46, 15);
+            lblCorreo.TabIndex = 3;
+            lblCorreo.Text = "Correo:";
+            // 
+            // lblTelefono
+            // 
+            lblTelefono.AutoSize = true;
+            lblTelefono.Location = new Point(605, 16);
+            lblTelefono.Name = "lblTelefono";
+            lblTelefono.Size = new Size(55, 15);
+            lblTelefono.TabIndex = 3;
+            lblTelefono.Text = "Telefono:";
+            // 
+            // lblApellido
+            // 
+            lblApellido.AutoSize = true;
+            lblApellido.Location = new Point(407, 42);
+            lblApellido.Name = "lblApellido";
+            lblApellido.Size = new Size(54, 15);
+            lblApellido.TabIndex = 3;
+            lblApellido.Text = "Apellido:";
+            // 
+            // lblNombreCliente
+            // 
+            lblNombreCliente.AutoSize = true;
+            lblNombreCliente.Location = new Point(407, 17);
+            lblNombreCliente.Name = "lblNombreCliente";
+            lblNombreCliente.Size = new Size(54, 15);
+            lblNombreCliente.TabIndex = 3;
+            lblNombreCliente.Text = "Nombre:";
+            // 
+            // txtCorreo
+            // 
+            txtCorreo.Location = new Point(677, 39);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.ReadOnly = true;
+            txtCorreo.Size = new Size(124, 23);
+            txtCorreo.TabIndex = 4;
+            // 
+            // txtApellido
+            // 
+            txtApellido.Location = new Point(473, 38);
+            txtApellido.Name = "txtApellido";
+            txtApellido.ReadOnly = true;
+            txtApellido.Size = new Size(124, 23);
+            txtApellido.TabIndex = 4;
+            // 
+            // txtTelefono
+            // 
+            txtTelefono.Location = new Point(677, 13);
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.ReadOnly = true;
+            txtTelefono.Size = new Size(124, 23);
+            txtTelefono.TabIndex = 4;
+            // 
+            // txtNombreCliente
+            // 
+            txtNombreCliente.Location = new Point(473, 13);
+            txtNombreCliente.Name = "txtNombreCliente";
+            txtNombreCliente.ReadOnly = true;
+            txtNombreCliente.Size = new Size(124, 23);
+            txtNombreCliente.TabIndex = 4;
+            // 
+            // grpProducto
+            // 
+            grpProducto.Controls.Add(pbProducto);
+            grpProducto.Controls.Add(lblCodProd);
+            grpProducto.Controls.Add(txtCodProducto);
+            grpProducto.Controls.Add(btnBuscarProducto);
+            grpProducto.Controls.Add(lblNombreProd);
+            grpProducto.Controls.Add(txtNombreProd);
+            grpProducto.Controls.Add(lblPrecio);
+            grpProducto.Controls.Add(txtPrecio);
+            grpProducto.Controls.Add(lblStock);
+            grpProducto.Controls.Add(txtStock);
+            grpProducto.Controls.Add(lblCantidad);
+            grpProducto.Controls.Add(nudCantidad);
+            grpProducto.Controls.Add(btnAgregar);
+            grpProducto.Location = new Point(15, 160);
+            grpProducto.Name = "grpProducto";
+            grpProducto.Size = new Size(950, 90);
+            grpProducto.TabIndex = 2;
+            grpProducto.TabStop = false;
+            grpProducto.Text = "Información Producto";
+            // 
+            // pbProducto
+            // 
+            pbProducto.Image = (Image)resources.GetObject("pbProducto.Image");
+            pbProducto.InitialImage = (Image)resources.GetObject("pbProducto.InitialImage");
+            pbProducto.Location = new Point(829, 12);
+            pbProducto.Name = "pbProducto";
+            pbProducto.Size = new Size(115, 72);
+            pbProducto.SizeMode = PictureBoxSizeMode.Zoom;
+            pbProducto.TabIndex = 12;
+            pbProducto.TabStop = false;
+            // 
+            // lblCodProd
+            // 
+            lblCodProd.AutoSize = true;
+            lblCodProd.Location = new Point(15, 30);
+            lblCodProd.Name = "lblCodProd";
+            lblCodProd.Size = new Size(87, 15);
+            lblCodProd.TabIndex = 0;
+            lblCodProd.Text = "Cod. Producto:";
+            // 
+            // txtCodProducto
+            // 
+            txtCodProducto.Location = new Point(110, 27);
+            txtCodProducto.Name = "txtCodProducto";
+            txtCodProducto.Size = new Size(160, 23);
+            txtCodProducto.TabIndex = 1;
+            // 
+            // btnBuscarProducto
+            // 
+            btnBuscarProducto.Location = new Point(275, 27);
+            btnBuscarProducto.Name = "btnBuscarProducto";
+            btnBuscarProducto.Size = new Size(34, 23);
+            btnBuscarProducto.TabIndex = 2;
+            btnBuscarProducto.Text = "🔍";
+            btnBuscarProducto.Click += btnBuscarProducto_Click;
+            // 
+            // lblNombreProd
+            // 
+            lblNombreProd.AutoSize = true;
+            lblNombreProd.Location = new Point(330, 30);
+            lblNombreProd.Name = "lblNombreProd";
+            lblNombreProd.Size = new Size(59, 15);
+            lblNombreProd.TabIndex = 3;
+            lblNombreProd.Text = "Producto:";
+            // 
+            // txtNombreProd
+            // 
+            txtNombreProd.Location = new Point(395, 27);
+            txtNombreProd.Name = "txtNombreProd";
+            txtNombreProd.ReadOnly = true;
+            txtNombreProd.Size = new Size(129, 23);
+            txtNombreProd.TabIndex = 4;
+            // 
+            // lblPrecio
+            // 
+            lblPrecio.AutoSize = true;
+            lblPrecio.Location = new Point(545, 30);
+            lblPrecio.Name = "lblPrecio";
+            lblPrecio.Size = new Size(43, 15);
+            lblPrecio.TabIndex = 5;
+            lblPrecio.Text = "Precio:";
+            // 
+            // txtPrecio
+            // 
+            txtPrecio.Location = new Point(605, 28);
+            txtPrecio.Name = "txtPrecio";
+            txtPrecio.ReadOnly = true;
+            txtPrecio.Size = new Size(80, 23);
+            txtPrecio.TabIndex = 6;
+            // 
+            // lblStock
+            // 
+            lblStock.AutoSize = true;
+            lblStock.Location = new Point(696, 31);
+            lblStock.Name = "lblStock";
+            lblStock.Size = new Size(39, 15);
+            lblStock.TabIndex = 7;
+            lblStock.Text = "Stock:";
+            // 
+            // txtStock
+            // 
+            txtStock.Location = new Point(741, 28);
+            txtStock.Name = "txtStock";
+            txtStock.ReadOnly = true;
+            txtStock.Size = new Size(60, 23);
+            txtStock.TabIndex = 8;
+            // 
+            // lblCantidad
+            // 
+            lblCantidad.AutoSize = true;
+            lblCantidad.Location = new Point(15, 58);
+            lblCantidad.Name = "lblCantidad";
+            lblCantidad.Size = new Size(58, 15);
+            lblCantidad.TabIndex = 9;
+            lblCantidad.Text = "Cantidad:";
+            // 
+            // nudCantidad
+            // 
+            nudCantidad.Location = new Point(110, 55);
+            nudCantidad.Name = "nudCantidad";
+            nudCantidad.Size = new Size(80, 23);
+            nudCantidad.TabIndex = 10;
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.Location = new Point(205, 55);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(95, 23);
+            btnAgregar.TabIndex = 11;
+            btnAgregar.Text = "Agregar";
+            btnAgregar.Click += btnAgregar_Click;
+            // 
+            // dgvDetalle
+            // 
+            dgvDetalle.Columns.AddRange(new DataGridViewColumn[] { colIdProducto, colProducto, colPrecio, colCantidad, colSubTotal, colQuitar });
+            dgvDetalle.Location = new Point(15, 260);
+            dgvDetalle.Name = "dgvDetalle";
+            dgvDetalle.RowTemplate.Height = 26;
+            dgvDetalle.Size = new Size(950, 250);
+            dgvDetalle.TabIndex = 3;
+            dgvDetalle.CellContentClick += dgvDetalle_CellContentClick;
+            // 
+            // colIdProducto
+            // 
+            colIdProducto.HeaderText = "IdProducto";
+            colIdProducto.Name = "colIdProducto";
+            colIdProducto.Visible = false;
+            // 
+            // colProducto
+            // 
+            colProducto.HeaderText = "Producto";
+            colProducto.Name = "colProducto";
+            // 
+            // colPrecio
+            // 
+            colPrecio.HeaderText = "Precio";
+            colPrecio.Name = "colPrecio";
+            // 
+            // colCantidad
+            // 
+            colCantidad.HeaderText = "Cantidad";
+            colCantidad.Name = "colCantidad";
+            // 
+            // colSubTotal
+            // 
+            colSubTotal.HeaderText = "Sub Total";
+            colSubTotal.Name = "colSubTotal";
+            // 
+            // colQuitar
+            // 
+            colQuitar.HeaderText = "";
+            colQuitar.Name = "colQuitar";
+            colQuitar.Text = "Quitar";
+            colQuitar.UseColumnTextForButtonValue = true;
+            // 
+            // pnlTotales
+            // 
+            pnlTotales.Controls.Add(lblTotal);
+            pnlTotales.Controls.Add(txtTotal);
+            pnlTotales.Controls.Add(lblPagaCon);
+            pnlTotales.Controls.Add(cbFormaPago);
+            pnlTotales.Controls.Add(lblCambio);
+            pnlTotales.Controls.Add(txtCambio);
+            pnlTotales.Controls.Add(txtPagaCon);
+            pnlTotales.Location = new Point(437, 516);
+            pnlTotales.Name = "pnlTotales";
+            pnlTotales.Size = new Size(415, 80);
+            pnlTotales.TabIndex = 4;
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Location = new Point(10, 15);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(77, 15);
+            lblTotal.TabIndex = 0;
+            lblTotal.Text = "Total a Pagar:";
+            // 
+            // txtTotal
+            // 
+            txtTotal.Location = new Point(100, 12);
+            txtTotal.Name = "txtTotal";
+            txtTotal.ReadOnly = true;
+            txtTotal.Size = new Size(100, 23);
+            txtTotal.TabIndex = 1;
+            txtTotal.Text = "0.00";
+            // 
+            // lblPagaCon
+            // 
+            lblPagaCon.AutoSize = true;
+            lblPagaCon.Location = new Point(207, 15);
+            lblPagaCon.Name = "lblPagaCon";
+            lblPagaCon.Size = new Size(59, 15);
+            lblPagaCon.TabIndex = 2;
+            lblPagaCon.Text = "Paga con:";
+            lblPagaCon.Click += lblPagaCon_Click;
+            // 
+            // cbFormaPago
+            // 
+            cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFormaPago.Location = new Point(272, 15);
+            cbFormaPago.Name = "cbFormaPago";
+            cbFormaPago.Size = new Size(88, 23);
+            cbFormaPago.TabIndex = 3;
+            // 
+            // lblCambio
+            // 
+            lblCambio.AutoSize = true;
+            lblCambio.Location = new Point(10, 45);
+            lblCambio.Name = "lblCambio";
+            lblCambio.Size = new Size(52, 15);
+            lblCambio.TabIndex = 4;
+            lblCambio.Text = "Cambio:";
+            // 
+            // txtCambio
+            // 
+            txtCambio.Location = new Point(100, 42);
+            txtCambio.Name = "txtCambio";
+            txtCambio.ReadOnly = true;
+            txtCambio.Size = new Size(100, 23);
+            txtCambio.TabIndex = 5;
+            txtCambio.Text = "0.00";
+            txtCambio.TextChanged += txtEfectivo_TextChanged;
+            // 
+            // txtPagaCon
+            // 
+            txtPagaCon.Location = new Point(272, 42);
+            txtPagaCon.Name = "txtPagaCon";
+            txtPagaCon.Size = new Size(100, 23);
+            txtPagaCon.TabIndex = 7;
+            txtPagaCon.TextChanged += txtPagaCon_TextChanged;
+            txtPagaCon.KeyPress += txtPagaCon_KeyPress;
+            // 
+            // btnCrearVenta
+            // 
+            btnCrearVenta.BackColor = Color.SeaGreen;
+            btnCrearVenta.FlatAppearance.BorderSize = 0;
+            btnCrearVenta.FlatStyle = FlatStyle.Flat;
+            btnCrearVenta.ForeColor = Color.White;
+            btnCrearVenta.Location = new Point(872, 527);
+            btnCrearVenta.Name = "btnCrearVenta";
+            btnCrearVenta.Size = new Size(75, 23);
+            btnCrearVenta.TabIndex = 0;
+            btnCrearVenta.Text = "Crear Venta";
+            btnCrearVenta.UseVisualStyleBackColor = false;
+            btnCrearVenta.Click += btnCrearVenta_Click;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox1.BackColor = Color.WhiteSmoke;
+            groupBox1.Controls.Add(dgvVentas);
+            groupBox1.Location = new Point(1095, 10);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(570, 600);
+            groupBox1.TabIndex = 7;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Historial de Ventas";
             // 
             // dgvVentas
             // 
-            this.dgvVentas.AllowUserToAddRows = false;
-            this.dgvVentas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvVentas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvVentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvVentas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.btnSeleccionar,
-            this.idVenta,
-            this.NumeroDocumento,
-            this.FechaRegistro,
-            this.MontoTotal});
-            this.dgvVentas.Location = new System.Drawing.Point(258, 60);
-            this.dgvVentas.MultiSelect = false;
-            this.dgvVentas.Name = "dgvVentas";
-            this.dgvVentas.ReadOnly = true;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgvVentas.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvVentas.RowTemplate.Height = 28;
-            this.dgvVentas.Size = new System.Drawing.Size(800, 496);
-            this.dgvVentas.TabIndex = 14;
+            dgvVentas.AllowUserToAddRows = false;
+            dgvVentas.AllowUserToDeleteRows = false;
+            dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvVentas.Dock = DockStyle.Fill;
+            dgvVentas.Location = new Point(3, 19);
+            dgvVentas.Name = "dgvVentas";
+            dgvVentas.ReadOnly = true;
+            dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvVentas.Size = new Size(564, 578);
+            dgvVentas.TabIndex = 0;
+            dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             // 
-            // btnSeleccionar
+            // lblHistorial
             // 
-            this.btnSeleccionar.HeaderText = "";
-            this.btnSeleccionar.Name = "btnSeleccionar";
-            this.btnSeleccionar.ReadOnly = true;
-            this.btnSeleccionar.Text = "Seleccionar";
-            this.btnSeleccionar.UseColumnTextForButtonValue = true;
-            this.btnSeleccionar.Width = 80;
+            lblHistorial.AutoSize = true;
+            lblHistorial.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblHistorial.Location = new Point(15, 20);
+            lblHistorial.Name = "lblHistorial";
+            lblHistorial.Size = new Size(134, 19);
+            lblHistorial.TabIndex = 0;
+            lblHistorial.Text = "Ventas Registradas";
             // 
-            // idVenta
+            // lblDetalleVenta
             // 
-            this.idVenta.DataPropertyName = "IdVenta";
-            this.idVenta.HeaderText = "IdVenta";
-            this.idVenta.Name = "idVenta";
-            this.idVenta.ReadOnly = true;
-            this.idVenta.Visible = false;
+            lblDetalleVenta.AutoSize = true;
+            lblDetalleVenta.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblDetalleVenta.Location = new Point(15, 280);
+            lblDetalleVenta.Name = "lblDetalleVenta";
+            lblDetalleVenta.Size = new Size(118, 19);
+            lblDetalleVenta.TabIndex = 1;
+            lblDetalleVenta.Text = "Detalle de Venta";
             // 
-            // NumeroDocumento
+            // dgvDetalleHistorial
             // 
-            this.NumeroDocumento.DataPropertyName = "NumeroDocumento";
-            this.NumeroDocumento.HeaderText = "Documento";
-            this.NumeroDocumento.Name = "NumeroDocumento";
-            this.NumeroDocumento.ReadOnly = true;
-            // 
-            // FechaRegistro
-            // 
-            this.FechaRegistro.DataPropertyName = "FechaRegistro";
-            this.FechaRegistro.HeaderText = "Fecha";
-            this.FechaRegistro.Name = "FechaRegistro";
-            this.FechaRegistro.ReadOnly = true;
-            this.FechaRegistro.Width = 150;
-            // 
-            // MontoTotal
-            // 
-            this.MontoTotal.DataPropertyName = "MontoTotal";
-            this.MontoTotal.HeaderText = "Monto Total";
-            this.MontoTotal.Name = "MontoTotal";
-            this.MontoTotal.ReadOnly = true;
-            this.MontoTotal.Width = 150;
+            dgvDetalleHistorial.AllowUserToAddRows = false;
+            dgvDetalleHistorial.AllowUserToDeleteRows = false;
+            dgvDetalleHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleHistorial.Location = new Point(15, 305);
+            dgvDetalleHistorial.Name = "dgvDetalleHistorial";
+            dgvDetalleHistorial.ReadOnly = true;
+            dgvDetalleHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetalleHistorial.Size = new Size(470, 270);
+            dgvDetalleHistorial.TabIndex = 1;
             // 
             // VentaControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.dgvVentas);
-            this.Controls.Add(this.lbListaVentas);
-            this.Controls.Add(this.lbTituloDetalle);
-            this.Controls.Add(this.btnEliminar);
-            this.Controls.Add(this.btnEditar);
-            this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.txtMontoTotal);
-            this.Controls.Add(this.txtNumeroDocumento);
-            this.Controls.Add(this.lbMontoTotal);
-            this.Controls.Add(this.lbDocumento);
-            this.Controls.Add(this.pnlDetalle);
-            this.Name = "VentaControl";
-            this.Size = new System.Drawing.Size(1058, 556);
-            // this.Load += new System.EventHandler(this.VentaControl_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            Controls.Add(groupBox1);
+            Controls.Add(btnCrearVenta);
+            Controls.Add(grpVenta);
+            Controls.Add(grpCliente);
+            Controls.Add(grpProducto);
+            Controls.Add(dgvDetalle);
+            Controls.Add(pnlTotales);
+            Name = "VentaControl";
+            Size = new Size(1875, 1065);
+            grpVenta.ResumeLayout(false);
+            grpVenta.PerformLayout();
+            grpCliente.ResumeLayout(false);
+            grpCliente.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbCliente).EndInit();
+            grpProducto.ResumeLayout(false);
+            grpProducto.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbProducto).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
+            pnlTotales.ResumeLayout(false);
+            pnlTotales.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).EndInit();
+            ResumeLayout(false);
+
 
         }
 
-        #endregion
 
-        private System.Windows.Forms.Label pnlDetalle;
-        // Se eliminaron: lbIdUsuario, lbIdCliente
-        private System.Windows.Forms.Label lbDocumento;
-        private System.Windows.Forms.Label lbMontoTotal;
-        // Se eliminaron: txtIdUsuario, txtIdCliente
-        private System.Windows.Forms.TextBox txtNumeroDocumento;
-        private System.Windows.Forms.TextBox txtMontoTotal;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Label lbTituloDetalle;
-        private System.Windows.Forms.Label lbListaVentas;
-        private System.Windows.Forms.DataGridView dgvVentas;
-        private System.Windows.Forms.DataGridViewButtonColumn btnSeleccionar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idVenta;
-        // Se eliminaron: idUsuario, idCliente
-        private System.Windows.Forms.DataGridViewTextBoxColumn NumeroDocumento;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FechaRegistro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MontoTotal;
+        #endregion
+        public DataGridView dgvVentas;
+        public Label lblHistorial;
+        public Label lblDetalleVenta;
+        public DataGridView dgvDetalleHistorial;
+ 
+
+
+        public System.Windows.Forms.GroupBox grpVenta;
+        public System.Windows.Forms.Label lblFecha;
+        public System.Windows.Forms.DateTimePicker dtpFecha;
+        public System.Windows.Forms.Label lblTipoDoc;
+        public System.Windows.Forms.ComboBox cbTipoDoc;
+
+
+        public System.Windows.Forms.GroupBox grpCliente;
+        public System.Windows.Forms.Label lblDocumento;
+        public System.Windows.Forms.TextBox txtDocumentoCliente;
+        public System.Windows.Forms.Button btnBuscarCliente;
+        public System.Windows.Forms.Label lblNombreCliente;
+        public System.Windows.Forms.TextBox txtNombreCliente;
+
+        public System.Windows.Forms.GroupBox grpProducto;
+        public System.Windows.Forms.Label lblCodProd;
+        public System.Windows.Forms.TextBox txtCodProducto;
+        public System.Windows.Forms.Button btnBuscarProducto;
+        public System.Windows.Forms.Label lblNombreProd;
+        public System.Windows.Forms.TextBox txtNombreProd;
+        public System.Windows.Forms.Label lblPrecio;
+        public System.Windows.Forms.TextBox txtPrecio;
+        public System.Windows.Forms.Label lblStock;
+        public System.Windows.Forms.TextBox txtStock;
+        public System.Windows.Forms.Label lblCantidad;
+        public System.Windows.Forms.NumericUpDown nudCantidad;
+        public System.Windows.Forms.Button btnAgregar;
+
+        public System.Windows.Forms.DataGridView dgvDetalle;
+        public System.Windows.Forms.DataGridViewTextBoxColumn colIdProducto;
+        public System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
+        public System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
+        public System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
+        public System.Windows.Forms.DataGridViewTextBoxColumn colSubTotal;
+        public System.Windows.Forms.DataGridViewButtonColumn colQuitar;
+
+        public System.Windows.Forms.Panel pnlTotales;
+        public System.Windows.Forms.Label lblTotal;
+        public System.Windows.Forms.TextBox txtTotal;
+        public System.Windows.Forms.Label lblPagaCon;
+        public System.Windows.Forms.Label lblCambio;
+        public System.Windows.Forms.TextBox txtCambio;
+        public System.Windows.Forms.Button btnCrearVenta;
+        public PictureBox pbProducto;
+        public Label lblCorreo;
+        public Label lblTelefono;
+        public Label lblApellido;
+        public TextBox txtCorreo;
+        public TextBox txtApellido;
+        public TextBox txtTelefono;
+        public ComboBox cbFormaPago;
+        public TextBox txtPagaCon;
+        public PictureBox pbCliente;
+        private GroupBox groupBox1;
     }
 }

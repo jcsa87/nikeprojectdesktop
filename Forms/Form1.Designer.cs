@@ -283,7 +283,8 @@
             panelContenedor.Dock = DockStyle.Fill;
             panelContenedor.Location = new Point(121, 0);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(866, 702);
+            Size = new Size(1500, 620); 
+
             panelContenedor.TabIndex = 1;
             // 
             // Form1
