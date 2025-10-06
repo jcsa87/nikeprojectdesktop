@@ -150,37 +150,71 @@ namespace nikeproject.UserControls
         {
             if (_idProducto == 0)
             {
-                MessageBox.Show("Seleccione un producto válido.");
+                MessageBox.Show("Seleccione un producto válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!int.TryParse(txtStock.Text, out int stock) || stock <= 0)
             {
-                MessageBox.Show("No hay stock disponible para este producto.");
+                MessageBox.Show("No hay stock disponible para este producto.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int cantidad = (int)nudCantidad.Value;
             if (cantidad <= 0)
             {
-                MessageBox.Show("La cantidad debe ser mayor que cero.");
+                MessageBox.Show("La cantidad debe ser mayor que cero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             decimal precio = decimal.Parse(txtPrecio.Text);
             decimal subTotal = precio * cantidad;
 
-            int rowIndex = dgvDetalle.Rows.Add();
-            DataGridViewRow row = dgvDetalle.Rows[rowIndex];
+            //verificamos si el prod esta en la grilla
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.IsNewRow) continue;
 
-            row.Cells["colIdProducto"].Value = _idProducto;
-            row.Cells["colProducto"].Value = txtNombreProd.Text;
-            row.Cells["colPrecio"].Value = precio.ToString("0.00");
-            row.Cells["colCantidad"].Value = cantidad;
-            row.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
+                int idExistente = Convert.ToInt32(row.Cells["colIdProducto"].Value);
+                if (idExistente == _idProducto)
+                {
+                    int cantidadActual = Convert.ToInt32(row.Cells["colCantidad"].Value);
+                    int nuevaCantidad = cantidadActual + cantidad;
+
+                    if (nuevaCantidad > stock)
+                    {
+                        MessageBox.Show($"❌ Stock insuficiente. Disponible: {stock}, intentando agregar {nuevaCantidad}.",
+                                        "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // actualiza cantidad y subtotal si aún hay stock
+                    row.Cells["colCantidad"].Value = nuevaCantidad;
+                    row.Cells["colSubTotal"].Value = (nuevaCantidad * precio).ToString("0.00");
+                    RecalcularTotales();
+                    return;
+                }
+            }
+
+            // si no estaba en la grilla, agregar nuevo producto
+            int rowIndex = dgvDetalle.Rows.Add();
+            DataGridViewRow nuevaFila = dgvDetalle.Rows[rowIndex];
+            nuevaFila.Cells["colIdProducto"].Value = _idProducto;
+            nuevaFila.Cells["colProducto"].Value = txtNombreProd.Text;
+            nuevaFila.Cells["colPrecio"].Value = precio.ToString("0.00");
+            nuevaFila.Cells["colCantidad"].Value = cantidad;
+            nuevaFila.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
+
+            //actualiza el stock visual
+            int nuevoStock = stock - cantidad;
+            txtStock.Text = nuevoStock.ToString();
+            btnAgregar.Enabled = nuevoStock > 0;
+            txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
+            nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
 
             RecalcularTotales();
         }
+
 
 
 
@@ -251,6 +285,8 @@ namespace nikeproject.UserControls
                 return;
             }
 
+
+
             // 2) Insertar detalle
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
@@ -260,6 +296,14 @@ namespace nikeproject.UserControls
                 int cantidad = Convert.ToInt32(row.Cells["colCantidad"].Value);
                 decimal precioUnitario = Convert.ToDecimal(row.Cells["colPrecio"].Value);
                 decimal subTotal = Convert.ToDecimal(row.Cells["colSubTotal"].Value);
+
+                    int stockActual = ProductoData.ObtenerStock(idProducto);
+                if (cantidad > stockActual)
+                {
+                    MessageBox.Show($"El producto con ID {idProducto} ya no tiene suficiente stock. Disponible: {stockActual}",
+                                    "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var det = new DetalleVenta
                 {

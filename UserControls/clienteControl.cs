@@ -54,6 +54,11 @@ namespace nikeproject
         {
             ClienteData clienteData = new ClienteData();
             dgvCliente.DataSource = clienteData.ListarClientes();
+
+          
+            // Ocultar la columna Estado, pero mantenerla para el coloreo
+            if (dgvCliente.Columns.Contains("Estado"))
+                dgvCliente.Columns["Estado"].Visible = false;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -165,6 +170,30 @@ namespace nikeproject
                 }
             }
         }
+
+        private void dgvCliente_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvCliente.Rows)
+            {
+                if (row.DataBoundItem is Cliente c)
+                {
+                    if (!c.Estado)
+                    {
+                        // Cliente inactivo → rojo
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        // Cliente activo → blanco
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
+
 
 
 

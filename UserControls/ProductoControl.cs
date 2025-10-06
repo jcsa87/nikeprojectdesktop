@@ -29,6 +29,9 @@ namespace nikeproject.UserControls
         {
             dgvProductos.DataSource = null;
             dgvProductos.DataSource = ProductoData.ListarProductos();
+
+            if (dgvProductos.Columns.Contains("Estado"))
+                dgvProductos.Columns["Estado"].Visible = false;
         }
 
         private void CargarCategorias()
@@ -99,8 +102,9 @@ namespace nikeproject.UserControls
                 Codigo = txtCodigo.Text.Trim(),
                 Nombre = txtNombreProd.Text.Trim(),
                 Descripcion = txtDescripcion.Text.Trim(),
+                Stock = int.Parse(txtStock.Text),                        
+                PrecioCompra = decimal.Parse(txtPrecioCompra.Text),      
                 PrecioVenta = decimal.Parse(txtPrecioVenta.Text),
-                // Estado = cbEstadoDetalle.SelectedItem?.ToString() == "Activo",
                 ImagenRuta = txtImagenRuta.Text.Trim(),
                 IdCategoria = (int)cbCategoria.SelectedValue
             };
@@ -121,14 +125,23 @@ namespace nikeproject.UserControls
         {
             foreach (DataGridViewRow row in dgvProductos.Rows)
             {
-                if (row.Cells["Estado"].Value != null && row.Cells["Estado"].Value != DBNull.Value)
+                if (row.DataBoundItem is Producto p)
                 {
-                    bool activo = Convert.ToBoolean(row.Cells["Estado"].Value);
-                    row.DefaultCellStyle.BackColor = activo ? Color.White : Color.LightCoral;
-                    row.DefaultCellStyle.ForeColor = activo ? Color.Black : Color.White;
+                    if (!p.Estado)
+                    {
+                        // Producto inactivo → rojo
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
                 }
             }
         }
+
 
 
         private void btnCargarImagen_Click(object sender, EventArgs e)

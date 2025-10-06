@@ -97,6 +97,31 @@ namespace nikeproject.Data
             return resultado;
         }
 
+        public static int ObtenerStock(int idProducto)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string sql = "SELECT Stock FROM PRODUCTO WHERE IdProducto = @IdProducto";
+
+                using (SqlCommand cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && int.TryParse(result.ToString(), out int stock))
+                    {
+                        return stock;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+
         public static bool ExisteCodigo(string codigo)
         {
             using (SqlConnection oConexion = Conexion.Conectar())
