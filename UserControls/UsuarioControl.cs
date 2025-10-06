@@ -191,6 +191,42 @@ namespace nikeproject
             }
         }
 
+         public bool EditarCliente(Cliente oCliente)
+        {
+            bool resultado = false;
+
+            try
+            {
+                using (SqlConnection oConexion = Conexion.Conectar())
+                {
+                    oConexion.Open();
+                    string query = "UPDATE CLIENTE SET Nombre = @nombre, Apellido = @apellido, Documento = @documento, Correo = @correo, Telefono = @telefono, Estado = @estado WHERE IdCliente = @idcliente";
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                    {
+                        cmd.Parameters.AddWithValue("@nombre", oCliente.Nombre);
+                        cmd.Parameters.AddWithValue("@apellido", oCliente.Apellido);
+                        cmd.Parameters.AddWithValue("@documento", oCliente.Documento);
+                        cmd.Parameters.AddWithValue("@correo", oCliente.Correo);
+                        cmd.Parameters.AddWithValue("@telefono", oCliente.Telefono);
+                        cmd.Parameters.AddWithValue("@estado", oCliente.Estado);
+                        cmd.Parameters.AddWithValue("@idcliente", oCliente.IdCliente);
+                        cmd.CommandType = CommandType.Text;
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            resultado = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
+
+        private string claveOriginal = "";
         private void dgvUsuario_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -202,7 +238,11 @@ namespace nikeproject
                 txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
                 txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
-                txtClave.Text = filaSeleccionada.Cells["Clave"].Value.ToString();
+
+                txtClave.Text = "******"; // muestra asteriscos, pero no la clave real
+                txtConfirmarClave.Text = "******";
+                claveOriginal = filaSeleccionada.Cells["Clave"].Value.ToString(); // guarda la real
+
                 cbRol.Text = filaSeleccionada.Cells["Rol"].Value.ToString();
                 cbEstado.Text = (Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value) == true) ? "Activo" : "Inactivo";
 
@@ -250,18 +290,22 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                if (txtClave.Text != "******" || txtConfirmarClave.Text != "******")
                 {
-                    MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtClave.Focus();
-                    return;
-                }
+                    
+                    if (!UsuarioValidacion.claveValida(txtClave.Text))
+                    {
+                        MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtClave.Focus();
+                        return;
+                    }
 
-                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
-                {
-                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtConfirmarClave.Focus();
-                    return;
+                    if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                    {
+                        MessageBox.Show("⚠️ Las claves no coinciden.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtConfirmarClave.Focus();
+                        return;
+                    }
                 }
 
                 if (!UsuarioValidacion.RolValido(cbRol.SelectedItem?.ToString() ?? ""))
@@ -278,7 +322,7 @@ namespace nikeproject
                     Nombre = txtNombre.Text.Trim(),
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
-                    Clave = txtClave.Text.Trim(),
+                    Clave = (txtClave.Text == "******") ? claveOriginal : txtClave.Text,
                     Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
