@@ -80,67 +80,8 @@ namespace nikeproject.UserControls
         public VentaControl()
         {
             InitializeComponent();
-            // valores iniciales
-            this.Load += VentaControl_Load;
-            this.Resize += VentaControl_Resize;
             _instance = this;
 
-        }
-
-        private void VentaControl_Load(object sender, EventArgs e)
-        {
-            // Cantidad
-            nudCantidad.Minimum = 1;
-            nudCantidad.Value = 1;
-
-            cbTipoDoc.Items.Clear();
-            cbTipoDoc.Items.AddRange(new object[]
-            {
-                "Boleta",
-                "Factura A",
-                "Factura B",
-                "Factura C",
-                "Ticket"
-            });
-            cbTipoDoc.SelectedIndex = 0;
-
-            cbFormaPago.Items.Clear();
-            cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Cheque" });
-            cbFormaPago.SelectedIndex = 0;
-
-            // 👇 muy importante: enganchar el evento
-            cbFormaPago.SelectedIndexChanged += cbFormaPago_SelectedIndexChanged;
-
-            // Estado inicial
-            txtPagaCon.ReadOnly = cbFormaPago.SelectedItem?.ToString() != "Efectivo";
-            txtPagaCon.BackColor = txtPagaCon.ReadOnly ? SystemColors.Control : Color.White;
-
-            CargarHistorialVentas();
-
-            groupBox1.BringToFront();
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-        }
-
-        private void CargarHistorialVentas()
-        {
-            dgvVentas.DataSource = null;
-            dgvVentas.DataSource = VentaData.ListarVentas();
-
-            // opcional: renombrar headers
-            if (dgvVentas.Columns.Contains("IdVenta"))
-                dgvVentas.Columns["IdVenta"].HeaderText = "ID";
-
-            if (dgvVentas.Columns.Contains("NumeroDocumento"))
-                dgvVentas.Columns["NumeroDocumento"].HeaderText = "Documento";
-
-            if (dgvVentas.Columns.Contains("FechaRegistro"))
-                dgvVentas.Columns["FechaRegistro"].HeaderText = "Fecha";
-
-            if (dgvVentas.Columns.Contains("MontoTotal"))
-                dgvVentas.Columns["MontoTotal"].HeaderText = "Total";
-
-            if (dgvVentas.Columns.Contains("Cliente"))
-                dgvVentas.Columns["Cliente"].HeaderText = "Cliente";
         }
 
 
@@ -320,7 +261,6 @@ namespace nikeproject.UserControls
             }
 
             MessageBox.Show("✅ Venta registrada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            CargarHistorialVentas();
 
             // 3) Limpiar
             dgvDetalle.Rows.Clear();
@@ -611,66 +551,18 @@ namespace nikeproject.UserControls
             }
 
         }
-
-        private void dgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
-            CargarDetalleVenta(idVenta);
-        }
-
-        private void CargarDetalleVenta(int idVenta)
-        {
-            try
-            {
-                using (var cn = new SqlConnection(Conexion.CadenaConexion))
-                {
-                    cn.Open();
-
-                    string query = @"
-                SELECT 
-                    P.Nombre AS Producto,
-                    D.Cantidad,
-                    D.PrecioUnitario AS Precio,
-                    D.SubTotal
-                FROM DETALLE_VENTA D
-                INNER JOIN PRODUCTO P ON P.IdProducto = D.IdProducto
-                WHERE D.IdVenta = @idVenta";
-
-                    using (var cmd = new SqlCommand(query, cn))
-                    {
-                        cmd.Parameters.AddWithValue("@idVenta", idVenta);
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        dgvDetalleHistorial.DataSource = dt;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el detalle de venta: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void VentaControl_Resize(object sender, EventArgs e)
-        {
-            // Si el control está minimizado o muy chico, oculta el historial
-            if (this.Width < 1200)
-            {
-                groupBox1.Visible = false;
-            }
-            else
-            {
-                groupBox1.Visible = true;
-            }
-        }
-
-        private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+            private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+
+        private void btnHistorialVentas_Click(object sender, EventArgs e)
+        {
+            using (var frm = new HistorialVentasForm())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
     }
 }

@@ -41,31 +41,50 @@ namespace nikeproject.DataAccess
 
         public static List<DetalleVenta> ListarPorVenta(int idVenta)
         {
-            List<DetalleVenta> lista = new List<DetalleVenta>();
+            var lista = new List<DetalleVenta>();
 
-            using (SqlConnection oConexion = new SqlConnection(Conexion.CadenaConexion))
+            using (var cn = new SqlConnection(Conexion.CadenaConexion))
             {
-                oConexion.Open();
-                string query = @"SELECT IdDetalle, IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal
-                                 FROM DETALLE_VENTA WHERE IdVenta = @IdVenta";
+                cn.Open();
+                string sql = @"
+                    SELECT 
+                        d.IdDetalle,
+                        d.IdVenta,
+                        d.IdProducto,
+                        d.Cantidad,
+                        d.PrecioUnitario,
+                        d.SubTotal,
+                        p.Nombre,      -- para llenar Producto.Nombre
+                        p.ImagenRuta
+                    FROM DETALLE_VENTA d
+                    INNER JOIN PRODUCTO p ON p.IdProducto = d.IdProducto
+                    WHERE d.IdVenta = @idVenta
+                    ORDER BY d.IdDetalle;";
 
-                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                using (var cmd = new SqlCommand(sql, cn))
                 {
-                    cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
 
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    using (var dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())
                         {
-                            lista.Add(new DetalleVenta
+                            var det = new DetalleVenta
                             {
-                                IdDetalle = Convert.ToInt32(dr["IdDetalle"]),
-                                IdVenta = Convert.ToInt32(dr["IdVenta"]),
-                                IdProducto = Convert.ToInt32(dr["IdProducto"]),
-                                Cantidad = Convert.ToInt32(dr["Cantidad"]),
-                                PrecioUnitario = Convert.ToDecimal(dr["PrecioUnitario"]),
-                                SubTotal = Convert.ToDecimal(dr["SubTotal"])
-                            });
+                                IdDetalle = dr.GetInt32(0),
+                                IdVenta = dr.GetInt32(1),
+                                IdProducto = dr.GetInt32(2),
+                                Cantidad = dr.GetInt32(3),
+                                PrecioUnitario = dr.GetDecimal(4),
+                                SubTotal = dr.GetDecimal(5),
+                                Producto = new Producto
+                                {
+                                    Nombre = dr.GetString(6),
+                                    ImagenRuta = dr.IsDBNull(7) ? null : dr.GetString(7)
+                                }
+
+                            };
+                            lista.Add(det);
                         }
                     }
                 }
