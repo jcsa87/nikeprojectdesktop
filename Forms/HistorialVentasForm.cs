@@ -21,6 +21,28 @@ namespace nikeproject.Forms
           
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            BeginInvoke((Action)(() =>
+            {
+                // ahora que ya hay tamaño real, aplicamos mínimos deseados
+                splitMain.Panel1MinSize = 140;
+                splitMain.Panel2MinSize = 180;
+
+                splitDetalle.Panel1MinSize = 300;
+                splitDetalle.Panel2MinSize = PreviewMinWidth; // 360 o 420
+
+                // si querés fijar el panel derecho como "fijo", ahora sí:
+                splitDetalle.FixedPanel = FixedPanel.Panel2;
+
+                // y recién ahora colocamos los splitters
+                ApplySplitterPositions();
+            }));
+        }
+
+
         // UI
         private DataGridView dgvVentas;
         private DataGridView dgvDetalle;
@@ -44,53 +66,51 @@ namespace nikeproject.Forms
             CargarVentas();
         }
 
+        private TableLayoutPanel root;
+        private Panel pnlTop, spacer;
         private SplitContainer splitMain;     // Ventas (arriba) / Detalle+Imagen (abajo)
         private SplitContainer splitDetalle;  // Detalle (izq) / Imagen (der)
         private PictureBox pbPreview;
+        private const int PreviewMinWidth = 360; // ancho mínimo deseado de miniatura
 
         private void InicializarUI()
         {
-            // ----- Panel superior de filtros (no tapa nada) -----
-            var pnlTop = new Panel { Dock = DockStyle.Top, Height = 64, Padding = new Padding(8) };
+            // ----- Barra superior (filtros) -----
+            pnlTop = new Panel { AutoSize = true, Dock = DockStyle.Top, Padding = new Padding(8, 8, 8, 8) };
 
-            cbBuscar = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Width = 160,
-                Left = 8,
-                Top = 18
-            };
+            cbBuscar = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 160, Left = 8, Top = 10 };
             cbBuscar.Items.Clear();
             cbBuscar.Items.AddRange(new object[] { "NumeroDocumento", "Cliente" });
             cbBuscar.SelectedIndex = 0;
 
-            txtBuscar = new TextBox { Left = cbBuscar.Right + 8, Top = 18, Width = 220 };
+            txtBuscar = new TextBox { Left = cbBuscar.Right + 8, Top = 10, Width = 220 };
             txtBuscar.TextChanged += (s, e) => AplicarFiltros();
 
-            dtpDesde = new DateTimePicker { Left = txtBuscar.Right + 16, Top = 18, Width = 140, Format = DateTimePickerFormat.Short };
-            dtpHasta = new DateTimePicker { Left = dtpDesde.Right + 8, Top = 18, Width = 140, Format = DateTimePickerFormat.Short };
+            dtpDesde = new DateTimePicker { Left = txtBuscar.Right + 16, Top = 10, Width = 140, Format = DateTimePickerFormat.Short };
+            dtpHasta = new DateTimePicker { Left = dtpDesde.Right + 8, Top = 10, Width = 140, Format = DateTimePickerFormat.Short };
 
-            btnFiltrarFechas = new Button { Text = "Filtrar fechas", Left = dtpHasta.Right + 8, Top = 16, Width = 110, Height = 28 };
+            btnFiltrarFechas = new Button { Text = "Filtrar fechas", Left = dtpHasta.Right + 8, Top = 8, Width = 110, Height = 28 };
             btnFiltrarFechas.Click += (s, e) => AplicarFiltros();
 
-            btnLimpiar = new Button { Text = "Limpiar", Left = btnFiltrarFechas.Right + 8, Top = 16, Width = 90, Height = 28 };
-            btnLimpiar.Click += (s, e) =>
-            {
-                txtBuscar.Clear();
-                dtpDesde.Value = DateTime.Today.AddDays(-7);
-                dtpHasta.Value = DateTime.Today;
-                AplicarFiltros();
-            };
+            btnLimpiar = new Button { Text = "Limpiar", Left = btnFiltrarFechas.Right + 8, Top = 8, Width = 90, Height = 28 };
+            btnLimpiar.Click += (s, e) => { txtBuscar.Clear(); dtpDesde.Value = DateTime.Today.AddDays(-7); dtpHasta.Value = DateTime.Today; AplicarFiltros(); };
 
-            btnCerrar = new Button { Text = "Cerrar", Width = 90, Height = 28, Top = 16, Anchor = AnchorStyles.Top | AnchorStyles.Right };
-            // lo posicionamos al final (cuando tengamos el ancho)
+            btnCerrar = new Button { Text = "Cerrar", Width = 90, Height = 28, Top = 8, Anchor = AnchorStyles.Top | AnchorStyles.Right };
+            btnCerrar.Click += (s, e) => Close();
+
             pnlTop.Controls.Add(cbBuscar);
             pnlTop.Controls.Add(txtBuscar);
             pnlTop.Controls.Add(dtpDesde);
             pnlTop.Controls.Add(dtpHasta);
             pnlTop.Controls.Add(btnFiltrarFechas);
             pnlTop.Controls.Add(btnLimpiar);
-            Controls.Add(pnlTop);
+            pnlTop.Controls.Add(btnCerrar);
+
+            // Botón "Cerrar" alineado a la derecha del panel
+            pnlTop.Resize += (s, e) => { btnCerrar.Left = pnlTop.Width - btnCerrar.Width - 8; };
+
+            // Separador fino (aire visual)
+            spacer = new Panel { Dock = DockStyle.Fill, Height = 6, BackColor = SystemColors.Control };
 
             // ----- Grillas -----
             dgvVentas = new DataGridView
@@ -100,7 +120,8 @@ namespace nikeproject.Forms
                 MultiSelect = false,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                AutoGenerateColumns = true
+                AutoGenerateColumns = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
             dgvVentas.CellClick += DgvVentas_CellClick;
 
@@ -111,7 +132,8 @@ namespace nikeproject.Forms
                 MultiSelect = false,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                AutoGenerateColumns = true
+                AutoGenerateColumns = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
             dgvDetalle.CellClick += DgvDetalle_CellClick;
 
@@ -130,48 +152,136 @@ namespace nikeproject.Forms
                 Dock = DockStyle.Fill,
                 Orientation = Orientation.Vertical,
                 SplitterWidth = 6,
-                FixedPanel = FixedPanel.Panel2
+                Panel1MinSize = 0,
+                Panel2MinSize = 0
             };
+
             splitDetalle.Panel1.Controls.Add(dgvDetalle);
             splitDetalle.Panel2.Controls.Add(pbPreview);
-            splitDetalle.SplitterDistance = Math.Max(Width - 280, 600); // deja ~260px para la imagen
 
-            // ----- Split principal: Ventas (arriba) / Detalle+Imagen (abajo) -----
             splitMain = new SplitContainer
             {
                 Dock = DockStyle.Fill,
                 Orientation = Orientation.Horizontal,
-                SplitterWidth = 6
+                SplitterWidth = 6,
+                Panel1MinSize = 0,
+                Panel2MinSize = 0
             };
+
             splitMain.Panel1.Controls.Add(dgvVentas);
             splitMain.Panel2.Controls.Add(splitDetalle);
-            splitMain.SplitterDistance = 300;
 
-            Controls.Add(splitMain);
+            // ----- TableLayoutPanel raíz (NO hay z-order problem) -----
+            root = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3
+            };
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));             // barra filtros
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 6));          // separador
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));         // todo lo demás
+            root.Controls.Add(pnlTop, 0, 0);
+            root.Controls.Add(spacer, 0, 1);
+            root.Controls.Add(splitMain, 0, 2);
 
-            // botón Cerrar a la derecha del panel superior
-            btnCerrar.Left = pnlTop.Width - btnCerrar.Width - 8;
-            btnCerrar.Click += (s, e) => Close();
-            pnlTop.Controls.Add(btnCerrar);
+            Controls.Add(root);
 
             // Fechas iniciales
             dtpDesde.Value = DateTime.Today.AddDays(-7);
             dtpHasta.Value = DateTime.Today;
 
-            // ... creas pnlTop, splitMain, etc. ...
+            // Ajustes de márgenes
+            dgvVentas.Margin = new Padding(8);
+            dgvDetalle.Margin = new Padding(8);
+            pbPreview.Margin = new Padding(8);
 
-            splitMain.Dock = DockStyle.Fill;
-            pnlTop.Dock = DockStyle.Top;
-
-            // IMPORTANTE: agregar primero el contenido y al final el top
-            Controls.Add(splitMain);
-            Controls.Add(pnlTop);
-
-            // Fuerza el orden correcto para el docking
-            Controls.SetChildIndex(pnlTop, 0);        // pnlTop “arriba” en el orden
-            Controls.SetChildIndex(splitMain, 1);     // splitMain ocupa el resto
-
+            // Reaccionar a resize para mantener preview ancho cómodo
+            this.Resize += Form_Resize;
         }
+
+        private static void SetSafeSplitterDistance(SplitContainer sc, int desired)
+        {
+            if (sc == null || !sc.IsHandleCreated) return;
+
+            // Tamaño útil según orientación
+            int total = (sc.Orientation == Orientation.Vertical)
+                        ? sc.ClientSize.Width
+                        : sc.ClientSize.Height;
+
+            if (total <= 0) return;
+
+            int splitter = sc.SplitterWidth;
+            int min1 = sc.Panel1MinSize;
+            int min2 = sc.Panel2MinSize;
+
+            // Espacio útil sin el splitter
+            int available = total - splitter;
+            if (available <= 0) return;
+
+            // Si ni siquiera los mínimos entran, NO seteamos (evita excepción)
+            if (min1 + min2 > available)
+            {
+                // Relajamos el min2 para no romper (dejarlo en lo máximo que entre)
+                int nuevoMin2 = Math.Max(0, available - min1);
+                sc.Panel2MinSize = nuevoMin2;
+                min2 = nuevoMin2;
+
+                if (min1 + min2 > available)
+                    return; // aún no entra, abortamos sin asignar
+            }
+
+            // Máximo permitido para Panel1
+            int maxForPanel1 = Math.Max(min1, available - min2);
+
+            int clamped = Math.Max(min1, Math.Min(desired, maxForPanel1));
+
+            try
+            {
+                sc.SplitterDistance = clamped;
+            }
+            catch
+            {
+                // última defensa si Windows ajustó internamente tamaños
+                try { sc.SplitterDistance = Math.Max(min1, available - min2); }
+                catch { /* ignore */ }
+            }
+        }
+
+
+
+
+
+
+        private void ApplySplitterPositions()
+        {
+            if (!IsHandleCreated) return;
+
+            // splitMain: Ventas ~ 58% arriba
+            if (splitMain.IsHandleCreated && splitMain.ClientSize.Height > 0)
+            {
+                int desiredMainTop = (int)(splitMain.ClientSize.Height * 0.58);
+                SetSafeSplitterDistance(splitMain, desiredMainTop);
+            }
+
+            // splitDetalle: preview entre 360 y 420 (o ~1/3 del ancho)
+            if (splitDetalle.IsHandleCreated && splitDetalle.ClientSize.Width > 0)
+            {
+                int ancho = splitDetalle.ClientSize.Width - splitDetalle.SplitterWidth;
+                int rightWidth = Math.Max(PreviewMinWidth, Math.Min(420, Math.Max(0, ancho / 3)));
+                int desiredDetalleLeft = Math.Max(300, ancho - rightWidth);
+                SetSafeSplitterDistance(splitDetalle, desiredDetalleLeft);
+            }
+        }
+
+        // Mantener proporciones al redimensionar (después del layout)
+        private void Form_Resize(object sender, EventArgs e)
+        {
+            BeginInvoke((Action)(() => ApplySplitterPositions()));
+        }
+
+
+
 
 
         private void CargarVentas()
@@ -339,6 +449,8 @@ namespace nikeproject.Forms
                 pbPreview.Image = null;
             }
         }
+
+
 
 
     }
