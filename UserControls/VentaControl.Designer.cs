@@ -527,7 +527,7 @@
             btnCrearVenta.Click += btnCrearVenta_Click;
             // 
             // groupBox1
-            // 
+            /*
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox1.BackColor = Color.WhiteSmoke;
             groupBox1.Controls.Add(dgvVentas);
@@ -551,7 +551,7 @@
             dgvVentas.Size = new Size(564, 578);
             dgvVentas.TabIndex = 0;
             dgvVentas.CellContentClick += dgvVentas_CellContentClick;
-            // 
+            */
             // lblHistorial
             // 
             lblHistorial.AutoSize = true;

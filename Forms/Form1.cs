@@ -42,12 +42,12 @@ namespace nikeproject
         {
             // Habilitar todo por defecto para empezar desde un estado limpio
             pbUsuario.Visible = true;
-            pbReportes.Visible = true;
+            pbBackUp.Visible = true;
             pbVentas.Visible = true;
             pbClientes.Visible = true;
             pbProductos.Visible = true;
             lbUsuario.Visible = true;
-            lbReporte.Visible = true;
+            lbBackup.Visible = true;
             lbProductos.Visible = true;
 
             // 2. Usamos un 'switch' que es más limpio y seguro que 'if-else if'
@@ -58,29 +58,23 @@ namespace nikeproject
                     // No se necesita hacer nada más, el admin puede ver todo.
                     break;
 
-                pbUsuario.Visible = false;   // No puede gestionar usuarios
-                pbProductos.Visible = false; // No puede gestionar productos
-                lbUsuario.Visible = false;
-                lbProductos.Visible = false;
+                case RolUsuario.Supervisor:
+                    lRol.Text = "Supervisor";
+                    pbUsuario.Visible = false;
+                    pbProductos.Visible = false;
+                    lbUsuario.Visible = false;
+                    lbProductos.Visible = false;
+                    break;
 
-
-                lRol.Text = "Supervisor";
-            }
-            else if (rol == "Vendedor")
-            {
-                pbUsuario.Enabled = false;
-                pbReportes.Enabled = false;
-                pbProductos.Enabled = false;
-
-                pbUsuario.Visible = false;
-                pbReportes.Visible = false;
-                pbProductos.Visible = false;
-                lbUsuario.Visible = false;
-                lbReporte.Visible = false;
-                lbProductos.Visible = false;
-
-                lRol.Text = "Vendedor";
-
+                case RolUsuario.Vendedor:
+                    lRol.Text = "Vendedor";
+                    pbUsuario.Visible = false;
+                    pbBackUp.Visible = false;
+                    pbProductos.Visible = false;
+                    lbUsuario.Visible = false;
+                    lbBackup.Visible = false;
+                    lbProductos.Visible = false;
+                    break;
             }
 
             ReordenarMenu();

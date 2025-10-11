@@ -300,19 +300,18 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                if (!UsuarioValidacion.ClaveValida(txtClave.Text))
                 {
                     MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtClave.Focus();
                     return;
                 }
 
-                    if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
-                    {
-                        MessageBox.Show("⚠️ Las claves no coinciden.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtConfirmarClave.Focus();
-                        return;
-                    }
+                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                {
+                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtConfirmarClave.Focus();
+                    return;
                 }
 
                 // --- INICIO DE LA MODIFICACIÓN CENTRADA EN EL ENUM ---
@@ -341,7 +340,8 @@ namespace nikeproject
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
-                    Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
+                    // ✨ ¡Aquí asignamos el enum, solucionando el error!
+                    Rol = rolSeleccionadoEnum,
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
