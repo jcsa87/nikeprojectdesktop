@@ -39,7 +39,7 @@ namespace nikeproject
 
             lRol.Enabled = true;
             pbUsuario.Enabled = true;
-            pbReportes.Enabled = true;
+            pbBackUp.Enabled = true;
             pbVentas.Enabled = true;
             pbClientes.Enabled = true;
             pbProductos.Enabled = true;
@@ -64,14 +64,14 @@ namespace nikeproject
             else if (rol == "Vendedor")
             {
                 pbUsuario.Enabled = false;
-                pbReportes.Enabled = false;
+                pbBackUp.Enabled = false;
                 pbProductos.Enabled = false;
 
                 pbUsuario.Visible = false;
-                pbReportes.Visible = false;
+                pbBackUp.Visible = false;
                 pbProductos.Visible = false;
                 lbUsuario.Visible = false;
-                lbReporte.Visible = false;
+                lbBackup.Visible = false;
                 lbProductos.Visible = false;
 
                 lRol.Text = "Vendedor";
@@ -90,7 +90,7 @@ namespace nikeproject
             var items = new (PictureBox, Label)[]
             {
         (pbUsuario, lbUsuario),
-        (pbReportes, lbReporte),
+        (pbBackUp, lbBackup),
         (pbVentas, lbVentas),
         (pbClientes, lbCliente),
         (pbProductos, lbProductos)
@@ -123,9 +123,9 @@ namespace nikeproject
         }
 
         // Muestra el control de Mantenimiento para Reportes
-        private void pbReportes_Click(object sender, EventArgs e)
+        private void pbBackUp_Click(object sender, EventArgs e)
         {
-            MostrarControl(new ReportesControl());
+            MostrarControl(new BackUpControl());
         }
 
         // Muestra el control de Mantenimiento para Ventas

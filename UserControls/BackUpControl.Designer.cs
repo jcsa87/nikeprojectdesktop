@@ -1,4 +1,4 @@
-﻿namespace nikeproject
+﻿namespace nikeproject.UserControls
 {
     partial class BackUpControl
     {
@@ -28,148 +28,136 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackUpControl));
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
-            panel1 = new Panel();
-            panel3 = new Panel();
-            label2 = new Label();
-            pictureBox3 = new PictureBox();
-            panel2 = new Panel();
-            label12 = new Label();
-            pictureBox2 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel1.SuspendLayout();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            SuspendLayout();
+            this.labelPanel = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.lblDestino = new System.Windows.Forms.Label();
+            this.txtDestino = new System.Windows.Forms.TextBox();
+            this.btnExaminar = new System.Windows.Forms.Button();
+            this.btnBackup = new System.Windows.Forms.Button();
+            this.lblInfo = new System.Windows.Forms.Label();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.SuspendLayout();
             // 
-            // pictureBox1
+            // labelPanel
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(157, 101);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(123, 128);
-            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            this.labelPanel.BackColor = System.Drawing.Color.White;
+            this.labelPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelPanel.Location = new System.Drawing.Point(0, 0);
+            this.labelPanel.Name = "labelPanel";
+            this.labelPanel.Size = new System.Drawing.Size(258, 702);
+            this.labelPanel.TabIndex = 0;
             // 
-            // label1
+            // lblTitulo
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold | FontStyle.Italic);
-            label1.Location = new Point(261, 146);
-            label1.Name = "label1";
-            label1.Size = new Size(121, 37);
-            label1.TabIndex = 1;
-            label1.Text = "Back Up";
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.BackColor = System.Drawing.Color.White;
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F,
+                ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))));
+            this.lblTitulo.Location = new System.Drawing.Point(20, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(202, 25);
+            this.lblTitulo.TabIndex = 1;
+            this.lblTitulo.Text = "Respaldo de Datos";
             // 
-            // panel1
+            // lblDestino
             // 
-            panel1.BackColor = Color.Gainsboro;
-            panel1.Controls.Add(panel3);
-            panel1.Controls.Add(panel2);
-            panel1.Font = new Font("Segoe Print", 9F);
-            panel1.Location = new Point(157, 235);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(596, 337);
-            panel1.TabIndex = 2;
+            this.lblDestino.AutoSize = true;
+            this.lblDestino.BackColor = System.Drawing.Color.White;
+            this.lblDestino.Location = new System.Drawing.Point(20, 70);
+            this.lblDestino.Name = "lblDestino";
+            this.lblDestino.Size = new System.Drawing.Size(104, 15);
+            this.lblDestino.TabIndex = 2;
+            this.lblDestino.Text = "Ubicación destino:";
             // 
-            // panel3
+            // txtDestino
             // 
-            panel3.BackColor = SystemColors.ControlLight;
-            panel3.Controls.Add(label2);
-            panel3.Controls.Add(pictureBox3);
-            panel3.Location = new Point(331, 149);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(208, 61);
-            panel3.TabIndex = 9;
+            this.txtDestino.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDestino.Location = new System.Drawing.Point(20, 88);
+            this.txtDestino.Name = "txtDestino";
+            this.txtDestino.ReadOnly = true;
+            this.txtDestino.Size = new System.Drawing.Size(207, 23);
+            this.txtDestino.TabIndex = 3;
             // 
-            // label2
+            // btnExaminar
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label2.Location = new Point(85, 24);
-            label2.Name = "label2";
-            label2.Size = new Size(97, 13);
-            label2.TabIndex = 7;
-            label2.Text = "Exportar archivos";
+            this.btnExaminar.BackColor = System.Drawing.Color.DarkGray;
+            this.btnExaminar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExaminar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnExaminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExaminar.Location = new System.Drawing.Point(20, 117);
+            this.btnExaminar.Name = "btnExaminar";
+            this.btnExaminar.Size = new System.Drawing.Size(207, 23);
+            this.btnExaminar.TabIndex = 4;
+            this.btnExaminar.Text = "Examinar...";
+            this.btnExaminar.UseVisualStyleBackColor = false;
+            this.btnExaminar.Click += new System.EventHandler(this.btnExaminar_Click);
             // 
-            // pictureBox3
+            // btnBackup
             // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(14, 6);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(46, 50);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.TabIndex = 6;
-            pictureBox3.TabStop = false;
+            this.btnBackup.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBackup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBackup.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBackup.ForeColor = System.Drawing.Color.White;
+            this.btnBackup.Location = new System.Drawing.Point(20, 160);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(207, 23);
+            this.btnBackup.TabIndex = 5;
+            this.btnBackup.Text = "Generar Backup";
+            this.btnBackup.UseVisualStyleBackColor = false;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
-            // panel2
+            // lblInfo
             // 
-            panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(64, 149);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(208, 61);
-            panel2.TabIndex = 8;
+            this.lblInfo.BackColor = System.Drawing.Color.White;
+            this.lblInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblInfo.Location = new System.Drawing.Point(280, 40);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(740, 60);
+            this.lblInfo.TabIndex = 6;
+            this.lblInfo.Text = "Generá una copia de seguridad de la base de datos DBnikeproject.\r\nPodés guardar e" +
+    "l archivo en una unidad externa o disco local.";
             // 
-            // label12
+            // lblEstado
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label12.Location = new Point(66, 24);
-            label12.Name = "label12";
-            label12.Size = new Size(138, 13);
-            label12.TabIndex = 7;
-            label12.Text = "Hacer copia de seguridad";
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.BackColor = System.Drawing.Color.White;
+            this.lblEstado.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lblEstado.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblEstado.Location = new System.Drawing.Point(280, 120);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(0, 19);
+            this.lblEstado.TabIndex = 7;
             // 
-            // pictureBox2
+            // BackupControl
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(14, 6);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(46, 50);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
-            // 
-            // BackUpControl
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(label1);
-            Controls.Add(pictureBox1);
-            Controls.Add(panel1);
-            Name = "BackUpControl";
-            Size = new Size(915, 670);
-//            Load += this.BackUpControl_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel1.ResumeLayout(false);
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.lblEstado);
+            this.Controls.Add(this.lblInfo);
+            this.Controls.Add(this.btnBackup);
+            this.Controls.Add(this.btnExaminar);
+            this.Controls.Add(this.txtDestino);
+            this.Controls.Add(this.lblDestino);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.labelPanel);
+            this.Name = "BackupControl";
+            this.Size = new System.Drawing.Size(1082, 702);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
-        private Label label1;
-        private Panel panel1;
-        private Panel panel3;
-        private Label label2;
-        private PictureBox pictureBox3;
-        private Panel panel2;
-        private Label label12;
-        private PictureBox pictureBox2;
+        private System.Windows.Forms.Label labelPanel;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblDestino;
+        private System.Windows.Forms.TextBox txtDestino;
+        private System.Windows.Forms.Button btnExaminar;
+        private System.Windows.Forms.Button btnBackup;
+        private System.Windows.Forms.Label lblInfo;
+        private System.Windows.Forms.Label lblEstado;
     }
 }
