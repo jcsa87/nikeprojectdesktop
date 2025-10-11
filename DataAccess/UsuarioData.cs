@@ -133,38 +133,73 @@ namespace nikeproject.DataAccess
         // Se agrega el '?' para indicar que el método puede devolver un valor nulo
         public Usuario? ObtenerUsuario(string documento, string clave)
         {
-            Usuario? oUsuario = null; // Se agrega el '?'
+            Usuario? oUsuario = null;
 
-            using (SqlConnection oConexion = Conexion.Conectar())
+            // 1. La consulta ahora es explícita: solo trae los datos necesarios para la sesión.
+            string query = @"SELECT IdUsuario, Nombre, Apellido, Rol
+                     FROM USUARIO
+                     WHERE Documento = @documento AND Clave = @clave AND Estado = 1";
+
+            try
             {
-                oConexion.Open();
-                string query = "SELECT * FROM USUARIO WHERE Documento = @documento AND Clave = @clave";
-
-                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                using (SqlConnection oConexion = Conexion.Conectar())
                 {
-                    cmd.Parameters.AddWithValue("@documento", documento);
-                    cmd.Parameters.AddWithValue("@clave", clave);
-                    cmd.CommandType = CommandType.Text;
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    oConexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, oConexion))
                     {
-                        if (dr.Read())
+                        cmd.Parameters.AddWithValue("@documento", documento);
+                        cmd.Parameters.AddWithValue("@clave", clave);
+                        // No es necesario 'cmd.CommandType = CommandType.Text;', es el valor por defecto.
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
                         {
-                            oUsuario = new Usuario()
+                            if (dr.Read())
                             {
-                                IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                                Nombre = dr["Nombre"].ToString()!, // Usas '!' porque sabes que no es nulo
-                                Apellido = dr["Apellido"].ToString()!, // Usas '!' porque sabes que no es nulo
-                                Documento = dr["Documento"].ToString()!, // Usas '!'
-                                Clave = dr["Clave"].ToString()!, // Usas '!'
-                                Rol = dr["Rol"].ToString()!, // Usas '!'
-                                Estado = Convert.ToBoolean(dr["Estado"]),
-                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
-                            };
+                                // --- INICIO DE LA MODIFICACIÓN ---
+
+                                // 2. Leemos el rol como texto desde la base de datos.
+                                string rolDesdeDB = dr["Rol"].ToString()!;
+                                RolUsuario rolEnum;
+
+                                // 3. "Traducimos" el texto al enum para usarlo de forma segura en la aplicación.
+                                switch (rolDesdeDB)
+                                {
+                                    case "Administrador":
+                                        rolEnum = RolUsuario.Administrador;
+                                        break;
+                                    case "Supervisor":
+                                        rolEnum = RolUsuario.Supervisor;
+                                        break;
+                                    case "Vendedor":
+                                        rolEnum = RolUsuario.Vendedor;
+                                        break;
+                                    default:
+                                        // Si el rol en la BD no es válido, se impide el login por seguridad.
+                                        return null;
+                                }
+
+                                // 4. Creamos el objeto Usuario SOLO con los datos esenciales para la sesión.
+                                oUsuario = new Usuario()
+                                {
+                                    IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
+                                    Nombre = dr["Nombre"].ToString()!,
+                                    Apellido = dr["Apellido"].ToString()!,
+                                    Rol = rolEnum // <-- Asignamos el enum ya convertido.
+                                };
+
+                                // --- FIN DE LA MODIFICACIÓN ---
+                            }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                // Si hay un error (ej. la BD está offline), evitamos que la app se cierre.
+                Console.WriteLine("Error de base de datos al autenticar: " + ex.Message);
+                return null;
+            }
+
             return oUsuario;
         }
 
@@ -183,6 +218,17 @@ namespace nikeproject.DataAccess
                     {
                         while (dr.Read())
                         {
+                            // --- INICIO DE LA MODIFICACIÓN ---
+
+                            // 1. Leemos el rol como texto desde la base de datos.
+                            string rolDesdeDB = dr["Rol"].ToString()!;
+
+                            // 2. "Traducimos" el texto al enum correspondiente.
+                            // Enum.TryParse es la forma más segura de hacerlo.
+                            Enum.TryParse<RolUsuario>(rolDesdeDB, out RolUsuario rolEnum);
+
+                            // --- FIN DE LA MODIFICACIÓN ---
+
                             lista.Add(new Usuario()
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
@@ -190,7 +236,10 @@ namespace nikeproject.DataAccess
                                 Apellido = dr["Apellido"].ToString()!,
                                 Documento = dr["Documento"].ToString()!,
                                 Clave = dr["Clave"].ToString()!,
-                                Rol = dr["Rol"].ToString()!,
+
+                                // 3. Asignamos el enum ya convertido a la propiedad Rol.
+                                Rol = rolEnum,
+
                                 Estado = Convert.ToBoolean(dr["Estado"]),
                                 FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
                             });
@@ -230,15 +279,27 @@ namespace nikeproject.DataAccess
                     {
                         while (dr.Read())
                         {
+                            // --- INICIO DE LA MODIFICACIÓN ---
+
+                            // 1. Leemos el rol como texto desde la base de datos.
+                            string rolDesdeDB = dr["Rol"].ToString()!;
+
+                            // 2. "Traducimos" el texto al enum correspondiente.
+                            Enum.TryParse<RolUsuario>(rolDesdeDB, out RolUsuario rolEnum);
+
+                            // --- FIN DE LA MODIFICACIÓN ---
+
                             lista.Add(new Usuario()
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuario"]),
-                                // Usa 'as string ?? string.Empty' para manejar la nulabilidad de los datos
                                 Nombre = dr["Nombre"] as string ?? string.Empty,
                                 Apellido = dr["Apellido"] as string ?? string.Empty,
                                 Documento = dr["Documento"] as string ?? string.Empty,
                                 Clave = dr["Clave"] as string ?? string.Empty,
-                                Rol = dr["Rol"] as string ?? string.Empty,
+
+                                // 3. Asignamos el enum ya convertido a la propiedad Rol.
+                                Rol = rolEnum,
+
                                 Estado = Convert.ToBoolean(dr["Estado"]),
                                 FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"])
                             });

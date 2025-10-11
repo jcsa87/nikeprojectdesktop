@@ -1,4 +1,6 @@
-﻿using System;
+﻿using nikeproject.DataAccess;
+using nikeproject.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,28 +41,45 @@ namespace nikeproject.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string usuario = txtDocumento.Text.Trim().ToLower();
-            string clave = txtClave.Text.Trim();
+            string documento = txtDocumento.Text.Trim();
+            string clave = txtClave.Text;
 
-            // Usuarios válidos y sus roles
-            var roles = new Dictionary<string, string>
-    {
-        { "admin", "Administrador" },
-        { "supervisor", "Supervisor" },
-        { "vendedor", "Vendedor" }
-    };
-
-            if (roles.ContainsKey(usuario) && clave == usuario)
+            if (string.IsNullOrEmpty(documento) || string.IsNullOrEmpty(clave))
             {
-                string rol = roles[usuario];
-                Form1 form = new Form1(rol); // Pasa el rol al formulario principal
+                MessageBox.Show("Debe ingresar documento y contraseña.", "Campos requeridos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            UsuarioData oUsuarioData = new UsuarioData();
+            // Recordá que tu ObtenerUsuario ahora debe ser la versión segura con Hashing (BCrypt)
+            Usuario? usuarioValidado = oUsuarioData.ObtenerUsuario(documento, clave);
+
+            if (usuarioValidado != null)
+            {
+                // --- INICIO DE LA MODIFICACIÓN ---
+
+                // 1. Guardamos los datos del usuario en la sesión estática.
+                // Ahora toda la aplicación sabrá quién está conectado.
+                SesionUsuario.IniciarSesion(
+                    usuarioValidado.IdUsuario,
+                    usuarioValidado.Nombre,
+                    usuarioValidado.Apellido,
+                    usuarioValidado.Rol
+                );
+
+                // 2. Pasamos el rol desde la sesión al formulario principal.
+                // Esto asegura que la información es consistente.
+                Form1 form = new Form1(SesionUsuario.Rol);
+
+                // --- FIN DE LA MODIFICACIÓN ---
+
                 form.Show();
                 this.Hide();
-                form.FormClosing += FrmClosing;
+                form.FormClosing += FrmClosing; // Tu lógica para re-abrir el login
             }
             else
             {
-                MessageBox.Show("Usuario o contraseña incorrectos. Intente nuevamente.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Documento o contraseña incorrectos.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtClave.Clear();
                 txtClave.Focus();
             }
@@ -71,6 +90,17 @@ namespace nikeproject.Forms
             txtDocumento.Text = "";
             txtClave.Text = "";
             this.Show();
+        }
+
+        private void txtDocumento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Verifica si la tecla presionada no es un dígito y tampoco es una tecla de control (como backspace).
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                // Si no es un número ni una tecla de control, se cancela el evento.
+                // El carácter no aparecerá en el TextBox.
+                e.Handled = true;
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

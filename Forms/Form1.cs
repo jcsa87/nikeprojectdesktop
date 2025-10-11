@@ -1,23 +1,27 @@
+using Microsoft.Data.SqlClient;
+using nikeproject.DataAccess;
+using nikeproject.Forms;
+using nikeproject.Models;
+using nikeproject.UserControls;
 using System;
 using System.Windows.Forms;
-using nikeproject.Forms;
-using nikeproject.UserControls;
-using nikeproject.DataAccess;
-using Microsoft.Data.SqlClient;
 
 namespace nikeproject
 {
     public partial class Form1 : Form
     {
-
-        private readonly string _rol;
-        public Form1(string rol)
+        // 1. Cambiá el tipo del campo de string a RolUsuario.
+        private readonly RolUsuario _rol;
+        // 2. Cambiá el tipo del parámetro en el constructor.
+        public Form1(RolUsuario rol)
         {
             InitializeComponent();
             _rol = rol;
         }
 
-        public Form1() : this("Vendedor") // Rol por defecto para diseño
+
+        // 3. Pasá un valor del enum en el constructor por defecto
+        public Form1() : this(RolUsuario.Vendedor)
         {
         }
 
@@ -34,48 +38,43 @@ namespace nikeproject
             panelContenedor.Controls.Clear();
         }
 
-        private void ConfigurarMenuPorRol(string rol)
+        private void ConfigurarMenuPorRol(RolUsuario rol) // <-- 1. Acepta el enum, no un string
         {
+            // Habilitar todo por defecto para empezar desde un estado limpio
+            pbUsuario.Visible = true;
+            pbReportes.Visible = true;
+            pbVentas.Visible = true;
+            pbClientes.Visible = true;
+            pbProductos.Visible = true;
+            lbUsuario.Visible = true;
+            lbReporte.Visible = true;
+            lbProductos.Visible = true;
 
-            lRol.Enabled = true;
-            pbUsuario.Enabled = true;
-            pbReportes.Enabled = true;
-            pbVentas.Enabled = true;
-            pbClientes.Enabled = true;
-            pbProductos.Enabled = true;
-
-            if (rol == "Administrador")
+            // 2. Usamos un 'switch' que es más limpio y seguro que 'if-else if'
+            switch (rol)
             {
-                lRol.Text = "Administrador";
-            }
-            else if (rol == "Supervisor")
-            {
-                pbUsuario.Enabled = false;   // No puede gestionar usuarios
-                pbProductos.Enabled = false; // No puede gestionar productos
+                case RolUsuario.Administrador:
+                    lRol.Text = "Administrador";
+                    // No se necesita hacer nada más, el admin puede ver todo.
+                    break;
 
-                pbUsuario.Visible = false;   // No puede gestionar usuarios
-                pbProductos.Visible = false; // No puede gestionar productos
-                lbUsuario.Visible = false;
-                lbProductos.Visible = false;
+                case RolUsuario.Supervisor:
+                    lRol.Text = "Supervisor";
+                    pbUsuario.Visible = false;
+                    pbProductos.Visible = false;
+                    lbUsuario.Visible = false;
+                    lbProductos.Visible = false;
+                    break;
 
-
-                lRol.Text = "Supervisor";
-            }
-            else if (rol == "Vendedor")
-            {
-                pbUsuario.Enabled = false;
-                pbReportes.Enabled = false;
-                pbProductos.Enabled = false;
-
-                pbUsuario.Visible = false;
-                pbReportes.Visible = false;
-                pbProductos.Visible = false;
-                lbUsuario.Visible = false;
-                lbReporte.Visible = false;
-                lbProductos.Visible = false;
-
-                lRol.Text = "Vendedor";
-
+                case RolUsuario.Vendedor:
+                    lRol.Text = "Vendedor";
+                    pbUsuario.Visible = false;
+                    pbReportes.Visible = false;
+                    pbProductos.Visible = false;
+                    lbUsuario.Visible = false;
+                    lbReporte.Visible = false;
+                    lbProductos.Visible = false;
+                    break;
             }
 
             ReordenarMenu();

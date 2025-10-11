@@ -84,6 +84,7 @@
             txtDocumento.Size = new Size(234, 23);
             txtDocumento.TabIndex = 3;
             txtDocumento.TextChanged += textBox1_TextChanged;
+            txtDocumento.KeyPress += txtDocumento_KeyPress;
             // 
             // txtClave
             // 
@@ -101,9 +102,9 @@
             lbNroDocumento.Font = new Font("Myanmar Text", 9F);
             lbNroDocumento.Location = new Point(204, 25);
             lbNroDocumento.Name = "lbNroDocumento";
-            lbNroDocumento.Size = new Size(50, 21);
+            lbNroDocumento.Size = new Size(73, 21);
             lbNroDocumento.TabIndex = 4;
-            lbNroDocumento.Text = "Usuario";
+            lbNroDocumento.Text = "Documento";
             lbNroDocumento.Click += lbNroDocumento_Click;
             // 
             // lbContraseña

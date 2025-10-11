@@ -28,10 +28,8 @@ namespace nikeproject
         {
             CargarUsuarios();
             // Llenar el ComboBox de roles
-            cbRol.Items.Add("Administrador");
-            cbRol.Items.Add("Vendedor");
-            cbRol.Items.Add("Supervisor");
-            cbRol.SelectedIndex = 0;
+            // Carga los nombres del enum ("Administrador", "Vendedor", etc.) como ítems.
+            cbRol.DataSource = Enum.GetNames(typeof(RolUsuario));
 
             // Llenar el ComboBox de estados
             cbEstado.Items.Add("Activo");
@@ -87,7 +85,7 @@ namespace nikeproject
         {
             try
             {
-                // Validación de campos usando UsuarioValidacion
+                // --- Toda tu validación de campos se mantiene igual ---
                 if (!UsuarioValidacion.NombreValido(txtNombre.Text))
                 {
                     MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -95,7 +93,7 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.Apellido(txtApellido.Text))
+                if (!UsuarioValidacion.ApellidoValido(txtApellido.Text))
                 {
                     MessageBox.Show("El apellido solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNombre.Focus();
@@ -109,7 +107,7 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                if (!UsuarioValidacion.ClaveValida(txtClave.Text))
                 {
                     MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtClave.Focus();
@@ -123,22 +121,32 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.RolValido(cbRol.SelectedItem?.ToString() ?? ""))
+                // --- INICIO DE LA MODIFICACIÓN CENTRADA EN EL ENUM ---
+
+                // 1. Obtenemos el texto seleccionado en el ComboBox.
+                string rolSeleccionadoTexto = cbRol.SelectedItem?.ToString() ?? "";
+
+                // 2. Validamos ese texto (esta línea funciona como antes).
+                if (!UsuarioValidacion.RolValido(rolSeleccionadoTexto))
                 {
                     MessageBox.Show("Seleccione un rol válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cbRol.Focus();
                     return;
                 }
 
-                // Estado siempre será válido porque el ComboBox solo tiene dos opciones
+                // 3. Si la validación pasa, "traducimos" el texto al enum.
+                Enum.TryParse<RolUsuario>(rolSeleccionadoTexto, out RolUsuario rolSeleccionadoEnum);
 
+                // --- FIN DE LA MODIFICACIÓN ---
+
+                // 4. Creamos el objeto Usuario usando el enum ya convertido.
                 Usuario oUsuario = new Usuario()
                 {
                     Nombre = txtNombre.Text.Trim(),
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
-                    Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
+                    Rol = rolSeleccionadoEnum, // ✨ ¡Aquí asignamos el enum, solucionando el error!
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
@@ -203,7 +211,12 @@ namespace nikeproject
                 txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
                 txtClave.Text = filaSeleccionada.Cells["Clave"].Value.ToString();
-                cbRol.Text = filaSeleccionada.Cells["Rol"].Value.ToString();
+
+                // 2. Obtenemos el valor del enum directamente desde la celda.
+                RolUsuario rolDelUsuario = (RolUsuario)filaSeleccionada.Cells["Rol"].Value;
+                // 3. Lo convertimos a texto para poder seleccionar el ítem correcto en el ComboBox.
+                // Usar SelectedItem es más robusto que asignar a .Text.
+                cbRol.SelectedItem = rolDelUsuario.ToString();
                 cbEstado.Text = (Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value) == true) ? "Activo" : "Inactivo";
 
                 bool estadoEsActivo = Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value);
@@ -229,6 +242,7 @@ namespace nikeproject
         {
             if (idUsuarioSeleccionado > 0)
             {
+                // --- Todas tus validaciones se mantienen exactamente igual ---
                 if (!UsuarioValidacion.NombreValido(txtNombre.Text))
                 {
                     MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -236,7 +250,7 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.Apellido(txtApellido.Text))
+                if (!UsuarioValidacion.ApellidoValido(txtApellido.Text))
                 {
                     MessageBox.Show("El apellido solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtApellido.Focus();
@@ -250,7 +264,7 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.claveValida(txtClave.Text))
+                if (!UsuarioValidacion.ClaveValida(txtClave.Text))
                 {
                     MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtClave.Focus();
@@ -264,14 +278,25 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.RolValido(cbRol.SelectedItem?.ToString() ?? ""))
+                // --- INICIO DE LA MODIFICACIÓN CENTRADA EN EL ENUM ---
+
+                // 1. Obtenemos el texto seleccionado en el ComboBox.
+                string rolSeleccionadoTexto = cbRol.SelectedItem?.ToString() ?? "";
+
+                // 2. Validamos ese texto (esta línea se mantiene igual).
+                if (!UsuarioValidacion.RolValido(rolSeleccionadoTexto))
                 {
                     MessageBox.Show("Seleccione un rol válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cbRol.Focus();
                     return;
                 }
 
+                // 3. Si la validación pasa, "traducimos" el texto al enum.
+                Enum.TryParse<RolUsuario>(rolSeleccionadoTexto, out RolUsuario rolSeleccionadoEnum);
 
+                // --- FIN DE LA MODIFICACIÓN ---
+
+                // 4. Creamos el objeto Usuario usando el enum ya convertido.
                 Usuario oUsuario = new Usuario()
                 {
                     IdUsuario = idUsuarioSeleccionado,
@@ -279,7 +304,8 @@ namespace nikeproject
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
-                    Rol = cbRol.SelectedItem?.ToString() ?? "Vendedor",
+                    // ✨ ¡Aquí asignamos el enum, solucionando el error!
+                    Rol = rolSeleccionadoEnum,
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 

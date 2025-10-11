@@ -531,12 +531,11 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox1.BackColor = Color.WhiteSmoke;
             groupBox1.Controls.Add(dgvVentas);
-            groupBox1.Location = new Point(1095, 10);
+            groupBox1.Location = new Point(1180, 10);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(570, 600);
+            groupBox1.Size = new Size(336, 1065);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Historial de Ventas";
@@ -545,13 +544,13 @@
             // 
             dgvVentas.AllowUserToAddRows = false;
             dgvVentas.AllowUserToDeleteRows = false;
+            dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvVentas.Dock = DockStyle.Fill;
             dgvVentas.Location = new Point(3, 19);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.ReadOnly = true;
             dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVentas.Size = new Size(564, 578);
+            dgvVentas.Size = new Size(330, 1043);
             dgvVentas.TabIndex = 0;
             dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             // 
@@ -597,7 +596,7 @@
             Controls.Add(dgvDetalle);
             Controls.Add(pnlTotales);
             Name = "VentaControl";
-            Size = new Size(1875, 1065);
+            Size = new Size(1583, 1065);
             grpVenta.ResumeLayout(false);
             grpVenta.PerformLayout();
             grpCliente.ResumeLayout(false);

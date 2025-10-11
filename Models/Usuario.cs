@@ -15,7 +15,7 @@ namespace nikeproject.Models
         public string Apellido { get; set; } = string.Empty;
         public string Documento { get; set; } = string.Empty;
         public string Clave { get; set; } = string.Empty;
-        public string Rol { get; set; } = string.Empty;
+        public RolUsuario Rol { get; set; }
         public bool Estado { get; set; }
         public DateTime FechaCreacion { get; set; }
     }

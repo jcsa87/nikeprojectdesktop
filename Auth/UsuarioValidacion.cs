@@ -11,7 +11,7 @@ namespace nikeproject.Auth
             return !string.IsNullOrWhiteSpace(p_nombre) && Regex.IsMatch(p_nombre, @"^[a-zA-Z\s]+$");
         }
 
-        public static bool Apellido(string p_apellido)
+        public static bool ApellidoValido(string p_apellido)
         {
             return !string.IsNullOrWhiteSpace(p_apellido) && Regex.IsMatch(p_apellido, @"^[a-zA-Z\s]+$");
         }
@@ -21,7 +21,7 @@ namespace nikeproject.Auth
             return !string.IsNullOrWhiteSpace(p_usuario);
         }
 
-        public static bool claveValida(string p_clave)
+        public static bool ClaveValida(string p_clave)
         {
             return !string.IsNullOrWhiteSpace(p_clave) && p_clave.Length >= 6;
         }
@@ -33,7 +33,9 @@ namespace nikeproject.Auth
         }
 
         public static bool RolValido(string p_rol)
-            => p_rol == "Administrador" || p_rol == "Vendedor" || p_rol == "Supervisor";
+        {
+            return Enum.GetNames(typeof(RolUsuario)).Contains(p_rol);
+        }
 
         public static bool EstadoValido(bool p_estado)
             => p_estado == true || p_estado == false;
