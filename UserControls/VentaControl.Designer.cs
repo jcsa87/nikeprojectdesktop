@@ -71,11 +71,10 @@
             txtCambio = new TextBox();
             txtPagaCon = new TextBox();
             btnCrearVenta = new Button();
-            groupBox1 = new GroupBox();
-            dgvVentas = new DataGridView();
             lblHistorial = new Label();
             lblDetalleVenta = new Label();
             dgvDetalleHistorial = new DataGridView();
+            btnHistorialVentas = new Button();
             grpVenta.SuspendLayout();
             grpCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
@@ -84,8 +83,6 @@
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
             pnlTotales.SuspendLayout();
-            groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).BeginInit();
             SuspendLayout();
             // 
@@ -531,11 +528,12 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox1.BackColor = Color.WhiteSmoke;
             groupBox1.Controls.Add(dgvVentas);
-            groupBox1.Location = new Point(1180, 10);
+            groupBox1.Location = new Point(1095, 10);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(336, 1065);
+            groupBox1.Size = new Size(570, 600);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Historial de Ventas";
@@ -544,13 +542,13 @@
             // 
             dgvVentas.AllowUserToAddRows = false;
             dgvVentas.AllowUserToDeleteRows = false;
-            dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvVentas.Dock = DockStyle.Fill;
             dgvVentas.Location = new Point(3, 19);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.ReadOnly = true;
             dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVentas.Size = new Size(330, 1043);
+            dgvVentas.Size = new Size(564, 578);
             dgvVentas.TabIndex = 0;
             dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             // 
@@ -586,9 +584,23 @@
             dgvDetalleHistorial.Size = new Size(470, 270);
             dgvDetalleHistorial.TabIndex = 1;
             // 
+            // btnHistorialVentas
+            // 
+            btnHistorialVentas.BackColor = SystemColors.ActiveCaption;
+            btnHistorialVentas.FlatAppearance.BorderSize = 0;
+            btnHistorialVentas.FlatStyle = FlatStyle.Flat;
+            btnHistorialVentas.ForeColor = SystemColors.WindowText;
+            btnHistorialVentas.Location = new Point(62, 527);
+            btnHistorialVentas.Name = "btnHistorialVentas";
+            btnHistorialVentas.Size = new Size(127, 49);
+            btnHistorialVentas.TabIndex = 0;
+            btnHistorialVentas.Text = "Historial de Ventas";
+            btnHistorialVentas.UseVisualStyleBackColor = false;
+            btnHistorialVentas.Click += btnHistorialVentas_Click;
+            // 
             // VentaControl
             // 
-            Controls.Add(groupBox1);
+            Controls.Add(btnHistorialVentas);
             Controls.Add(btnCrearVenta);
             Controls.Add(grpVenta);
             Controls.Add(grpCliente);
@@ -609,17 +621,13 @@
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).EndInit();
             ResumeLayout(false);
 
 
         }
 
-
         #endregion
-        public DataGridView dgvVentas;
         public Label lblHistorial;
         public Label lblDetalleVenta;
         public DataGridView dgvDetalleHistorial;
@@ -679,6 +687,6 @@
         public ComboBox cbFormaPago;
         public TextBox txtPagaCon;
         public PictureBox pbCliente;
-        private GroupBox groupBox1;
+        public Button btnHistorialVentas;
     }
 }

@@ -58,23 +58,29 @@ namespace nikeproject
                     // No se necesita hacer nada más, el admin puede ver todo.
                     break;
 
-                case RolUsuario.Supervisor:
-                    lRol.Text = "Supervisor";
-                    pbUsuario.Visible = false;
-                    pbProductos.Visible = false;
-                    lbUsuario.Visible = false;
-                    lbProductos.Visible = false;
-                    break;
+                pbUsuario.Visible = false;   // No puede gestionar usuarios
+                pbProductos.Visible = false; // No puede gestionar productos
+                lbUsuario.Visible = false;
+                lbProductos.Visible = false;
 
-                case RolUsuario.Vendedor:
-                    lRol.Text = "Vendedor";
-                    pbUsuario.Visible = false;
-                    pbReportes.Visible = false;
-                    pbProductos.Visible = false;
-                    lbUsuario.Visible = false;
-                    lbReporte.Visible = false;
-                    lbProductos.Visible = false;
-                    break;
+
+                lRol.Text = "Supervisor";
+            }
+            else if (rol == "Vendedor")
+            {
+                pbUsuario.Enabled = false;
+                pbReportes.Enabled = false;
+                pbProductos.Enabled = false;
+
+                pbUsuario.Visible = false;
+                pbReportes.Visible = false;
+                pbProductos.Visible = false;
+                lbUsuario.Visible = false;
+                lbReporte.Visible = false;
+                lbProductos.Visible = false;
+
+                lRol.Text = "Vendedor";
+
             }
 
             ReordenarMenu();
@@ -89,7 +95,7 @@ namespace nikeproject
             var items = new (PictureBox, Label)[]
             {
         (pbUsuario, lbUsuario),
-        (pbReportes, lbReporte),
+        (pbBackUp, lbBackup),
         (pbVentas, lbVentas),
         (pbClientes, lbCliente),
         (pbProductos, lbProductos)
@@ -122,9 +128,9 @@ namespace nikeproject
         }
 
         // Muestra el control de Mantenimiento para Reportes
-        private void pbReportes_Click(object sender, EventArgs e)
+        private void pbBackUp_Click(object sender, EventArgs e)
         {
-            MostrarControl(new ReportesControl());
+            MostrarControl(new BackUpControl());
         }
 
         // Muestra el control de Mantenimiento para Ventas

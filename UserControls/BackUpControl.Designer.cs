@@ -1,4 +1,4 @@
-﻿namespace nikeproject
+﻿namespace nikeproject.UserControls
 {
     partial class BackUpControl
     {
@@ -28,148 +28,220 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackUpControl));
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
-            panel1 = new Panel();
-            panel3 = new Panel();
-            label2 = new Label();
-            pictureBox3 = new PictureBox();
-            panel2 = new Panel();
-            label12 = new Label();
-            pictureBox2 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel1.SuspendLayout();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            SuspendLayout();
+            this.lblArchivos = new System.Windows.Forms.Label();
+            this.txtOrigen = new System.Windows.Forms.TextBox();
+            this.btnSeleccionarOrigen = new System.Windows.Forms.Button();
+            this.lblDestino = new System.Windows.Forms.Label();
+            this.txtDestino = new System.Windows.Forms.TextBox();
+            this.btnSeleccionarDestino = new System.Windows.Forms.Button();
+            this.chkSobrescribir = new System.Windows.Forms.CheckBox();
+            this.grpOpciones = new System.Windows.Forms.GroupBox();
+            this.rbCopiaDirecta = new System.Windows.Forms.RadioButton();
+            this.rbComprimirZip = new System.Windows.Forms.RadioButton();
+            this.lblNombreBackup = new System.Windows.Forms.Label();
+            this.txtNombreBackup = new System.Windows.Forms.TextBox();
+            this.chkAgregarFecha = new System.Windows.Forms.CheckBox();
+            this.btnBackup = new System.Windows.Forms.Button();
+            this.lblResultado = new System.Windows.Forms.Label();
+            this.grpOpciones.SuspendLayout();
+            this.SuspendLayout();
             // 
-            // pictureBox1
+            // lblArchivos
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(157, 101);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(123, 128);
-            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            this.lblArchivos.AutoSize = true;
+            this.lblArchivos.Location = new System.Drawing.Point(40, 40);
+            this.lblArchivos.Name = "lblArchivos";
+            this.lblArchivos.Size = new System.Drawing.Size(92, 15);
+            this.lblArchivos.TabIndex = 0;
+            this.lblArchivos.Text = "Carpeta origen:";
             // 
-            // label1
+            // txtOrigen
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold | FontStyle.Italic);
-            label1.Location = new Point(261, 146);
-            label1.Name = "label1";
-            label1.Size = new Size(121, 37);
-            label1.TabIndex = 1;
-            label1.Text = "Back Up";
+            this.txtOrigen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtOrigen.Location = new System.Drawing.Point(40, 58);
+            this.txtOrigen.Name = "txtOrigen";
+            this.txtOrigen.Size = new System.Drawing.Size(340, 23);
+            this.txtOrigen.TabIndex = 1;
             // 
-            // panel1
+            // btnSeleccionarOrigen
             // 
-            panel1.BackColor = Color.Gainsboro;
-            panel1.Controls.Add(panel3);
-            panel1.Controls.Add(panel2);
-            panel1.Font = new Font("Segoe Print", 9F);
-            panel1.Location = new Point(157, 235);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(596, 337);
-            panel1.TabIndex = 2;
+            this.btnSeleccionarOrigen.BackColor = System.Drawing.Color.DarkGray;
+            this.btnSeleccionarOrigen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSeleccionarOrigen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSeleccionarOrigen.Location = new System.Drawing.Point(400, 57);
+            this.btnSeleccionarOrigen.Name = "btnSeleccionarOrigen";
+            this.btnSeleccionarOrigen.Size = new System.Drawing.Size(100, 25);
+            this.btnSeleccionarOrigen.TabIndex = 2;
+            this.btnSeleccionarOrigen.Text = "Seleccionar...";
+            this.btnSeleccionarOrigen.UseVisualStyleBackColor = false;
+            this.btnSeleccionarOrigen.Click += new System.EventHandler(this.btnSeleccionarOrigen_Click);
             // 
-            // panel3
+            // lblDestino
             // 
-            panel3.BackColor = SystemColors.ControlLight;
-            panel3.Controls.Add(label2);
-            panel3.Controls.Add(pictureBox3);
-            panel3.Location = new Point(331, 149);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(208, 61);
-            panel3.TabIndex = 9;
+            this.lblDestino.AutoSize = true;
+            this.lblDestino.Location = new System.Drawing.Point(40, 100);
+            this.lblDestino.Name = "lblDestino";
+            this.lblDestino.Size = new System.Drawing.Size(108, 15);
+            this.lblDestino.TabIndex = 3;
+            this.lblDestino.Text = "Carpeta de destino:";
             // 
-            // label2
+            // txtDestino
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label2.Location = new Point(85, 24);
-            label2.Name = "label2";
-            label2.Size = new Size(97, 13);
-            label2.TabIndex = 7;
-            label2.Text = "Exportar archivos";
+            this.txtDestino.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDestino.Location = new System.Drawing.Point(40, 118);
+            this.txtDestino.Name = "txtDestino";
+            this.txtDestino.Size = new System.Drawing.Size(340, 23);
+            this.txtDestino.TabIndex = 4;
             // 
-            // pictureBox3
+            // btnSeleccionarDestino
             // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(14, 6);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(46, 50);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.TabIndex = 6;
-            pictureBox3.TabStop = false;
+            this.btnSeleccionarDestino.BackColor = System.Drawing.Color.DarkGray;
+            this.btnSeleccionarDestino.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSeleccionarDestino.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSeleccionarDestino.Location = new System.Drawing.Point(400, 117);
+            this.btnSeleccionarDestino.Name = "btnSeleccionarDestino";
+            this.btnSeleccionarDestino.Size = new System.Drawing.Size(100, 25);
+            this.btnSeleccionarDestino.TabIndex = 5;
+            this.btnSeleccionarDestino.Text = "Seleccionar...";
+            this.btnSeleccionarDestino.UseVisualStyleBackColor = false;
+            this.btnSeleccionarDestino.Click += new System.EventHandler(this.btnSeleccionarDestino_Click);
             // 
-            // panel2
+            // chkSobrescribir
             // 
-            panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(label12);
-            panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(64, 149);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(208, 61);
-            panel2.TabIndex = 8;
+            this.chkSobrescribir.AutoSize = true;
+            this.chkSobrescribir.Location = new System.Drawing.Point(40, 150);
+            this.chkSobrescribir.Name = "chkSobrescribir";
+            this.chkSobrescribir.Size = new System.Drawing.Size(181, 19);
+            this.chkSobrescribir.TabIndex = 6;
+            this.chkSobrescribir.Text = "Sobrescribir archivos existentes";
+            this.chkSobrescribir.UseVisualStyleBackColor = true;
             // 
-            // label12
+            // grpOpciones
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label12.Location = new Point(66, 24);
-            label12.Name = "label12";
-            label12.Size = new Size(138, 13);
-            label12.TabIndex = 7;
-            label12.Text = "Hacer copia de seguridad";
+            this.grpOpciones.Controls.Add(this.rbCopiaDirecta);
+            this.grpOpciones.Controls.Add(this.rbComprimirZip);
+            this.grpOpciones.Controls.Add(this.lblNombreBackup);
+            this.grpOpciones.Controls.Add(this.txtNombreBackup);
+            this.grpOpciones.Controls.Add(this.chkAgregarFecha);
+            this.grpOpciones.Location = new System.Drawing.Point(40, 190);
+            this.grpOpciones.Name = "grpOpciones";
+            this.grpOpciones.Size = new System.Drawing.Size(460, 130);
+            this.grpOpciones.TabIndex = 7;
+            this.grpOpciones.TabStop = false;
+            this.grpOpciones.Text = "Configuraciones";
             // 
-            // pictureBox2
+            // rbCopiaDirecta
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(14, 6);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(46, 50);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
+            this.rbCopiaDirecta.AutoSize = true;
+            this.rbCopiaDirecta.Checked = true;
+            this.rbCopiaDirecta.Location = new System.Drawing.Point(20, 25);
+            this.rbCopiaDirecta.Name = "rbCopiaDirecta";
+            this.rbCopiaDirecta.Size = new System.Drawing.Size(144, 19);
+            this.rbCopiaDirecta.TabIndex = 0;
+            this.rbCopiaDirecta.TabStop = true;
+            this.rbCopiaDirecta.Text = "Copiar archivos directo";
+            this.rbCopiaDirecta.UseVisualStyleBackColor = true;
             // 
-            // BackUpControl
+            // rbComprimirZip
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(label1);
-            Controls.Add(pictureBox1);
-            Controls.Add(panel1);
-            Name = "BackUpControl";
-            Size = new Size(915, 670);
-//            Load += this.BackUpControl_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel1.ResumeLayout(false);
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.rbComprimirZip.AutoSize = true;
+            this.rbComprimirZip.Location = new System.Drawing.Point(20, 50);
+            this.rbComprimirZip.Name = "rbComprimirZip";
+            this.rbComprimirZip.Size = new System.Drawing.Size(136, 19);
+            this.rbComprimirZip.TabIndex = 1;
+            this.rbComprimirZip.Text = "Comprimir como .ZIP";
+            this.rbComprimirZip.UseVisualStyleBackColor = true;
+            // 
+            // lblNombreBackup
+            // 
+            this.lblNombreBackup.AutoSize = true;
+            this.lblNombreBackup.Location = new System.Drawing.Point(20, 80);
+            this.lblNombreBackup.Name = "lblNombreBackup";
+            this.lblNombreBackup.Size = new System.Drawing.Size(92, 15);
+            this.lblNombreBackup.TabIndex = 2;
+            this.lblNombreBackup.Text = "Nombre backup:";
+            // 
+            // txtNombreBackup
+            // 
+            this.txtNombreBackup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreBackup.Location = new System.Drawing.Point(130, 78);
+            this.txtNombreBackup.Name = "txtNombreBackup";
+            this.txtNombreBackup.Size = new System.Drawing.Size(200, 23);
+            this.txtNombreBackup.TabIndex = 3;
+            this.txtNombreBackup.Text = "Respaldo";
+            // 
+            // chkAgregarFecha
+            // 
+            this.chkAgregarFecha.AutoSize = true;
+            this.chkAgregarFecha.Location = new System.Drawing.Point(340, 80);
+            this.chkAgregarFecha.Name = "chkAgregarFecha";
+            this.chkAgregarFecha.Size = new System.Drawing.Size(113, 19);
+            this.chkAgregarFecha.TabIndex = 4;
+            this.chkAgregarFecha.Text = "Agregar la fecha";
+            this.chkAgregarFecha.UseVisualStyleBackColor = true;
+            // 
+            // btnBackup
+            // 
+            this.btnBackup.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBackup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBackup.ForeColor = System.Drawing.Color.White;
+            this.btnBackup.Location = new System.Drawing.Point(40, 340);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(460, 35);
+            this.btnBackup.TabIndex = 8;
+            this.btnBackup.Text = "Generar Backup";
+            this.btnBackup.UseVisualStyleBackColor = false;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
+            // 
+            // lblResultado
+            // 
+            this.lblResultado.AutoSize = true;
+            this.lblResultado.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblResultado.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblResultado.Location = new System.Drawing.Point(40, 390);
+            this.lblResultado.Name = "lblResultado";
+            this.lblResultado.Size = new System.Drawing.Size(0, 15);
+            this.lblResultado.TabIndex = 9;
+            // 
+            // BackupControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lblResultado);
+            this.Controls.Add(this.btnBackup);
+            this.Controls.Add(this.grpOpciones);
+            this.Controls.Add(this.chkSobrescribir);
+            this.Controls.Add(this.btnSeleccionarDestino);
+            this.Controls.Add(this.txtDestino);
+            this.Controls.Add(this.lblDestino);
+            this.Controls.Add(this.btnSeleccionarOrigen);
+            this.Controls.Add(this.txtOrigen);
+            this.Controls.Add(this.lblArchivos);
+            this.Name = "BackupControl";
+            this.Size = new System.Drawing.Size(600, 450);
+            this.grpOpciones.ResumeLayout(false);
+            this.grpOpciones.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
-        private Label label1;
-        private Panel panel1;
-        private Panel panel3;
-        private Label label2;
-        private PictureBox pictureBox3;
-        private Panel panel2;
-        private Label label12;
-        private PictureBox pictureBox2;
+        private System.Windows.Forms.Label lblArchivos;
+        private System.Windows.Forms.TextBox txtOrigen;
+        private System.Windows.Forms.Button btnSeleccionarOrigen;
+        private System.Windows.Forms.Label lblDestino;
+        private System.Windows.Forms.TextBox txtDestino;
+        private System.Windows.Forms.Button btnSeleccionarDestino;
+        private System.Windows.Forms.CheckBox chkSobrescribir;
+        private System.Windows.Forms.GroupBox grpOpciones;
+        private System.Windows.Forms.RadioButton rbCopiaDirecta;
+        private System.Windows.Forms.RadioButton rbComprimirZip;
+        private System.Windows.Forms.Label lblNombreBackup;
+        private System.Windows.Forms.TextBox txtNombreBackup;
+        private System.Windows.Forms.CheckBox chkAgregarFecha;
+        private System.Windows.Forms.Button btnBackup;
+        private System.Windows.Forms.Label lblResultado;
     }
 }
