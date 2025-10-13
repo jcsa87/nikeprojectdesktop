@@ -127,6 +127,7 @@
             // cbTipoDoc
             // 
             cbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTipoDoc.Items.AddRange(new object[] { "Factura A", "Factura B", "Boleta" });
             cbTipoDoc.Location = new Point(400, 24);
             cbTipoDoc.Name = "cbTipoDoc";
             cbTipoDoc.Size = new Size(160, 23);
@@ -479,10 +480,12 @@
             // cbFormaPago
             // 
             cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
             cbFormaPago.Location = new Point(272, 15);
             cbFormaPago.Name = "cbFormaPago";
             cbFormaPago.Size = new Size(88, 23);
             cbFormaPago.TabIndex = 3;
+            cbFormaPago.SelectedIndexChanged += cbFormaPago_SelectedIndexChanged;
             // 
             // lblCambio
             // 
@@ -526,32 +529,6 @@
             btnCrearVenta.UseVisualStyleBackColor = false;
             btnCrearVenta.Click += btnCrearVenta_Click;
             // 
-            // groupBox1
-            /*
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            groupBox1.BackColor = Color.WhiteSmoke;
-            groupBox1.Controls.Add(dgvVentas);
-            groupBox1.Location = new Point(1095, 10);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(570, 600);
-            groupBox1.TabIndex = 7;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Historial de Ventas";
-            // 
-            // dgvVentas
-            // 
-            dgvVentas.AllowUserToAddRows = false;
-            dgvVentas.AllowUserToDeleteRows = false;
-            dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvVentas.Dock = DockStyle.Fill;
-            dgvVentas.Location = new Point(3, 19);
-            dgvVentas.Name = "dgvVentas";
-            dgvVentas.ReadOnly = true;
-            dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVentas.Size = new Size(564, 578);
-            dgvVentas.TabIndex = 0;
-            dgvVentas.CellContentClick += dgvVentas_CellContentClick;
-            */
             // lblHistorial
             // 
             lblHistorial.AutoSize = true;

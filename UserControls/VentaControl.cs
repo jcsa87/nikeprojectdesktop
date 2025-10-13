@@ -20,6 +20,11 @@ namespace nikeproject.UserControls
 
         private static VentaControl _instance;
 
+     
+       
+
+
+
         // para pasar selección desde buscadores
         public void SetClienteSeleccionado(int idCliente, string documento, string nombreCompleto)
         {
@@ -95,7 +100,7 @@ namespace nikeproject.UserControls
                 return;
             }
 
-            if (!int.TryParse(txtStock.Text, out int stock) || stock <= 0)
+            if (!int.TryParse(txtStock.Text, out int stockActual) || stockActual <= 0)
             {
                 MessageBox.Show("No hay stock disponible para este producto.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -111,7 +116,7 @@ namespace nikeproject.UserControls
             decimal precio = decimal.Parse(txtPrecio.Text);
             decimal subTotal = precio * cantidad;
 
-            //verificamos si el prod esta en la grilla
+            // 🔍 Verificamos si el producto ya está en el detalle
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -122,22 +127,23 @@ namespace nikeproject.UserControls
                     int cantidadActual = Convert.ToInt32(row.Cells["colCantidad"].Value);
                     int nuevaCantidad = cantidadActual + cantidad;
 
-                    if (nuevaCantidad > stock)
+                    int stockReal = ProductoData.ObtenerStock(_idProducto);
+                    if (nuevaCantidad > stockReal)
                     {
-                        MessageBox.Show($"❌ Stock insuficiente. Disponible: {stock}, intentando agregar {nuevaCantidad}.",
+                        MessageBox.Show($"Stock insuficiente. Disponible: {stockReal}, intentando agregar {nuevaCantidad}.",
                                         "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // actualiza cantidad y subtotal si aún hay stock
                     row.Cells["colCantidad"].Value = nuevaCantidad;
                     row.Cells["colSubTotal"].Value = (nuevaCantidad * precio).ToString("0.00");
                     RecalcularTotales();
+                    ActualizarStockVisual();
                     return;
                 }
             }
 
-            // si no estaba en la grilla, agregar nuevo producto
+            // Si no estaba en la grilla, agregamos una nueva fila
             int rowIndex = dgvDetalle.Rows.Add();
             DataGridViewRow nuevaFila = dgvDetalle.Rows[rowIndex];
             nuevaFila.Cells["colIdProducto"].Value = _idProducto;
@@ -146,20 +152,36 @@ namespace nikeproject.UserControls
             nuevaFila.Cells["colCantidad"].Value = cantidad;
             nuevaFila.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
 
-            //actualiza el stock visual
-            int nuevoStock = stock - cantidad;
-            txtStock.Text = nuevoStock.ToString();
-            btnAgregar.Enabled = nuevoStock > 0;
-            txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
-            nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
-
             RecalcularTotales();
+            ActualizarStockVisual(); // 👈 recalcular stock disponible visualmente
         }
 
 
+        private void ActualizarStockVisual()
+        {
+            if (_idProducto == 0) return;
 
+            // Obtener stock real desde la base
+            int stockReal = ProductoData.ObtenerStock(_idProducto);
 
+            // Calcular cuánto de ese producto ya está en el detalle
+            int reservado = 0;
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.IsNewRow) continue;
+                if (Convert.ToInt32(row.Cells["colIdProducto"].Value) == _idProducto)
+                {
+                    reservado += Convert.ToInt32(row.Cells["colCantidad"].Value);
+                }
+            }
 
+            int disponible = Math.Max(0, stockReal - reservado);
+
+            txtStock.Text = disponible.ToString();
+            txtStock.BackColor = disponible <= 0 ? Color.LightCoral : Color.White;
+            btnAgregar.Enabled = disponible > 0;
+            nudCantidad.Maximum = disponible > 0 ? disponible : 1;
+        }
 
         private void btnCrearVenta_Click(object sender, EventArgs e)
         {
@@ -461,25 +483,13 @@ namespace nikeproject.UserControls
         {
             if (e.RowIndex >= 0 && dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
             {
-                int idProdFila = Convert.ToInt32(dgvDetalle.Rows[e.RowIndex].Cells["colIdProducto"].Value);
-                int cantFila = Convert.ToInt32(dgvDetalle.Rows[e.RowIndex].Cells["colCantidad"].Value);
-
-                // 🔥 devolver stock solo si es el producto actualmente cargado en el panel
-                if (idProdFila == _idProducto)
-                {
-                    int stockActual = int.TryParse(txtStock.Text, out int s) ? s : 0;
-                    int nuevoStock = stockActual + cantFila;
-
-                    txtStock.Text = nuevoStock.ToString();
-                    nudCantidad.Maximum = nuevoStock > 0 ? nuevoStock : 1;
-                    btnAgregar.Enabled = nuevoStock > 0;
-                    txtStock.BackColor = nuevoStock == 0 ? Color.LightCoral : Color.White;
-                }
-
                 dgvDetalle.Rows.RemoveAt(e.RowIndex);
                 RecalcularTotales();
+                ActualizarStockVisual(); 
             }
         }
+
+
 
 
 

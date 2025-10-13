@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO.Compression;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,17 +15,36 @@ namespace nikeproject.UserControls
 {
     public partial class BackUpControl : UserControl
     {
+        private string _connectionString = Conexion.CadenaConexion; // Usa tu cadena actual
+
         public BackUpControl()
         {
             InitializeComponent();
+            CargarTablas();
         }
 
-        private void btnSeleccionarOrigen_Click(object sender, EventArgs e)
+        private void CargarTablas()
         {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            //Carga lista de tablas existentes en el combo/checklist
+            try
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                    txtOrigen.Text = dialog.SelectedPath;
+                using (SqlConnection cn = new SqlConnection(_connectionString))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand(
+                        "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME", cn))
+                    {
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                                clbTablas.Items.Add(dr.GetString(0));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar tablas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -40,76 +59,77 @@ namespace nikeproject.UserControls
 
         private void btnBackup_Click(object sender, EventArgs e)
         {
-            string origen = txtOrigen.Text.Trim();
-            string destino = txtDestino.Text.Trim();
-
-            if (string.IsNullOrEmpty(origen) || string.IsNullOrEmpty(destino))
+            if (string.IsNullOrWhiteSpace(txtDestino.Text))
             {
-                MessageBox.Show("Debes seleccionar tanto una carpeta origen como una de destino.",
-                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (!Directory.Exists(origen))
-            {
-                MessageBox.Show("La carpeta de origen no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Seleccione una carpeta de destino.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             string nombreBase = txtNombreBackup.Text.Trim();
+            if (string.IsNullOrEmpty(nombreBase)) nombreBase = "Respaldo";
+
             if (chkAgregarFecha.Checked)
                 nombreBase += "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
-            string rutaDestino = Path.Combine(destino, nombreBase);
+            string rutaBackup = Path.Combine(txtDestino.Text, nombreBase + ".bak");
 
             try
             {
-                if (rbComprimirZip.Checked)
+                using (SqlConnection cn = new SqlConnection(_connectionString))
                 {
-                    string archivoZip = rutaDestino + ".zip";
-                    if (File.Exists(archivoZip) && !chkSobrescribir.Checked)
+                    cn.Open();
+
+                    //backup completo
+                    if (rbBackupCompleto.Checked)
                     {
-                        MessageBox.Show("El archivo ZIP ya existe. Activa 'Sobrescribir' si deseas reemplazarlo.",
-                            "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
+                        string sqlBackup = $@"
+                            BACKUP DATABASE DBnikeproject
+                            TO DISK = '{rutaBackup}'
+                            WITH FORMAT, INIT, SKIP, NAME = 'Backup completo DBnikeproject',
+                            STATS = 10";
+                        using (SqlCommand cmd = new SqlCommand(sqlBackup, cn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show($"✅ Backup completo generado:\n{rutaBackup}", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    if (File.Exists(archivoZip)) File.Delete(archivoZip);
-                    ZipFile.CreateFromDirectory(origen, archivoZip, CompressionLevel.Fastest, true);
-                    lblResultado.Text = $"✅ Backup ZIP creado: {archivoZip}";
-                }
-                else
-                {
-                    // Copia directa
-                    string carpetaDestino = rutaDestino;
-                    if (!Directory.Exists(carpetaDestino))
-                        Directory.CreateDirectory(carpetaDestino);
-
-                    foreach (string archivo in Directory.GetFiles(origen, "*", SearchOption.AllDirectories))
+                    else
                     {
-                        string rutaRelativa = archivo.Substring(origen.Length + 1);
-                        string destinoArchivo = Path.Combine(carpetaDestino, rutaRelativa);
-                        string carpetaSub = Path.GetDirectoryName(destinoArchivo);
-                        if (!Directory.Exists(carpetaSub)) Directory.CreateDirectory(carpetaSub);
+                        //backup selectivo (solo tablas elegidas)
+                        if (clbTablas.CheckedItems.Count == 0)
+                        {
+                            MessageBox.Show("Seleccione al menos una tabla para exportar.", "Advertencia",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
 
-                        if (File.Exists(destinoArchivo) && !chkSobrescribir.Checked)
-                            continue;
+                        StringBuilder sb = new StringBuilder();
 
-                        File.Copy(archivo, destinoArchivo, true);
+                        foreach (string tabla in clbTablas.CheckedItems)
+                        {
+                            sb.AppendLine($"-- Tabla: {tabla}");
+                            sb.AppendLine($"SELECT * INTO ##tmp_{tabla} FROM {tabla};");
+                        }
+
+                        sb.AppendLine($"-- Exportar tablas seleccionadas a archivo: {rutaBackup}");
+                        sb.AppendLine($"BACKUP DATABASE DBnikeproject TO DISK = '{rutaBackup}' WITH INIT, SKIP;");
+
+                        using (SqlCommand cmd = new SqlCommand(sb.ToString(), cn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show($"✅ Backup parcial generado con tablas seleccionadas:\n{rutaBackup}",
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    lblResultado.Text = $"✅ Copia directa completada en: {carpetaDestino}";
                 }
-
-                MessageBox.Show("Respaldo completado exitosamente.", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al generar el backup:\n{ex.Message}",
+                MessageBox.Show($"❌ Error al generar backup: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
 }
-
