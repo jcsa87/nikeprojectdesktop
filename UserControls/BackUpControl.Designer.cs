@@ -27,8 +27,8 @@
             txtDestino = new TextBox();
             btnSeleccionarDestino = new Button();
             grpOpciones = new GroupBox();
+            label1 = new Label();
             clbTablas = new CheckedListBox();
-            rbBackupSelectivo = new RadioButton();
             rbBackupCompleto = new RadioButton();
             lblNombreBackup = new Label();
             txtNombreBackup = new TextBox();
@@ -70,8 +70,8 @@
             // 
             // grpOpciones
             // 
+            grpOpciones.Controls.Add(label1);
             grpOpciones.Controls.Add(clbTablas);
-            grpOpciones.Controls.Add(rbBackupSelectivo);
             grpOpciones.Controls.Add(rbBackupCompleto);
             grpOpciones.Controls.Add(lblNombreBackup);
             grpOpciones.Controls.Add(txtNombreBackup);
@@ -83,24 +83,24 @@
             grpOpciones.TabStop = false;
             grpOpciones.Text = "Configuraciones";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            label1.Location = new Point(31, 52);
+            label1.Name = "label1";
+            label1.Size = new Size(297, 15);
+            label1.TabIndex = 6;
+            label1.Text = "El back up guardará un registro de los siguientes datos:";
+            // 
             // clbTablas
             // 
-            clbTablas.CheckOnClick = true;
             clbTablas.FormattingEnabled = true;
             clbTablas.Location = new Point(30, 80);
             clbTablas.Name = "clbTablas";
+            clbTablas.SelectionMode = SelectionMode.None;
             clbTablas.Size = new Size(400, 94);
             clbTablas.TabIndex = 5;
-            // 
-            // rbBackupSelectivo
-            // 
-            rbBackupSelectivo.AutoSize = true;
-            rbBackupSelectivo.Location = new Point(30, 50);
-            rbBackupSelectivo.Name = "rbBackupSelectivo";
-            rbBackupSelectivo.Size = new Size(160, 19);
-            rbBackupSelectivo.TabIndex = 4;
-            rbBackupSelectivo.Text = "Backup de tablas elegidas";
-            rbBackupSelectivo.UseVisualStyleBackColor = true;
             // 
             // rbBackupCompleto
             // 
@@ -201,6 +201,6 @@
         private System.Windows.Forms.CheckBox chkAgregarFecha;
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Label lblResultado;
-        private RadioButton rbBackupSelectivo;
+        private Label label1;
     }
 }
