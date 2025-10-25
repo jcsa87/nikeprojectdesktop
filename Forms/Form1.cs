@@ -85,14 +85,14 @@ namespace nikeproject
             int y = 20; // posición inicial en Y
             int separacion = 100; // espacio entre iconos
 
-            // Lista de pares PictureBox + Label en el orden que querés
+            // Lista de pares PictureBox + Label
             var items = new (PictureBox, Label)[]
             {
         (pbUsuario, lbUsuario),
         (pbBackUp, lbBackup),
         (pbVentas, lbVentas),
         (pbClientes, lbCliente),
-        (pbProductos, lbProductos)
+
             };
 
             foreach (var (pb, lb) in items)
