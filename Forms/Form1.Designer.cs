@@ -32,12 +32,14 @@
             panel1 = new Panel();
             panel2 = new Panel();
             label8 = new Label();
+            lbReportes = new Label();
             lbProductos = new Label();
             lbCliente = new Label();
             lbVentas = new Label();
             lbBackup = new Label();
             lbUsuario = new Label();
             pbSalir = new PictureBox();
+            pbReportes = new PictureBox();
             pbProductos = new PictureBox();
             pbClientes = new PictureBox();
             pbVentas = new PictureBox();
@@ -47,18 +49,16 @@
             lbMenu = new Label();
             pbMenu = new PictureBox();
             panelContenedor = new Panel();
-       
-            label1 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSalir).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbReportes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbBackUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbUsuario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbMenu).BeginInit();
-
             SuspendLayout();
             // 
             // panel1
@@ -78,13 +78,14 @@
             // 
             panel2.BackColor = SystemColors.ControlLight;
             panel2.Controls.Add(label8);
-            panel2.Controls.Add(label1);
+            panel2.Controls.Add(lbReportes);
             panel2.Controls.Add(lbProductos);
             panel2.Controls.Add(lbCliente);
             panel2.Controls.Add(lbVentas);
             panel2.Controls.Add(lbBackup);
             panel2.Controls.Add(lbUsuario);
             panel2.Controls.Add(pbSalir);
+            panel2.Controls.Add(pbReportes);
             panel2.Controls.Add(pbProductos);
             panel2.Controls.Add(pbClientes);
             panel2.Controls.Add(pbVentas);
@@ -102,11 +103,24 @@
             label8.Cursor = Cursors.Hand;
             label8.FlatStyle = FlatStyle.Popup;
             label8.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label8.Location = new Point(27, 566);
+            label8.Location = new Point(26, 566);
             label8.Name = "label8";
             label8.Size = new Size(43, 21);
             label8.TabIndex = 0;
             label8.Text = "Salir";
+            // 
+            // lbReportes
+            // 
+            lbReportes.AutoSize = true;
+            lbReportes.Cursor = Cursors.Hand;
+            lbReportes.FlatStyle = FlatStyle.Popup;
+            lbReportes.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
+            lbReportes.Location = new Point(14, 490);
+            lbReportes.Name = "lbReportes";
+            lbReportes.Size = new Size(76, 21);
+            lbReportes.TabIndex = 0;
+            lbReportes.Text = "Reportes";
+            lbReportes.Click += lbReportes_Click;
             // 
             // lbProductos
             // 
@@ -114,11 +128,12 @@
             lbProductos.Cursor = Cursors.Hand;
             lbProductos.FlatStyle = FlatStyle.Popup;
             lbProductos.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbProductos.Location = new Point(12, 434);
+            lbProductos.Location = new Point(10, 402);
             lbProductos.Name = "lbProductos";
             lbProductos.Size = new Size(83, 21);
             lbProductos.TabIndex = 0;
             lbProductos.Text = "Productos";
+            lbProductos.Click += lbProductos_Click;
             // 
             // lbCliente
             // 
@@ -126,7 +141,7 @@
             lbCliente.Cursor = Cursors.Hand;
             lbCliente.FlatStyle = FlatStyle.Popup;
             lbCliente.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbCliente.Location = new Point(19, 338);
+            lbCliente.Location = new Point(20, 306);
             lbCliente.Name = "lbCliente";
             lbCliente.Size = new Size(68, 21);
             lbCliente.TabIndex = 0;
@@ -138,11 +153,12 @@
             lbVentas.Cursor = Cursors.Hand;
             lbVentas.FlatStyle = FlatStyle.Popup;
             lbVentas.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbVentas.Location = new Point(23, 245);
+            lbVentas.Location = new Point(21, 218);
             lbVentas.Name = "lbVentas";
             lbVentas.Size = new Size(60, 21);
             lbVentas.TabIndex = 0;
             lbVentas.Text = "Ventas";
+            lbVentas.Click += lbVentas_Click;
             // 
             // lbBackup
             // 
@@ -150,7 +166,7 @@
             lbBackup.Cursor = Cursors.Hand;
             lbBackup.FlatStyle = FlatStyle.Popup;
             lbBackup.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbBackup.Location = new Point(19, 150);
+            lbBackup.Location = new Point(20, 136);
             lbBackup.Name = "lbBackup";
             lbBackup.Size = new Size(72, 21);
             lbBackup.TabIndex = 0;
@@ -162,7 +178,7 @@
             lbUsuario.Cursor = Cursors.Hand;
             lbUsuario.FlatStyle = FlatStyle.Popup;
             lbUsuario.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbUsuario.Location = new Point(14, 56);
+            lbUsuario.Location = new Point(16, 58);
             lbUsuario.Name = "lbUsuario";
             lbUsuario.Size = new Size(73, 21);
             lbUsuario.TabIndex = 0;
@@ -173,7 +189,7 @@
             // 
             pbSalir.Cursor = Cursors.Hand;
             pbSalir.Image = (Image)resources.GetObject("pbSalir.Image");
-            pbSalir.Location = new Point(27, 513);
+            pbSalir.Location = new Point(27, 521);
             pbSalir.Name = "pbSalir";
             pbSalir.Size = new Size(51, 50);
             pbSalir.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -181,11 +197,23 @@
             pbSalir.TabStop = false;
             pbSalir.Click += pbSalir_Click;
             // 
+            // pbReportes
+            // 
+            pbReportes.Cursor = Cursors.Hand;
+            pbReportes.Image = (Image)resources.GetObject("pbReportes.Image");
+            pbReportes.Location = new Point(26, 437);
+            pbReportes.Name = "pbReportes";
+            pbReportes.Size = new Size(51, 50);
+            pbReportes.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbReportes.TabIndex = 0;
+            pbReportes.TabStop = false;
+            pbReportes.Click += pbReportes_Click;
+            // 
             // pbProductos
             // 
             pbProductos.Cursor = Cursors.Hand;
             pbProductos.Image = (Image)resources.GetObject("pbProductos.Image");
-            pbProductos.Location = new Point(27, 381);
+            pbProductos.Location = new Point(28, 349);
             pbProductos.Name = "pbProductos";
             pbProductos.Size = new Size(51, 50);
             pbProductos.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -197,7 +225,7 @@
             // 
             pbClientes.Cursor = Cursors.Hand;
             pbClientes.Image = (Image)resources.GetObject("pbClientes.Image");
-            pbClientes.Location = new Point(27, 285);
+            pbClientes.Location = new Point(28, 253);
             pbClientes.Name = "pbClientes";
             pbClientes.Size = new Size(51, 50);
             pbClientes.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -209,7 +237,7 @@
             // 
             pbVentas.Cursor = Cursors.Hand;
             pbVentas.Image = (Image)resources.GetObject("pbVentas.Image");
-            pbVentas.Location = new Point(27, 192);
+            pbVentas.Location = new Point(28, 165);
             pbVentas.Name = "pbVentas";
             pbVentas.Size = new Size(51, 50);
             pbVentas.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -221,7 +249,7 @@
             // 
             pbBackUp.Cursor = Cursors.Hand;
             pbBackUp.Image = (Image)resources.GetObject("pbBackUp.Image");
-            pbBackUp.Location = new Point(27, 97);
+            pbBackUp.Location = new Point(30, 83);
             pbBackUp.Name = "pbBackUp";
             pbBackUp.Size = new Size(51, 50);
             pbBackUp.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -233,7 +261,7 @@
             // 
             pbUsuario.Cursor = Cursors.Hand;
             pbUsuario.Image = (Image)resources.GetObject("pbUsuario.Image");
-            pbUsuario.Location = new Point(27, 3);
+            pbUsuario.Location = new Point(29, 5);
             pbUsuario.Name = "pbUsuario";
             pbUsuario.Size = new Size(51, 50);
             pbUsuario.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -289,19 +317,6 @@
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(866, 702);
             panelContenedor.TabIndex = 1;
-
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Cursor = Cursors.Hand;
-            label1.FlatStyle = FlatStyle.Popup;
-            label1.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label1.Location = new Point(12, 489);
-            label1.Name = "label1";
-            label1.Size = new Size(76, 21);
-            label1.TabIndex = 0;
-            label1.Text = "Reportes";
             // 
             // Form1
             // 
@@ -319,13 +334,13 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbSalir).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbReportes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbClientes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbVentas).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbBackUp).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbUsuario).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbMenu).EndInit();
-
             ResumeLayout(false);
         }
 
@@ -350,6 +365,7 @@
         private PictureBox pbBackUp;
         private Panel panelContenedor;
         private Label lRol;
-        private Label label1;
+        private Label lbReportes;
+        private PictureBox pbReportes;
     }
 }

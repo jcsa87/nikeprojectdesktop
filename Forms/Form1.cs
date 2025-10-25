@@ -92,6 +92,7 @@ namespace nikeproject
         (pbBackUp, lbBackup),
         (pbVentas, lbVentas),
         (pbClientes, lbCliente),
+        (pbReportes, lbReportes)
 
             };
 
@@ -171,6 +172,28 @@ namespace nikeproject
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+
+
+        private void lbProductos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbVentas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbReportes_Click(object sender, EventArgs e)
+        {
+            MostrarControl(new ReportesControl());
+        }
+
+        private void lbReportes_Click(object sender, EventArgs e)
+        {
+            MostrarControl(new ReportesControl());
         }
 
         // Método para probar la conexión a la base de datos
