@@ -25,7 +25,6 @@ namespace nikeproject.UserControls
 
         private void CargarTablas()
         {
-            //Carga lista de tablas existentes en el combo/checklist
             try
             {
                 using (SqlConnection cn = new SqlConnection(_connectionString))
@@ -37,16 +36,29 @@ namespace nikeproject.UserControls
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
                             while (dr.Read())
-                                clbTablas.Items.Add(dr.GetString(0));
+                            {
+                                string nombreTabla = dr.GetString(0);
+                                // Agrega la tabla marcada por defecto
+                                clbTablas.Items.Add(nombreTabla, true);
+                            }
                         }
                     }
                 }
+
+                // 🔹 Evita que el usuario cambie los checks manualmente
+                clbTablas.SelectionMode = SelectionMode.None;
+
+                // (Opcional) cambia el color para indicar que es informativo
+                clbTablas.BackColor = SystemColors.Control;
+                clbTablas.ForeColor = Color.Black;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar tablas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar tablas: {ex.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnSeleccionarDestino_Click(object sender, EventArgs e)
         {
