@@ -42,29 +42,46 @@ namespace nikeproject.Data
             using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
             {
                 cn.Open();
+
+                // Base query
                 string sql = @"
-        SELECT v.IdVenta, 
-               v.NumeroDocumento, 
-               v.FechaRegistro, 
-               v.MontoTotal,
-               c.Nombre + ' ' + c.Apellido AS Cliente
-        FROM VENTA v
-        INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
-        ORDER BY v.FechaRegistro DESC";
+            SELECT v.IdVenta, 
+                   v.NumeroDocumento, 
+                   v.FechaRegistro, 
+                   v.MontoTotal,
+                   c.Nombre + ' ' + c.Apellido AS Cliente
+            FROM VENTA v
+            INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente";
+
+                // Si el usuario actual es vendedor, solo muestra sus ventas
+                if (SesionUsuario.Rol == RolUsuario.Vendedor)
+                {
+                    sql += " WHERE v.IdUsuario = @IdUsuario";
+                }
+
+                sql += " ORDER BY v.FechaRegistro DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, cn))
-                using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    while (dr.Read())
+                    // Agregar parámetro solo si es vendedor
+                    if (SesionUsuario.Rol == RolUsuario.Vendedor)
                     {
-                        lista.Add(new
+                        cmd.Parameters.AddWithValue("@IdUsuario", SesionUsuario.IdUsuario);
+                    }
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
                         {
-                            IdVenta = dr.GetInt32(0),
-                            NumeroDocumento = dr.GetString(1),
-                            FechaRegistro = dr.GetDateTime(2),
-                            MontoTotal = dr.GetDecimal(3),
-                            Cliente = dr.GetString(4)
-                        });
+                            lista.Add(new
+                            {
+                                IdVenta = dr.GetInt32(0),
+                                NumeroDocumento = dr.GetString(1),
+                                FechaRegistro = dr.GetDateTime(2),
+                                MontoTotal = dr.GetDecimal(3),
+                                Cliente = dr.GetString(4)
+                            });
+                        }
                     }
                 }
             }
