@@ -2,163 +2,164 @@
 {
     partial class ReportesControl
     {
-        /// <summary> 
-        /// Variable del diseñador.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Liberar los recursos que se estén utilizando.
-        /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Código generado por el Diseñador
-
+        #region Código del Diseñador
         private void InitializeComponent()
         {
             this.lblTitulo = new System.Windows.Forms.Label();
-            this.lblDesde = new System.Windows.Forms.Label();
-            this.lblHasta = new System.Windows.Forms.Label();
-            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
-            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
-            this.lblCategoria = new System.Windows.Forms.Label();
-            this.cbCategoria = new System.Windows.Forms.ComboBox();
-            this.btnGenerar = new System.Windows.Forms.Button();
+            this.pnlIndicadores = new System.Windows.Forms.Panel();
+            this.cardVentas = new System.Windows.Forms.Panel();
+            this.lblVentasValor = new System.Windows.Forms.Label();
+            this.lblVentasTitulo = new System.Windows.Forms.Label();
+            this.cardVariacion = new System.Windows.Forms.Panel();
+            this.lblVariacionValor = new System.Windows.Forms.Label();
+            this.lblVariacionTitulo = new System.Windows.Forms.Label();
+            this.cardStock = new System.Windows.Forms.Panel();
+            this.lblStockValor = new System.Windows.Forms.Label();
+            this.lblStockTitulo = new System.Windows.Forms.Label();
+            this.cardClientes = new System.Windows.Forms.Panel();
+            this.lblClientesValor = new System.Windows.Forms.Label();
+            this.lblClientesTitulo = new System.Windows.Forms.Label();
             this.chartVentas = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartProductos = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartCategorias = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartIngresos = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartCategorias)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartIngresos)).BeginInit();
+            this.pnlIndicadores.SuspendLayout();
+            this.cardVentas.SuspendLayout();
+            this.cardVariacion.SuspendLayout();
+            this.cardStock.SuspendLayout();
+            this.cardClientes.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitulo
             // 
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(20, 10);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(300, 40);
-            this.lblTitulo.Text = "Reportes y Estadísticas";
+            this.lblTitulo.Size = new System.Drawing.Size(400, 40);
+            this.lblTitulo.Text = "Panel de Reportes y Estadísticas";
             // 
-            // lblDesde
+            // pnlIndicadores
             // 
-            this.lblDesde.AutoSize = true;
-            this.lblDesde.Location = new System.Drawing.Point(25, 65);
-            this.lblDesde.Name = "lblDesde";
-            this.lblDesde.Size = new System.Drawing.Size(45, 15);
-            this.lblDesde.Text = "Desde:";
+            this.pnlIndicadores.Location = new System.Drawing.Point(20, 60);
+            this.pnlIndicadores.Size = new System.Drawing.Size(880, 90);
+            this.pnlIndicadores.Controls.Add(this.cardVentas);
+            this.pnlIndicadores.Controls.Add(this.cardVariacion);
+            this.pnlIndicadores.Controls.Add(this.cardStock);
+            this.pnlIndicadores.Controls.Add(this.cardClientes);
             // 
-            // dtpDesde
+            // Cards
             // 
-            this.dtpDesde.Location = new System.Drawing.Point(75, 60);
-            this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(200, 23);
-            // 
-            // lblHasta
-            // 
-            this.lblHasta.AutoSize = true;
-            this.lblHasta.Location = new System.Drawing.Point(290, 65);
-            this.lblHasta.Name = "lblHasta";
-            this.lblHasta.Size = new System.Drawing.Size(41, 15);
-            this.lblHasta.Text = "Hasta:";
-            // 
-            // dtpHasta
-            // 
-            this.dtpHasta.Location = new System.Drawing.Point(340, 60);
-            this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(200, 23);
-            // 
-            // lblCategoria
-            // 
-            this.lblCategoria.AutoSize = true;
-            this.lblCategoria.Location = new System.Drawing.Point(560, 65);
-            this.lblCategoria.Name = "lblCategoria";
-            this.lblCategoria.Size = new System.Drawing.Size(64, 15);
-            this.lblCategoria.Text = "Categoría:";
-            // 
-            // cbCategoria
-            // 
-            this.cbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCategoria.Location = new System.Drawing.Point(630, 60);
-            this.cbCategoria.Name = "cbCategoria";
-            this.cbCategoria.Size = new System.Drawing.Size(180, 23);
-            // 
-            // btnGenerar
-            // 
-            this.btnGenerar.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnGenerar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGenerar.ForeColor = System.Drawing.Color.White;
-            this.btnGenerar.Location = new System.Drawing.Point(830, 60);
-            this.btnGenerar.Name = "btnGenerar";
-            this.btnGenerar.Size = new System.Drawing.Size(120, 25);
-            this.btnGenerar.Text = "Generar Reporte";
-            this.btnGenerar.UseVisualStyleBackColor = false;
-            this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
+            int cardWidth = 200, cardHeight = 80, spacing = 10;
+            // --- Ventas
+            this.cardVentas.BackColor = System.Drawing.Color.FromArgb(223, 240, 216);
+            this.cardVentas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cardVentas.Location = new System.Drawing.Point(0, 5);
+            this.cardVentas.Size = new System.Drawing.Size(cardWidth, cardHeight);
+            this.lblVentasTitulo.Text = "Ventas del mes";
+            this.lblVentasTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblVentasTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblVentasValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblVentasValor.Location = new System.Drawing.Point(10, 35);
+            this.lblVentasValor.Text = "$0";
+            this.cardVentas.Controls.Add(this.lblVentasTitulo);
+            this.cardVentas.Controls.Add(this.lblVentasValor);
+            // --- Variación
+            this.cardVariacion.BackColor = System.Drawing.Color.FromArgb(240, 240, 216);
+            this.cardVariacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cardVariacion.Location = new System.Drawing.Point(cardWidth + spacing, 5);
+            this.cardVariacion.Size = new System.Drawing.Size(cardWidth, cardHeight);
+            this.lblVariacionTitulo.Text = "Variación mensual";
+            this.lblVariacionTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblVariacionTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblVariacionValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblVariacionValor.Location = new System.Drawing.Point(10, 35);
+            this.lblVariacionValor.Text = "0%";
+            this.cardVariacion.Controls.Add(this.lblVariacionTitulo);
+            this.cardVariacion.Controls.Add(this.lblVariacionValor);
+            // --- Stock
+            this.cardStock.BackColor = System.Drawing.Color.FromArgb(252, 228, 214);
+            this.cardStock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cardStock.Location = new System.Drawing.Point(2 * (cardWidth + spacing), 5);
+            this.cardStock.Size = new System.Drawing.Size(cardWidth, cardHeight);
+            this.lblStockTitulo.Text = "Productos sin stock";
+            this.lblStockTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblStockTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblStockValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblStockValor.Location = new System.Drawing.Point(10, 35);
+            this.lblStockValor.Text = "0";
+            this.cardStock.Controls.Add(this.lblStockTitulo);
+            this.cardStock.Controls.Add(this.lblStockValor);
+            // --- Clientes
+            this.cardClientes.BackColor = System.Drawing.Color.FromArgb(214, 234, 248);
+            this.cardClientes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cardClientes.Location = new System.Drawing.Point(3 * (cardWidth + spacing), 5);
+            this.cardClientes.Size = new System.Drawing.Size(cardWidth, cardHeight);
+            this.lblClientesTitulo.Text = "Clientes activos";
+            this.lblClientesTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblClientesTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblClientesValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblClientesValor.Location = new System.Drawing.Point(10, 35);
+            this.lblClientesValor.Text = "0";
+            this.cardClientes.Controls.Add(this.lblClientesTitulo);
+            this.cardClientes.Controls.Add(this.lblClientesValor);
             // 
             // chartVentas
             // 
-            this.chartVentas.Location = new System.Drawing.Point(25, 110);
-            this.chartVentas.Name = "chartVentas";
-            this.chartVentas.Size = new System.Drawing.Size(420, 250);
-            this.chartVentas.Text = "Ventas Mensuales";
+            this.chartVentas.Location = new System.Drawing.Point(20, 160);
+            this.chartVentas.Size = new System.Drawing.Size(880, 200);
             // 
             // chartProductos
             // 
-            this.chartProductos.Location = new System.Drawing.Point(470, 110);
-            this.chartProductos.Name = "chartProductos";
-            this.chartProductos.Size = new System.Drawing.Size(420, 250);
-            this.chartProductos.Text = "Productos Más Vendidos";
+            this.chartProductos.Location = new System.Drawing.Point(20, 380);
+            this.chartProductos.Size = new System.Drawing.Size(400, 220);
             // 
-            // chartCategorias
+            // chartIngresos
             // 
-            this.chartCategorias.Location = new System.Drawing.Point(25, 380);
-            this.chartCategorias.Name = "chartCategorias";
-            this.chartCategorias.Size = new System.Drawing.Size(865, 250);
-            this.chartCategorias.Text = "Ingresos por Categoría";
+            this.chartIngresos.Location = new System.Drawing.Point(500, 380);
+            this.chartIngresos.Size = new System.Drawing.Size(400, 220);
             // 
             // ReportesControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.lblDesde);
-            this.Controls.Add(this.lblHasta);
-            this.Controls.Add(this.dtpDesde);
-            this.Controls.Add(this.dtpHasta);
-            this.Controls.Add(this.lblCategoria);
-            this.Controls.Add(this.cbCategoria);
-            this.Controls.Add(this.btnGenerar);
+            this.Controls.Add(this.pnlIndicadores);
             this.Controls.Add(this.chartVentas);
             this.Controls.Add(this.chartProductos);
-            this.Controls.Add(this.chartCategorias);
-            this.Name = "ReportesControl";
-            this.Size = new System.Drawing.Size(920, 650);
+            this.Controls.Add(this.chartIngresos);
+            this.Size = new System.Drawing.Size(920, 640);
             ((System.ComponentModel.ISupportInitialize)(this.chartVentas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartProductos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartCategorias)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartIngresos)).EndInit();
+            this.pnlIndicadores.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
-
         #endregion
 
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.Label lblDesde;
-        private System.Windows.Forms.Label lblHasta;
-        private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.DateTimePicker dtpDesde;
-        private System.Windows.Forms.DateTimePicker dtpHasta;
-        private System.Windows.Forms.ComboBox cbCategoria;
-        private System.Windows.Forms.Button btnGenerar;
+        private System.Windows.Forms.Panel pnlIndicadores;
+        private System.Windows.Forms.Panel cardVentas;
+        private System.Windows.Forms.Label lblVentasValor;
+        private System.Windows.Forms.Label lblVentasTitulo;
+        private System.Windows.Forms.Panel cardVariacion;
+        private System.Windows.Forms.Label lblVariacionValor;
+        private System.Windows.Forms.Label lblVariacionTitulo;
+        private System.Windows.Forms.Panel cardStock;
+        private System.Windows.Forms.Label lblStockValor;
+        private System.Windows.Forms.Label lblStockTitulo;
+        private System.Windows.Forms.Panel cardClientes;
+        private System.Windows.Forms.Label lblClientesValor;
+        private System.Windows.Forms.Label lblClientesTitulo;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartProductos;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartCategorias;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartIngresos;
     }
 }
