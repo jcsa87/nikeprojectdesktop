@@ -110,6 +110,7 @@
             // 
             // dtpFecha
             // 
+            dtpFecha.Enabled = false;
             dtpFecha.Location = new Point(65, 24);
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(200, 23);

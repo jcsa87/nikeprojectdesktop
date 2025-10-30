@@ -147,13 +147,14 @@ namespace nikeproject.UserControls
             if (tipo == "Ventas por mes")
             {
                 query = @"
-            SELECT DATENAME(MONTH, FechaRegistro) AS Mes,
-                   SUM(MontoTotal) AS Total
-            FROM VENTA
-            WHERE FechaRegistro BETWEEN @Desde AND @Hasta
-            GROUP BY DATENAME(MONTH, FechaRegistro), MONTH(FechaRegistro)
-            ORDER BY MONTH(FechaRegistro);";
+                SELECT FORMAT(FechaRegistro, 'yyyy-MM') AS Periodo,
+               SUM(MontoTotal) AS Total
+                FROM VENTA
+                WHERE FechaRegistro BETWEEN @Desde AND @Hasta
+                GROUP BY FORMAT(FechaRegistro, 'yyyy-MM')
+                ORDER BY FORMAT(FechaRegistro, 'yyyy-MM');";
             }
+
             else if (tipo == "Top 5 productos más vendidos")
             {
                 query = @"
@@ -187,9 +188,9 @@ namespace nikeproject.UserControls
                 {
                     if (tipo == "Ventas por mes")
                     {
-                        string mes = dr["Mes"].ToString();
+                        string periodo = dr["Periodo"].ToString();
                         decimal total = Convert.ToDecimal(dr["Total"]);
-                        serie.Points.AddXY(mes, total);
+                        serie.Points.AddXY(periodo, total);
                     }
                     else if (tipo == "Top 5 productos más vendidos")
                     {
