@@ -96,6 +96,23 @@ namespace nikeproject.Data
             }
             return resultado;
         }
+        public static string ObtenerRutaImagen(int idProducto)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string query = "SELECT ImagenRuta FROM PRODUCTO WHERE IdProducto = @IdProducto";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+                    object result = cmd.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? result.ToString() : string.Empty;
+                }
+            }
+        }
+
+
 
         public static int ObtenerStock(int idProducto)
         {
