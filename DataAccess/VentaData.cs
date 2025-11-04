@@ -4,11 +4,112 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using nikeproject.Models;
 using nikeproject.DataAccess;
+using nikeproject.Forms.FacturaFormNS;
+
 
 namespace nikeproject.Data
 {
     public class VentaData
     {
+
+        /// <summary>
+        /// Devuelve todos los datos necesarios para imprimir la factura de una venta
+        /// uniendo VENTA, CLIENTE, USUARIO y DETALLE_VENTA + PRODUCTO.
+        /// - Mapea NumeroDocumento (VENTA) como TipoPago.
+        /// - Usa IdVenta para construir un número de factura visual "VENT-000001".
+        /// </summary>
+        public FacturaData ObtenerFacturaPorId(int idVenta)
+        {
+            var factura = new FacturaData
+            {
+                NumeroFactura = $"VENT-{idVenta:000000}",
+                PorcentajeIva = 0.21m,
+                Empresa = new EmpresaInfo
+                {
+                    Nombre = "Nike Corrientes",
+                    Lema = "Calzado y ropa deportiva",
+                    Direccion = "San Martín 1234",
+                    CiudadCodigoPostal = "Corrientes, 3400",
+                    Telefono = "Tel. (379) 555-0190",
+                    Fax = "Fax (379) 555-0191",
+                    Logo = null // Si tenés un logo: Image.FromFile("ruta.png")
+                }
+            };
+
+            using (var cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+
+                // 1) CABECERA: VENTA + CLIENTE + USUARIO
+                using (var cmd = new SqlCommand(@"
+                    SELECT v.IdVenta,
+                           v.FechaRegistro,
+                           v.MontoTotal,
+                           v.NumeroDocumento AS TipoPago,
+                           c.Nombre       AS CliNombre,
+                           c.Apellido     AS CliApellido,
+                           c.Documento    AS CliDocumento,
+                           c.Correo       AS CliCorreo,
+                           c.Telefono     AS CliTelefono,
+                           u.Nombre       AS UsuNombre,
+                           u.Apellido     AS UsuApellido
+                    FROM   VENTA v
+                    INNER JOIN CLIENTE c ON c.IdCliente = v.IdCliente
+                    INNER JOIN USUARIO u ON u.IdUsuario = v.IdUsuario
+                    WHERE  v.IdVenta = @idVenta;", cn))
+                {
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                    using var dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        factura.Fecha = Convert.ToDateTime(dr["FechaRegistro"]);
+                        factura.TipoPago = dr["TipoPago"]?.ToString() ?? "N/D";
+
+                        factura.Cliente = new ClienteInfo
+                        {
+                            Nombre = $"{dr["CliNombre"]} {dr["CliApellido"]}",
+                            Compania = "Particular",
+                            Direccion = "", // No está en CLIENTE: lo dejamos vacío
+                            CiudadCodigoPostal = "",
+                            Telefono = dr["CliTelefono"]?.ToString() ?? "",
+                            Documento = dr["CliDocumento"]?.ToString() ?? ""
+                        };
+
+                        factura.Vendedor = $"{dr["UsuNombre"]} {dr["UsuApellido"]}";
+                    }
+                }
+
+                // 2) DETALLE: DETALLE_VENTA + PRODUCTO
+                using (var cmdDet = new SqlCommand(@"
+                    SELECT p.Codigo,
+                           p.Nombre      AS ProdNombre,
+                           dv.Cantidad,
+                           dv.PrecioUnitario,
+                           dv.SubTotal
+                    FROM   DETALLE_VENTA dv
+                    INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
+                    WHERE  dv.IdVenta = @idVenta
+                    ORDER BY dv.IdDetalle;", cn))
+                {
+                    cmdDet.Parameters.AddWithValue("@idVenta", idVenta);
+                    using var drDet = cmdDet.ExecuteReader();
+                    while (drDet.Read())
+                    {
+                        factura.Items.Add(new ItemFactura
+                        {
+                            Codigo = drDet["Codigo"]?.ToString() ?? "",
+                            Descripcion = drDet["ProdNombre"]?.ToString() ?? "",
+                            Cantidad = Convert.ToInt32(drDet["Cantidad"]),
+                            PrecioUnitario = Convert.ToDecimal(drDet["PrecioUnitario"])
+                        });
+                    }
+                }
+            }
+
+            // Si querés usar MontoTotal de VENTA como control, podés comparar con factura.Total.
+            // Aquí dejamos que Totales se recalculen desde los ítems + IVA.
+            return factura;
+        }
 
         public static Venta ObtenerVentaPorId(int idVenta)
         {

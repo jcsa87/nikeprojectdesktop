@@ -23,6 +23,12 @@
         private Button btnCerrar;
         private PictureBox pbLogo;
         private System.Drawing.Printing.PrintDocument printDocument1;
+        private Button btnGuardarPdf;
+        private Button btnVistaPrevia;
+        private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Label lblTituloFactura;
+        private System.Windows.Forms.Label lblEmpresa;
+        private System.Windows.Forms.Label lblLema;
 
         protected override void Dispose(bool disposing)
         {
@@ -55,9 +61,62 @@
             this.pbLogo = new PictureBox();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
 
+
+
+            this.btnGuardarPdf = new Button();
+            this.btnGuardarPdf.Text = "Guardar PDF";
+            this.btnGuardarPdf.BackColor = Color.SteelBlue;
+            this.btnGuardarPdf.ForeColor = Color.White;
+            this.btnGuardarPdf.FlatStyle = FlatStyle.Flat;
+            this.btnGuardarPdf.Location = new Point(240, 480);
+            this.btnGuardarPdf.Size = new Size(120, 32);
+            this.btnGuardarPdf.Click += btnGuardarPdf_Click;
+            this.Controls.Add(this.btnGuardarPdf);
+
+
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleFactura)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.SuspendLayout();
+
+            // --- ENCABEZADO DE FACTURA ---
+            this.panelHeader = new Panel();
+            this.panelHeader.BackColor = Color.White;
+            this.panelHeader.BorderStyle = BorderStyle.FixedSingle;
+            this.panelHeader.Location = new Point(20, 20);
+            this.panelHeader.Size = new Size(680, 120);
+
+            Label lblTituloFactura = new Label();
+            lblTituloFactura.Text = "FACTURA";
+            lblTituloFactura.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            lblTituloFactura.ForeColor = Color.Black;
+            lblTituloFactura.Location = new Point(20, 10);
+            lblTituloFactura.AutoSize = true;
+
+            this.lblEmpresa = new Label();
+            this.lblEmpresa.Text = "Nike Corrientes";
+            this.lblEmpresa.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            this.lblEmpresa.Location = new Point(20, 50);
+            this.lblEmpresa.AutoSize = true;
+
+            this.lblLema = new Label();
+            this.lblLema.Text = "Calzado y ropa deportiva";
+            this.lblLema.Font = new Font("Segoe UI", 9, FontStyle.Italic);
+            this.lblLema.ForeColor = Color.Gray;
+            this.lblLema.Location = new Point(20, 70);
+            this.lblLema.AutoSize = true;
+
+            this.pbLogo = new PictureBox();
+            this.pbLogo.Image = Properties.Resources.nikelogo;
+            this.pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            this.pbLogo.Location = new Point(560, 10);
+            this.pbLogo.Size = new Size(100, 80);
+
+            this.panelHeader.Controls.Add(lblTituloFactura);
+            this.panelHeader.Controls.Add(this.lblEmpresa);
+            this.panelHeader.Controls.Add(this.lblLema);
+            this.panelHeader.Controls.Add(this.pbLogo);
+            this.Controls.Add(this.panelHeader);
+
 
             // --- FORM ---
             this.Text = "Factura de Venta";
@@ -150,6 +209,17 @@
             this.btnCerrar.Location = new Point(130, 480);
             this.btnCerrar.Size = new Size(100, 32);
             this.btnCerrar.Click += btnCerrar_Click;
+
+            this.btnVistaPrevia = new Button();
+            this.btnVistaPrevia.Text = "Vista Previa";
+            this.btnVistaPrevia.BackColor = Color.DarkOrange;
+            this.btnVistaPrevia.ForeColor = Color.White;
+            this.btnVistaPrevia.FlatStyle = FlatStyle.Flat;
+            this.btnVistaPrevia.Location = new Point(370, 480);
+            this.btnVistaPrevia.Size = new Size(120, 32);
+            this.btnVistaPrevia.Click += btnVistaPrevia_Click;
+            this.Controls.Add(this.btnVistaPrevia);
+
 
             // --- Add controls ---
             this.Controls.Add(this.lblTitulo);
