@@ -29,254 +29,296 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            panel1 = new Panel();
-            panel2 = new Panel();
-            label8 = new Label();
-            lbReportes = new Label();
-            lbProductos = new Label();
-            lbCliente = new Label();
-            lbVentas = new Label();
-            lbBackup = new Label();
-            lbUsuario = new Label();
+            panelMenu = new Panel();
             pbSalir = new PictureBox();
-            pbReportes = new PictureBox();
-            pbProductos = new PictureBox();
-            pbClientes = new PictureBox();
-            pbVentas = new PictureBox();
-            pbBackUp = new PictureBox();
+            pBotones = new Panel();
+            flowMenu = new FlowLayoutPanel();
             pbUsuario = new PictureBox();
+            lbUsuario = new Label();
+            pbBackUp = new PictureBox();
+            lbBackup = new Label();
+            pbVentas = new PictureBox();
+            lbVentas = new Label();
+            pbClientes = new PictureBox();
+            lbCliente = new Label();
+            pbProductos = new PictureBox();
+            lbProductos = new Label();
+            pbReportes = new PictureBox();
+            lbReportes = new Label();
+            pSuperior = new Panel();
             lRol = new Label();
             lbMenu = new Label();
             pbMenu = new PictureBox();
             panelContenedor = new Panel();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSalir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbReportes).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbProductos).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbClientes).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbVentas).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbBackUp).BeginInit();
+            pBotones.SuspendLayout();
+            flowMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbUsuario).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbBackUp).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbVentas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbReportes).BeginInit();
+            pSuperior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbMenu).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // panelMenu
             // 
-            panel1.BackColor = SystemColors.ControlLight;
-            panel1.Controls.Add(panel2);
-            panel1.Controls.Add(lRol);
-            panel1.Controls.Add(lbMenu);
-            panel1.Controls.Add(pbMenu);
-            panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(121, 702);
-            panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(label8);
-            panel2.Controls.Add(lbReportes);
-            panel2.Controls.Add(lbProductos);
-            panel2.Controls.Add(lbCliente);
-            panel2.Controls.Add(lbVentas);
-            panel2.Controls.Add(lbBackup);
-            panel2.Controls.Add(lbUsuario);
-            panel2.Controls.Add(pbSalir);
-            panel2.Controls.Add(pbReportes);
-            panel2.Controls.Add(pbProductos);
-            panel2.Controls.Add(pbClientes);
-            panel2.Controls.Add(pbVentas);
-            panel2.Controls.Add(pbBackUp);
-            panel2.Controls.Add(pbUsuario);
-            panel2.Location = new Point(9, 102);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(104, 588);
-            panel2.TabIndex = 2;
-            panel2.Paint += panel2_Paint;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Cursor = Cursors.Hand;
-            label8.FlatStyle = FlatStyle.Popup;
-            label8.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            label8.Location = new Point(26, 566);
-            label8.Name = "label8";
-            label8.Size = new Size(43, 21);
-            label8.TabIndex = 0;
-            label8.Text = "Salir";
-            // 
-            // lbReportes
-            // 
-            lbReportes.AutoSize = true;
-            lbReportes.Cursor = Cursors.Hand;
-            lbReportes.FlatStyle = FlatStyle.Popup;
-            lbReportes.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbReportes.Location = new Point(14, 490);
-            lbReportes.Name = "lbReportes";
-            lbReportes.Size = new Size(76, 21);
-            lbReportes.TabIndex = 0;
-            lbReportes.Text = "Reportes";
-            lbReportes.Click += lbReportes_Click;
-            // 
-            // lbProductos
-            // 
-            lbProductos.AutoSize = true;
-            lbProductos.Cursor = Cursors.Hand;
-            lbProductos.FlatStyle = FlatStyle.Popup;
-            lbProductos.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbProductos.Location = new Point(10, 402);
-            lbProductos.Name = "lbProductos";
-            lbProductos.Size = new Size(83, 21);
-            lbProductos.TabIndex = 0;
-            lbProductos.Text = "Productos";
-            lbProductos.Click += lbProductos_Click;
-            // 
-            // lbCliente
-            // 
-            lbCliente.AutoSize = true;
-            lbCliente.Cursor = Cursors.Hand;
-            lbCliente.FlatStyle = FlatStyle.Popup;
-            lbCliente.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbCliente.Location = new Point(20, 306);
-            lbCliente.Name = "lbCliente";
-            lbCliente.Size = new Size(68, 21);
-            lbCliente.TabIndex = 0;
-            lbCliente.Text = "Clientes";
-            // 
-            // lbVentas
-            // 
-            lbVentas.AutoSize = true;
-            lbVentas.Cursor = Cursors.Hand;
-            lbVentas.FlatStyle = FlatStyle.Popup;
-            lbVentas.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbVentas.Location = new Point(21, 218);
-            lbVentas.Name = "lbVentas";
-            lbVentas.Size = new Size(60, 21);
-            lbVentas.TabIndex = 0;
-            lbVentas.Text = "Ventas";
-            lbVentas.Click += lbVentas_Click;
-            // 
-            // lbBackup
-            // 
-            lbBackup.AutoSize = true;
-            lbBackup.Cursor = Cursors.Hand;
-            lbBackup.FlatStyle = FlatStyle.Popup;
-            lbBackup.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbBackup.Location = new Point(20, 136);
-            lbBackup.Name = "lbBackup";
-            lbBackup.Size = new Size(72, 21);
-            lbBackup.TabIndex = 0;
-            lbBackup.Text = "Back Up";
-            // 
-            // lbUsuario
-            // 
-            lbUsuario.AutoSize = true;
-            lbUsuario.Cursor = Cursors.Hand;
-            lbUsuario.FlatStyle = FlatStyle.Popup;
-            lbUsuario.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbUsuario.Location = new Point(16, 58);
-            lbUsuario.Name = "lbUsuario";
-            lbUsuario.Size = new Size(73, 21);
-            lbUsuario.TabIndex = 0;
-            lbUsuario.Text = "Usuarios";
-            lbUsuario.Click += lbUsuario_Click;
+            panelMenu.BackColor = SystemColors.ControlLight;
+            panelMenu.Controls.Add(pbSalir);
+            panelMenu.Controls.Add(pBotones);
+            panelMenu.Controls.Add(pSuperior);
+            panelMenu.Dock = DockStyle.Left;
+            panelMenu.Location = new Point(0, 0);
+            panelMenu.Margin = new Padding(0);
+            panelMenu.MaximumSize = new Size(125, 702);
+            panelMenu.MinimumSize = new Size(125, 702);
+            panelMenu.Name = "panelMenu";
+            panelMenu.Size = new Size(125, 702);
+            panelMenu.TabIndex = 0;
             // 
             // pbSalir
             // 
+            pbSalir.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pbSalir.Cursor = Cursors.Hand;
-            pbSalir.Image = (Image)resources.GetObject("pbSalir.Image");
-            pbSalir.Location = new Point(27, 521);
+            pbSalir.Image = Properties.Resources.botonSalir;
+            pbSalir.Location = new Point(0, 648);
+            pbSalir.Margin = new Padding(3, 3, 3, 0);
             pbSalir.Name = "pbSalir";
-            pbSalir.Size = new Size(51, 50);
-            pbSalir.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSalir.Size = new Size(125, 54);
+            pbSalir.SizeMode = PictureBoxSizeMode.Zoom;
             pbSalir.TabIndex = 0;
             pbSalir.TabStop = false;
             pbSalir.Click += pbSalir_Click;
             // 
-            // pbReportes
+            // pBotones
             // 
-            pbReportes.Cursor = Cursors.Hand;
-            pbReportes.Image = (Image)resources.GetObject("pbReportes.Image");
-            pbReportes.Location = new Point(26, 437);
-            pbReportes.Name = "pbReportes";
-            pbReportes.Size = new Size(51, 50);
-            pbReportes.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbReportes.TabIndex = 0;
-            pbReportes.TabStop = false;
-            pbReportes.Click += pbReportes_Click;
+            pBotones.BackColor = SystemColors.ControlLight;
+            pBotones.Controls.Add(flowMenu);
+            pBotones.Dock = DockStyle.Fill;
+            pBotones.Location = new Point(0, 84);
+            pBotones.Name = "pBotones";
+            pBotones.Padding = new Padding(15, 15, 0, 0);
+            pBotones.Size = new Size(125, 618);
+            pBotones.TabIndex = 2;
             // 
-            // pbProductos
+            // flowMenu
             // 
-            pbProductos.Cursor = Cursors.Hand;
-            pbProductos.Image = (Image)resources.GetObject("pbProductos.Image");
-            pbProductos.Location = new Point(28, 349);
-            pbProductos.Name = "pbProductos";
-            pbProductos.Size = new Size(51, 50);
-            pbProductos.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbProductos.TabIndex = 0;
-            pbProductos.TabStop = false;
-            pbProductos.Click += pbProductos_Click;
-            // 
-            // pbClientes
-            // 
-            pbClientes.Cursor = Cursors.Hand;
-            pbClientes.Image = (Image)resources.GetObject("pbClientes.Image");
-            pbClientes.Location = new Point(28, 253);
-            pbClientes.Name = "pbClientes";
-            pbClientes.Size = new Size(51, 50);
-            pbClientes.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbClientes.TabIndex = 0;
-            pbClientes.TabStop = false;
-            pbClientes.Click += pbClientes_Click;
-            // 
-            // pbVentas
-            // 
-            pbVentas.Cursor = Cursors.Hand;
-            pbVentas.Image = (Image)resources.GetObject("pbVentas.Image");
-            pbVentas.Location = new Point(28, 165);
-            pbVentas.Name = "pbVentas";
-            pbVentas.Size = new Size(51, 50);
-            pbVentas.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbVentas.TabIndex = 0;
-            pbVentas.TabStop = false;
-            pbVentas.Click += pbVentas_Click;
-            // 
-            // pbBackUp
-            // 
-            pbBackUp.Cursor = Cursors.Hand;
-            pbBackUp.Image = (Image)resources.GetObject("pbBackUp.Image");
-            pbBackUp.Location = new Point(30, 83);
-            pbBackUp.Name = "pbBackUp";
-            pbBackUp.Size = new Size(51, 50);
-            pbBackUp.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbBackUp.TabIndex = 0;
-            pbBackUp.TabStop = false;
-            pbBackUp.Click += pbBackUp_Click;
+            flowMenu.BackColor = Color.Transparent;
+            flowMenu.Controls.Add(pbUsuario);
+            flowMenu.Controls.Add(lbUsuario);
+            flowMenu.Controls.Add(pbBackUp);
+            flowMenu.Controls.Add(lbBackup);
+            flowMenu.Controls.Add(pbVentas);
+            flowMenu.Controls.Add(lbVentas);
+            flowMenu.Controls.Add(pbClientes);
+            flowMenu.Controls.Add(lbCliente);
+            flowMenu.Controls.Add(pbProductos);
+            flowMenu.Controls.Add(lbProductos);
+            flowMenu.Controls.Add(pbReportes);
+            flowMenu.Controls.Add(lbReportes);
+            flowMenu.Dock = DockStyle.Fill;
+            flowMenu.FlowDirection = FlowDirection.TopDown;
+            flowMenu.Location = new Point(15, 15);
+            flowMenu.Margin = new Padding(0);
+            flowMenu.Name = "flowMenu";
+            flowMenu.Padding = new Padding(7, 20, 0, 0);
+            flowMenu.Size = new Size(110, 603);
+            flowMenu.TabIndex = 0;
+            flowMenu.WrapContents = false;
+            flowMenu.Paint += flowMenu_Paint;
             // 
             // pbUsuario
             // 
+            pbUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pbUsuario.BorderStyle = BorderStyle.Fixed3D;
             pbUsuario.Cursor = Cursors.Hand;
-            pbUsuario.Image = (Image)resources.GetObject("pbUsuario.Image");
-            pbUsuario.Location = new Point(29, 5);
+            pbUsuario.Image = Properties.Resources.botonUsuario2;
+            pbUsuario.Location = new Point(10, 23);
             pbUsuario.Name = "pbUsuario";
-            pbUsuario.Size = new Size(51, 50);
-            pbUsuario.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbUsuario.Size = new Size(100, 52);
+            pbUsuario.SizeMode = PictureBoxSizeMode.Zoom;
             pbUsuario.TabIndex = 0;
             pbUsuario.TabStop = false;
             pbUsuario.Click += pbUsuario_Click;
             // 
+            // lbUsuario
+            // 
+            lbUsuario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbUsuario.AutoSize = true;
+            lbUsuario.BackColor = SystemColors.ControlLight;
+            lbUsuario.Cursor = Cursors.Hand;
+            lbUsuario.FlatStyle = FlatStyle.System;
+            lbUsuario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbUsuario.Location = new Point(10, 78);
+            lbUsuario.Name = "lbUsuario";
+            lbUsuario.Padding = new Padding(10, 0, 0, 0);
+            lbUsuario.Size = new Size(100, 19);
+            lbUsuario.TabIndex = 0;
+            lbUsuario.Text = "Usuarios";
+            lbUsuario.TextAlign = ContentAlignment.MiddleCenter;
+            lbUsuario.Click += pbUsuario_Click;
+            // 
+            // pbBackUp
+            // 
+            pbBackUp.BorderStyle = BorderStyle.Fixed3D;
+            pbBackUp.Cursor = Cursors.Hand;
+            pbBackUp.Image = Properties.Resources.botonBackUp;
+            pbBackUp.Location = new Point(10, 100);
+            pbBackUp.Name = "pbBackUp";
+            pbBackUp.Size = new Size(100, 50);
+            pbBackUp.SizeMode = PictureBoxSizeMode.Zoom;
+            pbBackUp.TabIndex = 0;
+            pbBackUp.TabStop = false;
+            pbBackUp.Click += pbBackUp_Click;
+            // 
+            // lbBackup
+            // 
+            lbBackup.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbBackup.AutoSize = true;
+            lbBackup.Cursor = Cursors.Hand;
+            lbBackup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbBackup.Location = new Point(10, 153);
+            lbBackup.Name = "lbBackup";
+            lbBackup.Padding = new Padding(10, 0, 0, 0);
+            lbBackup.Size = new Size(100, 19);
+            lbBackup.TabIndex = 0;
+            lbBackup.Text = "BuckUp";
+            lbBackup.TextAlign = ContentAlignment.TopCenter;
+            lbBackup.Click += pbBackUp_Click;
+            // 
+            // pbVentas
+            // 
+            pbVentas.BorderStyle = BorderStyle.Fixed3D;
+            pbVentas.Cursor = Cursors.Hand;
+            pbVentas.Image = Properties.Resources.botonVentas;
+            pbVentas.Location = new Point(10, 175);
+            pbVentas.Name = "pbVentas";
+            pbVentas.Size = new Size(100, 50);
+            pbVentas.SizeMode = PictureBoxSizeMode.Zoom;
+            pbVentas.TabIndex = 0;
+            pbVentas.TabStop = false;
+            pbVentas.Click += pbVentas_Click;
+            // 
+            // lbVentas
+            // 
+            lbVentas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbVentas.AutoSize = true;
+            lbVentas.Cursor = Cursors.Hand;
+            lbVentas.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbVentas.Location = new Point(10, 228);
+            lbVentas.Name = "lbVentas";
+            lbVentas.Padding = new Padding(10, 0, 0, 0);
+            lbVentas.Size = new Size(100, 19);
+            lbVentas.TabIndex = 0;
+            lbVentas.Text = "Ventas";
+            lbVentas.TextAlign = ContentAlignment.MiddleCenter;
+            lbVentas.Click += pbVentas_Click;
+            // 
+            // pbClientes
+            // 
+            pbClientes.BorderStyle = BorderStyle.Fixed3D;
+            pbClientes.Cursor = Cursors.Hand;
+            pbClientes.Image = Properties.Resources.botonClientes;
+            pbClientes.Location = new Point(10, 250);
+            pbClientes.Name = "pbClientes";
+            pbClientes.Size = new Size(100, 47);
+            pbClientes.SizeMode = PictureBoxSizeMode.Zoom;
+            pbClientes.TabIndex = 0;
+            pbClientes.TabStop = false;
+            pbClientes.Click += pbClientes_Click;
+            // 
+            // lbCliente
+            // 
+            lbCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbCliente.AutoSize = true;
+            lbCliente.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbCliente.Location = new Point(10, 300);
+            lbCliente.Name = "lbCliente";
+            lbCliente.Padding = new Padding(10, 0, 0, 0);
+            lbCliente.Size = new Size(100, 19);
+            lbCliente.TabIndex = 0;
+            lbCliente.Text = "Clientes";
+            lbCliente.TextAlign = ContentAlignment.MiddleCenter;
+            lbCliente.Click += pbVentas_Click;
+            // 
+            // pbProductos
+            // 
+            pbProductos.BorderStyle = BorderStyle.Fixed3D;
+            pbProductos.Cursor = Cursors.Hand;
+            pbProductos.Image = Properties.Resources.botonProductoa;
+            pbProductos.Location = new Point(10, 322);
+            pbProductos.Name = "pbProductos";
+            pbProductos.Size = new Size(100, 47);
+            pbProductos.SizeMode = PictureBoxSizeMode.Zoom;
+            pbProductos.TabIndex = 0;
+            pbProductos.TabStop = false;
+            pbProductos.Click += pbProductos_Click;
+            // 
+            // lbProductos
+            // 
+            lbProductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbProductos.AutoSize = true;
+            lbProductos.Cursor = Cursors.Hand;
+            lbProductos.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbProductos.Location = new Point(10, 372);
+            lbProductos.Name = "lbProductos";
+            lbProductos.Padding = new Padding(10, 0, 0, 0);
+            lbProductos.Size = new Size(100, 19);
+            lbProductos.TabIndex = 0;
+            lbProductos.Text = "Productos";
+            lbProductos.TextAlign = ContentAlignment.MiddleCenter;
+            lbProductos.Click += pbProductos_Click;
+            // 
+            // pbReportes
+            // 
+            pbReportes.BorderStyle = BorderStyle.Fixed3D;
+            pbReportes.Cursor = Cursors.Hand;
+            pbReportes.Image = Properties.Resources.botonReportes;
+            pbReportes.Location = new Point(10, 394);
+            pbReportes.Name = "pbReportes";
+            pbReportes.Size = new Size(100, 50);
+            pbReportes.SizeMode = PictureBoxSizeMode.Zoom;
+            pbReportes.TabIndex = 0;
+            pbReportes.TabStop = false;
+            pbReportes.Click += pbReportes_Click;
+            // 
+            // lbReportes
+            // 
+            lbReportes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbReportes.AutoSize = true;
+            lbReportes.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lbReportes.Location = new Point(10, 447);
+            lbReportes.Name = "lbReportes";
+            lbReportes.Padding = new Padding(10, 0, 0, 0);
+            lbReportes.Size = new Size(100, 19);
+            lbReportes.TabIndex = 0;
+            lbReportes.Text = "Reportes";
+            lbReportes.TextAlign = ContentAlignment.MiddleCenter;
+            lbReportes.Click += pbReportes_Click;
+            // 
+            // pSuperior
+            // 
+            pSuperior.Controls.Add(lRol);
+            pSuperior.Controls.Add(lbMenu);
+            pSuperior.Controls.Add(pbMenu);
+            pSuperior.Dock = DockStyle.Top;
+            pSuperior.Location = new Point(0, 0);
+            pSuperior.Name = "pSuperior";
+            pSuperior.Size = new Size(125, 84);
+            pSuperior.TabIndex = 2;
+            // 
             // lRol
             // 
+            lRol.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lRol.AutoSize = true;
             lRol.BackColor = Color.Transparent;
             lRol.Cursor = Cursors.Hand;
             lRol.FlatStyle = FlatStyle.Popup;
             lRol.Font = new Font("Corbel", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lRol.Location = new Point(36, 84);
+            lRol.Location = new Point(25, 70);
             lRol.Name = "lRol";
             lRol.Size = new Size(23, 14);
             lRol.TabIndex = 0;
@@ -285,12 +327,13 @@
             // 
             // lbMenu
             // 
+            lbMenu.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lbMenu.AutoSize = true;
             lbMenu.BackColor = Color.Transparent;
             lbMenu.Cursor = Cursors.Hand;
             lbMenu.FlatStyle = FlatStyle.Popup;
             lbMenu.Font = new Font("Corbel", 17F, FontStyle.Bold, GraphicsUnit.Pixel, 0);
-            lbMenu.Location = new Point(37, 64);
+            lbMenu.Location = new Point(25, 53);
             lbMenu.Name = "lbMenu";
             lbMenu.Size = new Size(51, 21);
             lbMenu.TabIndex = 0;
@@ -301,21 +344,20 @@
             pbMenu.BackColor = SystemColors.ControlLight;
             pbMenu.Cursor = Cursors.Hand;
             pbMenu.Image = (Image)resources.GetObject("pbMenu.Image");
-            pbMenu.Location = new Point(23, 3);
+            pbMenu.Location = new Point(25, 0);
             pbMenu.Name = "pbMenu";
             pbMenu.Size = new Size(74, 74);
             pbMenu.SizeMode = PictureBoxSizeMode.CenterImage;
             pbMenu.TabIndex = 1;
             pbMenu.TabStop = false;
-            pbMenu.Click += pbMenu_Click;
             // 
             // panelContenedor
             // 
             panelContenedor.BackgroundImage = (Image)resources.GetObject("panelContenedor.BackgroundImage");
             panelContenedor.Dock = DockStyle.Fill;
-            panelContenedor.Location = new Point(121, 0);
+            panelContenedor.Location = new Point(125, 0);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(866, 702);
+            panelContenedor.Size = new Size(862, 702);
             panelContenedor.TabIndex = 1;
             // 
             // Form1
@@ -324,22 +366,24 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(987, 702);
             Controls.Add(panelContenedor);
-            Controls.Add(panel1);
+            Controls.Add(panelMenu);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             Load += Form1_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            panelMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbSalir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbReportes).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbProductos).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbClientes).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbVentas).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbBackUp).EndInit();
+            pBotones.ResumeLayout(false);
+            flowMenu.ResumeLayout(false);
+            flowMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbUsuario).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbBackUp).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbVentas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbReportes).EndInit();
+            pSuperior.ResumeLayout(false);
+            pSuperior.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbMenu).EndInit();
             ResumeLayout(false);
         }
@@ -347,25 +391,26 @@
         #endregion
 
 
-        private Panel panel1;
+        private Panel panelMenu;
         private Label lbMenu;
         private PictureBox pbMenu;
-        private Panel panel2;
-        private PictureBox pbUsuario;
-        private Label lbUsuario;
-        private Label label8;
-        private Label lbProductos;
-        private Label lbCliente;
-        private Label lbVentas;
-        private Label lbBackup;
-        private PictureBox pbSalir;
-        private PictureBox pbProductos;
-        private PictureBox pbClientes;
-        private PictureBox pbVentas;
-        private PictureBox pbBackUp;
+        private Panel pBotones;
         private Panel panelContenedor;
         private Label lRol;
-        private Label lbReportes;
+        private FlowLayoutPanel flowMenu;
+        private PictureBox pbUsuario;
+        private Label lbUsuario;
+        private PictureBox pbBackUp;
+        private Label lbBackup;
+        private PictureBox pbVentas;
+        private Label lbVentas;
+        private PictureBox pbClientes;
+        private Label lbCliente;
+        private PictureBox pbProductos;
+        private Label lbProductos;
         private PictureBox pbReportes;
+        private Label lbReportes;
+        private PictureBox pbSalir;
+        private Panel pSuperior;
     }
 }

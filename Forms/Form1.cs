@@ -4,58 +4,65 @@ using nikeproject.Forms;
 using nikeproject.Models;
 using nikeproject.UserControls;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace nikeproject
 {
     public partial class Form1 : Form
     {
-        // 1. Cambiá el tipo del campo de string a RolUsuario.
         private readonly RolUsuario _rol;
-        // 2. Cambiá el tipo del parámetro en el constructor.
+
         public Form1(RolUsuario rol)
         {
             InitializeComponent();
+            // Conecta el evento Resize con el método que posiciona el botón
+
             _rol = rol;
         }
 
+        public Form1() : this(RolUsuario.Vendedor) { }
 
-        // 3. Pasá un valor del enum en el constructor por defecto
-        public Form1() : this(RolUsuario.Vendedor)
+
+           private void Form1_Load(object sender, EventArgs e)
         {
-        }
-
-
-        private void pbMenu_Click(object sender, EventArgs e)
-        {
+            ConfigurarMenuPorRol(_rol); // ¡Perfecto! Esto llama a ReordenarMenu
             panelContenedor.Controls.Clear();
+
+            // Configurar flowMenu (esto está bien)
+            flowMenu.Dock = DockStyle.Fill;
+            flowMenu.FlowDirection = FlowDirection.TopDown;
+            flowMenu.WrapContents = false;
+            flowMenu.AutoScroll = false;
+            flowMenu.AutoSize = false;
+            flowMenu.Padding = new Padding(0);
+            flowMenu.Margin = new Padding(0);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            // Habilita/deshabilita íconos según el rol
-            ConfigurarMenuPorRol(_rol);
-            panelContenedor.Controls.Clear();
-        }
 
-        private void ConfigurarMenuPorRol(RolUsuario rol) // <-- 1. Acepta el enum, no un string
+
+
+
+        private void ConfigurarMenuPorRol(RolUsuario rol)
         {
-            // Habilitar todo por defecto para empezar desde un estado limpio
+            // Mostrar todo por defecto
             pbUsuario.Visible = true;
             pbBackUp.Visible = true;
             pbVentas.Visible = true;
             pbClientes.Visible = true;
             pbProductos.Visible = true;
+            pbReportes.Visible = true;
             lbUsuario.Visible = true;
             lbBackup.Visible = true;
+            lbVentas.Visible = true;
+            lbCliente.Visible = true;
             lbProductos.Visible = true;
+            lbReportes.Visible = true;
 
-            // 2. Usamos un 'switch' que es más limpio y seguro que 'if-else if'
             switch (rol)
             {
                 case RolUsuario.Administrador:
                     lRol.Text = "Administrador";
-                    // No se necesita hacer nada más, el admin puede ver todo.
                     break;
 
                 case RolUsuario.Supervisor:
@@ -82,71 +89,83 @@ namespace nikeproject
 
         private void ReordenarMenu()
         {
-            int y = 20; // posición inicial en Y
-            int separacion = 100; // espacio entre iconos
+            // Limpia el FlowLayout y reacomoda ítems visibles
+            flowMenu.Controls.Clear();
 
-            // Lista de pares PictureBox + Label
-            var items = new (PictureBox, Label)[]
+            var items = new (PictureBox pb, Label lb)[]
             {
-        (pbUsuario, lbUsuario),
-        (pbBackUp, lbBackup),
-        (pbVentas, lbVentas),
-        (pbClientes, lbCliente),
-        (pbReportes, lbReportes)
-
+                (pbUsuario, lbUsuario),
+                (pbBackUp, lbBackup),
+                (pbVentas, lbVentas),
+                (pbClientes, lbCliente),
+                (pbProductos, lbProductos),
+                (pbReportes, lbReportes)
             };
 
             foreach (var (pb, lb) in items)
             {
                 if (pb.Visible)
                 {
-                    pb.Location = new Point(pb.Location.X, y);
-                    lb.Location = new Point(lb.Location.X, y + pb.Height + 2); // label debajo del icono
-                    y += separacion; // avanzar para el próximo
+                    Panel itemPanel = new Panel
+                    {
+                        Width = flowMenu.Width - 20,
+                        Height = pb.Height + (lb?.Height ?? 0) + 10,
+                        Margin = new Padding(0, 0, 0, 5),
+                        BackColor = Color.Transparent
+                    };
+
+                    pb.Dock = DockStyle.Top;
+                    pb.SizeMode = PictureBoxSizeMode.Zoom;
+                    pb.Cursor = Cursors.Hand;
+                    itemPanel.Controls.Add(pb);
+
+                    if (lb != null)
+                    {
+                        lb.Dock = DockStyle.Bottom;
+                        lb.TextAlign = ContentAlignment.MiddleCenter;
+                        lb.Cursor = Cursors.Hand;
+                        itemPanel.Controls.Add(lb);
+                    }
+
+                    flowMenu.Controls.Add(itemPanel);
                 }
             }
         }
 
-        // Método general para mostrar cualquier UserControl en el panelContenedor
-        private void MostrarControl(UserControl control)
-        {
-            panelContenedor.Controls.Clear();
-            control.Dock = DockStyle.Fill;
-            panelContenedor.Controls.Add(control);
-        }
+        // -------------------------------
+        // Eventos de los iconos del menú
+        // -------------------------------
 
-        // Lógica de los botones de navegación
         private void pbUsuario_Click(object sender, EventArgs e)
         {
             MostrarControl(new UsuariosControl());
-
         }
 
-        // Muestra el control de Mantenimiento para Reportes
         private void pbBackUp_Click(object sender, EventArgs e)
         {
             MostrarControl(new BackUpControl());
         }
 
-        // Muestra el control de Mantenimiento para Ventas
         private void pbVentas_Click(object sender, EventArgs e)
         {
             MostrarControl(new VentaControl());
         }
 
-        // Muestra el control de Clientes
         private void pbClientes_Click(object sender, EventArgs e)
         {
             MostrarControl(new ClienteControl());
         }
 
-        // Muestra el control de Mantenimiento para Productos
         private void pbProductos_Click(object sender, EventArgs e)
         {
             MostrarControl(new ProductoControl());
         }
 
-        // Lógica del botón de salir
+        private void pbReportes_Click(object sender, EventArgs e)
+        {
+            MostrarControl(new ReportesControl());
+        }
+
         private void pbSalir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -164,37 +183,25 @@ namespace nikeproject
             }
         }
 
-        private void lbUsuario_Click(object sender, EventArgs e)
+        // -------------------------------
+        // Función para mostrar los UserControls
+        // -------------------------------
+        private void MostrarControl(UserControl control)
+        {
+            panelContenedor.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            panelContenedor.Controls.Add(control);
+        }
+
+
+
+        private void flowMenu_Paint(object sender, PaintEventArgs e)
         {
 
         }
+    }
+}
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
-        private void lbProductos_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbVentas_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pbReportes_Click(object sender, EventArgs e)
-        {
-            MostrarControl(new ReportesControl());
-        }
-
-        private void lbReportes_Click(object sender, EventArgs e)
-        {
-            MostrarControl(new ReportesControl());
-        }
 
         // Método para probar la conexión a la base de datos
         /*
@@ -222,5 +229,4 @@ namespace nikeproject
 
         // Se eliminan los métodos duplicados o vacíos, y las referencias a panel3
         // lbMenu_Click_1, label4_Click, label6_Click y panelContenedor_Paint, entre otros, no son necesarios.
-    }
-}
+    
