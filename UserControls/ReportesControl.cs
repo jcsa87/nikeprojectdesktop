@@ -23,6 +23,9 @@ namespace nikeproject.UserControls
         // ========================= CONFIGURACIÓN INICIAL =========================
         private void ConfigurarChart()
         {
+            if (chartPrincipal == null)
+                return;
+
             chartPrincipal.ChartAreas.Add(new ChartArea("MainArea"));
             chartPrincipal.Titles.Add("Gráfico de Reportes");
             chartPrincipal.Titles[0].Font = new Font("Segoe UI", 11, FontStyle.Bold);
@@ -51,11 +54,11 @@ namespace nikeproject.UserControls
         private void btnAplicar_Click(object sender, EventArgs e)
         {
             DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpHasta.Value.Date;
-            string tipo = cbReporte.SelectedItem.ToString();
+            DateTime hasta = dtpHasta.Value.Date.AddDays(1); // ✅ Incluye todo el último día seleccionado
 
+            string tipo = cbReporte.SelectedItem.ToString();
             CargarDatosEnChart(desde, hasta, tipo);
-            lblLeyenda.Text = $"Mostrando datos de {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}.";
+            lblLeyenda.Text = $"Mostrando datos de {dtpDesde.Value:dd/MM/yyyy} a {dtpHasta.Value:dd/MM/yyyy}.";
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -70,16 +73,28 @@ namespace nikeproject.UserControls
         // ========================= INDICADORES SUPERIORES =========================
         private void CargarIndicadores()
         {
-            decimal ventasActual = ObtenerDecimal("SELECT ISNULL(SUM(MontoTotal),0) FROM VENTA WHERE MONTH(FechaRegistro)=MONTH(GETDATE()) AND YEAR(FechaRegistro)=YEAR(GETDATE())");
-            decimal ventasAnterior = ObtenerDecimal("SELECT ISNULL(SUM(MontoTotal),0) FROM VENTA WHERE MONTH(FechaRegistro)=MONTH(DATEADD(MONTH,-1,GETDATE())) AND YEAR(FechaRegistro)=YEAR(DATEADD(MONTH,-1,GETDATE()))");
+            decimal ventasActual = ObtenerDecimal(@"
+                SELECT ISNULL(SUM(MontoTotal),0)
+                FROM VENTA
+                WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
+                AND YEAR(FechaRegistro) = YEAR(GETDATE())");
+
+            decimal ventasAnterior = ObtenerDecimal(@"
+                SELECT ISNULL(SUM(MontoTotal),0)
+                FROM VENTA
+                WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
+                AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE()))");
+
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
             int clientesActivos = ObtenerEntero("SELECT COUNT(*) FROM CLIENTE WHERE Estado = 1");
 
+            // Cálculo de variación mensual
             decimal variacion = 0;
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now.ToString("MMMM")})";
+            // Asignación de textos
+            lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now:MMMM})";
             lblVentasValor.Text = $"${ventasActual:N0}";
             lblVariacionTitulo.Text = "Variación (vs mes anterior)";
             lblVariacionValor.Text = $"{variacion:N1}%";
@@ -87,6 +102,7 @@ namespace nikeproject.UserControls
             lblStockValor.Text = productosSinStock.ToString();
             lblClientesValor.Text = clientesActivos.ToString();
 
+            // Color visual según tendencia
             lblVariacionValor.ForeColor = variacion >= 0 ? Color.ForestGreen : Color.Firebrick;
         }
 
@@ -94,7 +110,7 @@ namespace nikeproject.UserControls
         private void GenerarReportePorDefecto()
         {
             DateTime desde = DateTime.Now.AddDays(-30);
-            DateTime hasta = DateTime.Now;
+            DateTime hasta = DateTime.Now.AddDays(1); // ✅ incluir día actual completo
             string tipo = "Ventas por mes";
 
             CargarDatosEnChart(desde, hasta, tipo);
@@ -139,7 +155,7 @@ namespace nikeproject.UserControls
                     break;
             }
 
-            // Query SQL dinámica
+            // Query SQL según tipo
             string query = tipo switch
             {
                 "Ventas por mes" => @"
@@ -168,27 +184,38 @@ namespace nikeproject.UserControls
                 _ => ""
             };
 
-            // Ejecución SQL
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
                 cn.Open();
-                SqlCommand cmd = new SqlCommand(query, cn);
+                using SqlCommand cmd = new SqlCommand(query, cn);
                 cmd.Parameters.AddWithValue("@Desde", desde);
-                cmd.Parameters.AddWithValue("@Hasta", hasta);
-                SqlDataReader dr = cmd.ExecuteReader();
+                cmd.Parameters.AddWithValue("@Hasta", hasta); // ✅ hasta +1 día ya aplicado antes
+                using SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
                     if (tipo == "Ventas por mes")
-                        serie.Points.AddXY(dr["Periodo"].ToString(), Convert.ToDecimal(dr["Total"]));
+                    {
+                        string periodo = dr["Periodo"].ToString();
+                        decimal total = Convert.ToDecimal(dr["Total"]);
+                        serie.Points.AddXY(periodo, total);
+                    }
                     else if (tipo == "Top 5 productos más vendidos")
-                        serie.Points.AddXY(dr["Nombre"].ToString(), Convert.ToInt32(dr["TotalVendidos"]));
+                    {
+                        string nombre = dr["Nombre"].ToString();
+                        int vendidos = Convert.ToInt32(dr["TotalVendidos"]);
+                        serie.Points.AddXY(nombre, vendidos);
+                    }
                     else if (tipo == "Ingresos diarios")
-                        serie.Points.AddXY(Convert.ToDateTime(dr["Dia"]).ToString("dd/MM"), Convert.ToDecimal(dr["Ingreso"]));
+                    {
+                        DateTime dia = Convert.ToDateTime(dr["Dia"]);
+                        decimal ingreso = Convert.ToDecimal(dr["Ingreso"]);
+                        serie.Points.AddXY(dia.ToString("dd/MM"), ingreso);
+                    }
                 }
             }
 
-            ActualizarTituloGrafico(desde, hasta);
+            ActualizarTituloGrafico(desde, hasta.AddDays(-1)); // mostrar rango real
             chartPrincipal.Invalidate();
         }
 
@@ -208,7 +235,7 @@ namespace nikeproject.UserControls
         {
             using SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
-            SqlCommand cmd = new SqlCommand(sql, cn);
+            using SqlCommand cmd = new SqlCommand(sql, cn);
             object result = cmd.ExecuteScalar();
             return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
         }
@@ -217,9 +244,14 @@ namespace nikeproject.UserControls
         {
             using SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
-            SqlCommand cmd = new SqlCommand(sql, cn);
+            using SqlCommand cmd = new SqlCommand(sql, cn);
             object result = cmd.ExecuteScalar();
             return result == DBNull.Value ? 0 : Convert.ToInt32(result);
+        }
+
+        private void ReportesControl_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
