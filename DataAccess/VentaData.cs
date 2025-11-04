@@ -10,6 +10,61 @@ namespace nikeproject.Data
     public class VentaData
     {
 
+        public static Venta ObtenerVentaPorId(int idVenta)
+        {
+            Venta venta = null;
+
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string query = @"
+                    SELECT v.IdVenta,
+                   v.NumeroDocumento,
+                   v.FechaRegistro,
+                   v.MontoTotal,
+                   c.Nombre AS NombreCliente,
+                   c.Apellido AS ApellidoCliente,
+                   c.Documento,
+                   c.Telefono,
+                   c.Correo,
+                   u.Nombre AS NombreUsuario,
+                   u.Apellido AS ApellidoUsuario
+                    FROM VENTA v
+                    INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
+                    INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario
+                    WHERE v.IdVenta = @IdVenta";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            venta = new Venta
+                            {
+                                IdVenta = Convert.ToInt32(dr["IdVenta"]),
+                                NumeroDocumento = dr["NumeroDocumento"].ToString(),
+                                FechaRegistro = Convert.ToDateTime(dr["FechaRegistro"]),
+                                MontoTotal = Convert.ToDecimal(dr["MontoTotal"]),
+                                NombreCliente = $"{dr["NombreCliente"]} {dr["ApellidoCliente"]}",
+                                DocumentoCliente = dr["Documento"].ToString(),
+                                TelefonoCliente = dr["Telefono"].ToString(),
+                                CorreoCliente = dr["Correo"].ToString(),
+                                NombreVendedor = $"{dr["NombreUsuario"]} {dr["ApellidoUsuario"]}"
+                            };
+                        }
+                    }
+                }
+            }
+            return venta;
+        }
+
+
+
+
+
         public static int InsertarVenta(Venta v)
         {
             using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))

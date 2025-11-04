@@ -4,8 +4,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using nikeproject.Data;        // Conexion.CadenaConexion
-using nikeproject.DataAccess;  // VentaData.ListarVentas()
+using nikeproject.Data;
+using nikeproject.DataAccess;
 
 namespace nikeproject.Forms
 {
@@ -18,30 +18,7 @@ namespace nikeproject.Forms
             public DateTime FechaRegistro { get; set; }
             public decimal MontoTotal { get; set; }
             public string Cliente { get; set; }
-          
         }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-
-            BeginInvoke((Action)(() =>
-            {
-                // ahora que ya hay tamaño real, aplicamos mínimos deseados
-                splitMain.Panel1MinSize = 140;
-                splitMain.Panel2MinSize = 180;
-
-                splitDetalle.Panel1MinSize = 300;
-                splitDetalle.Panel2MinSize = PreviewMinWidth; // 360 o 420
-
-                // si querés fijar el panel derecho como "fijo", ahora sí:
-                splitDetalle.FixedPanel = FixedPanel.Panel2;
-
-                // y recién ahora colocamos los splitters
-                ApplySplitterPositions();
-            }));
-        }
-
 
         // UI
         private DataGridView dgvVentas;
@@ -50,8 +27,13 @@ namespace nikeproject.Forms
         private ComboBox cbBuscar;
         private DateTimePicker dtpDesde, dtpHasta;
         private Button btnFiltrarFechas, btnLimpiar, btnCerrar;
+        private PictureBox pbPreview;
+        private SplitContainer splitMain, splitDetalle;
+        private TableLayoutPanel root;
+        private Panel pnlTop, spacer;
+        private const int PreviewMinWidth = 360;
 
-        // Datos en memoria (listas, no DataTable)
+        // Data
         private List<VentaRow> _ventas = new();
         private List<VentaRow> _vistaActual = new();
 
@@ -60,26 +42,33 @@ namespace nikeproject.Forms
             Text = "Historial de Ventas";
             StartPosition = FormStartPosition.CenterParent;
             MinimumSize = new Size(900, 600);
-            Width = 1000; Height = 650;
+            Width = 1000;
+            Height = 650;
 
             InicializarUI();
             CargarVentas();
         }
 
-        private TableLayoutPanel root;
-        private Panel pnlTop, spacer;
-        private SplitContainer splitMain;     // Ventas (arriba) / Detalle+Imagen (abajo)
-        private SplitContainer splitDetalle;  // Detalle (izq) / Imagen (der)
-        private PictureBox pbPreview;
-        private const int PreviewMinWidth = 360; // ancho mínimo deseado de miniatura
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            BeginInvoke((Action)(() =>
+            {
+                splitMain.Panel1MinSize = 140;
+                splitMain.Panel2MinSize = 180;
+                splitDetalle.Panel1MinSize = 300;
+                splitDetalle.Panel2MinSize = PreviewMinWidth;
+                splitDetalle.FixedPanel = FixedPanel.Panel2;
+                ApplySplitterPositions();
+            }));
+        }
 
         private void InicializarUI()
         {
-            // ----- Barra superior (filtros) -----
-            pnlTop = new Panel { AutoSize = true, Dock = DockStyle.Top, Padding = new Padding(8, 8, 8, 8) };
+            // ---- Barra superior ----
+            pnlTop = new Panel { AutoSize = true, Dock = DockStyle.Top, Padding = new Padding(8) };
 
             cbBuscar = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 160, Left = 8, Top = 10 };
-            cbBuscar.Items.Clear();
             cbBuscar.Items.AddRange(new object[] { "NumeroDocumento", "Cliente" });
             cbBuscar.SelectedIndex = 0;
 
@@ -93,7 +82,15 @@ namespace nikeproject.Forms
             btnFiltrarFechas.Click += (s, e) => AplicarFiltros();
 
             btnLimpiar = new Button { Text = "Limpiar", Left = btnFiltrarFechas.Right + 8, Top = 8, Width = 90, Height = 28 };
-            btnLimpiar.Click += (s, e) => { txtBuscar.Clear(); dtpDesde.Value = DateTime.Today.AddDays(-7); dtpHasta.Value = DateTime.Today; AplicarFiltros(); };
+            btnLimpiar.Click += (s, e) =>
+            {
+                txtBuscar.Clear();
+                cbBuscar.SelectedIndex = 0;
+                _vistaActual = _ventas.ToList();
+                RefrescarGridVentas();
+                dgvDetalle.DataSource = null;
+                pbPreview.Image = null;
+            };
 
             btnCerrar = new Button { Text = "Cerrar", Width = 90, Height = 28, Top = 8, Anchor = AnchorStyles.Top | AnchorStyles.Right };
             btnCerrar.Click += (s, e) => Close();
@@ -105,14 +102,11 @@ namespace nikeproject.Forms
             pnlTop.Controls.Add(btnFiltrarFechas);
             pnlTop.Controls.Add(btnLimpiar);
             pnlTop.Controls.Add(btnCerrar);
-
-            // Botón "Cerrar" alineado a la derecha del panel
             pnlTop.Resize += (s, e) => { btnCerrar.Left = pnlTop.Width - btnCerrar.Width - 8; };
 
-            // Separador fino (aire visual)
             spacer = new Panel { Dock = DockStyle.Fill, Height = 6, BackColor = SystemColors.Control };
 
-            // ----- Grillas -----
+            // ---- Grilla de Ventas ----
             dgvVentas = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -120,11 +114,40 @@ namespace nikeproject.Forms
                 MultiSelect = false,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                AutoGenerateColumns = true,
+                AutoGenerateColumns = false,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
             dgvVentas.CellClick += DgvVentas_CellClick;
 
+            // Botón "Ver"
+            DataGridViewButtonColumn colVerFactura = new DataGridViewButtonColumn
+            {
+                HeaderText = "Factura",
+                Name = "colVerFactura",
+                Text = "Ver",
+                UseColumnTextForButtonValue = true,
+                Width = 70
+            };
+            dgvVentas.Columns.Add(colVerFactura);
+
+            // Columnas de datos
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "IdVenta", HeaderText = "ID" });
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "NumeroDocumento", HeaderText = "Documento" });
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "FechaRegistro",
+                HeaderText = "Fecha",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "g", Font = new Font("Segoe UI", 9, FontStyle.Bold) }
+            });
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "MontoTotal",
+                HeaderText = "Total",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
+            });
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Cliente", HeaderText = "Cliente" });
+
+            // ---- Grilla de Detalle ----
             dgvDetalle = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -137,7 +160,6 @@ namespace nikeproject.Forms
             };
             dgvDetalle.CellClick += DgvDetalle_CellClick;
 
-            // ----- Imagen de vista previa -----
             pbPreview = new PictureBox
             {
                 Dock = DockStyle.Fill,
@@ -146,16 +168,13 @@ namespace nikeproject.Forms
                 BackColor = Color.White
             };
 
-            // ----- Split inferior: Detalle (izq) / Imagen (der) -----
+            // ---- Contenedores ----
             splitDetalle = new SplitContainer
             {
                 Dock = DockStyle.Fill,
                 Orientation = Orientation.Vertical,
-                SplitterWidth = 6,
-                Panel1MinSize = 0,
-                Panel2MinSize = 0
+                SplitterWidth = 6
             };
-
             splitDetalle.Panel1.Controls.Add(dgvDetalle);
             splitDetalle.Panel2.Controls.Add(pbPreview);
 
@@ -163,146 +182,75 @@ namespace nikeproject.Forms
             {
                 Dock = DockStyle.Fill,
                 Orientation = Orientation.Horizontal,
-                SplitterWidth = 6,
-                Panel1MinSize = 0,
-                Panel2MinSize = 0
+                SplitterWidth = 6
             };
-
             splitMain.Panel1.Controls.Add(dgvVentas);
             splitMain.Panel2.Controls.Add(splitDetalle);
 
-            // ----- TableLayoutPanel raíz (NO hay z-order problem) -----
             root = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
                 RowCount = 3
             };
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));             // barra filtros
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 6));          // separador
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));         // todo lo demás
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 6));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             root.Controls.Add(pnlTop, 0, 0);
             root.Controls.Add(spacer, 0, 1);
             root.Controls.Add(splitMain, 0, 2);
-
             Controls.Add(root);
 
-            // Fechas iniciales
             dtpDesde.Value = DateTime.Today.AddDays(-7);
             dtpHasta.Value = DateTime.Today;
 
-            // Ajustes de márgenes
-            dgvVentas.Margin = new Padding(8);
-            dgvDetalle.Margin = new Padding(8);
-            pbPreview.Margin = new Padding(8);
-
-            // Reaccionar a resize para mantener preview ancho cómodo
-            this.Resize += Form_Resize;
+            Resize += Form_Resize;
         }
 
-        private static void SetSafeSplitterDistance(SplitContainer sc, int desired)
-        {
-            if (sc == null || !sc.IsHandleCreated) return;
-
-            // Tamaño útil según orientación
-            int total = (sc.Orientation == Orientation.Vertical)
-                        ? sc.ClientSize.Width
-                        : sc.ClientSize.Height;
-
-            if (total <= 0) return;
-
-            int splitter = sc.SplitterWidth;
-            int min1 = sc.Panel1MinSize;
-            int min2 = sc.Panel2MinSize;
-
-            // Espacio útil sin el splitter
-            int available = total - splitter;
-            if (available <= 0) return;
-
-            // Si ni siquiera los mínimos entran, NO seteamos (evita excepción)
-            if (min1 + min2 > available)
-            {
-                // Relajamos el min2 para no romper (dejarlo en lo máximo que entre)
-                int nuevoMin2 = Math.Max(0, available - min1);
-                sc.Panel2MinSize = nuevoMin2;
-                min2 = nuevoMin2;
-
-                if (min1 + min2 > available)
-                    return; // aún no entra, abortamos sin asignar
-            }
-
-            // Máximo permitido para Panel1
-            int maxForPanel1 = Math.Max(min1, available - min2);
-
-            int clamped = Math.Max(min1, Math.Min(desired, maxForPanel1));
-
-            try
-            {
-                sc.SplitterDistance = clamped;
-            }
-            catch
-            {
-                // última defensa si Windows ajustó internamente tamaños
-                try { sc.SplitterDistance = Math.Max(min1, available - min2); }
-                catch { /* ignore */ }
-            }
-        }
-
-
-
-
-
+        // --- Layout helpers ---
+        private void Form_Resize(object sender, EventArgs e) => BeginInvoke((Action)(() => ApplySplitterPositions()));
 
         private void ApplySplitterPositions()
         {
             if (!IsHandleCreated) return;
-
-            // splitMain: Ventas ~ 58% arriba
             if (splitMain.IsHandleCreated && splitMain.ClientSize.Height > 0)
-            {
-                int desiredMainTop = (int)(splitMain.ClientSize.Height * 0.58);
-                SetSafeSplitterDistance(splitMain, desiredMainTop);
-            }
-
-            // splitDetalle: preview entre 360 y 420 (o ~1/3 del ancho)
+                SetSafeSplitterDistance(splitMain, (int)(splitMain.ClientSize.Height * 0.58));
             if (splitDetalle.IsHandleCreated && splitDetalle.ClientSize.Width > 0)
             {
                 int ancho = splitDetalle.ClientSize.Width - splitDetalle.SplitterWidth;
-                int rightWidth = Math.Max(PreviewMinWidth, Math.Min(420, Math.Max(0, ancho / 3)));
+                int rightWidth = Math.Max(PreviewMinWidth, Math.Min(420, ancho / 3));
                 int desiredDetalleLeft = Math.Max(300, ancho - rightWidth);
                 SetSafeSplitterDistance(splitDetalle, desiredDetalleLeft);
             }
         }
 
-        // Mantener proporciones al redimensionar (después del layout)
-        private void Form_Resize(object sender, EventArgs e)
+        private static void SetSafeSplitterDistance(SplitContainer sc, int desired)
         {
-            BeginInvoke((Action)(() => ApplySplitterPositions()));
+            if (sc == null || !sc.IsHandleCreated) return;
+            int total = (sc.Orientation == Orientation.Vertical) ? sc.ClientSize.Width : sc.ClientSize.Height;
+            if (total <= 0) return;
+            int available = total - sc.SplitterWidth;
+            desired = Math.Max(sc.Panel1MinSize, Math.Min(desired, available - sc.Panel2MinSize));
+            try { sc.SplitterDistance = desired; } catch { }
         }
 
-
-
-
-
+        // --- Data loading ---
         private void CargarVentas()
         {
             try
             {
-                // Convierte List<dynamic> a List<VentaRow> fuerte
-                var listaDyn = VentaData.ListarVentas(); // List<dynamic>
+                var listaDyn = VentaData.ListarVentas();
                 _ventas = listaDyn.Select(v => new VentaRow
                 {
                     IdVenta = (int)v.IdVenta,
                     NumeroDocumento = (string)v.NumeroDocumento,
                     FechaRegistro = (DateTime)v.FechaRegistro,
                     MontoTotal = (decimal)v.MontoTotal,
-                    Cliente = (string)v.Cliente,
-  
+                    Cliente = (string)v.Cliente
                 }).ToList();
 
-                _vistaActual = _ventas.ToList(); // copia
+                _vistaActual = _ventas.ToList();
                 RefrescarGridVentas();
-                dgvDetalle.DataSource = null;
             }
             catch (Exception ex)
             {
@@ -315,25 +263,6 @@ namespace nikeproject.Forms
         {
             dgvVentas.DataSource = null;
             dgvVentas.DataSource = _vistaActual;
-
-            // Formatos
-            if (dgvVentas.Columns["FechaRegistro"] != null)
-            {
-                dgvVentas.Columns["FechaRegistro"].HeaderText = "Fecha";
-                dgvVentas.Columns["FechaRegistro"].DefaultCellStyle.Format = "g";
-            }
-            if (dgvVentas.Columns["MontoTotal"] != null)
-            {
-                dgvVentas.Columns["MontoTotal"].HeaderText = "Total";
-                dgvVentas.Columns["MontoTotal"].DefaultCellStyle.Format = "N2";
-            }
-            if (dgvVentas.Columns["NumeroDocumento"] != null)
-                dgvVentas.Columns["NumeroDocumento"].HeaderText = "Documento";
-            if (dgvVentas.Columns["Cliente"] != null)
-                dgvVentas.Columns["Cliente"].HeaderText = "Cliente";
-
-            if (dgvVentas.Columns["IdVenta"] != null)
-                dgvVentas.Columns["IdVenta"].HeaderText = "ID";
         }
 
         private void AplicarFiltros()
@@ -341,14 +270,12 @@ namespace nikeproject.Forms
             if (_ventas == null) return;
 
             DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpHasta.Value.Date.AddDays(1).AddTicks(-1); // inclusivo
+            DateTime hasta = dtpHasta.Value.Date.AddDays(1).AddTicks(-1);
 
             IEnumerable<VentaRow> q = _ventas.Where(v => v.FechaRegistro >= desde && v.FechaRegistro <= hasta);
-
             string columna = cbBuscar.SelectedItem?.ToString() ?? "NumeroDocumento";
             string texto = (txtBuscar.Text ?? "").Trim().ToLower();
 
-        
             if (!string.IsNullOrEmpty(texto))
             {
                 q = columna == "Cliente"
@@ -356,40 +283,46 @@ namespace nikeproject.Forms
                     : q.Where(v => (v.NumeroDocumento ?? "").ToLower().Contains(texto));
             }
 
-
             _vistaActual = q.ToList();
             RefrescarGridVentas();
             dgvDetalle.DataSource = null;
+            pbPreview.Image = null;
         }
 
+        // --- Event handlers ---
         private void DgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            // ✅ acceso seguro por nombre de columna (sin Contains(string))
-            if (dgvVentas.Columns["IdVenta"] == null) return;
+            // Botón "Ver"
+            if (dgvVentas.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                dgvVentas.Columns[e.ColumnIndex].Name == "colVerFactura")
+            {
+                int idVentaBtn = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells[1].Value);
+                using (var frmFactura = new FacturaForm(idVentaBtn))
+                {
+                    frmFactura.ShowDialog(this);
+                }
+                return;
+            }
 
-            int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+            // Selección normal → carga detalle
+            int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells[1].Value);
             CargarDetalleVenta(idVenta);
         }
-
-
 
         private void CargarDetalleVenta(int idVenta)
         {
             try
             {
-                // TIPADO (usa tu método ya creado)
-                var detalles = nikeproject.DataAccess.DetalleVentaData.ListarPorVenta(idVenta);
-
-                // Proyección para la grilla + columna oculta con ruta
+                var detalles = DetalleVentaData.ListarPorVenta(idVenta);
                 var vista = detalles.Select(d => new
                 {
-                    Producto = d.Producto?.Nombre ?? "(sin nombre)",
+                    Producto = d.NombreProducto,
                     Cantidad = d.Cantidad,
                     Precio = d.PrecioUnitario,
                     SubTotal = d.SubTotal,
-                    RutaImagen = d.Producto?.ImagenRuta // oculta (para preview)
+                    RutaImagen = ProductoData.ObtenerRutaImagen(d.IdProducto)
                 }).ToList();
 
                 dgvDetalle.DataSource = null;
@@ -402,7 +335,6 @@ namespace nikeproject.Forms
                 if (dgvDetalle.Columns["RutaImagen"] != null)
                     dgvDetalle.Columns["RutaImagen"].Visible = false;
 
-                // Previsualizar la 1.ª imagen si existe
                 MostrarPreviewDesdeFilaDetalle(0);
             }
             catch (Exception ex)
@@ -433,25 +365,12 @@ namespace nikeproject.Forms
                 string ruta = cell.Value?.ToString();
                 if (!string.IsNullOrWhiteSpace(ruta) && System.IO.File.Exists(ruta))
                 {
-                    // Evitar bloqueo de archivo: cargar en memoria
                     using (var tmp = Image.FromFile(ruta))
-                    {
                         pbPreview.Image = new Bitmap(tmp);
-                    }
                 }
-                else
-                {
-                    pbPreview.Image = null;
-                }
+                else pbPreview.Image = null;
             }
-            catch
-            {
-                pbPreview.Image = null;
-            }
+            catch { pbPreview.Image = null; }
         }
-
-
-
-
     }
 }

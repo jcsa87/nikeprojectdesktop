@@ -298,6 +298,22 @@ namespace nikeproject.UserControls
             txtPrecio.Text = "";
             txtStock.Text = "";
             nudCantidad.Value = 1;
+
+            DialogResult imprimir = MessageBox.Show(
+            "¿Deseas imprimir la factura de esta venta?",
+            "Imprimir factura",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+            );
+
+            if (imprimir == DialogResult.Yes)
+            {
+                using (var frmFactura = new FacturaForm(idVenta))
+                {
+                    frmFactura.ShowDialog();
+                }
+            }
+
         }
 
 

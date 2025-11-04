@@ -7,9 +7,7 @@
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
@@ -20,18 +18,21 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.pnlIndicadores = new System.Windows.Forms.Panel();
             this.cardVentas = new System.Windows.Forms.Panel();
-            this.lblVentasValor = new System.Windows.Forms.Label();
             this.lblVentasTitulo = new System.Windows.Forms.Label();
+            this.lblVentasValor = new System.Windows.Forms.Label();
             this.cardVariacion = new System.Windows.Forms.Panel();
-            this.lblVariacionValor = new System.Windows.Forms.Label();
             this.lblVariacionTitulo = new System.Windows.Forms.Label();
+            this.lblVariacionValor = new System.Windows.Forms.Label();
             this.cardStock = new System.Windows.Forms.Panel();
-            this.lblStockValor = new System.Windows.Forms.Label();
             this.lblStockTitulo = new System.Windows.Forms.Label();
+            this.lblStockValor = new System.Windows.Forms.Label();
             this.cardClientes = new System.Windows.Forms.Panel();
-            this.lblClientesValor = new System.Windows.Forms.Label();
             this.lblClientesTitulo = new System.Windows.Forms.Label();
+            this.lblClientesValor = new System.Windows.Forms.Label();
+
+            this.splitMain = new System.Windows.Forms.SplitContainer();
             this.chartPrincipal = new System.Windows.Forms.DataVisualization.Charting.Chart();
+
             this.pnlFiltros = new System.Windows.Forms.Panel();
             this.lblPeriodo = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
@@ -49,92 +50,167 @@
             this.cardVariacion.SuspendLayout();
             this.cardStock.SuspendLayout();
             this.cardClientes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
+            this.splitMain.Panel1.SuspendLayout();
+            this.splitMain.Panel2.SuspendLayout();
+            this.splitMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartPrincipal)).BeginInit();
             this.pnlFiltros.SuspendLayout();
             this.SuspendLayout();
 
-            // =================== TITULO ===================
+            // lblTitulo
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(20, 10);
-            this.lblTitulo.Size = new System.Drawing.Size(500, 40);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(520, 40);
             this.lblTitulo.Text = "Panel de Reportes y Estadísticas";
 
-            // =================== PANEL DE INDICADORES ===================
+            // pnlIndicadores
             this.pnlIndicadores.Location = new System.Drawing.Point(20, 60);
-            this.pnlIndicadores.Size = new System.Drawing.Size(650, 90);
+            this.pnlIndicadores.Name = "pnlIndicadores";
+            this.pnlIndicadores.Size = new System.Drawing.Size(880, 90);
             this.pnlIndicadores.Controls.Add(this.cardVentas);
             this.pnlIndicadores.Controls.Add(this.cardVariacion);
             this.pnlIndicadores.Controls.Add(this.cardStock);
             this.pnlIndicadores.Controls.Add(this.cardClientes);
 
-            // ======= CARD VENTAS =======
+            // cardVentas
             this.cardVentas.BackColor = System.Drawing.Color.FromArgb(235, 245, 235);
             this.cardVentas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cardVentas.Location = new System.Drawing.Point(0, 5);
-            this.cardVentas.Size = new System.Drawing.Size(150, 80);
-            this.lblVentasTitulo.Text = "Ventas mes";
-            this.lblVentasTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblVentasTitulo.Location = new System.Drawing.Point(10, 10);
-            this.lblVentasValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblVentasValor.Location = new System.Drawing.Point(10, 35);
-            this.lblVentasValor.Text = "$0";
+            this.cardVentas.Size = new System.Drawing.Size(200, 80);
             this.cardVentas.Controls.Add(this.lblVentasTitulo);
             this.cardVentas.Controls.Add(this.lblVentasValor);
+            this.lblVentasTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblVentasTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblVentasTitulo.Size = new System.Drawing.Size(110, 20);
+            this.lblVentasTitulo.Text = "Ventas mes";
+            this.lblVentasValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblVentasValor.Location = new System.Drawing.Point(10, 35);
+            this.lblVentasValor.Size = new System.Drawing.Size(170, 26);
+            this.lblVentasValor.Text = "$0";
 
-            // ======= CARD VARIACIÓN =======
+            // cardVariacion
             this.cardVariacion.BackColor = System.Drawing.Color.FromArgb(240, 240, 220);
             this.cardVariacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardVariacion.Location = new System.Drawing.Point(160, 5);
-            this.cardVariacion.Size = new System.Drawing.Size(150, 80);
-            this.lblVariacionTitulo.Text = "Variación";
-            this.lblVariacionTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblVariacionTitulo.Location = new System.Drawing.Point(10, 10);
-            this.lblVariacionValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblVariacionValor.Location = new System.Drawing.Point(10, 35);
-            this.lblVariacionValor.Text = "0%";
+            this.cardVariacion.Location = new System.Drawing.Point(220, 5);
+            this.cardVariacion.Size = new System.Drawing.Size(200, 80);
             this.cardVariacion.Controls.Add(this.lblVariacionTitulo);
             this.cardVariacion.Controls.Add(this.lblVariacionValor);
+            this.lblVariacionTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblVariacionTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblVariacionTitulo.Size = new System.Drawing.Size(110, 20);
+            this.lblVariacionTitulo.Text = "Variación";
+            this.lblVariacionValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblVariacionValor.Location = new System.Drawing.Point(10, 35);
+            this.lblVariacionValor.Size = new System.Drawing.Size(150, 26);
+            this.lblVariacionValor.Text = "0%";
 
-            // ======= CARD STOCK =======
+            // cardStock
             this.cardStock.BackColor = System.Drawing.Color.FromArgb(245, 235, 230);
             this.cardStock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardStock.Location = new System.Drawing.Point(320, 5);
-            this.cardStock.Size = new System.Drawing.Size(150, 80);
-            this.lblStockTitulo.Text = "Sin stock";
-            this.lblStockTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblStockTitulo.Location = new System.Drawing.Point(10, 10);
-            this.lblStockValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblStockValor.Location = new System.Drawing.Point(10, 35);
-            this.lblStockValor.Text = "0";
+            this.cardStock.Location = new System.Drawing.Point(440, 5);
+            this.cardStock.Size = new System.Drawing.Size(200, 80);
             this.cardStock.Controls.Add(this.lblStockTitulo);
             this.cardStock.Controls.Add(this.lblStockValor);
+            this.lblStockTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblStockTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblStockTitulo.Size = new System.Drawing.Size(110, 20);
+            this.lblStockTitulo.Text = "Sin stock";
+            this.lblStockValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblStockValor.Location = new System.Drawing.Point(10, 35);
+            this.lblStockValor.Size = new System.Drawing.Size(120, 26);
+            this.lblStockValor.Text = "0";
 
-            // ======= CARD CLIENTES =======
+            // cardClientes
             this.cardClientes.BackColor = System.Drawing.Color.FromArgb(230, 240, 250);
             this.cardClientes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardClientes.Location = new System.Drawing.Point(480, 5);
-            this.cardClientes.Size = new System.Drawing.Size(150, 80);
-            this.lblClientesTitulo.Text = "Clientes activos";
-            this.lblClientesTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblClientesTitulo.Location = new System.Drawing.Point(10, 10);
-            this.lblClientesValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblClientesValor.Location = new System.Drawing.Point(10, 35);
-            this.lblClientesValor.Text = "0";
+            this.cardClientes.Location = new System.Drawing.Point(660, 5);
+            this.cardClientes.Size = new System.Drawing.Size(200, 80);
             this.cardClientes.Controls.Add(this.lblClientesTitulo);
             this.cardClientes.Controls.Add(this.lblClientesValor);
+            this.lblClientesTitulo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblClientesTitulo.Location = new System.Drawing.Point(10, 10);
+            this.lblClientesTitulo.Size = new System.Drawing.Size(130, 20);
+            this.lblClientesTitulo.Text = "Clientes activos";
+            this.lblClientesValor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblClientesValor.Location = new System.Drawing.Point(10, 35);
+            this.lblClientesValor.Size = new System.Drawing.Size(120, 26);
+            this.lblClientesValor.Text = "0";
 
-            // =================== GRÁFICO PRINCIPAL ===================
-            this.chartPrincipal.Location = new System.Drawing.Point(20, 170);
-            this.chartPrincipal.Size = new System.Drawing.Size(650, 400);
-            this.chartPrincipal.BackColor = System.Drawing.Color.FromArgb(250, 250, 250);
-            this.chartPrincipal.BorderlineColor = System.Drawing.Color.LightGray;
-            this.chartPrincipal.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            // splitMain
+            this.splitMain.Location = new System.Drawing.Point(20, 160);
+            this.splitMain.Name = "splitMain";
+            this.splitMain.Size = new System.Drawing.Size(880, 460);
+            this.splitMain.SplitterWidth = 6;
+            this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2; // Fija el panel de filtros
+            this.splitMain.IsSplitterFixed = false;
+            this.splitMain.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.splitMain.Panel1MinSize = 300;
+            this.splitMain.Panel2MinSize = 240;
+            this.splitMain.SplitterDistance = 600; // ancho inicial del panel izquierdo (gráfico)
+            this.splitMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                        | System.Windows.Forms.AnchorStyles.Left)
+                                        | System.Windows.Forms.AnchorStyles.Right)));
 
-            // =================== PANEL DE FILTROS ===================
+            // chartPrincipal (Panel1)
+            this.chartPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartPrincipal.Name = "chartPrincipal";
+            this.chartPrincipal.TabIndex = 3;
+            this.chartPrincipal.Text = "chartPrincipal";
+            this.splitMain.Panel1.Controls.Add(this.chartPrincipal);
+
+            // pnlFiltros (Panel2)
+            this.pnlFiltros.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFiltros.BackColor = System.Drawing.Color.FromArgb(245, 245, 245);
             this.pnlFiltros.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlFiltros.Location = new System.Drawing.Point(690, 170);
-            this.pnlFiltros.Size = new System.Drawing.Size(210, 400);
+            this.pnlFiltros.Padding = new System.Windows.Forms.Padding(12);
+            this.splitMain.Panel2.Controls.Add(this.pnlFiltros);
+
+            // Contenido pnlFiltros
+            this.lblPeriodo.AutoSize = true;
+            this.lblPeriodo.Location = new System.Drawing.Point(15, 15);
+            this.lblPeriodo.Text = "Periodo de tiempo:";
+            this.dtpDesde.Location = new System.Drawing.Point(15, 35);
+            this.dtpDesde.Size = new System.Drawing.Size(200, 23);
+            this.dtpHasta.Location = new System.Drawing.Point(15, 65);
+            this.dtpHasta.Size = new System.Drawing.Size(200, 23);
+
+            this.lblTipoReporte.AutoSize = true;
+            this.lblTipoReporte.Location = new System.Drawing.Point(15, 105);
+            this.lblTipoReporte.Text = "Tipo de reporte:";
+            this.cbReporte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbReporte.Location = new System.Drawing.Point(15, 125);
+            this.cbReporte.Size = new System.Drawing.Size(200, 23);
+
+            this.lblTipoGrafico.AutoSize = true;
+            this.lblTipoGrafico.Location = new System.Drawing.Point(15, 165);
+            this.lblTipoGrafico.Text = "Tipo de gráfico:";
+            this.cbGrafico.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGrafico.Location = new System.Drawing.Point(15, 185);
+            this.cbGrafico.Size = new System.Drawing.Size(200, 23);
+
+            this.btnAplicar.BackColor = System.Drawing.Color.SeaGreen;
+            this.btnAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAplicar.ForeColor = System.Drawing.Color.White;
+            this.btnAplicar.Location = new System.Drawing.Point(15, 230);
+            this.btnAplicar.Size = new System.Drawing.Size(200, 30);
+            this.btnAplicar.Text = "Aplicar filtro";
+            this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
+
+            this.btnReset.BackColor = System.Drawing.Color.Gray;
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.ForeColor = System.Drawing.Color.White;
+            this.btnReset.Location = new System.Drawing.Point(15, 270);
+            this.btnReset.Size = new System.Drawing.Size(200, 30);
+            this.btnReset.Text = "Restablecer";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+
+            this.lblLeyenda.Location = new System.Drawing.Point(15, 315);
+            this.lblLeyenda.Size = new System.Drawing.Size(200, 60);
+            this.lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
+            this.lblLeyenda.Font = new System.Drawing.Font("Segoe UI", 8F);
+
             this.pnlFiltros.Controls.Add(this.lblPeriodo);
             this.pnlFiltros.Controls.Add(this.dtpDesde);
             this.pnlFiltros.Controls.Add(this.dtpHasta);
@@ -146,66 +222,23 @@
             this.pnlFiltros.Controls.Add(this.btnReset);
             this.pnlFiltros.Controls.Add(this.lblLeyenda);
 
-            // ======= FILTROS =======
-            this.lblPeriodo.Text = "Periodo de tiempo:";
-            this.lblPeriodo.Location = new System.Drawing.Point(15, 10);
-            this.lblPeriodo.AutoSize = true;
-
-            this.dtpDesde.Location = new System.Drawing.Point(15, 30);
-            this.dtpDesde.Size = new System.Drawing.Size(180, 23);
-
-            this.dtpHasta.Location = new System.Drawing.Point(15, 60);
-            this.dtpHasta.Size = new System.Drawing.Size(180, 23);
-
-            this.lblTipoReporte.Text = "Tipo de reporte:";
-            this.lblTipoReporte.Location = new System.Drawing.Point(15, 100);
-            this.lblTipoReporte.AutoSize = true;
-
-            this.cbReporte.Location = new System.Drawing.Point(15, 120);
-            this.cbReporte.Size = new System.Drawing.Size(180, 23);
-
-            this.lblTipoGrafico.Text = "Tipo de gráfico:";
-            this.lblTipoGrafico.Location = new System.Drawing.Point(15, 160);
-            this.lblTipoGrafico.AutoSize = true;
-
-            this.cbGrafico.Location = new System.Drawing.Point(15, 180);
-            this.cbGrafico.Size = new System.Drawing.Size(180, 23);
-
-            this.btnAplicar.Text = "Aplicar filtro";
-            this.btnAplicar.BackColor = System.Drawing.Color.SeaGreen;
-            this.btnAplicar.ForeColor = System.Drawing.Color.White;
-            this.btnAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAplicar.Location = new System.Drawing.Point(15, 225);
-            this.btnAplicar.Size = new System.Drawing.Size(180, 30);
-            this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
-
-            this.btnReset.Text = "Restablecer";
-            this.btnReset.BackColor = System.Drawing.Color.Gray;
-            this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReset.Location = new System.Drawing.Point(15, 265);
-            this.btnReset.Size = new System.Drawing.Size(180, 30);
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-
-            this.lblLeyenda.Location = new System.Drawing.Point(15, 310);
-            this.lblLeyenda.Size = new System.Drawing.Size(180, 60);
-            this.lblLeyenda.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
-
-            // =================== CONTROL PRINCIPAL ===================
+            // ReportesControl
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.splitMain);
             this.Controls.Add(this.pnlIndicadores);
-            this.Controls.Add(this.chartPrincipal);
-            this.Controls.Add(this.pnlFiltros);
+            this.Controls.Add(this.lblTitulo);
+            this.Name = "ReportesControl";
             this.Size = new System.Drawing.Size(920, 640);
 
-            // =================== FIN ===================
             this.pnlIndicadores.ResumeLayout(false);
             this.cardVentas.ResumeLayout(false);
             this.cardVariacion.ResumeLayout(false);
             this.cardStock.ResumeLayout(false);
             this.cardClientes.ResumeLayout(false);
+            this.splitMain.Panel1.ResumeLayout(false);
+            this.splitMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
+            this.splitMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartPrincipal)).EndInit();
             this.pnlFiltros.ResumeLayout(false);
             this.pnlFiltros.PerformLayout();
@@ -217,17 +250,19 @@
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Panel pnlIndicadores;
         private System.Windows.Forms.Panel cardVentas;
-        private System.Windows.Forms.Label lblVentasValor;
         private System.Windows.Forms.Label lblVentasTitulo;
+        private System.Windows.Forms.Label lblVentasValor;
         private System.Windows.Forms.Panel cardVariacion;
-        private System.Windows.Forms.Label lblVariacionValor;
         private System.Windows.Forms.Label lblVariacionTitulo;
+        private System.Windows.Forms.Label lblVariacionValor;
         private System.Windows.Forms.Panel cardStock;
-        private System.Windows.Forms.Label lblStockValor;
         private System.Windows.Forms.Label lblStockTitulo;
+        private System.Windows.Forms.Label lblStockValor;
         private System.Windows.Forms.Panel cardClientes;
-        private System.Windows.Forms.Label lblClientesValor;
         private System.Windows.Forms.Label lblClientesTitulo;
+        private System.Windows.Forms.Label lblClientesValor;
+
+        private System.Windows.Forms.SplitContainer splitMain;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartPrincipal;
         private System.Windows.Forms.Panel pnlFiltros;
         private System.Windows.Forms.Label lblPeriodo;
