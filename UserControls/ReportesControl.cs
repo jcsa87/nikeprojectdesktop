@@ -41,16 +41,10 @@ namespace nikeproject.UserControls
             });
             cbReporte.SelectedIndex = 0;
 
-            cbGrafico.Items.AddRange(new string[]
-            {
-                "Línea",
-                "Barras",
-                "Torta"
-            });
-            cbGrafico.SelectedIndex = 0;
-
             dtpHasta.Value = DateTime.Now;
             dtpDesde.Value = DateTime.Now.AddDays(-30);
+
+            cbReporte.SelectedIndexChanged += cbTipoReporte_SelectedIndexChanged;
         }
 
         // ========================= EVENTOS =========================
@@ -59,9 +53,8 @@ namespace nikeproject.UserControls
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
             string tipo = cbReporte.SelectedItem.ToString();
-            string grafico = cbGrafico.SelectedItem.ToString();
 
-            CargarDatosEnChart(desde, hasta, tipo, grafico);
+            CargarDatosEnChart(desde, hasta, tipo);
             lblLeyenda.Text = $"Mostrando datos de {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}.";
         }
 
@@ -70,8 +63,6 @@ namespace nikeproject.UserControls
             dtpHasta.Value = DateTime.Now;
             dtpDesde.Value = DateTime.Now.AddDays(-30);
             cbReporte.SelectedIndex = 0;
-            cbGrafico.SelectedIndex = 0;
-
             GenerarReportePorDefecto();
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
         }
@@ -84,18 +75,18 @@ namespace nikeproject.UserControls
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
             int clientesActivos = ObtenerEntero("SELECT COUNT(*) FROM CLIENTE WHERE Estado = 1");
 
-            // Variación mensual
             decimal variacion = 0;
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            // Mostrar valores
+            lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now.ToString("MMMM")})";
             lblVentasValor.Text = $"${ventasActual:N0}";
+            lblVariacionTitulo.Text = "Variación (vs mes anterior)";
             lblVariacionValor.Text = $"{variacion:N1}%";
+            lblStockTitulo.Text = "Artículos sin stock";
             lblStockValor.Text = productosSinStock.ToString();
             lblClientesValor.Text = clientesActivos.ToString();
 
-            // Color de variación
             lblVariacionValor.ForeColor = variacion >= 0 ? Color.ForestGreen : Color.Firebrick;
         }
 
@@ -105,13 +96,17 @@ namespace nikeproject.UserControls
             DateTime desde = DateTime.Now.AddDays(-30);
             DateTime hasta = DateTime.Now;
             string tipo = "Ventas por mes";
-            string grafico = "Línea";
 
-            CargarDatosEnChart(desde, hasta, tipo, grafico);
+            CargarDatosEnChart(desde, hasta, tipo);
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
         }
 
-        private void CargarDatosEnChart(DateTime desde, DateTime hasta, string tipo, string tipoGrafico)
+        private void cbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnAplicar_Click(sender, e);
+        }
+
+        private void CargarDatosEnChart(DateTime desde, DateTime hasta, string tipo)
         {
             chartPrincipal.Series.Clear();
 
@@ -119,63 +114,61 @@ namespace nikeproject.UserControls
             chartPrincipal.Series.Add(serie);
             serie.BorderWidth = 3;
 
-            // Tipo de gráfico
-            switch (tipoGrafico)
+            // Tipo de gráfico según reporte
+            switch (tipo)
             {
-                case "Línea":
+                case "Ventas por mes":
                     serie.ChartType = SeriesChartType.Line;
                     serie.Color = Color.MediumSeaGreen;
                     break;
-                case "Barras":
-                    serie.ChartType = SeriesChartType.Column;
-                    serie.Color = Color.SteelBlue;
-                    break;
-                case "Torta":
+
+                case "Top 5 productos más vendidos":
                     serie.ChartType = SeriesChartType.Pie;
                     serie.Color = Color.SteelBlue;
                     serie["PieStartAngle"] = "270";
-                    serie.IsValueShownAsLabel = true; // Mostrar porcentajes dentro
+                    serie.IsValueShownAsLabel = true;
                     serie.Label = "#PERCENT{P0}";
                     serie.LegendText = "#VALX – #PERCENT{P0}";
                     chartPrincipal.Legends.Clear();
-                    chartPrincipal.Legends.Add(new Legend("Leyenda"));
-                    chartPrincipal.Legends["Leyenda"].Docking = Docking.Bottom;
+                    chartPrincipal.Legends.Add(new Legend("Leyenda") { Docking = Docking.Bottom });
+                    break;
+
+                case "Ingresos diarios":
+                    serie.ChartType = SeriesChartType.Column;
+                    serie.Color = Color.SteelBlue;
                     break;
             }
 
-            string query = "";
-            if (tipo == "Ventas por mes")
+            // Query SQL dinámica
+            string query = tipo switch
             {
-                query = @"
-                SELECT FORMAT(FechaRegistro, 'yyyy-MM') AS Periodo,
-               SUM(MontoTotal) AS Total
-                FROM VENTA
-                WHERE FechaRegistro BETWEEN @Desde AND @Hasta
-                GROUP BY FORMAT(FechaRegistro, 'yyyy-MM')
-                ORDER BY FORMAT(FechaRegistro, 'yyyy-MM');";
-            }
+                "Ventas por mes" => @"
+                    SELECT FORMAT(FechaRegistro, 'yyyy-MM') AS Periodo,
+                           SUM(MontoTotal) AS Total
+                    FROM VENTA
+                    WHERE FechaRegistro BETWEEN @Desde AND @Hasta
+                    GROUP BY FORMAT(FechaRegistro, 'yyyy-MM')
+                    ORDER BY FORMAT(FechaRegistro, 'yyyy-MM');",
 
-            else if (tipo == "Top 5 productos más vendidos")
-            {
-                query = @"
-            SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
-            FROM DETALLE_VENTA dv
-            INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
-            INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
-            WHERE v.FechaRegistro BETWEEN @Desde AND @Hasta
-            GROUP BY p.Nombre
-            ORDER BY TotalVendidos DESC;";
-            }
-            else if (tipo == "Ingresos diarios")
-            {
-                query = @"
-            SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
-            FROM VENTA
-            WHERE FechaRegistro BETWEEN @Desde AND @Hasta
-            GROUP BY CAST(FechaRegistro AS DATE)
-            ORDER BY Dia;";
-            }
+                "Top 5 productos más vendidos" => @"
+                    SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
+                    FROM DETALLE_VENTA dv
+                    INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
+                    INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
+                    WHERE v.FechaRegistro BETWEEN @Desde AND @Hasta
+                    GROUP BY p.Nombre
+                    ORDER BY TotalVendidos DESC;",
 
+                "Ingresos diarios" => @"
+                    SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
+                    FROM VENTA
+                    WHERE FechaRegistro BETWEEN @Desde AND @Hasta
+                    GROUP BY CAST(FechaRegistro AS DATE)
+                    ORDER BY Dia;",
+                _ => ""
+            };
+
+            // Ejecución SQL
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
                 cn.Open();
@@ -187,27 +180,14 @@ namespace nikeproject.UserControls
                 while (dr.Read())
                 {
                     if (tipo == "Ventas por mes")
-                    {
-                        string periodo = dr["Periodo"].ToString();
-                        decimal total = Convert.ToDecimal(dr["Total"]);
-                        serie.Points.AddXY(periodo, total);
-                    }
+                        serie.Points.AddXY(dr["Periodo"].ToString(), Convert.ToDecimal(dr["Total"]));
                     else if (tipo == "Top 5 productos más vendidos")
-                    {
-                        string nombre = dr["Nombre"].ToString();
-                        int vendidos = Convert.ToInt32(dr["TotalVendidos"]);
-                        serie.Points.AddXY(nombre, vendidos);
-                    }
+                        serie.Points.AddXY(dr["Nombre"].ToString(), Convert.ToInt32(dr["TotalVendidos"]));
                     else if (tipo == "Ingresos diarios")
-                    {
-                        DateTime dia = Convert.ToDateTime(dr["Dia"]);
-                        decimal ingreso = Convert.ToDecimal(dr["Ingreso"]);
-                        serie.Points.AddXY(dia.ToString("dd/MM"), ingreso);
-                    }
+                        serie.Points.AddXY(Convert.ToDateTime(dr["Dia"]).ToString("dd/MM"), Convert.ToDecimal(dr["Ingreso"]));
                 }
             }
 
-            // 🔹 Actualiza título con el período
             ActualizarTituloGrafico(desde, hasta);
             chartPrincipal.Invalidate();
         }
@@ -215,39 +195,31 @@ namespace nikeproject.UserControls
         private void ActualizarTituloGrafico(DateTime desde, DateTime hasta)
         {
             string titulo = "Gráfico de Reportes";
-            string periodo = "";
-
-            if (desde.Date == DateTime.Now.AddDays(-30).Date && hasta.Date == DateTime.Now.Date)
-                periodo = "(últimos 30 días)";
-            else
-                periodo = $"({desde:dd/MM/yyyy} - {hasta:dd/MM/yyyy})";
+            string periodo = (desde.Date == DateTime.Now.AddDays(-30).Date && hasta.Date == DateTime.Now.Date)
+                ? "(últimos 30 días)"
+                : $"({desde:dd/MM/yyyy} - {hasta:dd/MM/yyyy})";
 
             if (chartPrincipal.Titles.Count > 0)
                 chartPrincipal.Titles[0].Text = $"{titulo} {periodo}";
         }
 
-
         // ========================= FUNCIONES AUXILIARES =========================
         private decimal ObtenerDecimal(string sql)
         {
-            using (SqlConnection cn = new SqlConnection(connectionString))
-            {
-                cn.Open();
-                SqlCommand cmd = new SqlCommand(sql, cn);
-                object result = cmd.ExecuteScalar();
-                return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
-            }
+            using SqlConnection cn = new SqlConnection(connectionString);
+            cn.Open();
+            SqlCommand cmd = new SqlCommand(sql, cn);
+            object result = cmd.ExecuteScalar();
+            return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
         }
 
         private int ObtenerEntero(string sql)
         {
-            using (SqlConnection cn = new SqlConnection(connectionString))
-            {
-                cn.Open();
-                SqlCommand cmd = new SqlCommand(sql, cn);
-                object result = cmd.ExecuteScalar();
-                return result == DBNull.Value ? 0 : Convert.ToInt32(result);
-            }
+            using SqlConnection cn = new SqlConnection(connectionString);
+            cn.Open();
+            SqlCommand cmd = new SqlCommand(sql, cn);
+            object result = cmd.ExecuteScalar();
+            return result == DBNull.Value ? 0 : Convert.ToInt32(result);
         }
     }
 }
