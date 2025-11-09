@@ -22,8 +22,21 @@ namespace nikeproject.UserControls
             dgvProductos.CellClick += dgvProductos_CellClick;
             CargarProductos();
             CargarCategorias();
+            CargarOpcionesBusqueda();
 
         }
+
+        private void CargarOpcionesBusqueda()
+        {
+            cbBusqueda.Items.Clear();
+            cbBusqueda.Items.Add("Código");
+            cbBusqueda.Items.Add("Nombre");
+            cbBusqueda.Items.Add("Categoría");
+
+            //por defecto, la búsqueda inicia en 'código'
+            cbBusqueda.SelectedIndex = 0;
+        }
+
 
         private void CargarProductos()
         {
