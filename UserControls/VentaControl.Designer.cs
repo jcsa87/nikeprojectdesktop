@@ -104,7 +104,7 @@
             lblFecha.AutoSize = true;
             lblFecha.Location = new Point(15, 28);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(41, 15);
+            lblFecha.Size = new Size(50, 20);
             lblFecha.TabIndex = 0;
             lblFecha.Text = "Fecha:";
             // 
@@ -113,7 +113,7 @@
             dtpFecha.Enabled = false;
             dtpFecha.Location = new Point(65, 24);
             dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(200, 23);
+            dtpFecha.Size = new Size(200, 27);
             dtpFecha.TabIndex = 1;
             // 
             // lblTipoDoc
@@ -121,7 +121,7 @@
             lblTipoDoc.AutoSize = true;
             lblTipoDoc.Location = new Point(290, 28);
             lblTipoDoc.Name = "lblTipoDoc";
-            lblTipoDoc.Size = new Size(99, 15);
+            lblTipoDoc.Size = new Size(124, 20);
             lblTipoDoc.TabIndex = 2;
             lblTipoDoc.Text = "Tipo Documento:";
             // 
@@ -131,7 +131,7 @@
             cbTipoDoc.Items.AddRange(new object[] { "Factura A", "Factura B", "Boleta" });
             cbTipoDoc.Location = new Point(400, 24);
             cbTipoDoc.Name = "cbTipoDoc";
-            cbTipoDoc.Size = new Size(160, 23);
+            cbTipoDoc.Size = new Size(160, 28);
             cbTipoDoc.TabIndex = 3;
             // 
             // grpCliente
@@ -171,7 +171,7 @@
             lblDocumento.AutoSize = true;
             lblDocumento.Location = new Point(15, 30);
             lblDocumento.Name = "lblDocumento";
-            lblDocumento.Size = new Size(96, 15);
+            lblDocumento.Size = new Size(119, 20);
             lblDocumento.TabIndex = 0;
             lblDocumento.Text = "Nro Documento:";
             // 
@@ -179,7 +179,7 @@
             // 
             txtDocumentoCliente.Location = new Point(120, 27);
             txtDocumentoCliente.Name = "txtDocumentoCliente";
-            txtDocumentoCliente.Size = new Size(160, 23);
+            txtDocumentoCliente.Size = new Size(160, 27);
             txtDocumentoCliente.TabIndex = 1;
             // 
             // btnBuscarCliente
@@ -196,7 +196,7 @@
             lblCorreo.AutoSize = true;
             lblCorreo.Location = new Point(608, 41);
             lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(46, 15);
+            lblCorreo.Size = new Size(57, 20);
             lblCorreo.TabIndex = 3;
             lblCorreo.Text = "Correo:";
             // 
@@ -205,7 +205,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Location = new Point(605, 16);
             lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(55, 15);
+            lblTelefono.Size = new Size(70, 20);
             lblTelefono.TabIndex = 3;
             lblTelefono.Text = "Telefono:";
             // 
@@ -214,7 +214,7 @@
             lblApellido.AutoSize = true;
             lblApellido.Location = new Point(407, 42);
             lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(54, 15);
+            lblApellido.Size = new Size(69, 20);
             lblApellido.TabIndex = 3;
             lblApellido.Text = "Apellido:";
             // 
@@ -223,7 +223,7 @@
             lblNombreCliente.AutoSize = true;
             lblNombreCliente.Location = new Point(407, 17);
             lblNombreCliente.Name = "lblNombreCliente";
-            lblNombreCliente.Size = new Size(54, 15);
+            lblNombreCliente.Size = new Size(67, 20);
             lblNombreCliente.TabIndex = 3;
             lblNombreCliente.Text = "Nombre:";
             // 
@@ -232,7 +232,7 @@
             txtCorreo.Location = new Point(677, 39);
             txtCorreo.Name = "txtCorreo";
             txtCorreo.ReadOnly = true;
-            txtCorreo.Size = new Size(124, 23);
+            txtCorreo.Size = new Size(124, 27);
             txtCorreo.TabIndex = 4;
             // 
             // txtApellido
@@ -240,7 +240,7 @@
             txtApellido.Location = new Point(473, 38);
             txtApellido.Name = "txtApellido";
             txtApellido.ReadOnly = true;
-            txtApellido.Size = new Size(124, 23);
+            txtApellido.Size = new Size(124, 27);
             txtApellido.TabIndex = 4;
             // 
             // txtTelefono
@@ -248,7 +248,7 @@
             txtTelefono.Location = new Point(677, 13);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.ReadOnly = true;
-            txtTelefono.Size = new Size(124, 23);
+            txtTelefono.Size = new Size(124, 27);
             txtTelefono.TabIndex = 4;
             // 
             // txtNombreCliente
@@ -256,7 +256,7 @@
             txtNombreCliente.Location = new Point(473, 13);
             txtNombreCliente.Name = "txtNombreCliente";
             txtNombreCliente.ReadOnly = true;
-            txtNombreCliente.Size = new Size(124, 23);
+            txtNombreCliente.Size = new Size(124, 27);
             txtNombreCliente.TabIndex = 4;
             // 
             // grpProducto
@@ -297,7 +297,7 @@
             lblCodProd.AutoSize = true;
             lblCodProd.Location = new Point(15, 30);
             lblCodProd.Name = "lblCodProd";
-            lblCodProd.Size = new Size(87, 15);
+            lblCodProd.Size = new Size(106, 20);
             lblCodProd.TabIndex = 0;
             lblCodProd.Text = "Cod. Producto:";
             // 
@@ -305,7 +305,7 @@
             // 
             txtCodProducto.Location = new Point(110, 27);
             txtCodProducto.Name = "txtCodProducto";
-            txtCodProducto.Size = new Size(160, 23);
+            txtCodProducto.Size = new Size(160, 27);
             txtCodProducto.TabIndex = 1;
             // 
             // btnBuscarProducto
@@ -322,7 +322,7 @@
             lblNombreProd.AutoSize = true;
             lblNombreProd.Location = new Point(330, 30);
             lblNombreProd.Name = "lblNombreProd";
-            lblNombreProd.Size = new Size(59, 15);
+            lblNombreProd.Size = new Size(72, 20);
             lblNombreProd.TabIndex = 3;
             lblNombreProd.Text = "Producto:";
             // 
@@ -331,7 +331,7 @@
             txtNombreProd.Location = new Point(395, 27);
             txtNombreProd.Name = "txtNombreProd";
             txtNombreProd.ReadOnly = true;
-            txtNombreProd.Size = new Size(129, 23);
+            txtNombreProd.Size = new Size(129, 27);
             txtNombreProd.TabIndex = 4;
             // 
             // lblPrecio
@@ -339,7 +339,7 @@
             lblPrecio.AutoSize = true;
             lblPrecio.Location = new Point(545, 30);
             lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(43, 15);
+            lblPrecio.Size = new Size(53, 20);
             lblPrecio.TabIndex = 5;
             lblPrecio.Text = "Precio:";
             // 
@@ -348,7 +348,7 @@
             txtPrecio.Location = new Point(605, 28);
             txtPrecio.Name = "txtPrecio";
             txtPrecio.ReadOnly = true;
-            txtPrecio.Size = new Size(80, 23);
+            txtPrecio.Size = new Size(80, 27);
             txtPrecio.TabIndex = 6;
             // 
             // lblStock
@@ -356,7 +356,7 @@
             lblStock.AutoSize = true;
             lblStock.Location = new Point(696, 31);
             lblStock.Name = "lblStock";
-            lblStock.Size = new Size(39, 15);
+            lblStock.Size = new Size(48, 20);
             lblStock.TabIndex = 7;
             lblStock.Text = "Stock:";
             // 
@@ -365,7 +365,7 @@
             txtStock.Location = new Point(741, 28);
             txtStock.Name = "txtStock";
             txtStock.ReadOnly = true;
-            txtStock.Size = new Size(60, 23);
+            txtStock.Size = new Size(60, 27);
             txtStock.TabIndex = 8;
             // 
             // lblCantidad
@@ -373,7 +373,7 @@
             lblCantidad.AutoSize = true;
             lblCantidad.Location = new Point(15, 58);
             lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(58, 15);
+            lblCantidad.Size = new Size(72, 20);
             lblCantidad.TabIndex = 9;
             lblCantidad.Text = "Cantidad:";
             // 
@@ -381,7 +381,7 @@
             // 
             nudCantidad.Location = new Point(110, 55);
             nudCantidad.Name = "nudCantidad";
-            nudCantidad.Size = new Size(80, 23);
+            nudCantidad.Size = new Size(80, 27);
             nudCantidad.TabIndex = 10;
             // 
             // btnAgregar
@@ -395,9 +395,11 @@
             // 
             // dgvDetalle
             // 
+            dgvDetalle.ColumnHeadersHeight = 29;
             dgvDetalle.Columns.AddRange(new DataGridViewColumn[] { colIdProducto, colProducto, colPrecio, colCantidad, colSubTotal, colQuitar });
             dgvDetalle.Location = new Point(15, 260);
             dgvDetalle.Name = "dgvDetalle";
+            dgvDetalle.RowHeadersWidth = 51;
             dgvDetalle.RowTemplate.Height = 26;
             dgvDetalle.Size = new Size(950, 250);
             dgvDetalle.TabIndex = 3;
@@ -406,35 +408,47 @@
             // colIdProducto
             // 
             colIdProducto.HeaderText = "IdProducto";
+            colIdProducto.MinimumWidth = 6;
             colIdProducto.Name = "colIdProducto";
             colIdProducto.Visible = false;
+            colIdProducto.Width = 125;
             // 
             // colProducto
             // 
             colProducto.HeaderText = "Producto";
+            colProducto.MinimumWidth = 6;
             colProducto.Name = "colProducto";
+            colProducto.Width = 125;
             // 
             // colPrecio
             // 
             colPrecio.HeaderText = "Precio";
+            colPrecio.MinimumWidth = 6;
             colPrecio.Name = "colPrecio";
+            colPrecio.Width = 125;
             // 
             // colCantidad
             // 
             colCantidad.HeaderText = "Cantidad";
+            colCantidad.MinimumWidth = 6;
             colCantidad.Name = "colCantidad";
+            colCantidad.Width = 125;
             // 
             // colSubTotal
             // 
             colSubTotal.HeaderText = "Sub Total";
+            colSubTotal.MinimumWidth = 6;
             colSubTotal.Name = "colSubTotal";
+            colSubTotal.Width = 125;
             // 
             // colQuitar
             // 
             colQuitar.HeaderText = "";
+            colQuitar.MinimumWidth = 6;
             colQuitar.Name = "colQuitar";
             colQuitar.Text = "Quitar";
             colQuitar.UseColumnTextForButtonValue = true;
+            colQuitar.Width = 125;
             // 
             // pnlTotales
             // 
@@ -455,7 +469,7 @@
             lblTotal.AutoSize = true;
             lblTotal.Location = new Point(10, 15);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(77, 15);
+            lblTotal.Size = new Size(98, 20);
             lblTotal.TabIndex = 0;
             lblTotal.Text = "Total a Pagar:";
             // 
@@ -464,7 +478,7 @@
             txtTotal.Location = new Point(100, 12);
             txtTotal.Name = "txtTotal";
             txtTotal.ReadOnly = true;
-            txtTotal.Size = new Size(100, 23);
+            txtTotal.Size = new Size(100, 27);
             txtTotal.TabIndex = 1;
             txtTotal.Text = "0.00";
             // 
@@ -473,7 +487,7 @@
             lblPagaCon.AutoSize = true;
             lblPagaCon.Location = new Point(207, 15);
             lblPagaCon.Name = "lblPagaCon";
-            lblPagaCon.Size = new Size(59, 15);
+            lblPagaCon.Size = new Size(72, 20);
             lblPagaCon.TabIndex = 2;
             lblPagaCon.Text = "Paga con:";
             lblPagaCon.Click += lblPagaCon_Click;
@@ -484,7 +498,7 @@
             cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
             cbFormaPago.Location = new Point(272, 15);
             cbFormaPago.Name = "cbFormaPago";
-            cbFormaPago.Size = new Size(88, 23);
+            cbFormaPago.Size = new Size(88, 28);
             cbFormaPago.TabIndex = 3;
             cbFormaPago.SelectedIndexChanged += cbFormaPago_SelectedIndexChanged;
             // 
@@ -493,7 +507,7 @@
             lblCambio.AutoSize = true;
             lblCambio.Location = new Point(10, 45);
             lblCambio.Name = "lblCambio";
-            lblCambio.Size = new Size(52, 15);
+            lblCambio.Size = new Size(64, 20);
             lblCambio.TabIndex = 4;
             lblCambio.Text = "Cambio:";
             // 
@@ -502,7 +516,7 @@
             txtCambio.Location = new Point(100, 42);
             txtCambio.Name = "txtCambio";
             txtCambio.ReadOnly = true;
-            txtCambio.Size = new Size(100, 23);
+            txtCambio.Size = new Size(100, 27);
             txtCambio.TabIndex = 5;
             txtCambio.Text = "0.00";
             txtCambio.TextChanged += txtEfectivo_TextChanged;
@@ -511,7 +525,7 @@
             // 
             txtPagaCon.Location = new Point(272, 42);
             txtPagaCon.Name = "txtPagaCon";
-            txtPagaCon.Size = new Size(100, 23);
+            txtPagaCon.Size = new Size(100, 27);
             txtPagaCon.TabIndex = 7;
             txtPagaCon.TextChanged += txtPagaCon_TextChanged;
             txtPagaCon.KeyPress += txtPagaCon_KeyPress;
@@ -555,9 +569,11 @@
             dgvDetalleHistorial.AllowUserToAddRows = false;
             dgvDetalleHistorial.AllowUserToDeleteRows = false;
             dgvDetalleHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalleHistorial.ColumnHeadersHeight = 29;
             dgvDetalleHistorial.Location = new Point(15, 305);
             dgvDetalleHistorial.Name = "dgvDetalleHistorial";
             dgvDetalleHistorial.ReadOnly = true;
+            dgvDetalleHistorial.RowHeadersWidth = 51;
             dgvDetalleHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDetalleHistorial.Size = new Size(470, 270);
             dgvDetalleHistorial.TabIndex = 1;
@@ -662,9 +678,9 @@
         public TextBox txtCorreo;
         public TextBox txtApellido;
         public TextBox txtTelefono;
-        public ComboBox cbFormaPago;
         public TextBox txtPagaCon;
         public PictureBox pbCliente;
         public Button btnHistorialVentas;
+        protected ComboBox cbFormaPago;
     }
 }
