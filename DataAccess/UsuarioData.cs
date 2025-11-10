@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using nikeproject.Models;
-using nikeproject.Auth; // <-- importante para usar PasswordHelper
+using nikeproject.Auth; // para usar PasswordHelper
 
 namespace nikeproject.DataAccess
 {
@@ -23,7 +23,7 @@ namespace nikeproject.DataAccess
                     cmd.Parameters.AddWithValue("@nombre", oUsuario.Nombre);
                     cmd.Parameters.AddWithValue("@apellido", oUsuario.Apellido);
                     cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
-                    // 🔒 Hasheamos la contraseña antes de guardarla
+                    //hasheamos la contraseña antes de guardarla
                     cmd.Parameters.AddWithValue("@clave", PasswordHelper.HashPassword(oUsuario.Clave));
                     cmd.Parameters.AddWithValue("@rol", oUsuario.Rol.ToString());
                     cmd.Parameters.AddWithValue("@estado", oUsuario.Estado);

@@ -203,13 +203,23 @@ namespace nikeproject.UserControls
                     ? "¿Está seguro que desea reactivar este producto?"
                     : "¿Está seguro que desea dar de baja este producto?";
 
-                if (MessageBox.Show(mensaje, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(
+                        mensaje,
+                        "Confirmar acción",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2 // 👈 el foco queda en “No”
+                    ) == DialogResult.Yes)
                 {
                     bool resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, reactivar);
 
                     if (resultado)
                     {
-                        MessageBox.Show(reactivar ? "✅ Producto reactivado correctamente." : "✅ Producto dado de baja correctamente.");
+                        MessageBox.Show(
+                            reactivar
+                                ? "✅ Producto reactivado correctamente."
+                                : "✅ Producto dado de baja correctamente."
+                        );
                         CargarProductos();
                         LimpiarCampos();
                     }
@@ -224,6 +234,7 @@ namespace nikeproject.UserControls
                 MessageBox.Show("⚠️ Seleccione un producto.");
             }
         }
+
 
         // ================== EVENTOS GRILLA ==================
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
