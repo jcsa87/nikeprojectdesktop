@@ -205,21 +205,22 @@ namespace nikeproject.Data
             {
                 cn.Open();
                 string query = @"
-                    SELECT v.IdVenta,
-                           v.NumeroDocumento,
-                           v.FechaRegistro,
-                           v.MontoTotal,
-                           c.Nombre AS NombreCliente,
-                           c.Apellido AS ApellidoCliente,
-                           c.Documento,
-                           c.Telefono,
-                           c.Correo,
-                           u.Nombre AS NombreUsuario,
-                           u.Apellido AS ApellidoUsuario
-                    FROM VENTA v
-                    INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
-                    INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario
-                    WHERE v.IdVenta = @IdVenta";
+            SELECT v.IdVenta,
+                   v.NumeroDocumento,
+                   v.FechaRegistro,
+                   v.MontoTotal,
+                   v.Estado,                               -- ✅ AGREGADO AQUÍ
+                   c.Nombre AS NombreCliente,
+                   c.Apellido AS ApellidoCliente,
+                   c.Documento,
+                   c.Telefono,
+                   c.Correo,
+                   u.Nombre AS NombreUsuario,
+                   u.Apellido AS ApellidoUsuario
+            FROM VENTA v
+            INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
+            INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario
+            WHERE v.IdVenta = @IdVenta";
 
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
@@ -239,7 +240,10 @@ namespace nikeproject.Data
                                 DocumentoCliente = dr["Documento"].ToString(),
                                 TelefonoCliente = dr["Telefono"].ToString(),
                                 CorreoCliente = dr["Correo"].ToString(),
-                                NombreVendedor = $"{dr["NombreUsuario"]} {dr["ApellidoUsuario"]}"
+                                NombreVendedor = $"{dr["NombreUsuario"]} {dr["ApellidoUsuario"]}",
+
+                                // ✅ Estado leído correctamente desde SQL
+                                Estado = dr["Estado"] != DBNull.Value && Convert.ToBoolean(dr["Estado"])
                             };
                         }
                     }
@@ -248,6 +252,7 @@ namespace nikeproject.Data
 
             return venta;
         }
+
 
         // =====================================================
         // 🔹 INSERTAR UNA NUEVA VENTA

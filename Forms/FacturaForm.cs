@@ -161,17 +161,18 @@ namespace nikeproject.Forms
             using var fSub = new Font("Segoe UI", 9, FontStyle.Bold);
             using var pen = new Pen(Color.Gray, 1);
 
-            // Logo y encabezado
+            // ================= ENCABEZADO =================
             if (pbLogo.Image != null)
-                g.DrawImage(pbLogo.Image, left, top, 80, 50);
+                g.DrawImage(pbLogo.Image, left, top, 100, 60);
 
-            g.DrawString("FACTURA", fTitulo, Brushes.Black, right - 180, top);
-            g.DrawString("Nike Corrientes", fTitulo, Brushes.Black, left + 100, top + 10);
-            g.DrawString("Calzado y ropa deportiva", fText, Brushes.Gray, left + 100, top + 38);
+            string tituloFactura = $"FACTURA N° {venta.IdVenta:000000}";
+            g.DrawString(tituloFactura, fTitulo, Brushes.Black, right - 250, top);
+            g.DrawString("Nike Corrientes", fTitulo, Brushes.Black, left + 110, top + 10);
+            g.DrawString("Calzado y ropa deportiva", fText, Brushes.Gray, left + 110, top + 38);
 
             int y = top + 80;
 
-            // Datos principales
+            // ================= DATOS PRINCIPALES =================
             g.DrawString("Tipo de pago:", fSub, Brushes.Black, left, y);
             g.DrawString(venta.NumeroDocumento, fText, Brushes.Black, left + 120, y);
             g.DrawString("Fecha:", fSub, Brushes.Black, right - 200, y);
@@ -191,7 +192,7 @@ namespace nikeproject.Forms
             g.DrawString(venta.NombreVendedor, fText, Brushes.Black, left + 120, y);
             y += 40;
 
-            // Tabla
+            // ================= TABLA =================
             int ancho = right - left;
             g.FillRectangle(Brushes.LightGray, left, y, ancho, 22);
             g.DrawRectangle(pen, left, y, ancho, 22);
@@ -229,22 +230,28 @@ namespace nikeproject.Forms
 
             g.DrawString("Gracias por su compra.", fText, Brushes.Gray, left, y);
 
-            // === Sello "FACTURA ANULADA" ===
+            /// === SELLO FACTURA ANULADA===
             if (!venta.Estado)
             {
-                using var fontAnulada = new Font("Segoe UI", 72, FontStyle.Bold);
-                using var brushRojo = new SolidBrush(Color.FromArgb(60, Color.Red));
+                using var fontAnulada = new Font("Segoe UI", 70, FontStyle.Bold); // 
+                using var brushRojo = new SolidBrush(Color.FromArgb(90, 255, 0, 0)); // rojo translúcido
                 var texto = "FACTURA ANULADA";
-                var formato = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                var formato = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+
                 var rect = e.PageBounds;
                 g.TranslateTransform(rect.Width / 2, rect.Height / 2);
                 g.RotateTransform(-35);
                 g.DrawString(texto, fontAnulada, brushRojo, 0, 0, formato);
                 g.ResetTransform();
             }
+
         }
 
-        // ==================== FACTURA PROFESIONAL ====================
         private void printDocument_Profesional_PrintPage(object sender, PrintPageEventArgs e)
         {
             var venta = VentaData.ObtenerVentaPorId(_idVenta);
@@ -253,27 +260,32 @@ namespace nikeproject.Forms
             var g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            int left = e.MarginBounds.Left, top = e.MarginBounds.Top, right = e.MarginBounds.Right, ancho = right - left;
+            int left = e.MarginBounds.Left, top = e.MarginBounds.Top, right = e.MarginBounds.Right;
+            int ancho = right - left;
+
             using var fTitulo = new Font("Segoe UI", 16, FontStyle.Bold);
             using var fText = new Font("Segoe UI", 9);
             using var fSub = new Font("Segoe UI", 9, FontStyle.Bold);
             using var pen = new Pen(Color.Gray, 1);
 
-            // Encabezado
+            // ================= ENCABEZADO =================
             if (pbLogo.Image != null)
                 g.DrawImage(pbLogo.Image, left, top, 100, 60);
 
-            g.DrawString("FACTURA", fTitulo, Brushes.Black, right - 180, top);
+            string tituloFactura = $"FACTURA N° {venta.IdVenta:000000}";
+            g.DrawString(tituloFactura, fTitulo, Brushes.Black, right - 250, top);
             g.DrawString("Nike Corrientes", fTitulo, Brushes.Black, left + 110, top + 10);
             g.DrawString("Calzado y ropa deportiva", fText, Brushes.Gray, left + 110, top + 38);
+
             int y = top + 80;
 
-            // Datos
+            // ================= DATOS PRINCIPALES =================
             g.DrawString("Tipo de pago:", fSub, Brushes.Black, left, y);
             g.DrawString(venta.NumeroDocumento, fText, Brushes.Black, left + 120, y);
             g.DrawString("Fecha:", fSub, Brushes.Black, right - 200, y);
             g.DrawString(venta.FechaRegistro.ToString("dd/MM/yyyy HH:mm"), fText, Brushes.Black, right - 100, y);
             y += 25;
+
             g.DrawString("Cliente:", fSub, Brushes.Black, left, y);
             g.DrawString(venta.NombreCliente, fText, Brushes.Black, left + 120, y);
             y += 18;
@@ -287,6 +299,7 @@ namespace nikeproject.Forms
             g.DrawString(venta.NombreVendedor, fText, Brushes.Black, left + 120, y);
             y += 40;
 
+            // ================= TABLA =================
             g.FillRectangle(Brushes.LightGray, left, y, ancho, 22);
             g.DrawRectangle(pen, left, y, ancho, 22);
             g.DrawString("Producto", fSub, Brushes.Black, left + 5, y + 4);
@@ -322,19 +335,26 @@ namespace nikeproject.Forms
 
             g.DrawString("Gracias por su compra.", fText, Brushes.Gray, left, y);
 
-            // === Sello "FACTURA ANULADA" ===
+            // === SELLO FACTURA ANULADA (ajustado) ===
             if (!venta.Estado)
             {
-                using var fontAnulada = new Font("Segoe UI", 72, FontStyle.Bold);
-                using var brushRojo = new SolidBrush(Color.FromArgb(60, Color.Red));
+                using var fontAnulada = new Font("Segoe UI", 70, FontStyle.Bold); //
+                using var brushRojo = new SolidBrush(Color.FromArgb(90, 255, 0, 0)); 
                 var texto = "FACTURA ANULADA";
-                var formato = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                var formato = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                // 🔹 Centramos sobre toda la página (PageBounds)
                 var rect = e.PageBounds;
                 g.TranslateTransform(rect.Width / 2, rect.Height / 2);
                 g.RotateTransform(-35);
                 g.DrawString(texto, fontAnulada, brushRojo, 0, 0, formato);
                 g.ResetTransform();
             }
+
         }
 
         private void btnGuardarPdf_Click(object sender, EventArgs e)

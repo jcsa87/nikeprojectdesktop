@@ -319,7 +319,6 @@ namespace nikeproject.Forms
             {
                 int idVentaBtn = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
 
-                // 🔹 Ya no bloqueamos las anuladas
                 using (var frmFactura = new FacturaForm(idVentaBtn))
                     frmFactura.ShowDialog(this);
 
