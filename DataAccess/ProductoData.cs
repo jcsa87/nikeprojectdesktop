@@ -28,6 +28,79 @@ namespace nikeproject.Data
             }
         }
 
+        public static void AumentarStock(int idProducto, int cantidad)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                string query = "UPDATE PRODUCTO SET Stock = Stock + @Cantidad WHERE IdProducto = @IdProducto";
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+                    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static bool AnularVentaConStock(int idVenta)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                SqlTransaction tx = cn.BeginTransaction();
+
+                try
+                {
+                    // 1. Obtener detalles de la venta
+                    List<(int IdProducto, int Cantidad)> detalles = new();
+                    string qDetalles = "SELECT IdProducto, Cantidad FROM DETALLE_VENTA WHERE IdVenta = @IdVenta";
+
+                    using (SqlCommand cmd = new SqlCommand(qDetalles, cn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                detalles.Add((Convert.ToInt32(dr["IdProducto"]), Convert.ToInt32(dr["Cantidad"])));
+                            }
+                        }
+                    }
+
+                    // 2. Actualizar estado de la venta
+                    string qVenta = "UPDATE VENTA SET Estado = 0 WHERE IdVenta = @IdVenta";
+                    using (SqlCommand cmd = new SqlCommand(qVenta, cn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 3. Devolver stock de cada producto
+                    foreach (var d in detalles)
+                    {
+                        string qStock = "UPDATE PRODUCTO SET Stock = Stock + @Cant WHERE IdProducto = @Prod";
+                        using (SqlCommand cmd = new SqlCommand(qStock, cn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@Cant", d.Cantidad);
+                            cmd.Parameters.AddWithValue("@Prod", d.IdProducto);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    tx.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tx.Rollback();
+                    return false;
+                }
+            }
+        }
+
+
+
         public static bool AgregarProducto(Producto p)
         {
             bool resultado = false;

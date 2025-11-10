@@ -3,14 +3,16 @@
     partial class HistorialVentasForm
     {
         /// <summary>
-        /// Required designer variable.
+        /// Variable del diseñador requerida.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Liberar los recursos que se estén usando.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">
+        /// true si los recursos administrados se deben eliminar; false en caso contrario.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,18 +22,32 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Código generado por el Diseñador de Windows Forms
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Método requerido para admitir el Diseñador.
+        /// No modifique el contenido de este método con el editor de código.
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "HistorialVentasForm";
+
+            // Configuración general del formulario
+            this.ClientSize = new System.Drawing.Size(1000, 650);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = true;
+            this.MinimizeBox = true;
+            this.Name = "HistorialVentasForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Historial de Ventas";
+
+            // Fuente y color base (opcional, igual que en otros formularios)
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+
+            // Alineación visual inicial
+            this.Padding = new System.Windows.Forms.Padding(5);
         }
 
         #endregion

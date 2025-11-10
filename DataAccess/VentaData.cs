@@ -40,6 +40,67 @@ namespace nikeproject.Data
         }
 
         // =====================================================
+        // 🔹 ANULAR UNA VENTA Y DEVOLVER STOCK
+        // =====================================================
+        public static bool AnularVentaConStock(int idVenta)
+        {
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                cn.Open();
+                SqlTransaction tx = cn.BeginTransaction();
+
+                try
+                {
+                    // 1) Obtener detalle (productos y cantidades)
+                    var detalles = new List<(int IdProducto, int Cantidad)>();
+                    string qDet = "SELECT IdProducto, Cantidad FROM DETALLE_VENTA WHERE IdVenta = @IdVenta";
+                    using (SqlCommand cmd = new SqlCommand(qDet, cn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        using (var dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                detalles.Add((
+                                    Convert.ToInt32(dr["IdProducto"]),
+                                    Convert.ToInt32(dr["Cantidad"])
+                                ));
+                            }
+                        }
+                    }
+
+                    // 2) Marcar venta como anulada
+                    string qVenta = "UPDATE VENTA SET Estado = 0 WHERE IdVenta = @IdVenta";
+                    using (SqlCommand cmd = new SqlCommand(qVenta, cn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 3) Devolver stock
+                    foreach (var d in detalles)
+                    {
+                        string qStock = "UPDATE PRODUCTO SET Stock = Stock + @Cant WHERE IdProducto = @Prod";
+                        using (SqlCommand cmd = new SqlCommand(qStock, cn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@Cant", d.Cantidad);
+                            cmd.Parameters.AddWithValue("@Prod", d.IdProducto);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    tx.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tx.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        // =====================================================
         // 🔹 OBTENER FACTURA POR ID DE VENTA (FACTURAFORM)
         // =====================================================
         public FacturaData ObtenerFacturaPorId(int idVenta)
@@ -229,30 +290,25 @@ namespace nikeproject.Data
 
                 string sql = @"
                     SELECT v.IdVenta, 
-                           v.IdUsuario,
                            v.NumeroDocumento, 
                            v.FechaRegistro, 
                            v.MontoTotal,
                            c.Nombre + ' ' + c.Apellido AS Cliente,
-                           u.Nombre + ' ' + u.Apellido AS Vendedor
+                           u.Nombre + ' ' + u.Apellido AS Vendedor,
+                           v.Estado
                     FROM VENTA v
                     INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
                     INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario";
 
-                // Si el usuario actual es vendedor, filtra solo sus ventas
                 if (SesionUsuario.Rol == RolUsuario.Vendedor)
-                {
                     sql += " WHERE v.IdUsuario = @IdUsuario";
-                }
 
-                sql += " ORDER BY v.FechaRegistro DESC";
+                sql += " ORDER BY v.FechaRegistro DESC;";
 
                 using (SqlCommand cmd = new SqlCommand(sql, cn))
                 {
                     if (SesionUsuario.Rol == RolUsuario.Vendedor)
-                    {
                         cmd.Parameters.AddWithValue("@IdUsuario", SesionUsuario.IdUsuario);
-                    }
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -260,13 +316,13 @@ namespace nikeproject.Data
                         {
                             lista.Add(new
                             {
-                                IdVenta = dr.GetInt32(0),
-                                IdUsuario = dr.GetInt32(1),
-                                NumeroDocumento = dr.GetString(2),
-                                FechaRegistro = dr.GetDateTime(3),
-                                MontoTotal = dr.GetDecimal(4),
-                                Cliente = dr.GetString(5),
-                                Vendedor = dr.GetString(6)
+                                IdVenta = dr.GetInt32(dr.GetOrdinal("IdVenta")),
+                                NumeroDocumento = dr.GetString(dr.GetOrdinal("NumeroDocumento")),
+                                FechaRegistro = dr.GetDateTime(dr.GetOrdinal("FechaRegistro")),
+                                MontoTotal = dr.GetDecimal(dr.GetOrdinal("MontoTotal")),
+                                Cliente = dr.GetString(dr.GetOrdinal("Cliente")),
+                                Vendedor = dr.GetString(dr.GetOrdinal("Vendedor")),
+                                Estado = dr.GetBoolean(dr.GetOrdinal("Estado")) ? "Activa" : "Anulada"
                             });
                         }
                     }
@@ -274,120 +330,6 @@ namespace nikeproject.Data
             }
 
             return lista;
-        }
-
-        // =====================================================
-        // 🔹 REGISTRAR UNA VENTA CON DETALLES (TRANSACCIÓN)
-        // =====================================================
-        public static bool RegistrarVenta(Venta venta)
-        {
-            bool resultado = false;
-
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                oConexion.Open();
-                SqlTransaction transaction = oConexion.BeginTransaction();
-
-                try
-                {
-                    // Insertar venta
-                    string queryVenta = @"INSERT INTO VENTA (IdCliente, IdUsuario, NumeroDocumento, MontoTotal, Estado)
-                                          OUTPUT INSERTED.IdVenta
-                                          VALUES (@IdCliente, @IdUsuario, @NumeroDocumento, @MontoTotal, 1)";
-
-                    int idVentaGenerado;
-                    using (SqlCommand cmd = new SqlCommand(queryVenta, oConexion, transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@IdCliente", venta.IdCliente);
-                        cmd.Parameters.AddWithValue("@IdUsuario", venta.IdUsuario);
-                        cmd.Parameters.AddWithValue("@NumeroDocumento", venta.NumeroDocumento);
-                        cmd.Parameters.AddWithValue("@MontoTotal", venta.MontoTotal);
-
-                        idVentaGenerado = (int)cmd.ExecuteScalar();
-                    }
-
-                    // Insertar detalles
-                    foreach (var detalle in venta.Detalles)
-                    {
-                        string queryDetalle = @"INSERT INTO DETALLE_VENTA (IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal)
-                                                VALUES (@IdVenta, @IdProducto, @Cantidad, @PrecioUnitario, @SubTotal)";
-                        using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, oConexion, transaction))
-                        {
-                            cmdDetalle.Parameters.AddWithValue("@IdVenta", idVentaGenerado);
-                            cmdDetalle.Parameters.AddWithValue("@IdProducto", detalle.IdProducto);
-                            cmdDetalle.Parameters.AddWithValue("@Cantidad", detalle.Cantidad);
-                            cmdDetalle.Parameters.AddWithValue("@PrecioUnitario", detalle.PrecioUnitario);
-                            cmdDetalle.Parameters.AddWithValue("@SubTotal", detalle.SubTotal);
-                            cmdDetalle.ExecuteNonQuery();
-                        }
-                    }
-
-                    transaction.Commit();
-                    resultado = true;
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    resultado = false;
-                }
-            }
-
-            return resultado;
-        }
-
-        // =====================================================
-        // 🔹 LISTAR DETALLES POR VENTA
-        // =====================================================
-        public static List<DetalleVenta> ListarDetallesPorVenta(int idVenta)
-        {
-            var lista = new List<DetalleVenta>();
-
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                string query = @"SELECT d.IdDetalle, d.IdProducto, d.Cantidad, d.PrecioUnitario, d.SubTotal,
-                                        p.Nombre AS ProductoNombre
-                                 FROM DETALLE_VENTA d
-                                 INNER JOIN PRODUCTO p ON d.IdProducto = p.IdProducto
-                                 WHERE d.IdVenta = @IdVenta";
-
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                cmd.Parameters.AddWithValue("@IdVenta", idVenta);
-                oConexion.Open();
-
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        lista.Add(new DetalleVenta
-                        {
-                            IdDetalle = Convert.ToInt32(dr["IdDetalle"]),
-                            IdProducto = Convert.ToInt32(dr["IdProducto"]),
-                            Cantidad = Convert.ToInt32(dr["Cantidad"]),
-                            PrecioUnitario = Convert.ToDecimal(dr["PrecioUnitario"]),
-                            SubTotal = Convert.ToDecimal(dr["SubTotal"]),
-                            Producto = new Producto { Nombre = dr["ProductoNombre"].ToString() }
-                        });
-                    }
-                }
-            }
-
-            return lista;
-        }
-
-        // =====================================================
-        // 🔹 ANULAR UNA VENTA
-        // =====================================================
-        public static bool AnularVenta(int idVenta)
-        {
-            using (SqlConnection oConexion = Conexion.Conectar())
-            {
-                string query = "UPDATE VENTA SET Estado = 0 WHERE IdVenta=@IdVenta";
-                SqlCommand cmd = new SqlCommand(query, oConexion);
-                cmd.Parameters.AddWithValue("@IdVenta", idVenta);
-
-                oConexion.Open();
-                return cmd.ExecuteNonQuery() > 0;
-            }
         }
     }
 }
