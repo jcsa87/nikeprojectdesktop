@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 using nikeproject.Helpers;
@@ -14,29 +15,29 @@ namespace nikeproject.UserControls
     public partial class ProductoControl : UserControl
     {
         private int idProductoSeleccionado = 0;
+        private bool estadoProductoSeleccionado = true;
 
         public ProductoControl()
         {
             InitializeComponent();
             GridHelper.PintarInactivos(dgvProductos);
             dgvProductos.CellClick += dgvProductos_CellClick;
+            btnBuscar.Click += btnBuscar_Click;
+            btnLimpiar.Click += btnLimpiar_Click;
             CargarProductos();
             CargarCategorias();
             CargarOpcionesBusqueda();
-
         }
 
+        // ================== CARGA INICIAL ==================
         private void CargarOpcionesBusqueda()
         {
             cbBusqueda.Items.Clear();
             cbBusqueda.Items.Add("Código");
             cbBusqueda.Items.Add("Nombre");
             cbBusqueda.Items.Add("Categoría");
-
-            //por defecto, la búsqueda inicia en 'código'
             cbBusqueda.SelectedIndex = 0;
         }
-
 
         private void CargarProductos()
         {
@@ -54,11 +55,9 @@ namespace nikeproject.UserControls
             cbCategoria.ValueMember = "IdCategoria";
         }
 
-
-
+        // ================== GUARDAR ==================
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-
             if (ProductoData.ExisteCodigo(txtCodigo.Text.Trim()))
             {
                 MessageBox.Show("⚠️ Ya existe un producto con este código. Ingrese uno distinto.",
@@ -82,7 +81,6 @@ namespace nikeproject.UserControls
                     IdCategoria = (int)cbCategoria.SelectedValue
                 };
 
-
                 if (ProductoData.AgregarProducto(p))
                 {
                     MessageBox.Show("✅ Producto agregado correctamente");
@@ -100,7 +98,7 @@ namespace nikeproject.UserControls
             }
         }
 
-
+        // ================== EDITAR ==================
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (idProductoSeleccionado == 0)
@@ -109,121 +107,111 @@ namespace nikeproject.UserControls
                 return;
             }
 
-            Producto p = new Producto
+            try
             {
-                IdProducto = idProductoSeleccionado,
-                Codigo = txtCodigo.Text.Trim(),
-                Nombre = txtNombreProd.Text.Trim(),
-                Descripcion = txtDescripcion.Text.Trim(),
-                Stock = int.Parse(txtStock.Text),                        
-                PrecioCompra = decimal.Parse(txtPrecioCompra.Text),      
-                PrecioVenta = decimal.Parse(txtPrecioVenta.Text),
-                ImagenRuta = txtImagenRuta.Text.Trim(),
-                IdCategoria = (int)cbCategoria.SelectedValue
-            };
-
-            if (ProductoData.EditarProducto(p))
-            {
-                MessageBox.Show("✏️ Producto editado correctamente");
-                CargarProductos();
-                LimpiarCampos();
-            }
-            else
-            {
-                MessageBox.Show("❌ Error al editar producto");
-            }
-        }
-
-        private void dgvProductos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            foreach (DataGridViewRow row in dgvProductos.Rows)
-            {
-                if (row.DataBoundItem is Producto p)
+                Producto p = new Producto
                 {
-                    if (!p.Estado)
-                    {
-                        // Producto inactivo → rojo
-                        row.DefaultCellStyle.BackColor = Color.LightCoral;
-                        row.DefaultCellStyle.ForeColor = Color.White;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.White;
-                        row.DefaultCellStyle.ForeColor = Color.Black;
-                    }
+                    IdProducto = idProductoSeleccionado,
+                    Codigo = txtCodigo.Text.Trim(),
+                    Nombre = txtNombreProd.Text.Trim(),
+                    Descripcion = txtDescripcion.Text.Trim(),
+                    Stock = int.Parse(txtStock.Text),
+                    PrecioCompra = decimal.Parse(txtPrecioCompra.Text),
+                    PrecioVenta = decimal.Parse(txtPrecioVenta.Text),
+                    ImagenRuta = txtImagenRuta.Text.Trim(),
+                    IdCategoria = (int)cbCategoria.SelectedValue,
+                    Estado = estadoProductoSeleccionado // conserva el estado actual
+                };
+
+                if (ProductoData.EditarProducto(p))
+                {
+                    MessageBox.Show("✏️ Producto editado correctamente");
+                    CargarProductos();
+                    LimpiarCampos();
+                }
+                else
+                {
+                    MessageBox.Show("❌ Error al editar producto");
                 }
             }
-        }
-
-
-
-        private void btnCargarImagen_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            catch (Exception ex)
             {
-                ofd.Title = "Seleccionar imagen del producto";
-                ofd.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp";
-
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        // Validar que sea realmente una imagen
-                        using (Image img = Image.FromFile(ofd.FileName))
-                        {
-                            // Guardar ruta en el TextBox
-                            txtImagenRuta.Text = ofd.FileName;
-
-                            // Mostrar previsualización en pBImagenProducto
-                            pBImagenProducto.Image = (Image)img.Clone();
-                            pBImagenProducto.SizeMode = PictureBoxSizeMode.Zoom;
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("⚠️ El archivo seleccionado no es una imagen válida.",
-                                        "Error de imagen",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                    }
-                }
+                MessageBox.Show("⚠️ Error al editar: " + ex.Message);
             }
         }
 
+        // ================== FILTRO ==================
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string criterio = cbBusqueda.SelectedItem?.ToString() ?? "";
+            string valor = txtBusqueda.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(valor))
+            {
+                MessageBox.Show("⚠️ Ingrese un valor para buscar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            List<Producto> productos = ProductoData.ListarProductos();
+            List<Producto> filtrados = new List<Producto>();
+
+            switch (criterio)
+            {
+                case "Código":
+                    filtrados = productos
+                        .Where(p => p.Codigo != null && p.Codigo.ToLower().Contains(valor))
+                        .ToList();
+                    break;
+
+                case "Nombre":
+                    filtrados = productos
+                        .Where(p => p.Nombre != null && p.Nombre.ToLower().Contains(valor))
+                        .ToList();
+                    break;
+
+                case "Categoría":
+                    // si tu propiedad se llama CategoriaNombre, DescripcionCategoria, o similar,
+                    // ajustala en la siguiente línea:
+                    filtrados = productos
+                        .Where(p => p.CategoriaNombre != null && p.CategoriaNombre.ToLower().Contains(valor))
+                        .ToList();
+                    break;
+            }
+
+            dgvProductos.DataSource = null;
+            dgvProductos.DataSource = filtrados;
+
+            if (dgvProductos.Columns.Contains("Estado"))
+                dgvProductos.Columns["Estado"].Visible = false;
+        }
 
 
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtBusqueda.Text = "";
+            cbBusqueda.SelectedIndex = 0;
+            CargarProductos();
+        }
+
+        // ================== ELIMINAR / REACTIVAR ==================
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (idProductoSeleccionado > 0)
             {
                 ProductoData productoData = new ProductoData();
-
                 bool reactivar = (btnEliminar.Text == "Reactivar Producto");
 
-                string mensajeConfirmacion = reactivar
-                ? "¿Está seguro que desea reactivar este producto?"
-                : "¿Está seguro que desea dar de baja este producto?";
+                string mensaje = reactivar
+                    ? "¿Está seguro que desea reactivar este producto?"
+                    : "¿Está seguro que desea dar de baja este producto?";
 
-
-                if (MessageBox.Show(mensajeConfirmacion, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(mensaje, "Confirmar acción", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    bool resultado;
-
-                    if (reactivar)
-                    {
-                        resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, true); // activo
-                    }
-                    else
-                    {
-                        resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, false); // inactivo
-                    }
+                    bool resultado = productoData.CambiarEstadoProducto(idProductoSeleccionado, reactivar);
 
                     if (resultado)
                     {
-                        MessageBox.Show(reactivar
-                            ? "✅ Producto reactivado correctamente."
-                            : "✅ Producto dado de baja correctamente.");
-
+                        MessageBox.Show(reactivar ? "✅ Producto reactivado correctamente." : "✅ Producto dado de baja correctamente.");
                         CargarProductos();
                         LimpiarCampos();
                     }
@@ -235,68 +223,40 @@ namespace nikeproject.UserControls
             }
             else
             {
-                MessageBox.Show("⚠️ Seleccione un usuario.");
+                MessageBox.Show("⚠️ Seleccione un producto.");
             }
         }
 
-        private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvProductos.Columns[e.ColumnIndex].Name == "Estado") // columna Estado
-            {
-                var estado = dgvProductos.Rows[e.RowIndex].Cells["Estado"].Value;
-                if (estado != null && estado != DBNull.Value && !Convert.ToBoolean(estado))
-                {
-                    // Fila inactiva → rojo suave
-                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
-                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
-                }
-                else
-                {
-                    // Reset a valores por defecto (por si se reusa fila)
-                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
-                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                }
-            }
-        }
-
-
-        // Autocompletar campos al seleccionar de la grilla
+        // ================== EVENTOS GRILLA ==================
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            // Toma el objeto Producto que está enlazado a la fila
             var prod = dgvProductos.Rows[e.RowIndex].DataBoundItem as Producto;
             if (prod == null) return;
 
             idProductoSeleccionado = prod.IdProducto;
+            estadoProductoSeleccionado = prod.Estado; // guardamos el estado real
 
-            // Autocompleta campos
             txtCodigo.Text = prod.Codigo;
             txtNombreProd.Text = prod.Nombre;
             txtDescripcion.Text = prod.Descripcion;
             txtStock.Text = prod.Stock.ToString();
             txtPrecioCompra.Text = prod.PrecioCompra.ToString("0.##");
             txtPrecioVenta.Text = prod.PrecioVenta.ToString("0.##");
+            cbCategoria.SelectedValue = prod.IdCategoria;
 
-            // Estado
             if (prod.Estado)
             {
                 btnEliminar.Text = "Dar de Baja Producto";
-                btnEliminar.BackColor = Color.Firebrick; // rojo
+                btnEliminar.BackColor = Color.Firebrick;
             }
             else
             {
                 btnEliminar.Text = "Reactivar Producto";
-                btnEliminar.BackColor = Color.SeaGreen; // verde
+                btnEliminar.BackColor = Color.SeaGreen;
             }
 
-
-
-            // Categoría (usa el Id)
-            cbCategoria.SelectedValue = prod.IdCategoria;
-
-            // Imagen
             txtImagenRuta.Text = prod.ImagenRuta ?? "";
             if (!string.IsNullOrWhiteSpace(prod.ImagenRuta) && File.Exists(prod.ImagenRuta))
             {
@@ -309,27 +269,68 @@ namespace nikeproject.UserControls
             }
         }
 
-
-
+        // ================== AUXILIARES ==================
         private void LimpiarCampos()
         {
             idProductoSeleccionado = 0;
+            estadoProductoSeleccionado = true;
             txtCodigo.Text = "";
             txtNombreProd.Text = "";
             txtDescripcion.Text = "";
+            txtStock.Text = "";
+            txtPrecioCompra.Text = "";
             txtPrecioVenta.Text = "";
             txtImagenRuta.Text = "";
             pBImagenProducto.Image = null;
         }
 
-        private void lbCodigo_Click(object sender, EventArgs e)
+        private void btnCargarImagen_Click(object sender, EventArgs e)
         {
+            // Si ya tenías lógica para cargar imagen, podés mantenerla.
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Seleccionar imagen del producto";
+                ofd.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp";
 
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    txtImagenRuta.Text = ofd.FileName;
+                    pBImagenProducto.Image = Image.FromFile(ofd.FileName);
+                    pBImagenProducto.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+            }
         }
 
         private void txtImagenRuta_TextChanged(object sender, EventArgs e)
         {
-
+            // Este evento no es crítico, se puede dejar vacío o mostrar previsualización
         }
+
+        private void lbCodigo_Click(object sender, EventArgs e)
+        {
+            // Evento decorativo, puede dejarse vacío
+        }
+
+        private void dgvProductos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            // Resalta productos inactivos en color
+            foreach (DataGridViewRow row in dgvProductos.Rows)
+            {
+                if (row.DataBoundItem is Producto p)
+                {
+                    if (!p.Estado)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
     }
 }
