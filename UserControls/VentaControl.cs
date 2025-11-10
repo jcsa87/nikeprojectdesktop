@@ -83,7 +83,10 @@ namespace nikeproject.UserControls
 
             nudCantidad.Minimum = 1;
             nudCantidad.Value = 1;
-            nudCantidad.Maximum = p.Stock > 0 ? p.Stock : 1;
+
+            // --- CAMBIO AQUÍ ---
+            // Le ponemos un máximo muy alto.
+            nudCantidad.Maximum = 9999;
 
             if (p.Stock <= 0)
             {
@@ -118,21 +121,16 @@ namespace nikeproject.UserControls
                 return;
             }
 
-            if (!int.TryParse(txtStock.Text, out int stockActual) || stockActual <= 0)
-            {
-                MessageBox.Show("No hay stock disponible para este producto.", "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // --- LÓGICA DE VALIDACIÓN MEJORADA ---
 
-            int cantidad = (int)nudCantidad.Value;
-            if (cantidad <= 0)
+            int stockReal = ProductoData.ObtenerStock(_idProducto);
+            int cantidadDeseada = (int)nudCantidad.Value;
+
+            if (cantidadDeseada <= 0)
             {
                 MessageBox.Show("La cantidad debe ser mayor que cero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            decimal precio = decimal.Parse(txtPrecio.Text);
-            decimal subTotal = precio * cantidad;
 
             // Verificar si el producto ya existe en la grilla
             foreach (DataGridViewRow row in dgvDetalle.Rows)
@@ -143,37 +141,54 @@ namespace nikeproject.UserControls
                 if (idExistente == _idProducto)
                 {
                     int cantidadActual = Convert.ToInt32(row.Cells["colCantidad"].Value);
-                    int nuevaCantidad = cantidadActual + cantidad;
+                    int nuevaCantidadTotal = cantidadActual + cantidadDeseada;
 
-                    int stockReal = ProductoData.ObtenerStock(_idProducto);
-                    if (nuevaCantidad > stockReal)
+                    // Validamos si la SUMA supera el stock real
+                    if (nuevaCantidadTotal > stockReal)
                     {
-                        MessageBox.Show($"Stock insuficiente. Disponible: {stockReal}, intentando agregar {nuevaCantidad}.",
+                        MessageBox.Show($"Stock insuficiente. Ya tiene {cantidadActual} en el carrito y solo quedan {stockReal} en total.",
                                         "Stock insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    row.Cells["colCantidad"].Value = nuevaCantidad;
-                    row.Cells["colSubTotal"].Value = (nuevaCantidad * precio).ToString("0.00");
+                    // Si pasa la validación, actualizamos
+                    decimal precio = decimal.Parse(txtPrecio.Text);
+                    row.Cells["colCantidad"].Value = nuevaCantidadTotal;
+                    row.Cells["colSubTotal"].Value = (nuevaCantidadTotal * precio).ToString("0.00");
+
                     RecalcularTotales();
                     ActualizarStockVisual();
                     return;
                 }
             }
 
-            // Si no estaba en la grilla, agregamos nueva fila
+            // --- VALIDACIÓN PARA PRODUCTOS NUEVOS (la que faltaba) ---
+            // Si llegamos aquí, es un producto nuevo en el carrito.
+            if (cantidadDeseada > stockReal)
+            {
+                MessageBox.Show($"No hay stock suficiente. Solo quedan {stockReal} unidades.",
+                                "Stock Insuficiente",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return; // Detiene la acción
+            }
+
+            // Si pasa, lo agregamos
+            decimal precioNuevo = decimal.Parse(txtPrecio.Text);
+            decimal subTotalNuevo = precioNuevo * cantidadDeseada;
+
             int rowIndex = dgvDetalle.Rows.Add();
             DataGridViewRow nuevaFila = dgvDetalle.Rows[rowIndex];
             nuevaFila.Cells["colIdProducto"].Value = _idProducto;
             nuevaFila.Cells["colProducto"].Value = txtNombreProd.Text;
-            nuevaFila.Cells["colPrecio"].Value = precio.ToString("0.00");
-            nuevaFila.Cells["colCantidad"].Value = cantidad;
-            nuevaFila.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
+            nuevaFila.Cells["colPrecio"].Value = precioNuevo.ToString("0.00");
+            nuevaFila.Cells["colCantidad"].Value = cantidadDeseada;
+            nuevaFila.Cells["colSubTotal"].Value = subTotalNuevo.ToString("0.00");
 
             RecalcularTotales();
             ActualizarStockVisual();
         }
-
+        // CÓDIGO CORREGIDO
         private void ActualizarStockVisual()
         {
             if (_idProducto == 0) return;
@@ -194,7 +209,8 @@ namespace nikeproject.UserControls
             txtStock.Text = disponible.ToString();
             txtStock.BackColor = disponible <= 0 ? Color.LightCoral : Color.White;
             btnAgregar.Enabled = disponible > 0;
-            nudCantidad.Maximum = disponible > 0 ? disponible : 1;
+
+            // nudCantidad.Maximum = disponible > 0 ? disponible : 1; // ✅ ¡Línea eliminada!
         }
 
         // =====================================================
@@ -422,7 +438,9 @@ namespace nikeproject.UserControls
                     txtStock.Text = ev.Stock.ToString();
 
                     nudCantidad.Value = 1;
-                    nudCantidad.Maximum = ev.Stock > 0 ? ev.Stock : 1;
+
+                    // --- CAMBIO AQUÍ ---
+                    nudCantidad.Maximum = 9999; // Ponemos un máximo alto
 
                     if (!string.IsNullOrEmpty(ev.RutaImagen) && File.Exists(ev.RutaImagen))
                     {

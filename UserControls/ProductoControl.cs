@@ -58,6 +58,11 @@ namespace nikeproject.UserControls
         // ================== GUARDAR ==================
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if (!ValidarCamposProducto(out int stock, out decimal precioCompra, out decimal precioVenta))
+            {
+                return; // Detiene el guardado si la validación falla
+            }
+
             if (ProductoData.ExisteCodigo(txtCodigo.Text.Trim()))
             {
                 MessageBox.Show("⚠️ Ya existe un producto con este código. Ingrese uno distinto.",
@@ -105,6 +110,11 @@ namespace nikeproject.UserControls
             {
                 MessageBox.Show("⚠️ Seleccione un producto primero.");
                 return;
+            }
+
+            if (!ValidarCamposProducto(out int stock, out decimal precioCompra, out decimal precioVenta))
+            {
+                return; // Detiene el guardado si la validación falla
             }
 
             try
@@ -183,7 +193,34 @@ namespace nikeproject.UserControls
                 dgvProductos.Columns["Estado"].Visible = false;
         }
 
+        // Para Stock (solo números enteros)
+        private void txtNumerico_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea la tecla
+            }
+        }
 
+        // Para Precios (números y una coma)
+        private void txtDecimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite números y teclas de control (borrar)
+            if (char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            // Permite UNA coma (o punto, y la convierte en coma)
+            TextBox textBox = (TextBox)sender;
+            if ((e.KeyChar == ',' || e.KeyChar == '.') && !textBox.Text.Contains(","))
+            {
+                e.KeyChar = ','; // Estandariza a coma
+                return;
+            }
+
+            e.Handled = true; // Bloquea todo lo demás
+        }
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtBusqueda.Text = "";
@@ -409,6 +446,62 @@ namespace nikeproject.UserControls
             // No hay 'else' para Administrador, él puede hacer todo por defecto.
         }
 
+        // --- PEGA ESTE MÉTODO NUEVO EN CUALQUIER LUGAR DE TU CLASE ---
+
+        private bool ValidarCamposProducto(out int stock, out decimal precioCompra, out decimal precioVenta)
+        {
+            stock = 0;
+            precioCompra = 0;
+            precioVenta = 0;
+
+            // 1. Validar campos de texto vacíos
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text)) // Reemplaza txtCodigo si se llama distinto
+            {
+                MessageBox.Show("El campo 'Código' no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCodigo.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtNombreProd.Text)) // Reemplaza txtNombreProd si se llama distinto
+            {
+                MessageBox.Show("El campo 'Nombre' no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreProd.Focus();
+                return false;
+            }
+
+            // 2. Validar Stock (que no esté vacío, sea número, y no sea negativo)
+            if (!int.TryParse(txtStock.Text, out stock) || stock < 0)
+            {
+                MessageBox.Show("El Stock debe ser un número entero válido y no puede ser negativo.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtStock.Focus();
+                return false;
+            }
+
+            // 3. Validar Precio de Compra (que no esté vacío y sea mayor a 0)
+            if (!decimal.TryParse(txtPrecioCompra.Text.Replace(".", ","), out precioCompra) || precioCompra <= 0)
+            {
+                MessageBox.Show("El Precio de Compra debe ser un número válido y mayor a cero.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrecioCompra.Focus();
+                return false;
+            }
+
+            // 4. Validar Precio de Venta (que no esté vacío y sea mayor a 0)
+            if (!decimal.TryParse(txtPrecioVenta.Text.Replace(".", ","), out precioVenta) || precioVenta <= 0)
+            {
+                MessageBox.Show("El Precio de Venta debe ser un número válido y mayor a cero.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrecioVenta.Focus();
+                return false;
+            }
+
+            // 5. Lógica de negocio: Precio Venta > Precio Compra
+            if (precioVenta <= precioCompra)
+            {
+                MessageBox.Show("El Precio de Venta debe ser mayor que el Precio de Compra.", "Error de Lógica", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrecioVenta.Focus();
+                return false;
+            }
+
+            return true; // Si todo está bien
+        }
 
     }
 }
