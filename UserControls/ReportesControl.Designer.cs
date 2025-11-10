@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
+using nikeproject.Models; // para usar SesionUsuario y RolUsuario
 
 namespace nikeproject.UserControls
 {
@@ -41,6 +42,7 @@ namespace nikeproject.UserControls
             btnAplicar = new Button();
             btnReset = new Button();
             lblLeyenda = new Label();
+            chkIncluirAnuladas = new CheckBox(); // Nuevo checkbox
             chartPrincipal = new System.Windows.Forms.DataVisualization.Charting.Chart();
 
             tableLayoutPanel1.SuspendLayout();
@@ -136,10 +138,21 @@ namespace nikeproject.UserControls
             lblLeyenda.Location = new Point(1000, 27);
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
 
+            // ===== Nuevo CheckBox: Incluir ventas anuladas =====
+            chkIncluirAnuladas.Text = "Incluir ventas anuladas";
+            chkIncluirAnuladas.AutoSize = true;
+            chkIncluirAnuladas.Location = new Point(1020, 50);
+            chkIncluirAnuladas.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            chkIncluirAnuladas.ForeColor = Color.Black;
+            chkIncluirAnuladas.Checked = false;
+            chkIncluirAnuladas.Visible =
+                SesionUsuario.Rol == RolUsuario.Administrador ||
+                SesionUsuario.Rol == RolUsuario.Supervisor;
+
             pnlFiltros.Controls.AddRange(new Control[]
             {
                 lblTipoReporte, cbReporte, lblDesde, dtpDesde,
-                lblHasta, dtpHasta, btnAplicar, btnReset, lblLeyenda
+                lblHasta, dtpHasta, btnAplicar, btnReset, lblLeyenda, chkIncluirAnuladas
             });
 
             // ========================= CHART =========================
@@ -287,5 +300,8 @@ namespace nikeproject.UserControls
         private Panel pnlVentas, pnlVariacion, pnlStock, pnlClientes;
         private Label lblVentasTitulo, lblVentasValor, lblVariacionTitulo, lblVariacionValor;
         private Label lblStockTitulo, lblStockValor, lblClientesTitulo, lblClientesValor;
+
+        // 🔹 Nuevo checkbox
+        private CheckBox chkIncluirAnuladas;
     }
 }
