@@ -105,6 +105,9 @@ namespace nikeproject.Forms
                 dgvDetalleFactura.AutoGenerateColumns = false;
                 dgvDetalleFactura.Columns.Clear();
 
+                lblNumeroFacturaValor.Text = venta.IdVenta.ToString("000000");
+
+
                 dgvDetalleFactura.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "NombreProducto",
@@ -285,7 +288,6 @@ namespace nikeproject.Forms
 
         private void printDocument_Profesional_PrintPage(object sender, PrintPageEventArgs e)
         {
-            // Traemos los datos reales desde la BD
             var venta = VentaData.ObtenerVentaPorId(_idVenta);
             var detalles = DetalleVentaData.ListarPorVenta(_idVenta);
 
@@ -311,6 +313,8 @@ namespace nikeproject.Forms
             g.DrawString("FACTURA", fWater, new SolidBrush(Color.FromArgb(30, 0, 0, 0)),
                 new RectangleF(right - 250, top - 20, 250, 60),
                 new StringFormat { Alignment = StringAlignment.Far });
+
+            g.DrawString($"N°: {venta.IdVenta:000000}", fSub, Brushes.Black, right - 250, top + 10);
 
             g.DrawString("Nike Corrientes", fTitulo, Brushes.Black, left + 110, top + 10);
             g.DrawString("Calzado y ropa deportiva", fText, Brushes.Gray, left + 110, top + 38);
@@ -351,37 +355,42 @@ namespace nikeproject.Forms
                 string nombre = d.NombreProducto;
                 string cant = d.Cantidad.ToString();
                 string precio = $"{d.PrecioUnitario:C2}";
-                string subtotal = $"{d.SubTotal:C2}";
+                string subtotalTexto = $"{d.SubTotal:C2}";
 
                 g.DrawRectangle(pen, left, y, ancho, 20);
                 g.DrawString(nombre, fText, Brushes.Black, left + 5, y + 4);
                 g.DrawString(cant, fText, Brushes.Black, right - 270, y + 4);
                 g.DrawString(precio, fText, Brushes.Black, right - 180, y + 4);
-                g.DrawString(subtotal, fText, Brushes.Black, right - 80, y + 4);
+                g.DrawString(subtotalTexto, fText, Brushes.Black, right - 80, y + 4);
                 y += 20;
             }
+
 
             y += 20;
 
             // === TOTALES ===
-            decimal total = venta.MontoTotal;
-            decimal iva = Math.Round(total * 0.21m, 2);
+            decimal subtotal = 0m;
 
+            // Sumamos los subtotales directamente desde la lista de detalles
+            foreach (var d in detalles)
+                subtotal += d.SubTotal;
+
+            decimal iva = Math.Round(subtotal * 0.21m, 2);
+            decimal totalFinal = subtotal + iva;
+
+            // Dibujamos los valores
             g.DrawString("Subtotal:", fSub, Brushes.Black, right - 200, y);
-            g.DrawString($"{total:C2}", fSub, Brushes.Black, right - 80, y);
+            g.DrawString($"{subtotal:C2}", fSub, Brushes.Black, right - 80, y);
             y += 20;
-            g.DrawString($"IVA (21%):", fSub, Brushes.Black, right - 200, y);
+
+            g.DrawString("IVA (21%):", fSub, Brushes.Black, right - 200, y);
             g.DrawString($"{iva:C2}", fSub, Brushes.Black, right - 80, y);
             y += 20;
+
             g.DrawString("TOTAL:", new Font("Segoe UI", 10, FontStyle.Bold), Brushes.Black, right - 200, y);
-            g.DrawString($"{(total + iva):C2}", new Font("Segoe UI", 10, FontStyle.Bold), Brushes.Black, right - 80, y);
+            g.DrawString($"{totalFinal:C2}", new Font("Segoe UI", 10, FontStyle.Bold), Brushes.Black, right - 80, y);
             y += 40;
 
-            // === PIE ===
-            g.DrawString("Gracias por su compra.", fText, Brushes.Gray, left, y);
-            g.DrawString("Nike Corrientes — www.nikeproject.com", fText, Brushes.Gray, right - 300, y);
-
-            e.HasMorePages = false;
         }
 
         private void btnVistaPrevia_Click(object sender, EventArgs e)
