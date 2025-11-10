@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -22,7 +23,7 @@ namespace nikeproject.UserControls
             InicializarFiltros();
             GenerarReportePorDefecto();
 
-            // Suscribimos el evento Paint
+            // Evento para texto cuando no hay datos
             chartPrincipal.Paint += chartPrincipal_Paint;
         }
 
@@ -85,7 +86,7 @@ namespace nikeproject.UserControls
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
         }
 
-        // ========================= INDICADORES SUPERIORES =========================
+        // ========================= INDICADORES =========================
         private void CargarIndicadores()
         {
             decimal ventasActual = ObtenerDecimal(@"
@@ -107,14 +108,31 @@ namespace nikeproject.UserControls
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now:MMMM})";
-            lblVentasValor.Text = $"${ventasActual:N0}";
-            lblVariacionTitulo.Text = "Variación (vs mes anterior)";
-            lblVariacionValor.Text = $"{variacion:N1}%";
-            lblStockTitulo.Text = "Artículos sin stock";
-            lblStockValor.Text = productosSinStock.ToString();
-            lblClientesValor.Text = clientesActivos.ToString();
-            lblVariacionValor.ForeColor = variacion >= 0 ? Color.ForestGreen : Color.Firebrick;
+            // Buscar tarjetas por título
+            ActualizarTarjeta("Ventas mes", $"${ventasActual:N0}", Color.Black);
+            ActualizarTarjeta("Variación", $"{variacion:N1}%", variacion >= 0 ? Color.ForestGreen : Color.Firebrick);
+            ActualizarTarjeta("Artículos sin stock", productosSinStock.ToString(), Color.Firebrick);
+            ActualizarTarjeta("Clientes activos", clientesActivos.ToString(), Color.Black);
+        }
+
+        private void ActualizarTarjeta(string tituloContiene, string nuevoValor, Color color)
+        {
+            foreach (Panel p in flowIndicadores.Controls.OfType<Panel>())
+            {
+                // Encuentra el Label de título
+                var lblTitulo = p.Controls.OfType<Label>().FirstOrDefault(l => l.ForeColor == Color.DimGray);
+                var lblValor = p.Controls.OfType<Label>().FirstOrDefault(l => l.Font.Size >= 13);
+
+                if (lblTitulo != null && lblTitulo.Text.Contains(tituloContiene, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (lblValor != null)
+                    {
+                        lblValor.Text = nuevoValor;
+                        lblValor.ForeColor = color;
+                    }
+                    break;
+                }
+            }
         }
 
         // ========================= REPORTES =========================
@@ -138,8 +156,10 @@ namespace nikeproject.UserControls
             chartPrincipal.Series.Clear();
             chartPrincipal.Annotations.Clear();
             chartPrincipal.Legends.Clear();
+
             if (chartPrincipal.Titles.Count == 0)
                 chartPrincipal.Titles.Add("Gráfico de Reportes");
+
             chartPrincipal.Titles[0].Text = "Gráfico de Reportes";
 
             // === Serie principal ===
@@ -147,7 +167,7 @@ namespace nikeproject.UserControls
             {
                 BorderWidth = 3,
                 ChartArea = "MainArea",
-                Legend = "Legend1" // 👈 nombre fijo
+                Legend = "Legend1"
             };
             chartPrincipal.Series.Add(serie);
 
@@ -181,31 +201,31 @@ namespace nikeproject.UserControls
             string query = tipo switch
             {
                 "Ventas por mes" => @"
-            SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
-                   SUM(MontoTotal) AS Total
-            FROM VENTA
-            WHERE FechaRegistro >= @Desde 
-              AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-            GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
-            ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
+                    SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
+                           SUM(MontoTotal) AS Total
+                    FROM VENTA
+                    WHERE FechaRegistro >= @Desde 
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
+                    GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
+                    ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
 
                 "Top 5 productos más vendidos" => @"
-            SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
-            FROM DETALLE_VENTA dv
-            INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
-            INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
-            WHERE v.FechaRegistro >= @Desde 
-              AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
-            GROUP BY p.Nombre
-            ORDER BY TotalVendidos DESC;",
+                    SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
+                    FROM DETALLE_VENTA dv
+                    INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
+                    INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
+                    WHERE v.FechaRegistro >= @Desde 
+                      AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
+                    GROUP BY p.Nombre
+                    ORDER BY TotalVendidos DESC;",
 
                 "Ingresos diarios" => @"
-            SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
-            FROM VENTA
-            WHERE FechaRegistro >= @Desde 
-              AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-            GROUP BY CAST(FechaRegistro AS DATE)
-            ORDER BY Dia;",
+                    SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
+                    FROM VENTA
+                    WHERE FechaRegistro >= @Desde 
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
+                    GROUP BY CAST(FechaRegistro AS DATE)
+                    ORDER BY Dia;",
                 _ => ""
             };
 
@@ -260,7 +280,6 @@ namespace nikeproject.UserControls
             ActualizarTituloGrafico(desde, hasta);
             chartPrincipal.Invalidate();
         }
-
 
         // ========================= DIBUJO DEL TEXTO CUANDO NO HAY DATOS =========================
         private void chartPrincipal_Paint(object sender, PaintEventArgs e)

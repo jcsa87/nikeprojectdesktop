@@ -1,10 +1,9 @@
-﻿namespace nikeproject.UserControls
+﻿using System.Drawing.Drawing2D;
+
+namespace nikeproject.UserControls
 {
     partial class ReportesControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -18,23 +17,14 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new();
+
             tableLayoutPanel1 = new TableLayoutPanel();
+            panelHeader = new Panel();
+            lblTituloPrincipal = new Label();
             flowIndicadores = new FlowLayoutPanel();
-            pnlVentas = new Panel();
-            lblVentasTitulo = new Label();
-            lblVentasValor = new Label();
-            pnlVariacion = new Panel();
-            lblVariacionTitulo = new Label();
-            lblVariacionValor = new Label();
-            pnlStock = new Panel();
-            lblStockTitulo = new Label();
-            lblStockValor = new Label();
-            pnlClientes = new Panel();
-            lblClientesTitulo = new Label();
-            lblClientesValor = new Label();
             pnlFiltros = new Panel();
             lblTipoReporte = new Label();
             cbReporte = new ComboBox();
@@ -48,11 +38,7 @@
             chartPrincipal = new System.Windows.Forms.DataVisualization.Charting.Chart();
 
             tableLayoutPanel1.SuspendLayout();
-            flowIndicadores.SuspendLayout();
-            pnlVentas.SuspendLayout();
-            pnlVariacion.SuspendLayout();
-            pnlStock.SuspendLayout();
-            pnlClientes.SuspendLayout();
+            panelHeader.SuspendLayout();
             pnlFiltros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(chartPrincipal)).BeginInit();
             SuspendLayout();
@@ -60,159 +46,93 @@
             // ========================= TABLELAYOUT PRINCIPAL =========================
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));  // Indicadores
+            tableLayoutPanel1.RowCount = 4;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));   // Encabezado
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 130F));  // Tarjetas
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));   // Filtros
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));   // Gráfico
+            tableLayoutPanel1.BackColor = Color.FromArgb(243, 244, 246);
 
-            // ========================= INDICADORES =========================
+            // ========================= ENCABEZADO =========================
+            panelHeader.Dock = DockStyle.Fill;
+            panelHeader.BackColor = Color.White;
+            panelHeader.Padding = new Padding(25, 15, 25, 5);
+
+            lblTituloPrincipal.Text = "📊 Panel de Reportes y Estadísticas";
+            lblTituloPrincipal.Font = new Font("Segoe UI Semibold", 14F);
+            lblTituloPrincipal.ForeColor = Color.FromArgb(50, 50, 50);
+            lblTituloPrincipal.Dock = DockStyle.Fill;
+            lblTituloPrincipal.TextAlign = ContentAlignment.MiddleLeft;
+
+            panelHeader.Controls.Add(lblTituloPrincipal);
+
+            // ========================= TARJETAS =========================
             flowIndicadores.Dock = DockStyle.Fill;
             flowIndicadores.FlowDirection = FlowDirection.LeftToRight;
             flowIndicadores.WrapContents = true;
-            flowIndicadores.Padding = new Padding(10);
-            flowIndicadores.BackColor = Color.White;
+            flowIndicadores.Padding = new Padding(25, 10, 25, 10);
+            flowIndicadores.BackColor = Color.WhiteSmoke;
 
-            // Panel Ventas
-            pnlVentas.BackColor = Color.WhiteSmoke;
-            pnlVentas.Size = new Size(250, 80);
-            pnlVentas.Margin = new Padding(20);
-            pnlVentas.BorderStyle = BorderStyle.FixedSingle;
+            flowIndicadores.Controls.Add(CrearTarjeta("📊", "Ventas mes (noviembre)", "$0", Color.Black));
+            flowIndicadores.Controls.Add(CrearTarjeta("📈", "Variación (vs mes anterior)", "0%", Color.ForestGreen));
+            flowIndicadores.Controls.Add(CrearTarjeta("⚠️", "Artículos sin stock", "0", Color.Firebrick));
+            flowIndicadores.Controls.Add(CrearTarjeta("👥", "Clientes activos", "0", Color.Black));
 
-            lblVentasTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblVentasTitulo.Text = "Ventas mes";
-            lblVentasTitulo.AutoSize = true;
-            lblVentasTitulo.Location = new Point(15, 8);
-
-            lblVentasValor.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblVentasValor.AutoSize = true;
-            lblVentasValor.Text = "$0";
-            lblVentasValor.Location = new Point(15, 33);
-
-            pnlVentas.Controls.Add(lblVentasTitulo);
-            pnlVentas.Controls.Add(lblVentasValor);
-
-            // Panel Variación
-            pnlVariacion.BackColor = Color.WhiteSmoke;
-            pnlVariacion.Size = new Size(250, 80);
-            pnlVariacion.Margin = new Padding(20);
-            pnlVariacion.BorderStyle = BorderStyle.FixedSingle;
-
-            lblVariacionTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblVariacionTitulo.Text = "Variación (vs mes anterior)";
-            lblVariacionTitulo.AutoSize = true;
-            lblVariacionTitulo.Location = new Point(15, 8);
-
-            lblVariacionValor.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblVariacionValor.ForeColor = Color.ForestGreen;
-            lblVariacionValor.AutoSize = true;
-            lblVariacionValor.Text = "0%";
-            lblVariacionValor.Location = new Point(15, 33);
-
-            pnlVariacion.Controls.Add(lblVariacionTitulo);
-            pnlVariacion.Controls.Add(lblVariacionValor);
-
-            // Panel Stock
-            pnlStock.BackColor = Color.WhiteSmoke;
-            pnlStock.Size = new Size(250, 80);
-            pnlStock.Margin = new Padding(20);
-            pnlStock.BorderStyle = BorderStyle.FixedSingle;
-
-            lblStockTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblStockTitulo.Text = "Artículos sin stock";
-            lblStockTitulo.AutoSize = true;
-            lblStockTitulo.Location = new Point(15, 8);
-
-            lblStockValor.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblStockValor.ForeColor = Color.Firebrick;
-            lblStockValor.AutoSize = true;
-            lblStockValor.Text = "0";
-            lblStockValor.Location = new Point(15, 33);
-
-            pnlStock.Controls.Add(lblStockTitulo);
-            pnlStock.Controls.Add(lblStockValor);
-
-            // Panel Clientes
-            pnlClientes.BackColor = Color.WhiteSmoke;
-            pnlClientes.Size = new Size(250, 80);
-            pnlClientes.Margin = new Padding(20);
-            pnlClientes.BorderStyle = BorderStyle.FixedSingle;
-
-            lblClientesTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblClientesTitulo.Text = "Clientes activos";
-            lblClientesTitulo.AutoSize = true;
-            lblClientesTitulo.Location = new Point(15, 8);
-
-            lblClientesValor.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblClientesValor.AutoSize = true;
-            lblClientesValor.Text = "0";
-            lblClientesValor.Location = new Point(15, 33);
-
-            pnlClientes.Controls.Add(lblClientesTitulo);
-            pnlClientes.Controls.Add(lblClientesValor);
-
-            // Añadir paneles al flow
-            flowIndicadores.Controls.Add(pnlVentas);
-            flowIndicadores.Controls.Add(pnlVariacion);
-            flowIndicadores.Controls.Add(pnlStock);
-            flowIndicadores.Controls.Add(pnlClientes);
-
-            // ========================= PANEL FILTROS =========================
+            // ========================= FILTROS =========================
             pnlFiltros.Dock = DockStyle.Fill;
             pnlFiltros.BackColor = Color.WhiteSmoke;
 
             lblTipoReporte.Text = "Tipo de reporte:";
+            lblTipoReporte.Location = new Point(25, 25);
             lblTipoReporte.AutoSize = true;
-            lblTipoReporte.Location = new Point(20, 18);
 
             cbReporte.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbReporte.Location = new Point(130, 15);
+            cbReporte.Location = new Point(130, 22);
             cbReporte.Size = new Size(200, 28);
 
             lblDesde.Text = "Desde:";
+            lblDesde.Location = new Point(360, 25);
             lblDesde.AutoSize = true;
-            lblDesde.Location = new Point(360, 18);
 
-            dtpDesde.Location = new Point(410, 15);
+            dtpDesde.Location = new Point(410, 22);
             dtpDesde.Size = new Size(150, 27);
 
             lblHasta.Text = "Hasta:";
+            lblHasta.Location = new Point(580, 25);
             lblHasta.AutoSize = true;
-            lblHasta.Location = new Point(580, 18);
 
-            dtpHasta.Location = new Point(630, 15);
+            dtpHasta.Location = new Point(630, 22);
             dtpHasta.Size = new Size(150, 27);
 
             btnAplicar.Text = "Aplicar";
-            btnAplicar.BackColor = Color.DodgerBlue;
+            btnAplicar.BackColor = Color.FromArgb(0, 120, 215);
             btnAplicar.ForeColor = Color.White;
             btnAplicar.FlatStyle = FlatStyle.Flat;
-            btnAplicar.Location = new Point(800, 15);
-            btnAplicar.Size = new Size(85, 30);
+            btnAplicar.FlatAppearance.BorderSize = 0;
+            btnAplicar.Location = new Point(800, 20);
+            btnAplicar.Size = new Size(90, 32);
             btnAplicar.Click += btnAplicar_Click;
 
             btnReset.Text = "Resetear";
-            btnReset.BackColor = Color.Gray;
+            btnReset.BackColor = Color.FromArgb(80, 80, 80);
             btnReset.ForeColor = Color.White;
             btnReset.FlatStyle = FlatStyle.Flat;
-            btnReset.Location = new Point(895, 15);
-            btnReset.Size = new Size(85, 30);
+            btnReset.FlatAppearance.BorderSize = 0;
+            btnReset.Location = new Point(900, 20);
+            btnReset.Size = new Size(90, 32);
             btnReset.Click += btnReset_Click;
 
             lblLeyenda.AutoSize = true;
             lblLeyenda.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
             lblLeyenda.ForeColor = Color.DimGray;
-            lblLeyenda.Location = new Point(1000, 22);
+            lblLeyenda.Location = new Point(1000, 27);
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
 
-            pnlFiltros.Controls.Add(lblTipoReporte);
-            pnlFiltros.Controls.Add(cbReporte);
-            pnlFiltros.Controls.Add(lblDesde);
-            pnlFiltros.Controls.Add(dtpDesde);
-            pnlFiltros.Controls.Add(lblHasta);
-            pnlFiltros.Controls.Add(dtpHasta);
-            pnlFiltros.Controls.Add(btnAplicar);
-            pnlFiltros.Controls.Add(btnReset);
-            pnlFiltros.Controls.Add(lblLeyenda);
+            pnlFiltros.Controls.AddRange(new Control[]
+            {
+                lblTipoReporte, cbReporte, lblDesde, dtpDesde,
+                lblHasta, dtpHasta, btnAplicar, btnReset, lblLeyenda
+            });
 
             // ========================= CHART =========================
             chartPrincipal.Dock = DockStyle.Fill;
@@ -224,7 +144,7 @@
             chartArea1.AxisY.MajorGrid.LineColor = Color.LightGray;
             chartPrincipal.ChartAreas.Add(chartArea1);
 
-            legend1.Name = "Legend1"; // 👈 nombre fijo
+            legend1.Name = "Legend1";
             chartPrincipal.Legends.Add(legend1);
 
             series1.ChartArea = "MainArea";
@@ -233,47 +153,118 @@
             chartPrincipal.Series.Add(series1);
 
             // ========================= ENSAMBLADO =========================
-            tableLayoutPanel1.Controls.Add(flowIndicadores, 0, 0); // 🔼 Tarjetas arriba
-            tableLayoutPanel1.Controls.Add(pnlFiltros, 0, 1);      // 🔽 Filtros abajo
-            tableLayoutPanel1.Controls.Add(chartPrincipal, 0, 2);
+            tableLayoutPanel1.Controls.Add(panelHeader, 0, 0);
+            tableLayoutPanel1.Controls.Add(flowIndicadores, 0, 1);
+            tableLayoutPanel1.Controls.Add(pnlFiltros, 0, 2);
+            tableLayoutPanel1.Controls.Add(chartPrincipal, 0, 3);
 
             Controls.Add(tableLayoutPanel1);
-            BackColor = Color.WhiteSmoke;
+            BackColor = Color.FromArgb(243, 244, 246);
             Name = "ReportesControl";
             Size = new Size(1600, 850);
 
             tableLayoutPanel1.ResumeLayout(false);
-            flowIndicadores.ResumeLayout(false);
-            pnlVentas.ResumeLayout(false);
-            pnlVentas.PerformLayout();
-            pnlVariacion.ResumeLayout(false);
-            pnlVariacion.PerformLayout();
-            pnlStock.ResumeLayout(false);
-            pnlStock.PerformLayout();
-            pnlClientes.ResumeLayout(false);
-            pnlClientes.PerformLayout();
+            panelHeader.ResumeLayout(false);
             pnlFiltros.ResumeLayout(false);
             pnlFiltros.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(chartPrincipal)).EndInit();
             ResumeLayout(false);
         }
 
+        // ========================= TARJETAS =========================
+        private Panel CrearTarjeta(string icono, string titulo, string valor, Color colorTexto)
+        {
+            Panel panel = new Panel
+            {
+                BackColor = Color.White,
+                Size = new Size(280, 90),
+                Margin = new Padding(15),
+                BorderStyle = BorderStyle.None
+            };
+            panel.Paint += Panel_PaintShadow;
+
+            TableLayoutPanel layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 2,
+                Padding = new Padding(10)
+            };
+
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 45F)); // ícono más separado
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            Label lblIcon = new Label
+            {
+                Text = icono,
+                Font = new Font("Segoe UI Emoji", 24F),
+                ForeColor = Color.Gray,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            Label lblTitulo = new Label
+            {
+                Text = titulo,
+                Font = new Font("Segoe UI Semibold", 9F),
+                ForeColor = Color.DimGray,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.BottomLeft,
+                AutoEllipsis = true
+            };
+
+            Label lblValor = new Label
+            {
+                Text = valor,
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+                ForeColor = colorTexto,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.TopLeft
+            };
+
+            layout.Controls.Add(lblIcon, 0, 0);
+            layout.SetRowSpan(lblIcon, 2);
+            layout.Controls.Add(lblTitulo, 1, 0);
+            layout.Controls.Add(lblValor, 1, 1);
+
+            panel.Controls.Add(layout);
+            return panel;
+        }
+
+        private void Panel_PaintShadow(object sender, PaintEventArgs e)
+        {
+            var rect = ((Panel)sender).ClientRectangle;
+            rect.Inflate(-1, -1);
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            using (var path = RoundedRect(rect, 8))
+            using (var pen = new Pen(Color.Gainsboro, 2))
+            {
+                e.Graphics.FillPath(Brushes.White, path);
+                e.Graphics.DrawPath(pen, path);
+            }
+        }
+
+        private static GraphicsPath RoundedRect(Rectangle bounds, int radius)
+        {
+            int d = radius * 2;
+            var path = new GraphicsPath();
+            path.AddArc(bounds.X, bounds.Y, d, d, 180, 90);
+            path.AddArc(bounds.Right - d, bounds.Y, d, d, 270, 90);
+            path.AddArc(bounds.Right - d, bounds.Bottom - d, d, d, 0, 90);
+            path.AddArc(bounds.X, bounds.Bottom - d, d, d, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
+
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
+        private Panel panelHeader;
+        private Label lblTituloPrincipal;
         private FlowLayoutPanel flowIndicadores;
-        private Panel pnlVentas;
-        private Label lblVentasTitulo;
-        private Label lblVentasValor;
-        private Panel pnlVariacion;
-        private Label lblVariacionTitulo;
-        private Label lblVariacionValor;
-        private Panel pnlStock;
-        private Label lblStockTitulo;
-        private Label lblStockValor;
-        private Panel pnlClientes;
-        private Label lblClientesTitulo;
-        private Label lblClientesValor;
         private Panel pnlFiltros;
         private Label lblTipoReporte;
         private ComboBox cbReporte;
