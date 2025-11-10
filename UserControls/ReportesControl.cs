@@ -137,14 +137,17 @@ namespace nikeproject.UserControls
         {
             chartPrincipal.Series.Clear();
             chartPrincipal.Annotations.Clear();
+            chartPrincipal.Legends.Clear();
             if (chartPrincipal.Titles.Count == 0)
                 chartPrincipal.Titles.Add("Gráfico de Reportes");
             chartPrincipal.Titles[0].Text = "Gráfico de Reportes";
 
+            // === Serie principal ===
             Series serie = new Series("Datos")
             {
                 BorderWidth = 3,
-                ChartArea = "MainArea"
+                ChartArea = "MainArea",
+                Legend = "Legend1" // 👈 nombre fijo
             };
             chartPrincipal.Series.Add(serie);
 
@@ -155,6 +158,7 @@ namespace nikeproject.UserControls
                     serie.Color = Color.MediumSeaGreen;
                     serie.MarkerStyle = MarkerStyle.Circle;
                     serie.MarkerSize = 7;
+                    chartPrincipal.Legends.Add(new Legend("Legend1"));
                     break;
 
                 case "Top 5 productos más vendidos":
@@ -164,44 +168,44 @@ namespace nikeproject.UserControls
                     serie.IsValueShownAsLabel = true;
                     serie.Label = "#PERCENT{P0}";
                     serie.LegendText = "#VALX – #PERCENT{P0}";
-                    chartPrincipal.Legends.Clear();
-                    chartPrincipal.Legends.Add(new Legend("Leyenda") { Docking = Docking.Bottom });
+                    chartPrincipal.Legends.Add(new Legend("Legend1") { Docking = Docking.Bottom });
                     break;
 
                 case "Ingresos diarios":
                     serie.ChartType = SeriesChartType.Column;
                     serie.Color = Color.SteelBlue;
+                    chartPrincipal.Legends.Add(new Legend("Legend1"));
                     break;
             }
 
             string query = tipo switch
             {
                 "Ventas por mes" => @"
-                    SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
-                           SUM(MontoTotal) AS Total
-                    FROM VENTA
-                    WHERE FechaRegistro >= @Desde 
-                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
-                    ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
+            SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
+                   SUM(MontoTotal) AS Total
+            FROM VENTA
+            WHERE FechaRegistro >= @Desde 
+              AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
+            GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
+            ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
 
                 "Top 5 productos más vendidos" => @"
-                    SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
-                    FROM DETALLE_VENTA dv
-                    INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
-                    INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
-                    WHERE v.FechaRegistro >= @Desde 
-                      AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY p.Nombre
-                    ORDER BY TotalVendidos DESC;",
+            SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
+            FROM DETALLE_VENTA dv
+            INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
+            INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
+            WHERE v.FechaRegistro >= @Desde 
+              AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
+            GROUP BY p.Nombre
+            ORDER BY TotalVendidos DESC;",
 
                 "Ingresos diarios" => @"
-                    SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
-                    FROM VENTA
-                    WHERE FechaRegistro >= @Desde 
-                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY CAST(FechaRegistro AS DATE)
-                    ORDER BY Dia;",
+            SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
+            FROM VENTA
+            WHERE FechaRegistro >= @Desde 
+              AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
+            GROUP BY CAST(FechaRegistro AS DATE)
+            ORDER BY Dia;",
                 _ => ""
             };
 
@@ -256,6 +260,7 @@ namespace nikeproject.UserControls
             ActualizarTituloGrafico(desde, hasta);
             chartPrincipal.Invalidate();
         }
+
 
         // ========================= DIBUJO DEL TEXTO CUANDO NO HAY DATOS =========================
         private void chartPrincipal_Paint(object sender, PaintEventArgs e)
