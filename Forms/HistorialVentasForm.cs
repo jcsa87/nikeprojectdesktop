@@ -311,7 +311,7 @@ namespace nikeproject.Forms
 
         private void DgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             // Si es factura → abrir
             if (dgvVentas.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
