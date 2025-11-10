@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using nikeproject.Models; // Importante para usar SesionUsuario y RolUsuario
+using nikeproject.Models; // Para usar SesionUsuario y RolUsuario
 
 namespace nikeproject.UserControls
 {
@@ -73,6 +73,7 @@ namespace nikeproject.UserControls
 
             CargarDatosEnChart(desde, hasta, tipo);
             lblLeyenda.Text = $"Mostrando datos de {dtpDesde.Value:dd/MM/yyyy} a {dtpHasta.Value:dd/MM/yyyy}.";
+            CargarIndicadores();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -80,6 +81,9 @@ namespace nikeproject.UserControls
             dtpHasta.Value = DateTime.Now;
             dtpDesde.Value = DateTime.Now.AddDays(-30);
             cbReporte.SelectedIndex = 0;
+            if (chkIncluirAnuladas != null)
+                chkIncluirAnuladas.Checked = false;
+
             GenerarReportePorDefecto();
             lblLeyenda.Text = "Mostrando datos de los últimos 30 días.";
         }
@@ -91,21 +95,22 @@ namespace nikeproject.UserControls
             if (SesionUsuario.Rol == RolUsuario.Vendedor)
                 filtroUsuario = " AND IdUsuario = @IdUsuario";
 
-            // ✅ Se filtran solo ventas activas (Estado = 1)
+            string filtroEstado = (chkIncluirAnuladas != null && chkIncluirAnuladas.Checked)
+                ? ""
+                : " AND Estado = 1";
+
             decimal ventasActual = ObtenerDecimal(@$"
                 SELECT ISNULL(SUM(MontoTotal),0)
                 FROM VENTA
-                WHERE Estado = 1
-                AND MONTH(FechaRegistro) = MONTH(GETDATE())
-                AND YEAR(FechaRegistro) = YEAR(GETDATE()){filtroUsuario}",
+                WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
+                AND YEAR(FechaRegistro) = YEAR(GETDATE()){filtroEstado}{filtroUsuario}",
                 SesionUsuario.IdUsuario);
 
             decimal ventasAnterior = ObtenerDecimal(@$"
                 SELECT ISNULL(SUM(MontoTotal),0)
                 FROM VENTA
-                WHERE Estado = 1
-                AND MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
-                AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE())){filtroUsuario}",
+                WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
+                AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE())){filtroEstado}{filtroUsuario}",
                 SesionUsuario.IdUsuario);
 
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
@@ -193,36 +198,39 @@ namespace nikeproject.UserControls
                     break;
             }
 
-            // ✅ Agregar filtro Estado = 1 para excluir anuladas
+            string filtroEstado = (chkIncluirAnuladas != null && chkIncluirAnuladas.Checked)
+                ? ""
+                : " AND Estado = 1";
+
+            // --- Consulta base ---
             string query = tipo switch
             {
-                "Ventas por mes" => @"
+                "Ventas por mes" => $@"
                     SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
                            SUM(MontoTotal) AS Total
                     FROM VENTA
-                    WHERE Estado = 1
+                    WHERE 1=1{filtroEstado}
                       AND FechaRegistro >= @Desde 
                       AND FechaRegistro < DATEADD(DAY, 1, @Hasta)",
 
-                "Top 5 productos más vendidos" => @"
+                "Top 5 productos más vendidos" => $@"
                     SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
                     FROM DETALLE_VENTA dv
                     INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
                     INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
-                    WHERE v.Estado = 1
+                    WHERE 1=1{filtroEstado.Replace("Estado", "v.Estado")}
                       AND v.FechaRegistro >= @Desde 
                       AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)",
 
-                "Ingresos diarios" => @"
+                "Ingresos diarios" => $@"
                     SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
                     FROM VENTA
-                    WHERE Estado = 1
+                    WHERE 1=1{filtroEstado}
                       AND FechaRegistro >= @Desde 
                       AND FechaRegistro < DATEADD(DAY, 1, @Hasta)",
                 _ => ""
             };
 
-            // --- Restricción por vendedor ---
             if (SesionUsuario.Rol == RolUsuario.Vendedor)
             {
                 query += tipo == "Top 5 productos más vendidos"
@@ -230,7 +238,6 @@ namespace nikeproject.UserControls
                     : " AND IdUsuario = @IdUsuario";
             }
 
-            // --- Agrupación y orden ---
             query += tipo switch
             {
                 "Ventas por mes" => " GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) ORDER BY Periodo;",
