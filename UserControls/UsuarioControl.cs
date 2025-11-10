@@ -246,8 +246,9 @@ namespace nikeproject
                 txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
                 txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
-                txtClave.Text = filaSeleccionada.Cells["Clave"].Value.ToString();
-
+                claveOriginal = Convert.ToString(filaSeleccionada.Cells["Clave"].Value) ?? string.Empty;
+                txtClave.Text = claveOriginal;
+                txtConfirmarClave.Text = "";
                 // 2. Obtenemos el valor del enum directamente desde la celda.
                 RolUsuario rolDelUsuario = (RolUsuario)filaSeleccionada.Cells["Rol"].Value;
                 // 3. Lo convertimos a texto para poder seleccionar el ítem correcto en el ComboBox.
@@ -300,19 +301,32 @@ namespace nikeproject
                     return;
                 }
 
-                if (!UsuarioValidacion.ClaveValida(txtClave.Text))
-                {
-                    MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtClave.Focus();
-                    return;
-                }
+                string claveParaGuardar = claveOriginal; // Por defecto, guardamos la clave original
 
-                if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                // Verificamos si el usuario INTENTÓ cambiar la clave
+                // (ya sea cambiando txtClave o escribiendo en txtConfirmarClave)
+                if (txtClave.Text != claveOriginal || !string.IsNullOrEmpty(txtConfirmarClave.Text))
                 {
-                    MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtConfirmarClave.Focus();
-                    return;
+                    // Si intentó cambiarla, AHORA SÍ validamos
+                    if (!UsuarioValidacion.ClaveValida(txtClave.Text))
+                    {
+                        MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtClave.Focus();
+                        return;
+                    }
+
+                    if (!UsuarioValidacion.ConfirmarClave(txtClave.Text, txtConfirmarClave.Text))
+                    {
+                        MessageBox.Show("⚠️ La clave y la confirmación no coinciden. Por favor, verifícalas.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtConfirmarClave.Focus();
+                        return;
+                    }
+
+                    // Si las validaciones pasan, preparamos la NUEVA clave para guardarla
+                    claveParaGuardar = txtClave.Text.Trim();
                 }
+                // Si el usuario no tocó los campos de clave, este bloque IF se salta 
+                // y 'claveParaGuardar' mantiene su valor original.
 
                 // --- INICIO DE LA MODIFICACIÓN CENTRADA EN EL ENUM ---
 
@@ -339,7 +353,7 @@ namespace nikeproject
                     Nombre = txtNombre.Text.Trim(),
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
-                    Clave = txtClave.Text.Trim(),
+                    Clave = claveParaGuardar,
                     // ✨ ¡Aquí asignamos el enum, solucionando el error!
                     Rol = rolSeleccionadoEnum,
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")

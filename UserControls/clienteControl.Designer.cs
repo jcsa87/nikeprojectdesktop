@@ -109,7 +109,6 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvCliente.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCliente.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            //dgvCliente.Columns.AddRange(new DataGridViewColumn[] { IdCliente, Nombre, Apellido, Documento, Correo, Telefono, Estado });
             dgvCliente.Location = new Point(247, 127);
             dgvCliente.MultiSelect = false;
             dgvCliente.Name = "dgvCliente";
@@ -121,7 +120,7 @@
             dgvCliente.Size = new Size(773, 424);
             dgvCliente.TabIndex = 43;
             dgvCliente.CellClick += dgvCliente_CellClick;
-            this.dgvCliente.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvCliente_DataBindingComplete);
+            dgvCliente.DataBindingComplete += dgvCliente_DataBindingComplete;
             // 
             // IdCliente
             // 
@@ -325,6 +324,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(182, 23);
             txtTelefono.TabIndex = 32;
+            txtTelefono.TextChanged += txtDocumento_TextChanged;
             txtTelefono.KeyPress += txtTelefono_KeyPress;
             // 
             // txtNroDocumento
@@ -334,6 +334,7 @@
             txtNroDocumento.Name = "txtNroDocumento";
             txtNroDocumento.Size = new Size(182, 23);
             txtNroDocumento.TabIndex = 31;
+            txtNroDocumento.TextChanged += txtDocumento_TextChanged;
             txtNroDocumento.KeyPress += txtNroDocumento_KeyPress;
             // 
             // txtNombre

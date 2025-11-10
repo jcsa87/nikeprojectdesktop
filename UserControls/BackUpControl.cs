@@ -143,5 +143,53 @@ namespace nikeproject.UserControls
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void BackUpControl_Resize(object sender, EventArgs e)
+        {
+            // --- 1. Calcular el centro horizontal ---
+            // Usamos el GroupBox (que es lo más ancho) para centrar todo.
+            int centroHorizontal = (this.ClientSize.Width - grpOpciones.Width) / 2;
+            int bordeDerecho = centroHorizontal + grpOpciones.Width;
+
+            // --- 2. Calcular la altura total de tus controles ---
+            int alturaTotal = 0;
+            alturaTotal += lblDestino.Height + 5; // 5px de espacio
+            alturaTotal += txtDestino.Height + 10; // 10px de espacio
+            alturaTotal += grpOpciones.Height + 10; // 10px de espacio
+            alturaTotal += btnBackup.Height;
+
+            // --- 3. Calcular la posición 'Top' inicial ---
+            // Esto centra el bloque completo verticalmente
+            int currentY = (this.ClientSize.Height - alturaTotal) / 2;
+
+            // --- 4. Posicionar cada control en orden ---
+
+            // Posiciona 'lblDestino'
+            lblDestino.Left = centroHorizontal;
+            lblDestino.Top = currentY;
+
+            // Posiciona 'txtDestino' y 'btnSeleccionarDestino'
+            currentY = lblDestino.Bottom + 5; // Añade 5px de espacio
+
+            btnSeleccionarDestino.Left = bordeDerecho - btnSeleccionarDestino.Width;
+            btnSeleccionarDestino.Top = currentY;
+
+            txtDestino.Left = centroHorizontal;
+            txtDestino.Top = currentY;
+            txtDestino.Width = btnSeleccionarDestino.Left - centroHorizontal - 5; // 5px de espacio
+
+            // Posiciona 'grpOpciones'
+            currentY = txtDestino.Bottom + 10; // Añade 10px de espacio
+
+            grpOpciones.Left = centroHorizontal;
+            grpOpciones.Top = currentY;
+
+            // Posiciona 'btnBackup'
+            currentY = grpOpciones.Bottom + 10; // Añade 10px de espacio
+
+            btnBackup.Left = centroHorizontal;
+            btnBackup.Top = currentY;
+            btnBackup.Width = grpOpciones.Width; // Opcional: mismo ancho que el groupbox
+        }
     }
 }
