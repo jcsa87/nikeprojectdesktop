@@ -69,7 +69,7 @@ namespace nikeproject.Forms
             pnlTop = new Panel { AutoSize = true, Dock = DockStyle.Top, Padding = new Padding(8) };
 
             cbBuscar = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 160, Left = 8, Top = 10 };
-            cbBuscar.Items.AddRange(new object[] { "NumeroDocumento", "Cliente" });
+            cbBuscar.Items.AddRange(new object[] { "Tipo de Documento", "Cliente" });
             cbBuscar.SelectedIndex = 0;
 
             txtBuscar = new TextBox { Left = cbBuscar.Right + 8, Top = 10, Width = 220 };

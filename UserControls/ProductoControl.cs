@@ -170,8 +170,6 @@ namespace nikeproject.UserControls
                     break;
 
                 case "Categoría":
-                    // si tu propiedad se llama CategoriaNombre, DescripcionCategoria, o similar,
-                    // ajustala en la siguiente línea:
                     filtrados = productos
                         .Where(p => p.CategoriaNombre != null && p.CategoriaNombre.ToLower().Contains(valor))
                         .ToList();
