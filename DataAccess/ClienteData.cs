@@ -47,7 +47,6 @@ namespace nikeproject.DataAccess
         public bool EditarCliente(Cliente oCliente)
         {
             bool resultado = false;
-
             try
             {
                 using (SqlConnection oConexion = Conexion.Conectar())
@@ -82,7 +81,6 @@ namespace nikeproject.DataAccess
         public bool EliminarCliente(int idCliente)
         {
             bool resultado = false;
-
             try
             {
                 using (SqlConnection oConexion = Conexion.Conectar())

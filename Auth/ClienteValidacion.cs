@@ -21,9 +21,9 @@ namespace nikeproject.Auth
                (correo.Length <= 100 && Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+.[^@\s]+$"));
 
         public static bool TelefonoValido(string telefono)
-    => !string.IsNullOrWhiteSpace(telefono) &&
-       telefono.All(char.IsDigit) &&
-       telefono.Length <= 20;
+        => !string.IsNullOrWhiteSpace(telefono) &&
+        telefono.All(char.IsDigit) &&
+        telefono.Length <= 20;
 
         public static bool EstadoValido(bool estado)
             => estado == true || estado == false;
