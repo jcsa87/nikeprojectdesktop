@@ -2,22 +2,16 @@
 {
     partial class VentaControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
         #region Component Designer generated code
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VentaControl));
@@ -81,7 +75,7 @@
             pnlTotales.SuspendLayout();
             SuspendLayout();
 
-            // ==================== GRUPO VENTA ====================
+            // ====== GRUPO VENTA ======
             grpVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpVenta.Controls.Add(lblFecha);
             grpVenta.Controls.Add(dtpFecha);
@@ -90,8 +84,6 @@
             grpVenta.Location = new Point(50, 10);
             grpVenta.Name = "grpVenta";
             grpVenta.Size = new Size(1480, 60);
-            grpVenta.TabIndex = 0;
-            grpVenta.TabStop = false;
             grpVenta.Text = "Información Venta";
 
             lblFecha.AutoSize = true;
@@ -111,7 +103,7 @@
             cbTipoDoc.Location = new Point(420, 24);
             cbTipoDoc.Size = new Size(160, 28);
 
-            // ==================== GRUPO CLIENTE ====================
+            // ====== GRUPO CLIENTE ======
             grpCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpCliente.Controls.Add(pbCliente);
             grpCliente.Controls.Add(lblDocumento);
@@ -128,8 +120,6 @@
             grpCliente.Location = new Point(50, 80);
             grpCliente.Name = "grpCliente";
             grpCliente.Size = new Size(1480, 80);
-            grpCliente.TabIndex = 1;
-            grpCliente.TabStop = false;
             grpCliente.Text = "Información Cliente";
 
             pbCliente.Image = (Image)resources.GetObject("pbCliente.Image");
@@ -181,7 +171,7 @@
             txtCorreo.ReadOnly = true;
             txtCorreo.Size = new Size(200, 27);
 
-            // ==================== GRUPO PRODUCTO ====================
+            // ====== GRUPO PRODUCTO ======
             grpProducto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpProducto.Controls.Add(pbProducto);
             grpProducto.Controls.Add(lblCodProd);
@@ -253,7 +243,7 @@
             btnAgregar.Text = "Agregar";
             btnAgregar.Click += btnAgregar_Click;
 
-            // ==================== DETALLE ====================
+            // ====== DETALLE ======
             dgvDetalle.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetalle.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDetalle.Location = new Point(50, 270);
@@ -265,16 +255,27 @@
             dgvDetalle.CellContentClick += dgvDetalle_CellContentClick;
 
             colIdProducto.HeaderText = "IdProducto";
+            colIdProducto.Name = "colIdProducto";
             colIdProducto.Visible = false;
+
             colProducto.HeaderText = "Producto";
+            colProducto.Name = "colProducto";
+
             colPrecio.HeaderText = "Precio";
+            colPrecio.Name = "colPrecio";
+
             colCantidad.HeaderText = "Cantidad";
-            colSubTotal.HeaderText = "Sub Total";
+            colCantidad.Name = "colCantidad";
+
+            colSubTotal.HeaderText = "SubTotal";
+            colSubTotal.Name = "colSubTotal";
+
             colQuitar.HeaderText = "";
+            colQuitar.Name = "colQuitar";
             colQuitar.Text = "Quitar";
             colQuitar.UseColumnTextForButtonValue = true;
 
-            // ==================== PANELES DE TOTALES ====================
+            // ====== PANELES DE TOTALES ======
             pnlTotales.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pnlTotales.Controls.Add(lblTotal);
             pnlTotales.Controls.Add(txtTotal);
@@ -319,7 +320,7 @@
             txtPagaCon.TextChanged += txtPagaCon_TextChanged;
             txtPagaCon.KeyPress += txtPagaCon_KeyPress;
 
-            // ==================== BOTONES FINALES ====================
+            // ====== BOTONES FINALES ======
             btnCrearVenta.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnCrearVenta.BackColor = Color.SeaGreen;
             btnCrearVenta.FlatStyle = FlatStyle.Flat;
@@ -337,7 +338,7 @@
             btnHistorialVentas.Text = "Historial de Ventas";
             btnHistorialVentas.Click += btnHistorialVentas_Click;
 
-            // ==================== CONTROL PRINCIPAL ====================
+            // ====== CONTROL PRINCIPAL ======
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
@@ -365,7 +366,6 @@
             pnlTotales.PerformLayout();
             ResumeLayout(false);
         }
-
         #endregion
 
         private GroupBox grpVenta;

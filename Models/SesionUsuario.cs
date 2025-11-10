@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace nikeproject.Models
 {
-    // Asegúrate de tener el enum RolUsuario definido en tu proyecto.
-    // namespace nikeproject.Models; (o el que corresponda)
-
     public static class SesionUsuario
     {
         // --- Propiedades Esenciales ---
@@ -18,9 +15,8 @@ namespace nikeproject.Models
         public static RolUsuario Rol { get; private set; } // Usando el enum para más seguridad
 
         // --- Propiedad de Conveniencia (Solo Lectura) ---
-        // Une el nombre y el apellido automáticamente cuando lo necesites.
+        // Une el nombre y el apellido automáticamente
         public static string NombreCompleto => $"{Nombre} {Apellido}";
-
         /// <summary>
         /// Guarda los datos esenciales del usuario al iniciar sesión.
         /// </summary>

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using nikeproject.Models; // Importante para usar SesionUsuario y RolUsuario
 
 namespace nikeproject.UserControls
 {
@@ -12,7 +13,6 @@ namespace nikeproject.UserControls
         private readonly string connectionString = System.Configuration.ConfigurationManager
             .ConnectionStrings["cadena_conexion"].ToString();
 
-        // Controla si hay datos para mostrar en el gráfico
         private bool hayDatosEnGrafico = true;
 
         public ReportesControl()
@@ -23,7 +23,6 @@ namespace nikeproject.UserControls
             InicializarFiltros();
             GenerarReportePorDefecto();
 
-            // Evento para texto cuando no hay datos
             chartPrincipal.Paint += chartPrincipal_Paint;
         }
 
@@ -87,20 +86,26 @@ namespace nikeproject.UserControls
         }
 
         // ========================= INDICADORES =========================
-        // ========================= INDICADORES =========================
         private void CargarIndicadores()
         {
-            decimal ventasActual = ObtenerDecimal(@"
-        SELECT ISNULL(SUM(MontoTotal),0)
-        FROM VENTA
-        WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
-        AND YEAR(FechaRegistro) = YEAR(GETDATE())");
+            // --- Si el usuario es vendedor, se filtran solo sus ventas ---
+            string filtroUsuario = "";
+            if (SesionUsuario.Rol == RolUsuario.Vendedor)
+                filtroUsuario = " AND IdUsuario = @IdUsuario";
 
-            decimal ventasAnterior = ObtenerDecimal(@"
-        SELECT ISNULL(SUM(MontoTotal),0)
-        FROM VENTA
-        WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
-        AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE()))");
+            decimal ventasActual = ObtenerDecimal(@$"
+                SELECT ISNULL(SUM(MontoTotal),0)
+                FROM VENTA
+                WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
+                AND YEAR(FechaRegistro) = YEAR(GETDATE()){filtroUsuario}",
+                SesionUsuario.IdUsuario);
+
+            decimal ventasAnterior = ObtenerDecimal(@$"
+                SELECT ISNULL(SUM(MontoTotal),0)
+                FROM VENTA
+                WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
+                AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE())){filtroUsuario}",
+                SesionUsuario.IdUsuario);
 
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
             int clientesActivos = ObtenerEntero("SELECT COUNT(*) FROM CLIENTE WHERE Estado = 1");
@@ -109,7 +114,6 @@ namespace nikeproject.UserControls
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            // Actualizamos directamente las etiquetas ya referenciadas desde el diseñador
             lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now:MMMM})";
             lblVentasValor.Text = $"${ventasActual:N0}";
 
@@ -124,27 +128,6 @@ namespace nikeproject.UserControls
             lblClientesTitulo.Text = "Clientes activos";
             lblClientesValor.Text = clientesActivos.ToString();
             lblClientesValor.ForeColor = Color.Black;
-        }
-
-
-        private void ActualizarTarjeta(string tituloContiene, string nuevoValor, Color color)
-        {
-            foreach (Panel p in flowIndicadores.Controls.OfType<Panel>())
-            {
-                // Encuentra el Label de título
-                var lblTitulo = p.Controls.OfType<Label>().FirstOrDefault(l => l.ForeColor == Color.DimGray);
-                var lblValor = p.Controls.OfType<Label>().FirstOrDefault(l => l.Font.Size >= 13);
-
-                if (lblTitulo != null && lblTitulo.Text.Contains(tituloContiene, StringComparison.OrdinalIgnoreCase))
-                {
-                    if (lblValor != null)
-                    {
-                        lblValor.Text = nuevoValor;
-                        lblValor.ForeColor = color;
-                    }
-                    break;
-                }
-            }
         }
 
         // ========================= REPORTES =========================
@@ -174,7 +157,6 @@ namespace nikeproject.UserControls
 
             chartPrincipal.Titles[0].Text = "Gráfico de Reportes";
 
-            // === Serie principal ===
             Series serie = new Series("Datos")
             {
                 BorderWidth = 3,
@@ -210,6 +192,7 @@ namespace nikeproject.UserControls
                     break;
             }
 
+            // --- Consulta base ---
             string query = tipo switch
             {
                 "Ventas por mes" => @"
@@ -217,9 +200,7 @@ namespace nikeproject.UserControls
                            SUM(MontoTotal) AS Total
                     FROM VENTA
                     WHERE FechaRegistro >= @Desde 
-                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
-                    ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)",
 
                 "Top 5 productos más vendidos" => @"
                     SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
@@ -227,18 +208,31 @@ namespace nikeproject.UserControls
                     INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
                     INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
                     WHERE v.FechaRegistro >= @Desde 
-                      AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY p.Nombre
-                    ORDER BY TotalVendidos DESC;",
+                      AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)",
 
                 "Ingresos diarios" => @"
                     SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
                     FROM VENTA
                     WHERE FechaRegistro >= @Desde 
-                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
-                    GROUP BY CAST(FechaRegistro AS DATE)
-                    ORDER BY Dia;",
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)",
                 _ => ""
+            };
+
+            // --- Restricción por vendedor ---
+            if (SesionUsuario.Rol == RolUsuario.Vendedor)
+            {
+                query += tipo == "Top 5 productos más vendidos"
+                    ? " AND v.IdUsuario = @IdUsuario"
+                    : " AND IdUsuario = @IdUsuario";
+            }
+
+            // --- Agrupación y orden final ---
+            query += tipo switch
+            {
+                "Ventas por mes" => " GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) ORDER BY Periodo;",
+                "Top 5 productos más vendidos" => " GROUP BY p.Nombre ORDER BY TotalVendidos DESC;",
+                "Ingresos diarios" => " GROUP BY CAST(FechaRegistro AS DATE) ORDER BY Dia;",
+                _ => ";"
             };
 
             bool hayDatos = false;
@@ -249,6 +243,9 @@ namespace nikeproject.UserControls
                 using SqlCommand cmd = new SqlCommand(query, cn);
                 cmd.Parameters.AddWithValue("@Desde", desde);
                 cmd.Parameters.AddWithValue("@Hasta", hasta);
+
+                if (SesionUsuario.Rol == RolUsuario.Vendedor)
+                    cmd.Parameters.AddWithValue("@IdUsuario", SesionUsuario.IdUsuario);
 
                 using SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
@@ -276,24 +273,14 @@ namespace nikeproject.UserControls
                 }
             }
 
-            if (!hayDatos)
-            {
-                hayDatosEnGrafico = false;
-                chartPrincipal.Series.Clear();
-                chartPrincipal.Invalidate();
-                ActualizarTituloGrafico(desde, hasta);
-                return;
-            }
-            else
-            {
-                hayDatosEnGrafico = true;
-            }
+            hayDatosEnGrafico = hayDatos;
+            if (!hayDatos) chartPrincipal.Series.Clear();
 
             ActualizarTituloGrafico(desde, hasta);
             chartPrincipal.Invalidate();
         }
 
-        // ========================= DIBUJO DEL TEXTO CUANDO NO HAY DATOS =========================
+        // ========================= TEXTO SI NO HAY DATOS =========================
         private void chartPrincipal_Paint(object sender, PaintEventArgs e)
         {
             if (!hayDatosEnGrafico)
@@ -322,11 +309,15 @@ namespace nikeproject.UserControls
         }
 
         // ========================= FUNCIONES AUXILIARES =========================
-        private decimal ObtenerDecimal(string sql)
+        private decimal ObtenerDecimal(string sql, int idUsuario = 0)
         {
             using SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
             using SqlCommand cmd = new SqlCommand(sql, cn);
+
+            if (sql.Contains("@IdUsuario"))
+                cmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
             object result = cmd.ExecuteScalar();
             return result == DBNull.Value ? 0 : Convert.ToDecimal(result);
         }
@@ -339,7 +330,5 @@ namespace nikeproject.UserControls
             object result = cmd.ExecuteScalar();
             return result == DBNull.Value ? 0 : Convert.ToInt32(result);
         }
-
-        private void ReportesControl_Load(object sender, EventArgs e) { }
     }
 }
