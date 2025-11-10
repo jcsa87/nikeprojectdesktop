@@ -6,18 +6,42 @@ using nikeproject.Models;
 using nikeproject.DataAccess;
 using nikeproject.Forms.FacturaFormNS;
 
-
 namespace nikeproject.Data
 {
     public class VentaData
     {
+        // =====================================================
+        // 🔹 OBTENER DATOS DEL VENDEDOR POR ID DE VENTA
+        // =====================================================
+        public static string ObtenerDatosVendedor(int idVenta)
+        {
+            string resultado = null;
 
-        /// <summary>
-        /// Devuelve todos los datos necesarios para imprimir la factura de una venta
-        /// uniendo VENTA, CLIENTE, USUARIO y DETALLE_VENTA + PRODUCTO.
-        /// - Mapea NumeroDocumento (VENTA) como TipoPago.
-        /// - Usa IdVenta para construir un número de factura visual "VENT-000001".
-        /// </summary>
+            using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
+            {
+                string query = @"
+                    SELECT u.Nombre + ' ' + u.Apellido AS Vendedor
+                    FROM VENTA v
+                    INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario
+                    WHERE v.IdVenta = @IdVenta";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                    cn.Open();
+
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != null && obj != DBNull.Value)
+                        resultado = obj.ToString();
+                }
+            }
+
+            return resultado;
+        }
+
+        // =====================================================
+        // 🔹 OBTENER FACTURA POR ID DE VENTA (FACTURAFORM)
+        // =====================================================
         public FacturaData ObtenerFacturaPorId(int idVenta)
         {
             var factura = new FacturaData
@@ -32,7 +56,7 @@ namespace nikeproject.Data
                     CiudadCodigoPostal = "Corrientes, 3400",
                     Telefono = "Tel. (379) 555-0190",
                     Fax = "Fax (379) 555-0191",
-                    Logo = null // Si tenés un logo: Image.FromFile("ruta.png")
+                    Logo = null
                 }
             };
 
@@ -40,19 +64,19 @@ namespace nikeproject.Data
             {
                 cn.Open();
 
-                // 1) CABECERA: VENTA + CLIENTE + USUARIO
+                // CABECERA: VENTA + CLIENTE + USUARIO
                 using (var cmd = new SqlCommand(@"
                     SELECT v.IdVenta,
                            v.FechaRegistro,
                            v.MontoTotal,
                            v.NumeroDocumento AS TipoPago,
-                           c.Nombre       AS CliNombre,
-                           c.Apellido     AS CliApellido,
-                           c.Documento    AS CliDocumento,
-                           c.Correo       AS CliCorreo,
-                           c.Telefono     AS CliTelefono,
-                           u.Nombre       AS UsuNombre,
-                           u.Apellido     AS UsuApellido
+                           c.Nombre AS CliNombre,
+                           c.Apellido AS CliApellido,
+                           c.Documento AS CliDocumento,
+                           c.Correo AS CliCorreo,
+                           c.Telefono AS CliTelefono,
+                           u.Nombre AS UsuNombre,
+                           u.Apellido AS UsuApellido
                     FROM   VENTA v
                     INNER JOIN CLIENTE c ON c.IdCliente = v.IdCliente
                     INNER JOIN USUARIO u ON u.IdUsuario = v.IdUsuario
@@ -69,7 +93,7 @@ namespace nikeproject.Data
                         {
                             Nombre = $"{dr["CliNombre"]} {dr["CliApellido"]}",
                             Compania = "Particular",
-                            Direccion = "", // No está en CLIENTE: lo dejamos vacío
+                            Direccion = "",
                             CiudadCodigoPostal = "",
                             Telefono = dr["CliTelefono"]?.ToString() ?? "",
                             Documento = dr["CliDocumento"]?.ToString() ?? ""
@@ -79,10 +103,10 @@ namespace nikeproject.Data
                     }
                 }
 
-                // 2) DETALLE: DETALLE_VENTA + PRODUCTO
+                // DETALLE: DETALLE_VENTA + PRODUCTO
                 using (var cmdDet = new SqlCommand(@"
                     SELECT p.Codigo,
-                           p.Nombre      AS ProdNombre,
+                           p.Nombre AS ProdNombre,
                            dv.Cantidad,
                            dv.PrecioUnitario,
                            dv.SubTotal
@@ -106,11 +130,12 @@ namespace nikeproject.Data
                 }
             }
 
-            // Si querés usar MontoTotal de VENTA como control, podés comparar con factura.Total.
-            // Aquí dejamos que Totales se recalculen desde los ítems + IVA.
             return factura;
         }
 
+        // =====================================================
+        // 🔹 OBTENER UNA VENTA POR ID
+        // =====================================================
         public static Venta ObtenerVentaPorId(int idVenta)
         {
             Venta venta = null;
@@ -120,16 +145,16 @@ namespace nikeproject.Data
                 cn.Open();
                 string query = @"
                     SELECT v.IdVenta,
-                   v.NumeroDocumento,
-                   v.FechaRegistro,
-                   v.MontoTotal,
-                   c.Nombre AS NombreCliente,
-                   c.Apellido AS ApellidoCliente,
-                   c.Documento,
-                   c.Telefono,
-                   c.Correo,
-                   u.Nombre AS NombreUsuario,
-                   u.Apellido AS ApellidoUsuario
+                           v.NumeroDocumento,
+                           v.FechaRegistro,
+                           v.MontoTotal,
+                           c.Nombre AS NombreCliente,
+                           c.Apellido AS ApellidoCliente,
+                           c.Documento,
+                           c.Telefono,
+                           c.Correo,
+                           u.Nombre AS NombreUsuario,
+                           u.Apellido AS ApellidoUsuario
                     FROM VENTA v
                     INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
                     INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario
@@ -159,13 +184,13 @@ namespace nikeproject.Data
                     }
                 }
             }
+
             return venta;
         }
 
-
-
-
-
+        // =====================================================
+        // 🔹 INSERTAR UNA NUEVA VENTA
+        // =====================================================
         public static int InsertarVenta(Venta v)
         {
             using (SqlConnection cn = new SqlConnection(Conexion.CadenaConexion))
@@ -191,6 +216,9 @@ namespace nikeproject.Data
             }
         }
 
+        // =====================================================
+        // 🔹 LISTAR TODAS LAS VENTAS (CON FILTRO POR ROL)
+        // =====================================================
         public static List<dynamic> ListarVentas()
         {
             var lista = new List<dynamic>();
@@ -199,17 +227,19 @@ namespace nikeproject.Data
             {
                 cn.Open();
 
-                // Base query
                 string sql = @"
-            SELECT v.IdVenta, 
-                   v.NumeroDocumento, 
-                   v.FechaRegistro, 
-                   v.MontoTotal,
-                   c.Nombre + ' ' + c.Apellido AS Cliente
-            FROM VENTA v
-            INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente";
+                    SELECT v.IdVenta, 
+                           v.IdUsuario,
+                           v.NumeroDocumento, 
+                           v.FechaRegistro, 
+                           v.MontoTotal,
+                           c.Nombre + ' ' + c.Apellido AS Cliente,
+                           u.Nombre + ' ' + u.Apellido AS Vendedor
+                    FROM VENTA v
+                    INNER JOIN CLIENTE c ON v.IdCliente = c.IdCliente
+                    INNER JOIN USUARIO u ON v.IdUsuario = u.IdUsuario";
 
-                // Si el usuario actual es vendedor, solo muestra sus ventas
+                // Si el usuario actual es vendedor, filtra solo sus ventas
                 if (SesionUsuario.Rol == RolUsuario.Vendedor)
                 {
                     sql += " WHERE v.IdUsuario = @IdUsuario";
@@ -219,7 +249,6 @@ namespace nikeproject.Data
 
                 using (SqlCommand cmd = new SqlCommand(sql, cn))
                 {
-                    // Agregar parámetro solo si es vendedor
                     if (SesionUsuario.Rol == RolUsuario.Vendedor)
                     {
                         cmd.Parameters.AddWithValue("@IdUsuario", SesionUsuario.IdUsuario);
@@ -232,10 +261,12 @@ namespace nikeproject.Data
                             lista.Add(new
                             {
                                 IdVenta = dr.GetInt32(0),
-                                NumeroDocumento = dr.GetString(1),
-                                FechaRegistro = dr.GetDateTime(2),
-                                MontoTotal = dr.GetDecimal(3),
-                                Cliente = dr.GetString(4)
+                                IdUsuario = dr.GetInt32(1),
+                                NumeroDocumento = dr.GetString(2),
+                                FechaRegistro = dr.GetDateTime(3),
+                                MontoTotal = dr.GetDecimal(4),
+                                Cliente = dr.GetString(5),
+                                Vendedor = dr.GetString(6)
                             });
                         }
                     }
@@ -245,7 +276,9 @@ namespace nikeproject.Data
             return lista;
         }
 
-
+        // =====================================================
+        // 🔹 REGISTRAR UNA VENTA CON DETALLES (TRANSACCIÓN)
+        // =====================================================
         public static bool RegistrarVenta(Venta venta)
         {
             bool resultado = false;
@@ -257,7 +290,7 @@ namespace nikeproject.Data
 
                 try
                 {
-                    // Insertar la venta
+                    // Insertar venta
                     string queryVenta = @"INSERT INTO VENTA (IdCliente, IdUsuario, NumeroDocumento, MontoTotal, Estado)
                                           OUTPUT INSERTED.IdVenta
                                           VALUES (@IdCliente, @IdUsuario, @NumeroDocumento, @MontoTotal, 1)";
@@ -273,7 +306,7 @@ namespace nikeproject.Data
                         idVentaGenerado = (int)cmd.ExecuteScalar();
                     }
 
-                    // Insertar los detalles
+                    // Insertar detalles
                     foreach (var detalle in venta.Detalles)
                     {
                         string queryDetalle = @"INSERT INTO DETALLE_VENTA (IdVenta, IdProducto, Cantidad, PrecioUnitario, SubTotal)
@@ -292,7 +325,7 @@ namespace nikeproject.Data
                     transaction.Commit();
                     resultado = true;
                 }
-                catch (Exception)
+                catch
                 {
                     transaction.Rollback();
                     resultado = false;
@@ -301,6 +334,10 @@ namespace nikeproject.Data
 
             return resultado;
         }
+
+        // =====================================================
+        // 🔹 LISTAR DETALLES POR VENTA
+        // =====================================================
         public static List<DetalleVenta> ListarDetallesPorVenta(int idVenta)
         {
             var lista = new List<DetalleVenta>();
@@ -337,6 +374,9 @@ namespace nikeproject.Data
             return lista;
         }
 
+        // =====================================================
+        // 🔹 ANULAR UNA VENTA
+        // =====================================================
         public static bool AnularVenta(int idVenta)
         {
             using (SqlConnection oConexion = Conexion.Conectar())
