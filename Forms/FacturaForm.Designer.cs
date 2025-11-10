@@ -29,6 +29,7 @@
         private System.Windows.Forms.Label lblTituloFactura;
         private System.Windows.Forms.Label lblEmpresa;
         private System.Windows.Forms.Label lblLema;
+        private Label lblNumeroFacturaValor;
 
         protected override void Dispose(bool disposing)
         {
@@ -60,63 +61,62 @@
             this.btnCerrar = new Button();
             this.pbLogo = new PictureBox();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-
-
-
             this.btnGuardarPdf = new Button();
-            this.btnGuardarPdf.Text = "Guardar PDF";
-            this.btnGuardarPdf.BackColor = Color.SteelBlue;
-            this.btnGuardarPdf.ForeColor = Color.White;
-            this.btnGuardarPdf.FlatStyle = FlatStyle.Flat;
-            this.btnGuardarPdf.Location = new Point(240, 480);
-            this.btnGuardarPdf.Size = new Size(120, 32);
-            this.btnGuardarPdf.Click += btnGuardarPdf_Click;
-            this.Controls.Add(this.btnGuardarPdf);
-
+            this.btnVistaPrevia = new Button();
+            this.panelHeader = new Panel();
+            this.lblTituloFactura = new Label();
+            this.lblEmpresa = new Label();
+            this.lblLema = new Label();
+            this.lblNumeroFacturaValor = new Label();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleFactura)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.SuspendLayout();
 
             // --- ENCABEZADO DE FACTURA ---
-            this.panelHeader = new Panel();
             this.panelHeader.BackColor = Color.White;
             this.panelHeader.BorderStyle = BorderStyle.FixedSingle;
             this.panelHeader.Location = new Point(20, 20);
             this.panelHeader.Size = new Size(680, 120);
 
-            Label lblTituloFactura = new Label();
-            lblTituloFactura.Text = "FACTURA";
-            lblTituloFactura.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            lblTituloFactura.ForeColor = Color.Black;
-            lblTituloFactura.Location = new Point(20, 10);
-            lblTituloFactura.AutoSize = true;
+            this.lblTituloFactura.Text = "FACTURA";
+            this.lblTituloFactura.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            this.lblTituloFactura.ForeColor = Color.Black;
+            this.lblTituloFactura.Location = new Point(20, 10);
+            this.lblTituloFactura.AutoSize = true;
 
-            this.lblEmpresa = new Label();
             this.lblEmpresa.Text = "Nike Corrientes";
             this.lblEmpresa.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             this.lblEmpresa.Location = new Point(20, 50);
             this.lblEmpresa.AutoSize = true;
 
-            this.lblLema = new Label();
             this.lblLema.Text = "Calzado y ropa deportiva";
             this.lblLema.Font = new Font("Segoe UI", 9, FontStyle.Italic);
             this.lblLema.ForeColor = Color.Gray;
             this.lblLema.Location = new Point(20, 70);
             this.lblLema.AutoSize = true;
 
-            this.pbLogo = new PictureBox();
             this.pbLogo.Image = Properties.Resources.nikelogo;
             this.pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
             this.pbLogo.Location = new Point(560, 10);
             this.pbLogo.Size = new Size(100, 80);
 
-            this.panelHeader.Controls.Add(lblTituloFactura);
+            Label lblNumeroFactura = new Label();
+            lblNumeroFactura.Text = "N° Factura:";
+            lblNumeroFactura.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            lblNumeroFactura.Location = new Point(20, 100);
+            lblNumeroFactura.AutoSize = true;
+
+            this.lblNumeroFacturaValor.Location = new Point(120, 100);
+            this.lblNumeroFacturaValor.AutoSize = true;
+
+            this.panelHeader.Controls.Add(this.lblTituloFactura);
             this.panelHeader.Controls.Add(this.lblEmpresa);
             this.panelHeader.Controls.Add(this.lblLema);
             this.panelHeader.Controls.Add(this.pbLogo);
+            this.panelHeader.Controls.Add(lblNumeroFactura);
+            this.panelHeader.Controls.Add(this.lblNumeroFacturaValor);
             this.Controls.Add(this.panelHeader);
-
 
             // --- FORM ---
             this.Text = "Factura de Venta";
@@ -124,58 +124,42 @@
             this.StartPosition = FormStartPosition.CenterParent;
             this.BackColor = Color.WhiteSmoke;
 
-            // --- TITULO ---
-            this.lblTitulo.Text = "Factura de Venta";
-            this.lblTitulo.Font = new Font("Segoe UI", 14, FontStyle.Bold);
-            this.lblTitulo.Location = new Point(20, 15);
-
-            // --- LOGO ---
-            this.pbLogo.Image = Properties.Resources.nikelogo;
-            this.pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
-            this.pbLogo.Location = new Point(580, 10);
-            this.pbLogo.Size = new Size(100, 50);
-
-            // --- Tipo Documento ---
+            // --- DATOS DEL CLIENTE ---
             this.lblTipoDocumento.Text = "Tipo de Documento:";
             this.lblTipoDocumento.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             this.lblTipoDocumento.Location = new Point(20, 70);
             this.lblTipoDocumentoValor.Location = new Point(160, 70);
             this.lblTipoDocumentoValor.AutoSize = true;
 
-            // --- Fecha ---
             this.lblFecha.Text = "Fecha:";
             this.lblFecha.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             this.lblFecha.Location = new Point(20, 95);
             this.lblFechaValor.Location = new Point(160, 95);
             this.lblFechaValor.AutoSize = true;
 
-            // --- Cliente ---
             this.lblCliente.Text = "Cliente:";
             this.lblCliente.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             this.lblCliente.Location = new Point(20, 125);
             this.lblClienteValor.Location = new Point(160, 125);
             this.lblClienteValor.AutoSize = true;
 
-            // --- Teléfono ---
             this.lblTelefono.Text = "Teléfono:";
             this.lblTelefono.Location = new Point(20, 145);
             this.lblTelefonoValor.Location = new Point(160, 145);
             this.lblTelefonoValor.AutoSize = true;
 
-            // --- Correo ---
             this.lblCorreo.Text = "Correo:";
             this.lblCorreo.Location = new Point(20, 165);
             this.lblCorreoValor.Location = new Point(160, 165);
             this.lblCorreoValor.AutoSize = true;
 
-            // --- Vendedor ---
             this.lblVendedor.Text = "Vendedor:";
             this.lblVendedor.Font = new Font("Segoe UI", 9, FontStyle.Bold);
             this.lblVendedor.Location = new Point(20, 190);
             this.lblVendedorValor.Location = new Point(160, 190);
             this.lblVendedorValor.AutoSize = true;
 
-            // --- Detalle ---
+            // --- DETALLE ---
             this.dgvDetalleFactura.Location = new Point(20, 220);
             this.dgvDetalleFactura.Size = new Size(660, 240);
             this.dgvDetalleFactura.BackgroundColor = Color.White;
@@ -184,46 +168,75 @@
             this.dgvDetalleFactura.AllowUserToDeleteRows = false;
             this.dgvDetalleFactura.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            // --- TOTAL ---
-            this.lblTotalTexto.Text = "TOTAL:";
-            this.lblTotalTexto.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            this.lblTotalTexto.Location = new Point(450, 480);
-            this.lblTotalValor.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            this.lblTotalValor.ForeColor = Color.SeaGreen;
-            this.lblTotalValor.Location = new Point(520, 480);
-            this.lblTotalValor.AutoSize = true;
+            // === PANEL INFERIOR FIJO ===
+            Panel panelInferior = new Panel();
+            panelInferior.BackColor = Color.WhiteSmoke;
+            panelInferior.Dock = DockStyle.Bottom;
+            panelInferior.Height = 60;
+            this.Controls.Add(panelInferior);
 
-            // --- Botones ---
+            // --- BOTONES ---
             this.btnImprimir.Text = "Imprimir";
             this.btnImprimir.BackColor = Color.SeaGreen;
             this.btnImprimir.ForeColor = Color.White;
             this.btnImprimir.FlatStyle = FlatStyle.Flat;
-            this.btnImprimir.Location = new Point(20, 480);
+            this.btnImprimir.Location = new Point(20, 14);
             this.btnImprimir.Size = new Size(100, 32);
             this.btnImprimir.Click += btnImprimir_Click;
+            panelInferior.Controls.Add(this.btnImprimir);
 
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.BackColor = Color.DimGray;
             this.btnCerrar.ForeColor = Color.White;
             this.btnCerrar.FlatStyle = FlatStyle.Flat;
-            this.btnCerrar.Location = new Point(130, 480);
+            this.btnCerrar.Location = new Point(130, 14);
             this.btnCerrar.Size = new Size(100, 32);
             this.btnCerrar.Click += btnCerrar_Click;
+            panelInferior.Controls.Add(this.btnCerrar);
 
-            this.btnVistaPrevia = new Button();
+            this.btnGuardarPdf.Text = "Guardar PDF";
+            this.btnGuardarPdf.BackColor = Color.SteelBlue;
+            this.btnGuardarPdf.ForeColor = Color.White;
+            this.btnGuardarPdf.FlatStyle = FlatStyle.Flat;
+            this.btnGuardarPdf.Location = new Point(240, 14);
+            this.btnGuardarPdf.Size = new Size(120, 32);
+            this.btnGuardarPdf.Click += btnGuardarPdf_Click;
+            panelInferior.Controls.Add(this.btnGuardarPdf);
+
             this.btnVistaPrevia.Text = "Vista Previa";
             this.btnVistaPrevia.BackColor = Color.DarkOrange;
             this.btnVistaPrevia.ForeColor = Color.White;
             this.btnVistaPrevia.FlatStyle = FlatStyle.Flat;
-            this.btnVistaPrevia.Location = new Point(370, 480);
+            this.btnVistaPrevia.Location = new Point(370, 14);
             this.btnVistaPrevia.Size = new Size(120, 32);
             this.btnVistaPrevia.Click += btnVistaPrevia_Click;
-            this.Controls.Add(this.btnVistaPrevia);
+            panelInferior.Controls.Add(this.btnVistaPrevia);
 
+            // --- TOTAL (con margen, no pegado al borde) ---
+            this.lblTotalTexto.Text = "TOTAL:";
+            this.lblTotalTexto.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            this.lblTotalTexto.ForeColor = Color.Black;
+            this.lblTotalTexto.AutoSize = true;
+            this.lblTotalTexto.Location = new Point(panelInferior.Width - 230, 20); // margen fijo
 
-            // --- Add controls ---
+            this.lblTotalValor.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            this.lblTotalValor.ForeColor = Color.SeaGreen;
+            this.lblTotalValor.AutoSize = true;
+            this.lblTotalValor.Location = new Point(panelInferior.Width - 150, 20);
+
+            panelInferior.Controls.Add(this.lblTotalTexto);
+            panelInferior.Controls.Add(this.lblTotalValor);
+
+            // Ajuste del total al redimensionar (mantiene margen fijo)
+            panelInferior.Resize += (s, e) =>
+            {
+                int margenDerecho = 230;
+                this.lblTotalTexto.Location = new Point(panelInferior.Width - margenDerecho, 20);
+                this.lblTotalValor.Location = new Point(panelInferior.Width - 150, 20);
+            };
+
+            // --- ADD CONTROLS ---
             this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.pbLogo);
             this.Controls.Add(this.lblTipoDocumento);
             this.Controls.Add(this.lblTipoDocumentoValor);
             this.Controls.Add(this.lblFecha);
@@ -237,10 +250,6 @@
             this.Controls.Add(this.lblVendedor);
             this.Controls.Add(this.lblVendedorValor);
             this.Controls.Add(this.dgvDetalleFactura);
-            this.Controls.Add(this.lblTotalTexto);
-            this.Controls.Add(this.lblTotalValor);
-            this.Controls.Add(this.btnImprimir);
-            this.Controls.Add(this.btnCerrar);
 
             this.Load += new EventHandler(this.FacturaForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleFactura)).EndInit();
@@ -248,5 +257,8 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+
+
     }
 }

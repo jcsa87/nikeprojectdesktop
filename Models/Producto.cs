@@ -17,7 +17,7 @@ namespace nikeproject.Models
 
         // FK
         public int IdCategoria { get; set; }
-        public string CategoriaNombre { get; set; } = string.Empty;
+        public string CategoriaNombre { get; set; }
     }
 
 }

@@ -20,11 +20,6 @@
             base.Dispose(disposing);
         }
 
-        private void initializeComponent()
-        {
-            this.dgvProductos.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvProductos_DataBindingComplete);
-        }
-
         #region Component Designer generated code
 
         /// <summary 

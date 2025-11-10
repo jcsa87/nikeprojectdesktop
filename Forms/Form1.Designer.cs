@@ -185,7 +185,7 @@
             lbBackup.Padding = new Padding(10, 0, 0, 0);
             lbBackup.Size = new Size(100, 19);
             lbBackup.TabIndex = 0;
-            lbBackup.Text = "BuckUp";
+            lbBackup.Text = "BackUp";
             lbBackup.TextAlign = ContentAlignment.TopCenter;
             lbBackup.Click += pbBackUp_Click;
             // 
