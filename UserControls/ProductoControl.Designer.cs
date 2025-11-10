@@ -169,6 +169,7 @@
             txtStock.Name = "txtStock";
             txtStock.Size = new Size(207, 23);
             txtStock.TabIndex = 10;
+            txtStock.KeyPress += txtNumerico_KeyPress;
             // 
             // lblPrecioCompra
             // 
@@ -187,6 +188,7 @@
             txtPrecioCompra.Name = "txtPrecioCompra";
             txtPrecioCompra.Size = new Size(207, 23);
             txtPrecioCompra.TabIndex = 10;
+            txtPrecioCompra.KeyPress += txtDecimal_KeyPress;
             // 
             // lblPrecioVenta
             // 
@@ -205,6 +207,7 @@
             txtPrecioVenta.Name = "txtPrecioVenta";
             txtPrecioVenta.Size = new Size(207, 23);
             txtPrecioVenta.TabIndex = 10;
+            txtPrecioVenta.KeyPress += txtDecimal_KeyPress;
             // 
             // btnGuardar
             // 
