@@ -11,6 +11,9 @@ namespace nikeproject.UserControls
         private readonly string connectionString = System.Configuration.ConfigurationManager
             .ConnectionStrings["cadena_conexion"].ToString();
 
+        // Controla si hay datos para mostrar en el gráfico
+        private bool hayDatosEnGrafico = true;
+
         public ReportesControl()
         {
             InitializeComponent();
@@ -18,24 +21,36 @@ namespace nikeproject.UserControls
             CargarIndicadores();
             InicializarFiltros();
             GenerarReportePorDefecto();
+
+            // Suscribimos el evento Paint
+            chartPrincipal.Paint += chartPrincipal_Paint;
         }
 
         // ========================= CONFIGURACIÓN INICIAL =========================
         private void ConfigurarChart()
         {
-            if (chartPrincipal == null)
-                return;
+            if (chartPrincipal == null) return;
 
-            chartPrincipal.ChartAreas.Add(new ChartArea("MainArea"));
-            chartPrincipal.Titles.Add("Gráfico de Reportes");
-            chartPrincipal.Titles[0].Font = new Font("Segoe UI", 11, FontStyle.Bold);
-            chartPrincipal.ChartAreas[0].AxisX.Interval = 1;
-            chartPrincipal.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
-            chartPrincipal.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartPrincipal.ChartAreas.Clear();
+            chartPrincipal.Series.Clear();
+            chartPrincipal.Titles.Clear();
+            chartPrincipal.Annotations.Clear();
+
+            var area = new ChartArea("MainArea");
+            area.AxisX.Interval = 1;
+            area.AxisX.MajorGrid.LineColor = Color.LightGray;
+            area.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartPrincipal.ChartAreas.Add(area);
+
+            chartPrincipal.Titles.Add(new Title("Gráfico de Reportes")
+            {
+                Font = new Font("Segoe UI", 11, FontStyle.Bold)
+            });
         }
 
         private void InicializarFiltros()
         {
+            cbReporte.Items.Clear();
             cbReporte.Items.AddRange(new string[]
             {
                 "Ventas por mes",
@@ -54,9 +69,9 @@ namespace nikeproject.UserControls
         private void btnAplicar_Click(object sender, EventArgs e)
         {
             DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpHasta.Value.Date.AddDays(1); // ✅ Incluye todo el último día seleccionado
-
+            DateTime hasta = dtpHasta.Value.Date;
             string tipo = cbReporte.SelectedItem.ToString();
+
             CargarDatosEnChart(desde, hasta, tipo);
             lblLeyenda.Text = $"Mostrando datos de {dtpDesde.Value:dd/MM/yyyy} a {dtpHasta.Value:dd/MM/yyyy}.";
         }
@@ -88,12 +103,10 @@ namespace nikeproject.UserControls
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
             int clientesActivos = ObtenerEntero("SELECT COUNT(*) FROM CLIENTE WHERE Estado = 1");
 
-            // Cálculo de variación mensual
             decimal variacion = 0;
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            // Asignación de textos
             lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now:MMMM})";
             lblVentasValor.Text = $"${ventasActual:N0}";
             lblVariacionTitulo.Text = "Variación (vs mes anterior)";
@@ -101,16 +114,14 @@ namespace nikeproject.UserControls
             lblStockTitulo.Text = "Artículos sin stock";
             lblStockValor.Text = productosSinStock.ToString();
             lblClientesValor.Text = clientesActivos.ToString();
-
-            // Color visual según tendencia
             lblVariacionValor.ForeColor = variacion >= 0 ? Color.ForestGreen : Color.Firebrick;
         }
 
         // ========================= REPORTES =========================
         private void GenerarReportePorDefecto()
         {
-            DateTime desde = DateTime.Now.AddDays(-30);
-            DateTime hasta = DateTime.Now.AddDays(1); // ✅ incluir día actual completo
+            DateTime desde = DateTime.Now.AddDays(-30).Date;
+            DateTime hasta = DateTime.Now.Date;
             string tipo = "Ventas por mes";
 
             CargarDatosEnChart(desde, hasta, tipo);
@@ -125,17 +136,25 @@ namespace nikeproject.UserControls
         private void CargarDatosEnChart(DateTime desde, DateTime hasta, string tipo)
         {
             chartPrincipal.Series.Clear();
+            chartPrincipal.Annotations.Clear();
+            if (chartPrincipal.Titles.Count == 0)
+                chartPrincipal.Titles.Add("Gráfico de Reportes");
+            chartPrincipal.Titles[0].Text = "Gráfico de Reportes";
 
-            Series serie = new Series("Datos");
+            Series serie = new Series("Datos")
+            {
+                BorderWidth = 3,
+                ChartArea = "MainArea"
+            };
             chartPrincipal.Series.Add(serie);
-            serie.BorderWidth = 3;
 
-            // Tipo de gráfico según reporte
             switch (tipo)
             {
                 case "Ventas por mes":
                     serie.ChartType = SeriesChartType.Line;
                     serie.Color = Color.MediumSeaGreen;
+                    serie.MarkerStyle = MarkerStyle.Circle;
+                    serie.MarkerSize = 7;
                     break;
 
                 case "Top 5 productos más vendidos":
@@ -155,50 +174,56 @@ namespace nikeproject.UserControls
                     break;
             }
 
-            // Query SQL según tipo
             string query = tipo switch
             {
                 "Ventas por mes" => @"
-                    SELECT FORMAT(FechaRegistro, 'yyyy-MM') AS Periodo,
+                    SELECT DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1) AS Periodo,
                            SUM(MontoTotal) AS Total
                     FROM VENTA
-                    WHERE FechaRegistro BETWEEN @Desde AND @Hasta
-                    GROUP BY FORMAT(FechaRegistro, 'yyyy-MM')
-                    ORDER BY FORMAT(FechaRegistro, 'yyyy-MM');",
+                    WHERE FechaRegistro >= @Desde 
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
+                    GROUP BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1)
+                    ORDER BY DATEFROMPARTS(YEAR(FechaRegistro), MONTH(FechaRegistro), 1);",
 
                 "Top 5 productos más vendidos" => @"
                     SELECT TOP 5 p.Nombre AS Nombre, SUM(dv.Cantidad) AS TotalVendidos
                     FROM DETALLE_VENTA dv
                     INNER JOIN PRODUCTO p ON p.IdProducto = dv.IdProducto
                     INNER JOIN VENTA v ON v.IdVenta = dv.IdVenta
-                    WHERE v.FechaRegistro BETWEEN @Desde AND @Hasta
+                    WHERE v.FechaRegistro >= @Desde 
+                      AND v.FechaRegistro < DATEADD(DAY, 1, @Hasta)
                     GROUP BY p.Nombre
                     ORDER BY TotalVendidos DESC;",
 
                 "Ingresos diarios" => @"
                     SELECT CAST(FechaRegistro AS DATE) AS Dia, SUM(MontoTotal) AS Ingreso
                     FROM VENTA
-                    WHERE FechaRegistro BETWEEN @Desde AND @Hasta
+                    WHERE FechaRegistro >= @Desde 
+                      AND FechaRegistro < DATEADD(DAY, 1, @Hasta)
                     GROUP BY CAST(FechaRegistro AS DATE)
                     ORDER BY Dia;",
                 _ => ""
             };
+
+            bool hayDatos = false;
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
                 cn.Open();
                 using SqlCommand cmd = new SqlCommand(query, cn);
                 cmd.Parameters.AddWithValue("@Desde", desde);
-                cmd.Parameters.AddWithValue("@Hasta", hasta); // ✅ hasta +1 día ya aplicado antes
-                using SqlDataReader dr = cmd.ExecuteReader();
+                cmd.Parameters.AddWithValue("@Hasta", hasta);
 
+                using SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
+                    hayDatos = true;
+
                     if (tipo == "Ventas por mes")
                     {
-                        string periodo = dr["Periodo"].ToString();
+                        DateTime periodo = Convert.ToDateTime(dr["Periodo"]);
                         decimal total = Convert.ToDecimal(dr["Total"]);
-                        serie.Points.AddXY(periodo, total);
+                        serie.Points.AddXY(periodo.ToString("MMM yyyy", new System.Globalization.CultureInfo("es-ES")), total);
                     }
                     else if (tipo == "Top 5 productos más vendidos")
                     {
@@ -215,8 +240,38 @@ namespace nikeproject.UserControls
                 }
             }
 
-            ActualizarTituloGrafico(desde, hasta.AddDays(-1)); // mostrar rango real
+            if (!hayDatos)
+            {
+                hayDatosEnGrafico = false;
+                chartPrincipal.Series.Clear();
+                chartPrincipal.Invalidate();
+                ActualizarTituloGrafico(desde, hasta);
+                return;
+            }
+            else
+            {
+                hayDatosEnGrafico = true;
+            }
+
+            ActualizarTituloGrafico(desde, hasta);
             chartPrincipal.Invalidate();
+        }
+
+        // ========================= DIBUJO DEL TEXTO CUANDO NO HAY DATOS =========================
+        private void chartPrincipal_Paint(object sender, PaintEventArgs e)
+        {
+            if (!hayDatosEnGrafico)
+            {
+                string texto = "No hay datos para este intervalo";
+                using (Font fuente = new Font("Segoe UI", 10, FontStyle.Italic))
+                using (Brush brocha = new SolidBrush(Color.Gray))
+                {
+                    SizeF tamaño = e.Graphics.MeasureString(texto, fuente);
+                    float x = (chartPrincipal.Width - tamaño.Width) / 2;
+                    float y = (chartPrincipal.Height - tamaño.Height) / 2;
+                    e.Graphics.DrawString(texto, fuente, brocha, x, y);
+                }
+            }
         }
 
         private void ActualizarTituloGrafico(DateTime desde, DateTime hasta)
@@ -249,9 +304,6 @@ namespace nikeproject.UserControls
             return result == DBNull.Value ? 0 : Convert.ToInt32(result);
         }
 
-        private void ReportesControl_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void ReportesControl_Load(object sender, EventArgs e) { }
     }
 }
