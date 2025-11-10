@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using nikeproject.Data;
 using nikeproject.DataAccess;
+using nikeproject.Models;
 
 namespace nikeproject.Forms
 {
@@ -18,6 +19,7 @@ namespace nikeproject.Forms
             public DateTime FechaRegistro { get; set; }
             public decimal MontoTotal { get; set; }
             public string Cliente { get; set; }
+            public string Vendedor { get; set; }
         }
 
         // UI
@@ -49,6 +51,9 @@ namespace nikeproject.Forms
             CargarVentas();
         }
 
+        // =====================================================
+        // CONFIGURACIÓN DE INTERFAZ
+        // =====================================================
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -69,7 +74,7 @@ namespace nikeproject.Forms
             pnlTop = new Panel { AutoSize = true, Dock = DockStyle.Top, Padding = new Padding(8) };
 
             cbBuscar = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 160, Left = 8, Top = 10 };
-            cbBuscar.Items.AddRange(new object[] { "Tipo de Documento", "Cliente" });
+            cbBuscar.Items.AddRange(new object[] { "Tipo de Documento", "Cliente", "Vendedor" });
             cbBuscar.SelectedIndex = 0;
 
             txtBuscar = new TextBox { Left = cbBuscar.Right + 8, Top = 10, Width = 220 };
@@ -120,7 +125,7 @@ namespace nikeproject.Forms
             dgvVentas.CellClick += DgvVentas_CellClick;
 
             // Botón "Ver"
-            DataGridViewButtonColumn colVerFactura = new DataGridViewButtonColumn
+            var colVerFactura = new DataGridViewButtonColumn
             {
                 HeaderText = "Factura",
                 Name = "colVerFactura",
@@ -146,6 +151,7 @@ namespace nikeproject.Forms
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
             dgvVentas.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Cliente", HeaderText = "Cliente" });
+            dgvVentas.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Vendedor", HeaderText = "Vendedor" });
 
             // ---- Grilla de Detalle ----
             dgvDetalle = new DataGridView
@@ -207,7 +213,9 @@ namespace nikeproject.Forms
             Resize += Form_Resize;
         }
 
-        // --- Layout helpers ---
+        // =====================================================
+        // POSICIÓN AUTOMÁTICA DE SPLITCONTAINERS
+        // =====================================================
         private void Form_Resize(object sender, EventArgs e) => BeginInvoke((Action)(() => ApplySplitterPositions()));
 
         private void ApplySplitterPositions()
@@ -234,19 +242,23 @@ namespace nikeproject.Forms
             try { sc.SplitterDistance = desired; } catch { }
         }
 
-        // --- Data loading ---
+        // =====================================================
+        // CARGA DE DATOS
+        // =====================================================
         private void CargarVentas()
         {
             try
             {
                 var listaDyn = VentaData.ListarVentas();
+
                 _ventas = listaDyn.Select(v => new VentaRow
                 {
                     IdVenta = (int)v.IdVenta,
                     NumeroDocumento = (string)v.NumeroDocumento,
                     FechaRegistro = (DateTime)v.FechaRegistro,
                     MontoTotal = (decimal)v.MontoTotal,
-                    Cliente = (string)v.Cliente
+                    Cliente = (string)v.Cliente,
+                    Vendedor = (string)v.Vendedor
                 }).ToList();
 
                 _vistaActual = _ventas.ToList();
@@ -278,9 +290,12 @@ namespace nikeproject.Forms
 
             if (!string.IsNullOrEmpty(texto))
             {
-                q = columna == "Cliente"
-                    ? q.Where(v => (v.Cliente ?? "").ToLower().Contains(texto))
-                    : q.Where(v => (v.NumeroDocumento ?? "").ToLower().Contains(texto));
+                if (columna == "Cliente")
+                    q = q.Where(v => (v.Cliente ?? "").ToLower().Contains(texto));
+                else if (columna == "Vendedor")
+                    q = q.Where(v => (v.Vendedor ?? "").ToLower().Contains(texto));
+                else
+                    q = q.Where(v => (v.NumeroDocumento ?? "").ToLower().Contains(texto));
             }
 
             _vistaActual = q.ToList();
@@ -289,7 +304,9 @@ namespace nikeproject.Forms
             pbPreview.Image = null;
         }
 
-        // --- Event handlers ---
+        // =====================================================
+        // EVENTOS DE GRILLAS
+        // =====================================================
         private void DgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
