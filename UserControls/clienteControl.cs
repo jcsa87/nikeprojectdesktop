@@ -241,17 +241,22 @@ namespace nikeproject
                 bool estadoActual = (cbEstado.Text == "Activo");
 
                 string accion = estadoActual ? "dar de baja" : "reactivar";
-                if (MessageBox.Show($"¿Está seguro que desea {accion} este cliente?",
-                                    "Confirmar acción", MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(
+                        $"¿Está seguro que desea {accion} este cliente?",
+                        "Confirmar acción",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2 // 👈 el foco queda en "No"
+                    ) == DialogResult.Yes)
                 {
                     // Cambiar estado en DB
                     bool resultado = clienteData.CambiarEstadoCliente(idClienteSeleccionado, !estadoActual);
 
                     if (resultado)
                     {
-                        string msg = estadoActual ? "Cliente dado de baja correctamente."
-                                                  : "Cliente reactivado correctamente.";
+                        string msg = estadoActual
+                            ? "Cliente dado de baja correctamente."
+                            : "Cliente reactivado correctamente.";
                         MessageBox.Show("✅ " + msg);
                         CargarClientes();
                         LimpiarCampos();
@@ -267,6 +272,7 @@ namespace nikeproject
                 MessageBox.Show("⚠️ Seleccione un cliente de la lista.");
             }
         }
+
 
 
 

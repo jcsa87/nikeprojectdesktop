@@ -318,15 +318,8 @@ namespace nikeproject.Forms
                 dgvVentas.Columns[e.ColumnIndex].Name == "colVerFactura")
             {
                 int idVentaBtn = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
-                string estadoVenta = dgvVentas.Rows[e.RowIndex].Cells["Estado"].Value?.ToString() ?? "";
 
-                if (estadoVenta.Equals("Anulada", StringComparison.OrdinalIgnoreCase))
-                {
-                    MessageBox.Show("Esta venta fue anulada y no puede visualizarse.", "Venta anulada",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
+                // 🔹 Ya no bloqueamos las anuladas
                 using (var frmFactura = new FacturaForm(idVentaBtn))
                     frmFactura.ShowDialog(this);
 
@@ -337,6 +330,7 @@ namespace nikeproject.Forms
             int idVenta = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
             CargarDetalleVenta(idVenta);
         }
+
 
         private void CargarDetalleVenta(int idVenta)
         {
@@ -424,7 +418,8 @@ namespace nikeproject.Forms
                 "¿Estás seguro que deseas anular la venta?",
                 "Confirmar anulación",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2
             );
 
             if (confirm != DialogResult.Yes) return;
