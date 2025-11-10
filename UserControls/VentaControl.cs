@@ -12,20 +12,60 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using Microsoft.SqlServer;
 using System.Data.SqlClient;
 
-
 namespace nikeproject.UserControls
 {
     public partial class VentaControl : UserControl
     {
-
         private static VentaControl _instance;
 
-     
-       
+        // Variables internas
+        private int _idCliente = 0;
+        private int _idProducto = 0;
 
+        // Patrón Singleton
+        public static VentaControl Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new VentaControl();
+                return _instance;
+            }
+        }
 
+        public VentaControl()
+        {
+            InitializeComponent();
+            _instance = this;
+            InicializarCombos();
+        }
 
-        // para pasar selección desde buscadores
+        // =====================================================
+        // MÉTODOS DE CARGA INICIAL
+        // =====================================================
+        private void InicializarCombos()
+        {
+            cbTipoDoc.Items.Clear();
+            cbTipoDoc.Items.Add("Boleta");
+            cbTipoDoc.Items.Add("Factura");
+            cbTipoDoc.Items.Add("Ticket");
+
+            cbFormaPago.Items.Clear();
+            cbFormaPago.Items.Add("Efectivo");
+            cbFormaPago.Items.Add("Débito");
+            cbFormaPago.Items.Add("Crédito");
+            cbFormaPago.Items.Add("Transferencia");
+
+            cbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            cbTipoDoc.SelectedIndex = 0;
+            cbFormaPago.SelectedIndex = 0;
+        }
+
+        // =====================================================
+        // CLIENTE Y PRODUCTO SELECCIONADOS
+        // =====================================================
         public void SetClienteSeleccionado(int idCliente, string documento, string nombreCompleto)
         {
             _idCliente = idCliente;
@@ -56,7 +96,6 @@ namespace nikeproject.UserControls
                 btnAgregar.Enabled = true;
             }
 
-            // Imagen
             if (!string.IsNullOrEmpty(p.ImagenRuta) && File.Exists(p.ImagenRuta))
             {
                 pbProducto.Image = Image.FromFile(p.ImagenRuta);
@@ -68,57 +107,9 @@ namespace nikeproject.UserControls
             }
         }
 
-
-        private int _idCliente = 0;
-        private int _idProducto = 0;
-
-        public static VentaControl Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new VentaControl();
-                return _instance;
-            }
-        }
-
-        public VentaControl()
-        {
-            InitializeComponent();
-            _instance = this;
-
-            InicializarCombos();
-
-        }
-
-        private void InicializarCombos()
-        {
-            // Cargar tipos de documento
-            cbTipoDoc.Items.Clear();
-            cbTipoDoc.Items.Add("Boleta");
-            cbTipoDoc.Items.Add("Factura");
-            cbTipoDoc.Items.Add("Ticket");
-
-            // Cargar formas de pago
-            cbFormaPago.Items.Clear();
-            cbFormaPago.Items.Add("Efectivo");
-            cbFormaPago.Items.Add("Débito");
-            cbFormaPago.Items.Add("Crédito");
-            cbFormaPago.Items.Add("Transferencia");
-
-            // Evita que escriban texto libre
-            cbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            // Asigna valores por defecto
-            cbTipoDoc.SelectedIndex = 0;      // Selecciona "Boleta"
-            cbFormaPago.SelectedIndex = 0;    // Selecciona "Efectivo"
-        }
-
-
-
-
-
+        // =====================================================
+        // AGREGAR PRODUCTO A LA GRILLA
+        // =====================================================
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (_idProducto == 0)
@@ -143,7 +134,7 @@ namespace nikeproject.UserControls
             decimal precio = decimal.Parse(txtPrecio.Text);
             decimal subTotal = precio * cantidad;
 
-            // 🔍 Verificamos si el producto ya está en el detalle
+            // Verificar si el producto ya existe en la grilla
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -170,7 +161,7 @@ namespace nikeproject.UserControls
                 }
             }
 
-            // Si no estaba en la grilla, agregamos una nueva fila
+            // Si no estaba en la grilla, agregamos nueva fila
             int rowIndex = dgvDetalle.Rows.Add();
             DataGridViewRow nuevaFila = dgvDetalle.Rows[rowIndex];
             nuevaFila.Cells["colIdProducto"].Value = _idProducto;
@@ -180,19 +171,16 @@ namespace nikeproject.UserControls
             nuevaFila.Cells["colSubTotal"].Value = subTotal.ToString("0.00");
 
             RecalcularTotales();
-            ActualizarStockVisual(); // 👈 recalcular stock disponible visualmente
+            ActualizarStockVisual();
         }
-
 
         private void ActualizarStockVisual()
         {
             if (_idProducto == 0) return;
 
-            // Obtener stock real desde la base
             int stockReal = ProductoData.ObtenerStock(_idProducto);
-
-            // Calcular cuánto de ese producto ya está en el detalle
             int reservado = 0;
+
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -203,92 +191,47 @@ namespace nikeproject.UserControls
             }
 
             int disponible = Math.Max(0, stockReal - reservado);
-
             txtStock.Text = disponible.ToString();
             txtStock.BackColor = disponible <= 0 ? Color.LightCoral : Color.White;
             btnAgregar.Enabled = disponible > 0;
             nudCantidad.Maximum = disponible > 0 ? disponible : 1;
         }
 
+        // =====================================================
+        // CREAR VENTA
+        // =====================================================
         private void btnCrearVenta_Click(object sender, EventArgs e)
         {
-            // =====================================================
-            // VALIDACIONES INICIALES
-            // =====================================================
-
-            // 1) Verifica que haya un cliente seleccionado
             if (_idCliente == 0)
             {
                 MessageBox.Show("Seleccione un cliente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2) Verifica que haya al menos un producto agregado al detalle
             if (dgvDetalle.Rows.Count == 0)
             {
                 MessageBox.Show("Agregue al menos un producto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 3) Verifica que las filas tengan cantidades válidas (> 0)
-            int filasValidas = 0;
-            foreach (DataGridViewRow row in dgvDetalle.Rows)
-            {
-                if (row.IsNewRow) continue;
-
-                if (row.Cells["colCantidad"].Value != null &&
-                    int.TryParse(row.Cells["colCantidad"].Value.ToString(), out int cantidad) &&
-                    cantidad > 0)
-                {
-                    filasValidas++;
-                }
-            }
-
-            if (filasValidas == 0)
-            {
-                MessageBox.Show("Debe agregar al menos un producto con cantidad mayor que cero.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 4) Verifica que se haya seleccionado un medio de pago
             if (cbFormaPago.SelectedItem == null || string.IsNullOrWhiteSpace(cbFormaPago.Text))
             {
                 MessageBox.Show("Debe seleccionar un medio de pago antes de registrar la venta.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cbFormaPago.Focus();
                 return;
             }
 
-            // 5) Si la forma de pago es EFECTIVO, valida que el monto sea suficiente
-            if (cbFormaPago.SelectedItem?.ToString() == "Efectivo")
-            {
-                if (!(decimal.TryParse(txtPagaCon.Text, out decimal pagaCon) &&
-                      decimal.TryParse(txtTotal.Text, out decimal total) &&
-                      pagaCon >= total))
-                {
-                    MessageBox.Show("El monto entregado no cubre el total a pagar.", "Validación",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            // =====================================================
-            // REGISTRO DE LA VENTA EN BASE DE DATOS
-            // =====================================================
-
-            // 1) Crea el objeto de cabecera de venta
+            // Crea el objeto de cabecera de venta con el usuario actual logueado
             var venta = new Venta
             {
                 IdCliente = _idCliente,
-                IdUsuario = 1, // 👈 Reemplazar por el usuario actualmente logueado
+                IdUsuario = SesionUsuario.IdUsuario, // ✅ Guarda el vendedor actual
                 NumeroDocumento = cbTipoDoc.SelectedItem?.ToString() ?? "Boleta",
                 FechaRegistro = DateTime.Now,
                 MontoTotal = decimal.Parse(txtTotal.Text),
                 Estado = true
             };
 
-            // 2) Inserta la venta en la base de datos y obtiene el ID generado
             int idVenta = VentaData.InsertarVenta(venta);
             if (idVenta <= 0)
             {
@@ -296,9 +239,7 @@ namespace nikeproject.UserControls
                 return;
             }
 
-            // =====================================================
-            // REGISTRO DE DETALLES DE VENTA
-            // =====================================================
+            // Registrar detalles
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -308,7 +249,6 @@ namespace nikeproject.UserControls
                 decimal precioUnitario = Convert.ToDecimal(row.Cells["colPrecio"].Value);
                 decimal subTotal = Convert.ToDecimal(row.Cells["colSubTotal"].Value);
 
-                // Verifica nuevamente que el stock sea suficiente antes de descontar
                 int stockActual = ProductoData.ObtenerStock(idProducto);
                 if (cantidad > stockActual)
                 {
@@ -317,7 +257,6 @@ namespace nikeproject.UserControls
                     return;
                 }
 
-                // Crea el objeto de detalle y lo guarda
                 var det = new DetalleVenta
                 {
                     IdVenta = idVenta,
@@ -327,17 +266,12 @@ namespace nikeproject.UserControls
                     SubTotal = subTotal
                 };
 
-                // Inserta el detalle y descuenta stock real
                 DetalleVentaData.InsertarDetalle(det);
                 ProductoData.DescontarStock(idProducto, cantidad);
             }
 
-            // =====================================================
-            // CONFIRMACIÓN Y LIMPIEZA
-            // =====================================================
             MessageBox.Show("✅ Venta registrada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Limpieza de campos para nueva venta
             dgvDetalle.Rows.Clear();
             txtTotal.Text = "0.00";
             txtPagaCon.Text = "";
@@ -351,11 +285,9 @@ namespace nikeproject.UserControls
             txtPrecio.Text = "";
             txtStock.Text = "";
             nudCantidad.Value = 1;
-            cbFormaPago.SelectedIndex = -1; // 👈 limpia el combo de forma de pago
+            cbFormaPago.SelectedIndex = -1;
 
-            // =====================================================
-            // OPCIÓN DE IMPRIMIR FACTURA
-            // =====================================================
+            // Mostrar factura
             DialogResult imprimir = MessageBox.Show(
                 "¿Deseas imprimir la factura de esta venta?",
                 "Imprimir factura",
@@ -372,6 +304,9 @@ namespace nikeproject.UserControls
             }
         }
 
+        // =====================================================
+        // OTROS MÉTODOS
+        // =====================================================
         private void RecalcularTotales()
         {
             decimal total = 0m;
@@ -390,11 +325,8 @@ namespace nikeproject.UserControls
             ActualizarCambio();
         }
 
-
-
         private void txtPagaCon_TextChanged(object sender, EventArgs e)
         {
-            // Solo aplica si la forma de pago es Efectivo
             if (cbFormaPago.SelectedItem?.ToString() != "Efectivo")
             {
                 txtCambio.Text = "0.00";
@@ -416,12 +348,9 @@ namespace nikeproject.UserControls
             }
         }
 
-
         private void cbFormaPago_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool esEfectivo = cbFormaPago.SelectedItem?.ToString() == "Efectivo";
-
-            // habilitar/deshabilitar el cuadro de texto
             txtPagaCon.ReadOnly = !esEfectivo;
             txtPagaCon.BackColor = esEfectivo ? Color.White : SystemColors.Control;
 
@@ -432,11 +361,8 @@ namespace nikeproject.UserControls
             }
         }
 
-
-
         private void ActualizarCambio()
         {
-            // Cambio solo aplica en EFECTIVO
             if (cbFormaPago.SelectedItem?.ToString() != "Efectivo")
             {
                 txtCambio.Text = "0.00";
@@ -447,7 +373,6 @@ namespace nikeproject.UserControls
 
             if (decimal.TryParse(txtPagaCon.Text, out decimal pago))
             {
-                // Si ingresa menos de lo debido, el cambio se queda en 0
                 decimal cambio = Math.Max(0, pago - total);
                 txtCambio.Text = cambio.ToString("0.00");
             }
@@ -457,39 +382,15 @@ namespace nikeproject.UserControls
             }
         }
 
-
-
-
-        private void nudCantidad_ValueChanged(object sender, EventArgs e)
+        private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(txtStock.Text, out int stock))
+            if (e.RowIndex >= 0 && dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
             {
-                if (stock <= 0)
-                {
-                    txtStock.BackColor = Color.LightCoral;
-                    btnAgregar.Enabled = false;
-                    nudCantidad.Value = 1;
-                    nudCantidad.Maximum = 1;
-                }
-                else
-                {
-                    txtStock.BackColor = Color.White;
-                    btnAgregar.Enabled = true;
-
-                    // Si el usuario sube más que el stock, lo “recorta”
-                    if (nudCantidad.Value > stock) nudCantidad.Value = stock;
-                    nudCantidad.Maximum = stock;
-                }
-            }
-            else
-            {
-                // Stock inválido
-                btnAgregar.Enabled = false;
-                txtStock.BackColor = Color.LightCoral;
+                dgvDetalle.Rows.RemoveAt(e.RowIndex);
+                RecalcularTotales();
+                ActualizarStockVisual();
             }
         }
-
-
 
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
@@ -504,11 +405,9 @@ namespace nikeproject.UserControls
                     txtTelefono.Text = ev.Telefono;
                     txtCorreo.Text = ev.Correo;
                 };
-
                 frm.ShowDialog();
             }
         }
-
 
         private void btnBuscarProducto_Click(object sender, EventArgs e)
         {
@@ -516,7 +415,7 @@ namespace nikeproject.UserControls
             {
                 frm.ProductoSeleccionado += (s, ev) =>
                 {
-                    _idProducto = ev.IdProducto;  // 👈 aquí se carga el id real
+                    _idProducto = ev.IdProducto;
                     txtCodProducto.Text = ev.Codigo;
                     txtNombreProd.Text = ev.Nombre;
                     txtPrecio.Text = ev.PrecioVenta.ToString("0.00");
@@ -535,102 +434,11 @@ namespace nikeproject.UserControls
                         pbProducto.Image = null;
                     }
 
-                    // resetear colores según stock real
                     txtStock.BackColor = ev.Stock <= 0 ? Color.LightCoral : Color.White;
                     btnAgregar.Enabled = ev.Stock > 0;
                 };
-
                 frm.ShowDialog();
             }
-        }
-
-
-
-        private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && dgvDetalle.Columns[e.ColumnIndex].Name == "colQuitar")
-            {
-                dgvDetalle.Rows.RemoveAt(e.RowIndex);
-                RecalcularTotales();
-                ActualizarStockVisual(); 
-            }
-        }
-
-
-
-
-
-
-
-
-        private void CalcularTotal()
-        {
-            decimal total = 0;
-            foreach (DataGridViewRow r in dgvDetalle.Rows)
-            {
-                if (r.Cells["colSubTotal"].Value != null &&
-                    decimal.TryParse(r.Cells["colSubTotal"].Value.ToString(), out decimal sub))
-                {
-                    total += sub;
-                }
-            }
-            txtTotal.Text = total.ToString("0.00");
-            RecalcularCambio();
-        }
-
-        private void RecalcularCambio()
-        {
-            if (decimal.TryParse(txtPagaCon.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal pagaCon) &&
-                decimal.TryParse(txtTotal.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal total))
-            {
-                txtCambio.Text = pagaCon >= total ? (pagaCon - total).ToString("0.00") : "0.00";
-            }
-            else
-            {
-                txtCambio.Text = "0.00";
-            }
-        }
-
-
-        private void LimpiarProducto()
-        {
-            _idProducto = 0;
-            txtCodProducto.Text = "";
-            txtNombreProd.Text = "";
-            txtPrecio.Text = "";
-            txtStock.Text = "";
-            nudCantidad.Value = 1;
-        }
-
-        private void lblPagaCon_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtPagaCon_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtEfectivo_TextChanged(object sender, EventArgs e)
-        {
-            // Verifica que los valores sean válidos (numéricos)
-            if (decimal.TryParse(lblCambio.Text, out decimal efectivo) &&
-                decimal.TryParse(lblTotal.Text, out decimal total))
-            {
-                // Calcula el cambio solo si el efectivo es mayor o igual al total
-                decimal cambio = efectivo - total;
-                txtCambio.Text = cambio >= 0 ? cambio.ToString("0.00") : "0.00";
-
-            }
-
-        }
-            private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void btnHistorialVentas_Click(object sender, EventArgs e)
@@ -641,5 +449,23 @@ namespace nikeproject.UserControls
             }
         }
 
+        private void txtPagaCon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir teclas de control (Backspace, etc.) y dígitos
+            if (char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar))
+                return;
+
+            // Permitir UN separador decimal (coma o punto)
+            if (e.KeyChar == ',' || e.KeyChar == '.')
+            {
+                // Si ya hay coma o punto, bloquear
+                if (txtPagaCon.Text.Contains(",") || txtPagaCon.Text.Contains("."))
+                    e.Handled = true;
+                return;
+            }
+
+            // Todo lo demás, bloquear
+            e.Handled = true;
+        }
     }
 }
