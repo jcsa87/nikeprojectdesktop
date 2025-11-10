@@ -87,19 +87,20 @@ namespace nikeproject.UserControls
         }
 
         // ========================= INDICADORES =========================
+        // ========================= INDICADORES =========================
         private void CargarIndicadores()
         {
             decimal ventasActual = ObtenerDecimal(@"
-                SELECT ISNULL(SUM(MontoTotal),0)
-                FROM VENTA
-                WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
-                AND YEAR(FechaRegistro) = YEAR(GETDATE())");
+        SELECT ISNULL(SUM(MontoTotal),0)
+        FROM VENTA
+        WHERE MONTH(FechaRegistro) = MONTH(GETDATE())
+        AND YEAR(FechaRegistro) = YEAR(GETDATE())");
 
             decimal ventasAnterior = ObtenerDecimal(@"
-                SELECT ISNULL(SUM(MontoTotal),0)
-                FROM VENTA
-                WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
-                AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE()))");
+        SELECT ISNULL(SUM(MontoTotal),0)
+        FROM VENTA
+        WHERE MONTH(FechaRegistro) = MONTH(DATEADD(MONTH,-1,GETDATE()))
+        AND YEAR(FechaRegistro) = YEAR(DATEADD(MONTH,-1,GETDATE()))");
 
             int productosSinStock = ObtenerEntero("SELECT COUNT(*) FROM PRODUCTO WHERE Stock = 0");
             int clientesActivos = ObtenerEntero("SELECT COUNT(*) FROM CLIENTE WHERE Estado = 1");
@@ -108,12 +109,23 @@ namespace nikeproject.UserControls
             if (ventasAnterior > 0)
                 variacion = ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
 
-            // Buscar tarjetas por título
-            ActualizarTarjeta("Ventas mes", $"${ventasActual:N0}", Color.Black);
-            ActualizarTarjeta("Variación", $"{variacion:N1}%", variacion >= 0 ? Color.ForestGreen : Color.Firebrick);
-            ActualizarTarjeta("Artículos sin stock", productosSinStock.ToString(), Color.Firebrick);
-            ActualizarTarjeta("Clientes activos", clientesActivos.ToString(), Color.Black);
+            // Actualizamos directamente las etiquetas ya referenciadas desde el diseñador
+            lblVentasTitulo.Text = $"Ventas mes ({DateTime.Now:MMMM})";
+            lblVentasValor.Text = $"${ventasActual:N0}";
+
+            lblVariacionTitulo.Text = "Variación (vs mes anterior)";
+            lblVariacionValor.Text = $"{variacion:N1}%";
+            lblVariacionValor.ForeColor = variacion >= 0 ? Color.ForestGreen : Color.Firebrick;
+
+            lblStockTitulo.Text = "Artículos sin stock";
+            lblStockValor.Text = productosSinStock.ToString();
+            lblStockValor.ForeColor = Color.Firebrick;
+
+            lblClientesTitulo.Text = "Clientes activos";
+            lblClientesValor.Text = clientesActivos.ToString();
+            lblClientesValor.ForeColor = Color.Black;
         }
+
 
         private void ActualizarTarjeta(string tituloContiene, string nuevoValor, Color color)
         {
