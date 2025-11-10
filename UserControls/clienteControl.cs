@@ -74,6 +74,8 @@ namespace nikeproject
         {
             try
             {
+                ClienteData clienteData = new ClienteData();
+
                 // Validación de campos usando ClienteValidacion
                 if (!ClienteValidacion.NombreValido(txtNombre.Text))
                 {
@@ -99,6 +101,16 @@ namespace nikeproject
                     return;
                 }
 
+                // --- 👇 INICIO DE LA VALIDACIÓN NUEVA 👇 ---
+                
+                if (clienteData.ExisteDocumento(txtNroDocumento.Text.Trim()))
+                {
+                    MessageBox.Show("Ya existe un cliente registrado con ese número de documento.",
+                                    "Documento duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return;
+                }
+                // --- FIN DE LA VALIDACIÓN NUEVA ---
 
                 if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
                 {
@@ -125,7 +137,7 @@ namespace nikeproject
                     FechaCreacion = DateTime.Now
                 };
 
-                ClienteData clienteData = new ClienteData();
+                
                 bool resultado = clienteData.GuardarCliente(oCliente);
 
                 if (resultado)
@@ -262,6 +274,9 @@ namespace nikeproject
         {
             if (idClienteSeleccionado > 0)
             {
+                // --- MODIFICACIÓN 1: Mover la instanciación aquí ---
+                ClienteData clienteData = new ClienteData();
+
                 // Validar nombre
                 if (!ClienteValidacion.NombreValido(txtNombre.Text))
                 {
@@ -288,6 +303,16 @@ namespace nikeproject
                     txtNroDocumento.Focus();
                     return;
                 }
+
+                // --- 👇 MODIFICACIÓN 2: Agregar la validación de DNI duplicado 👇 ---
+                if (clienteData.ExisteDocumento(txtNroDocumento.Text.Trim(), idClienteSeleccionado))
+                {
+                    MessageBox.Show("Ese número de documento ya está siendo usado por otro cliente.",
+                                    "Documento duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return; // Detiene la edición
+                }
+                // --- FIN DE LA VALIDACIÓN NUEVA ---
 
                 // Validar correo
                 if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
@@ -319,7 +344,7 @@ namespace nikeproject
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
-                ClienteData clienteData = new ClienteData();
+                // (La línea original 'ClienteData clienteData = new ClienteData();' se borra de aquí)
                 if (clienteData.EditarCliente(oCliente))
                 {
                     MessageBox.Show("✅ Cliente editado correctamente.");

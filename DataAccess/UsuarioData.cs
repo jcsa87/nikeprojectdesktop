@@ -274,5 +274,39 @@ namespace nikeproject.DataAccess
             }
             return lista;
         }
+
+        /// <summary>
+        /// Verifica si un documento ya existe en la base de datos.
+        /// Si se pasa un idUsuario, ignora a ese usuario en la búsqueda (útil para editar).
+        /// </summary>
+        /// <param name="documento">El documento a verificar.</param>
+        /// <param name="idUsuarioIgnorar">Opcional. El IdUsuario que se debe ignorar en la búsqueda.</param>
+        /// <returns>True si el documento ya existe, False si no.</returns>
+        public bool ExisteDocumento(string documento, int idUsuarioIgnorar = 0)
+        {
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                // La consulta cambia si estamos ignorando un ID
+                string query = "SELECT COUNT(*) FROM USUARIO WHERE Documento = @documento";
+                if (idUsuarioIgnorar != 0)
+                {
+                    query += " AND IdUsuario != @idUsuario";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    if (idUsuarioIgnorar != 0)
+                    {
+                        cmd.Parameters.AddWithValue("@idUsuario", idUsuarioIgnorar);
+                    }
+
+                    oConexion.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
     }
 }

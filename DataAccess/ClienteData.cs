@@ -241,5 +241,42 @@ namespace nikeproject.DataAccess
             }
             return oCliente;
         }
+        public bool ExisteDocumento(string documento)
+        {
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                string query = "SELECT COUNT(*) FROM CLIENTE WHERE Documento = @documento";
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    oConexion.Open();
+
+                    int count = (int)cmd.ExecuteScalar();
+                    // Si count es > 0, significa que el documento ya existe
+                    return count > 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Verifica si un documento ya existe, ignorando un ID de cliente específico.
+        /// </summary>
+        public bool ExisteDocumento(string documento, int idClienteIgnorar)
+        {
+            using (SqlConnection oConexion = Conexion.Conectar())
+            {
+                string query = "SELECT COUNT(*) FROM CLIENTE WHERE Documento = @documento AND IdCliente != @idCliente";
+                using (SqlCommand cmd = new SqlCommand(query, oConexion))
+                {
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    cmd.Parameters.AddWithValue("@idCliente", idClienteIgnorar);
+                    oConexion.Open();
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
     }
 }

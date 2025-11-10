@@ -85,7 +85,10 @@ namespace nikeproject
         {
             try
             {
-                // --- Toda tu validación de campos se mantiene igual ---
+                // --- MODIFICADO: Instanciamos UsuarioData aquí ---
+                UsuarioData usuarioData = new UsuarioData();
+
+                // --- Validaciones de campos ---
                 if (!UsuarioValidacion.NombreValido(txtNombre.Text))
                 {
                     MessageBox.Show("El nombre solo puede contener letras y espacios, y no puede estar vacío.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -107,6 +110,16 @@ namespace nikeproject
                     return;
                 }
 
+                // --- NUEVO: Validación de Documento Duplicado ---
+                if (usuarioData.ExisteDocumento(txtNroDocumento.Text.Trim()))
+                {
+                    MessageBox.Show("Ya existe un usuario registrado con ese número de documento.",
+                                    "Documento duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return;
+                }
+                // --- FIN DE LA VALIDACIÓN NUEVA ---
+
                 if (!UsuarioValidacion.ClaveValida(txtClave.Text))
                 {
                     MessageBox.Show("La clave debe tener al menos 6 caracteres.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -121,36 +134,28 @@ namespace nikeproject
                     return;
                 }
 
-                // --- INICIO DE LA MODIFICACIÓN CENTRADA EN EL ENUM ---
-
-                // 1. Obtenemos el texto seleccionado en el ComboBox.
+                // ... (El resto de tu lógica para obtener el Rol está bien) ...
                 string rolSeleccionadoTexto = cbRol.SelectedItem?.ToString() ?? "";
-
-                // 2. Validamos ese texto (esta línea funciona como antes).
                 if (!UsuarioValidacion.RolValido(rolSeleccionadoTexto))
                 {
                     MessageBox.Show("Seleccione un rol válido.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cbRol.Focus();
                     return;
                 }
-
-                // 3. Si la validación pasa, "traducimos" el texto al enum.
                 Enum.TryParse<RolUsuario>(rolSeleccionadoTexto, out RolUsuario rolSeleccionadoEnum);
 
-                // --- FIN DE LA MODIFICACIÓN ---
 
-                // 4. Creamos el objeto Usuario usando el enum ya convertido.
                 Usuario oUsuario = new Usuario()
                 {
                     Nombre = txtNombre.Text.Trim(),
                     Apellido = txtApellido.Text.Trim(),
                     Documento = txtNroDocumento.Text.Trim(),
                     Clave = txtClave.Text.Trim(),
-                    Rol = rolSeleccionadoEnum, // ✨ ¡Aquí asignamos el enum, solucionando el error!
+                    Rol = rolSeleccionadoEnum,
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
-                UsuarioData usuarioData = new UsuarioData();
+                // --- MODIFICADO: Reutilizamos la variable 'usuarioData' ---
                 bool resultado = usuarioData.GuardarUsuario(oUsuario);
 
                 if (resultado)
@@ -279,6 +284,8 @@ namespace nikeproject
         {
             if (idUsuarioSeleccionado > 0)
             {
+                UsuarioData usuarioData = new UsuarioData();
+
                 // --- Todas tus validaciones se mantienen exactamente igual ---
                 if (!UsuarioValidacion.NombreValido(txtNombre.Text))
                 {
@@ -300,6 +307,17 @@ namespace nikeproject
                     txtNroDocumento.Focus();
                     return;
                 }
+
+                // --- 👇 INICIO DE LA VALIDACIÓN NUEVA (para Editar) 👇 ---
+                // Verificamos si el DNI existe Y PERTENECE A OTRO USUARIO
+                if (usuarioData.ExisteDocumento(txtNroDocumento.Text.Trim(), idUsuarioSeleccionado))
+                {
+                    MessageBox.Show("Ese número de documento ya está siendo usado por otro usuario.",
+                                    "Documento duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return; // Detiene la edición
+                }
+                // --- FIN DE LA VALIDACIÓN NUEVA ---
 
                 string claveParaGuardar = claveOriginal; // Por defecto, guardamos la clave original
 
@@ -359,7 +377,7 @@ namespace nikeproject
                     Estado = (cbEstado.SelectedItem?.ToString() == "Activo")
                 };
 
-                UsuarioData usuarioData = new UsuarioData();
+                
                 if (usuarioData.EditarUsuario(oUsuario))
                 {
                     MessageBox.Show("✅ Usuario editado correctamente.");
