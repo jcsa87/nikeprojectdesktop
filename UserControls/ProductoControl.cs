@@ -265,6 +265,24 @@ namespace nikeproject.UserControls
             {
                 pBImagenProducto.Image = null;
             }
+
+            // --- INICIO DE LÓGICA DE ROLES ---
+            RolUsuario rolActual = SesionUsuario.Rol; // (Ajusta 'SesionUsuario.Rol')
+
+            if (rolActual == RolUsuario.Supervisor)
+            {
+                // El Supervisor solo puede editar el STOCK.
+                txtCodigo.ReadOnly = true;
+                txtNombreProd.ReadOnly = true;
+                txtDescripcion.ReadOnly = true;
+                txtPrecioCompra.ReadOnly = true;
+                txtPrecioVenta.ReadOnly = true;
+                cbCategoria.Enabled = false;
+
+                txtStock.ReadOnly = false; // <-- ¡El único campo editable!
+            }
+            // (El Vendedor ya tiene todo bloqueado por el método ConfigurarVistaPorRol)
+            // --- FIN DE LÓGICA DE ROLES ---
         }
 
         // ================== AUXILIARES ==================
@@ -280,6 +298,9 @@ namespace nikeproject.UserControls
             txtPrecioVenta.Text = "";
             txtImagenRuta.Text = "";
             pBImagenProducto.Image = null;
+
+            // Vuelve a aplicar la lógica de roles para resetear los ReadOnly
+            ConfigurarVistaPorRol();
         }
 
         private void btnCargarImagen_Click(object sender, EventArgs e)
@@ -329,6 +350,54 @@ namespace nikeproject.UserControls
                 }
             }
         }
+
+        private void ProductoControl_Load(object sender, EventArgs e)
+        {
+            ConfigurarVistaPorRol();
+        }
+
+        private void ConfigurarVistaPorRol()
+        {
+            // (Ajusta 'SesionUsuario.Rol' al nombre real de tu propiedad)
+            RolUsuario rolActual = SesionUsuario.Rol;
+
+            if (rolActual == RolUsuario.Supervisor)
+            {
+                // Lógica del Supervisor:
+                btnGuardar.Enabled = false;   // No puede crear
+                btnEditar.Enabled = true;     // Sí puede editar (solo stock)
+                btnEliminar.Enabled = false;  // No puede dar de baja/reactivar
+                btnCargarImagen.Enabled = false;
+
+                // Campos bloqueados por defecto (se desbloquea 'Stock' al hacer clic)
+                txtCodigo.ReadOnly = true;
+                txtNombreProd.ReadOnly = true;
+                txtDescripcion.ReadOnly = true;
+                txtPrecioCompra.ReadOnly = true;
+                txtPrecioVenta.ReadOnly = true;
+                txtStock.ReadOnly = true;
+                cbCategoria.Enabled = false;
+            }
+            else if (rolActual == RolUsuario.Vendedor)
+            {
+                // Lógica del Vendedor (Modo "Solo Lectura"):
+                btnGuardar.Enabled = false;
+                btnEditar.Enabled = false;
+                btnEliminar.Enabled = false;
+                btnCargarImagen.Enabled = false;
+
+                // Todos los campos bloqueados
+                txtCodigo.ReadOnly = true;
+                txtNombreProd.ReadOnly = true;
+                txtDescripcion.ReadOnly = true;
+                txtPrecioCompra.ReadOnly = true;
+                txtPrecioVenta.ReadOnly = true;
+                txtStock.ReadOnly = true;
+                cbCategoria.Enabled = false;
+            }
+            // No hay 'else' para Administrador, él puede hacer todo por defecto.
+        }
+
 
     }
 }

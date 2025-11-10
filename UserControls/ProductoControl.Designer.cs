@@ -521,6 +521,7 @@
             Controls.Add(lblListaProductos);
             Name = "ProductoControl";
             Size = new Size(1082, 702);
+            Load += ProductoControl_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBImagenProducto).EndInit();
             ResumeLayout(false);

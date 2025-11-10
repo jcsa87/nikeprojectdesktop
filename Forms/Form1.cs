@@ -63,24 +63,27 @@ namespace nikeproject
             {
                 case RolUsuario.Administrador:
                     lRol.Text = "Administrador";
+                    // No se oculta nada
                     break;
 
                 case RolUsuario.Supervisor:
                     lRol.Text = "Supervisor";
+                    // No puede gestionar usuarios ni backups
                     pbUsuario.Visible = false;
-                    pbProductos.Visible = false;
+                    pbBackUp.Visible = false;
                     lbUsuario.Visible = false;
-                    lbProductos.Visible = false;
+                    lbBackup.Visible = false;
                     break;
 
                 case RolUsuario.Vendedor:
                     lRol.Text = "Vendedor";
+                    // No puede gestionar usuarios, backups, ni ver reportes
                     pbUsuario.Visible = false;
                     pbBackUp.Visible = false;
-                    pbProductos.Visible = false;
+                    pbReportes.Visible = false; // <-- Modificación clave
                     lbUsuario.Visible = false;
                     lbBackup.Visible = false;
-                    lbProductos.Visible = false;
+                    lbReportes.Visible = false; // <-- Modificación clave
                     break;
             }
 

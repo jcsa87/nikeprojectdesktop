@@ -467,6 +467,7 @@
             Controls.Add(lbListaUsuario);
             Name = "ClienteControl";
             Size = new Size(1045, 622);
+            Load += ClienteControl_Load;
             ((System.ComponentModel.ISupportInitialize)dgvCliente).EndInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource3).EndInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();

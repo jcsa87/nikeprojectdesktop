@@ -48,6 +48,15 @@ namespace nikeproject
             cbBusqueda.SelectedIndex = 0;
 
             dgvCliente.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // --- 👇 INICIO DE LÓGICA DE ROL 👇 ---
+            // (Ajusta 'SesionUsuario.Rol' si tu clase se llama distinto)
+            if (SesionUsuario.Rol == RolUsuario.Vendedor)
+            {
+                btnEditar.Enabled = false;
+                btnBaja.Enabled = false;
+            }
+            // --- FIN DE LÓGICA DE ROL ---
         }
 
         private void CargarClientes()
@@ -147,11 +156,11 @@ namespace nikeproject
                 idClienteSeleccionado = Convert.ToInt32(filaSeleccionada.Cells["IdCliente"].Value);
 
                 // Llenar campos
-                txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
-                txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
-                txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
-                txtCorreo.Text = filaSeleccionada.Cells["Correo"].Value.ToString();
-                txtTelefono.Text = filaSeleccionada.Cells["Telefono"].Value.ToString();
+                txtNombre.Text = Convert.ToString(filaSeleccionada.Cells["Nombre"].Value) ?? string.Empty;
+                txtApellido.Text = Convert.ToString(filaSeleccionada.Cells["Apellido"].Value) ?? string.Empty;
+                txtNroDocumento.Text = Convert.ToString(filaSeleccionada.Cells["Documento"].Value) ?? string.Empty;
+                txtCorreo.Text = Convert.ToString(filaSeleccionada.Cells["Correo"].Value) ?? string.Empty;
+                txtTelefono.Text = Convert.ToString(filaSeleccionada.Cells["Telefono"].Value) ?? string.Empty;
 
                 // Estado
                 bool estadoEsActivo = Convert.ToBoolean(filaSeleccionada.Cells["Estado"].Value);
@@ -168,6 +177,19 @@ namespace nikeproject
                     btnBaja.Text = "Reactivar Cliente";
                     btnBaja.BackColor = Color.SeaGreen; // verde
                 }
+
+                // --- 👇 INICIO DE LÓGICA DE ROL 👇 ---
+                if (SesionUsuario.Rol == RolUsuario.Vendedor)
+                {
+                    // Poner todo en modo "Solo Lectura" para el Vendedor
+                    txtNombre.ReadOnly = true;
+                    txtApellido.ReadOnly = true;
+                    txtNroDocumento.ReadOnly = true;
+                    txtCorreo.ReadOnly = true;
+                    txtTelefono.ReadOnly = true;
+                    cbEstado.Enabled = false;
+                }
+                // --- FIN DE LÓGICA DE ROL ---
             }
         }
 
@@ -371,6 +393,16 @@ namespace nikeproject
             txtTelefono.Clear();
             cbEstado.SelectedIndex = 0;
 
+            // --- 👇 INICIO DE LÓGICA DE ROL 👇 ---
+            // Quitamos el "Solo Lectura" para que se puedan crear nuevos clientes
+            // No importa el rol, todos deben poder escribir en un formulario limpio.
+            txtNombre.ReadOnly = false;
+            txtApellido.ReadOnly = false;
+            txtNroDocumento.ReadOnly = false;
+            txtCorreo.ReadOnly = false;
+            txtTelefono.ReadOnly = false;
+            cbEstado.Enabled = true;
+            // --- FIN DE LÓGICA DE ROL ---
         }
 
         private void dgvCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
