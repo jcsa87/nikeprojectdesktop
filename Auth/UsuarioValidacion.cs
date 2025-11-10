@@ -24,7 +24,7 @@ namespace nikeproject.Auth
         public static bool ClaveValida(string p_clave)
         {
             return !string.IsNullOrWhiteSpace(p_clave) && p_clave.Length >= 6;
-        
+        }
         public static bool ConfirmarClave(string p_clave, string p_confirmarClave)
         {
             return p_clave.Trim() == p_confirmarClave.Trim();

@@ -18,8 +18,6 @@
 
         #region Component Designer generated code
 
-
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VentaControl));
@@ -71,10 +69,8 @@
             txtCambio = new TextBox();
             txtPagaCon = new TextBox();
             btnCrearVenta = new Button();
-            lblHistorial = new Label();
-            lblDetalleVenta = new Label();
-            dgvDetalleHistorial = new DataGridView();
             btnHistorialVentas = new Button();
+
             grpVenta.SuspendLayout();
             grpCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbCliente).BeginInit();
@@ -83,59 +79,40 @@
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).BeginInit();
             pnlTotales.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).BeginInit();
             SuspendLayout();
-            // 
-            // grpVenta
-            // 
+
+            // ==================== GRUPO VENTA ====================
+            grpVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpVenta.Controls.Add(lblFecha);
             grpVenta.Controls.Add(dtpFecha);
             grpVenta.Controls.Add(lblTipoDoc);
             grpVenta.Controls.Add(cbTipoDoc);
-            grpVenta.Location = new Point(15, 10);
+            grpVenta.Location = new Point(50, 10);
             grpVenta.Name = "grpVenta";
-            grpVenta.Size = new Size(950, 60);
+            grpVenta.Size = new Size(1480, 60);
             grpVenta.TabIndex = 0;
             grpVenta.TabStop = false;
             grpVenta.Text = "Información Venta";
-            // 
-            // lblFecha
-            // 
+
             lblFecha.AutoSize = true;
             lblFecha.Location = new Point(15, 28);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(50, 20);
-            lblFecha.TabIndex = 0;
             lblFecha.Text = "Fecha:";
-            // 
-            // dtpFecha
-            // 
+
             dtpFecha.Enabled = false;
-            dtpFecha.Location = new Point(65, 24);
-            dtpFecha.Name = "dtpFecha";
+            dtpFecha.Location = new Point(70, 24);
             dtpFecha.Size = new Size(200, 27);
-            dtpFecha.TabIndex = 1;
-            // 
-            // lblTipoDoc
-            // 
+
             lblTipoDoc.AutoSize = true;
-            lblTipoDoc.Location = new Point(290, 28);
-            lblTipoDoc.Name = "lblTipoDoc";
-            lblTipoDoc.Size = new Size(124, 20);
-            lblTipoDoc.TabIndex = 2;
+            lblTipoDoc.Location = new Point(300, 28);
             lblTipoDoc.Text = "Tipo Documento:";
-            // 
-            // cbTipoDoc
-            // 
+
             cbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTipoDoc.Items.AddRange(new object[] { "Factura A", "Factura B", "Boleta" });
-            cbTipoDoc.Location = new Point(400, 24);
-            cbTipoDoc.Name = "cbTipoDoc";
+            cbTipoDoc.Items.AddRange(new object[] { "Factura", "Boleta", "Ticket" });
+            cbTipoDoc.Location = new Point(420, 24);
             cbTipoDoc.Size = new Size(160, 28);
-            cbTipoDoc.TabIndex = 3;
-            // 
-            // grpCliente
-            // 
+
+            // ==================== GRUPO CLIENTE ====================
+            grpCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpCliente.Controls.Add(pbCliente);
             grpCliente.Controls.Add(lblDocumento);
             grpCliente.Controls.Add(txtDocumentoCliente);
@@ -148,119 +125,64 @@
             grpCliente.Controls.Add(txtApellido);
             grpCliente.Controls.Add(txtTelefono);
             grpCliente.Controls.Add(txtNombreCliente);
-            grpCliente.Location = new Point(15, 80);
+            grpCliente.Location = new Point(50, 80);
             grpCliente.Name = "grpCliente";
-            grpCliente.Size = new Size(950, 70);
+            grpCliente.Size = new Size(1480, 80);
             grpCliente.TabIndex = 1;
             grpCliente.TabStop = false;
             grpCliente.Text = "Información Cliente";
-            // 
-            // pbCliente
-            // 
+
             pbCliente.Image = (Image)resources.GetObject("pbCliente.Image");
-            pbCliente.InitialImage = (Image)resources.GetObject("pbCliente.InitialImage");
-            pbCliente.Location = new Point(844, 15);
-            pbCliente.Name = "pbCliente";
+            pbCliente.Location = new Point(1360, 18);
             pbCliente.Size = new Size(88, 47);
             pbCliente.SizeMode = PictureBoxSizeMode.Zoom;
-            pbCliente.TabIndex = 13;
-            pbCliente.TabStop = false;
-            // 
-            // lblDocumento
-            // 
+
             lblDocumento.AutoSize = true;
-            lblDocumento.Location = new Point(15, 30);
-            lblDocumento.Name = "lblDocumento";
-            lblDocumento.Size = new Size(119, 20);
-            lblDocumento.TabIndex = 0;
+            lblDocumento.Location = new Point(15, 35);
             lblDocumento.Text = "Nro Documento:";
-            // 
-            // txtDocumentoCliente
-            // 
-            txtDocumentoCliente.Location = new Point(120, 27);
-            txtDocumentoCliente.Name = "txtDocumentoCliente";
-            txtDocumentoCliente.Size = new Size(160, 27);
-            txtDocumentoCliente.TabIndex = 1;
-            // 
-            // btnBuscarCliente
-            // 
-            btnBuscarCliente.Location = new Point(285, 27);
-            btnBuscarCliente.Name = "btnBuscarCliente";
-            btnBuscarCliente.Size = new Size(34, 23);
-            btnBuscarCliente.TabIndex = 2;
+
+            txtDocumentoCliente.Location = new Point(130, 32);
+            txtDocumentoCliente.Size = new Size(150, 27);
+
+            btnBuscarCliente.Location = new Point(285, 32);
+            btnBuscarCliente.Size = new Size(34, 27);
             btnBuscarCliente.Text = "🔍";
             btnBuscarCliente.Click += btnBuscarCliente_Click;
-            // 
-            // lblCorreo
-            // 
-            lblCorreo.AutoSize = true;
-            lblCorreo.Location = new Point(608, 41);
-            lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(57, 20);
-            lblCorreo.TabIndex = 3;
-            lblCorreo.Text = "Correo:";
-            // 
-            // lblTelefono
-            // 
-            lblTelefono.AutoSize = true;
-            lblTelefono.Location = new Point(605, 16);
-            lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(70, 20);
-            lblTelefono.TabIndex = 3;
-            lblTelefono.Text = "Telefono:";
-            // 
-            // lblApellido
-            // 
-            lblApellido.AutoSize = true;
-            lblApellido.Location = new Point(407, 42);
-            lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(69, 20);
-            lblApellido.TabIndex = 3;
-            lblApellido.Text = "Apellido:";
-            // 
-            // lblNombreCliente
-            // 
+
             lblNombreCliente.AutoSize = true;
-            lblNombreCliente.Location = new Point(407, 17);
-            lblNombreCliente.Name = "lblNombreCliente";
-            lblNombreCliente.Size = new Size(67, 20);
-            lblNombreCliente.TabIndex = 3;
+            lblNombreCliente.Location = new Point(340, 35);
             lblNombreCliente.Text = "Nombre:";
-            // 
-            // txtCorreo
-            // 
-            txtCorreo.Location = new Point(677, 39);
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.ReadOnly = true;
-            txtCorreo.Size = new Size(124, 27);
-            txtCorreo.TabIndex = 4;
-            // 
-            // txtApellido
-            // 
-            txtApellido.Location = new Point(473, 38);
-            txtApellido.Name = "txtApellido";
-            txtApellido.ReadOnly = true;
-            txtApellido.Size = new Size(124, 27);
-            txtApellido.TabIndex = 4;
-            // 
-            // txtTelefono
-            // 
-            txtTelefono.Location = new Point(677, 13);
-            txtTelefono.Name = "txtTelefono";
-            txtTelefono.ReadOnly = true;
-            txtTelefono.Size = new Size(124, 27);
-            txtTelefono.TabIndex = 4;
-            // 
-            // txtNombreCliente
-            // 
-            txtNombreCliente.Location = new Point(473, 13);
-            txtNombreCliente.Name = "txtNombreCliente";
+
+            txtNombreCliente.Location = new Point(410, 32);
             txtNombreCliente.ReadOnly = true;
-            txtNombreCliente.Size = new Size(124, 27);
-            txtNombreCliente.TabIndex = 4;
-            // 
-            // grpProducto
-            // 
+            txtNombreCliente.Size = new Size(140, 27);
+
+            lblApellido.AutoSize = true;
+            lblApellido.Location = new Point(560, 35);
+            lblApellido.Text = "Apellido:";
+
+            txtApellido.Location = new Point(620, 32);
+            txtApellido.ReadOnly = true;
+            txtApellido.Size = new Size(140, 27);
+
+            lblTelefono.AutoSize = true;
+            lblTelefono.Location = new Point(770, 35);
+            lblTelefono.Text = "Teléfono:";
+
+            txtTelefono.Location = new Point(845, 32);
+            txtTelefono.ReadOnly = true;
+            txtTelefono.Size = new Size(140, 27);
+
+            lblCorreo.AutoSize = true;
+            lblCorreo.Location = new Point(1000, 35);
+            lblCorreo.Text = "Correo:";
+
+            txtCorreo.Location = new Point(1060, 32);
+            txtCorreo.ReadOnly = true;
+            txtCorreo.Size = new Size(200, 27);
+
+            // ==================== GRUPO PRODUCTO ====================
+            grpProducto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             grpProducto.Controls.Add(pbProducto);
             grpProducto.Controls.Add(lblCodProd);
             grpProducto.Controls.Add(txtCodProducto);
@@ -274,184 +196,86 @@
             grpProducto.Controls.Add(lblCantidad);
             grpProducto.Controls.Add(nudCantidad);
             grpProducto.Controls.Add(btnAgregar);
-            grpProducto.Location = new Point(15, 160);
-            grpProducto.Name = "grpProducto";
-            grpProducto.Size = new Size(950, 90);
-            grpProducto.TabIndex = 2;
-            grpProducto.TabStop = false;
+            grpProducto.Location = new Point(50, 170);
+            grpProducto.Size = new Size(1480, 90);
             grpProducto.Text = "Información Producto";
-            // 
-            // pbProducto
-            // 
+
             pbProducto.Image = (Image)resources.GetObject("pbProducto.Image");
-            pbProducto.InitialImage = (Image)resources.GetObject("pbProducto.InitialImage");
-            pbProducto.Location = new Point(829, 12);
-            pbProducto.Name = "pbProducto";
-            pbProducto.Size = new Size(115, 72);
+            pbProducto.Location = new Point(1360, 15);
+            pbProducto.Size = new Size(100, 70);
             pbProducto.SizeMode = PictureBoxSizeMode.Zoom;
-            pbProducto.TabIndex = 12;
-            pbProducto.TabStop = false;
-            // 
-            // lblCodProd
-            // 
+
             lblCodProd.AutoSize = true;
-            lblCodProd.Location = new Point(15, 30);
-            lblCodProd.Name = "lblCodProd";
-            lblCodProd.Size = new Size(106, 20);
-            lblCodProd.TabIndex = 0;
+            lblCodProd.Location = new Point(15, 35);
             lblCodProd.Text = "Cod. Producto:";
-            // 
-            // txtCodProducto
-            // 
-            txtCodProducto.Location = new Point(110, 27);
-            txtCodProducto.Name = "txtCodProducto";
-            txtCodProducto.Size = new Size(160, 27);
-            txtCodProducto.TabIndex = 1;
-            // 
-            // btnBuscarProducto
-            // 
-            btnBuscarProducto.Location = new Point(275, 27);
-            btnBuscarProducto.Name = "btnBuscarProducto";
-            btnBuscarProducto.Size = new Size(34, 23);
-            btnBuscarProducto.TabIndex = 2;
+
+            txtCodProducto.Location = new Point(120, 32);
+            txtCodProducto.Size = new Size(150, 27);
+
+            btnBuscarProducto.Location = new Point(275, 32);
+            btnBuscarProducto.Size = new Size(34, 27);
             btnBuscarProducto.Text = "🔍";
             btnBuscarProducto.Click += btnBuscarProducto_Click;
-            // 
-            // lblNombreProd
-            // 
+
             lblNombreProd.AutoSize = true;
-            lblNombreProd.Location = new Point(330, 30);
-            lblNombreProd.Name = "lblNombreProd";
-            lblNombreProd.Size = new Size(72, 20);
-            lblNombreProd.TabIndex = 3;
+            lblNombreProd.Location = new Point(330, 35);
             lblNombreProd.Text = "Producto:";
-            // 
-            // txtNombreProd
-            // 
-            txtNombreProd.Location = new Point(395, 27);
-            txtNombreProd.Name = "txtNombreProd";
+
+            txtNombreProd.Location = new Point(410, 32);
             txtNombreProd.ReadOnly = true;
-            txtNombreProd.Size = new Size(129, 27);
-            txtNombreProd.TabIndex = 4;
-            // 
-            // lblPrecio
-            // 
+            txtNombreProd.Size = new Size(140, 27);
+
             lblPrecio.AutoSize = true;
-            lblPrecio.Location = new Point(545, 30);
-            lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(53, 20);
-            lblPrecio.TabIndex = 5;
+            lblPrecio.Location = new Point(560, 35);
             lblPrecio.Text = "Precio:";
-            // 
-            // txtPrecio
-            // 
-            txtPrecio.Location = new Point(605, 28);
-            txtPrecio.Name = "txtPrecio";
+
+            txtPrecio.Location = new Point(615, 32);
             txtPrecio.ReadOnly = true;
-            txtPrecio.Size = new Size(80, 27);
-            txtPrecio.TabIndex = 6;
-            // 
-            // lblStock
-            // 
+            txtPrecio.Size = new Size(90, 27);
+
             lblStock.AutoSize = true;
-            lblStock.Location = new Point(696, 31);
-            lblStock.Name = "lblStock";
-            lblStock.Size = new Size(48, 20);
-            lblStock.TabIndex = 7;
+            lblStock.Location = new Point(720, 35);
             lblStock.Text = "Stock:";
-            // 
-            // txtStock
-            // 
-            txtStock.Location = new Point(741, 28);
-            txtStock.Name = "txtStock";
+
+            txtStock.Location = new Point(770, 32);
             txtStock.ReadOnly = true;
             txtStock.Size = new Size(60, 27);
-            txtStock.TabIndex = 8;
-            // 
-            // lblCantidad
-            // 
+
             lblCantidad.AutoSize = true;
-            lblCantidad.Location = new Point(15, 58);
-            lblCantidad.Name = "lblCantidad";
-            lblCantidad.Size = new Size(72, 20);
-            lblCantidad.TabIndex = 9;
+            lblCantidad.Location = new Point(850, 35);
             lblCantidad.Text = "Cantidad:";
-            // 
-            // nudCantidad
-            // 
-            nudCantidad.Location = new Point(110, 55);
-            nudCantidad.Name = "nudCantidad";
+
+            nudCantidad.Location = new Point(925, 32);
             nudCantidad.Size = new Size(80, 27);
-            nudCantidad.TabIndex = 10;
-            // 
-            // btnAgregar
-            // 
-            btnAgregar.Location = new Point(205, 55);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(95, 23);
-            btnAgregar.TabIndex = 11;
+
+            btnAgregar.Location = new Point(1020, 32);
+            btnAgregar.Size = new Size(90, 27);
             btnAgregar.Text = "Agregar";
             btnAgregar.Click += btnAgregar_Click;
-            // 
-            // dgvDetalle
-            // 
-            dgvDetalle.ColumnHeadersHeight = 29;
-            dgvDetalle.Columns.AddRange(new DataGridViewColumn[] { colIdProducto, colProducto, colPrecio, colCantidad, colSubTotal, colQuitar });
-            dgvDetalle.Location = new Point(15, 260);
-            dgvDetalle.Name = "dgvDetalle";
+
+            // ==================== DETALLE ====================
+            dgvDetalle.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDetalle.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetalle.Location = new Point(50, 270);
+            dgvDetalle.Size = new Size(1480, 450);
             dgvDetalle.RowHeadersWidth = 51;
-            dgvDetalle.RowTemplate.Height = 26;
-            dgvDetalle.Size = new Size(950, 250);
-            dgvDetalle.TabIndex = 3;
+            dgvDetalle.RowTemplate.Height = 28;
+            dgvDetalle.Columns.AddRange(new DataGridViewColumn[] {
+                colIdProducto, colProducto, colPrecio, colCantidad, colSubTotal, colQuitar });
             dgvDetalle.CellContentClick += dgvDetalle_CellContentClick;
-            // 
-            // colIdProducto
-            // 
+
             colIdProducto.HeaderText = "IdProducto";
-            colIdProducto.MinimumWidth = 6;
-            colIdProducto.Name = "colIdProducto";
             colIdProducto.Visible = false;
-            colIdProducto.Width = 125;
-            // 
-            // colProducto
-            // 
             colProducto.HeaderText = "Producto";
-            colProducto.MinimumWidth = 6;
-            colProducto.Name = "colProducto";
-            colProducto.Width = 125;
-            // 
-            // colPrecio
-            // 
             colPrecio.HeaderText = "Precio";
-            colPrecio.MinimumWidth = 6;
-            colPrecio.Name = "colPrecio";
-            colPrecio.Width = 125;
-            // 
-            // colCantidad
-            // 
             colCantidad.HeaderText = "Cantidad";
-            colCantidad.MinimumWidth = 6;
-            colCantidad.Name = "colCantidad";
-            colCantidad.Width = 125;
-            // 
-            // colSubTotal
-            // 
             colSubTotal.HeaderText = "Sub Total";
-            colSubTotal.MinimumWidth = 6;
-            colSubTotal.Name = "colSubTotal";
-            colSubTotal.Width = 125;
-            // 
-            // colQuitar
-            // 
             colQuitar.HeaderText = "";
-            colQuitar.MinimumWidth = 6;
-            colQuitar.Name = "colQuitar";
             colQuitar.Text = "Quitar";
             colQuitar.UseColumnTextForButtonValue = true;
-            colQuitar.Width = 125;
-            // 
-            // pnlTotales
-            // 
+
+            // ==================== PANELES DE TOTALES ====================
+            pnlTotales.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pnlTotales.Controls.Add(lblTotal);
             pnlTotales.Controls.Add(txtTotal);
             pnlTotales.Controls.Add(lblPagaCon);
@@ -459,150 +283,74 @@
             pnlTotales.Controls.Add(lblCambio);
             pnlTotales.Controls.Add(txtCambio);
             pnlTotales.Controls.Add(txtPagaCon);
-            pnlTotales.Location = new Point(437, 516);
-            pnlTotales.Name = "pnlTotales";
-            pnlTotales.Size = new Size(415, 80);
-            pnlTotales.TabIndex = 4;
-            // 
-            // lblTotal
-            // 
+            pnlTotales.Location = new Point(960, 735);
+            pnlTotales.Size = new Size(400, 90);
+
             lblTotal.AutoSize = true;
             lblTotal.Location = new Point(10, 15);
-            lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(98, 20);
-            lblTotal.TabIndex = 0;
             lblTotal.Text = "Total a Pagar:";
-            // 
-            // txtTotal
-            // 
-            txtTotal.Location = new Point(100, 12);
-            txtTotal.Name = "txtTotal";
+
+            txtTotal.Location = new Point(110, 12);
             txtTotal.ReadOnly = true;
             txtTotal.Size = new Size(100, 27);
-            txtTotal.TabIndex = 1;
             txtTotal.Text = "0.00";
-            // 
-            // lblPagaCon
-            // 
+
             lblPagaCon.AutoSize = true;
-            lblPagaCon.Location = new Point(207, 15);
-            lblPagaCon.Name = "lblPagaCon";
-            lblPagaCon.Size = new Size(72, 20);
-            lblPagaCon.TabIndex = 2;
-            lblPagaCon.Text = "Paga con:";
-            lblPagaCon.Click += lblPagaCon_Click;
-            // 
-            // cbFormaPago
-            // 
+            lblPagaCon.Location = new Point(225, 15);
+            lblPagaCon.Text = "Forma Pago:";
+
             cbFormaPago.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
-            cbFormaPago.Location = new Point(272, 15);
-            cbFormaPago.Name = "cbFormaPago";
-            cbFormaPago.Size = new Size(88, 28);
-            cbFormaPago.TabIndex = 3;
+            cbFormaPago.Items.AddRange(new object[] { "Efectivo", "Débito", "Crédito", "Transferencia" });
+            cbFormaPago.Location = new Point(310, 12);
+            cbFormaPago.Size = new Size(85, 27);
             cbFormaPago.SelectedIndexChanged += cbFormaPago_SelectedIndexChanged;
-            // 
-            // lblCambio
-            // 
+
             lblCambio.AutoSize = true;
-            lblCambio.Location = new Point(10, 45);
-            lblCambio.Name = "lblCambio";
-            lblCambio.Size = new Size(64, 20);
-            lblCambio.TabIndex = 4;
+            lblCambio.Location = new Point(10, 55);
             lblCambio.Text = "Cambio:";
-            // 
-            // txtCambio
-            // 
-            txtCambio.Location = new Point(100, 42);
-            txtCambio.Name = "txtCambio";
+
+            txtCambio.Location = new Point(110, 52);
             txtCambio.ReadOnly = true;
             txtCambio.Size = new Size(100, 27);
-            txtCambio.TabIndex = 5;
             txtCambio.Text = "0.00";
-            txtCambio.TextChanged += txtEfectivo_TextChanged;
-            // 
-            // txtPagaCon
-            // 
-            txtPagaCon.Location = new Point(272, 42);
-            txtPagaCon.Name = "txtPagaCon";
-            txtPagaCon.Size = new Size(100, 27);
-            txtPagaCon.TabIndex = 7;
+
+            txtPagaCon.Location = new Point(310, 52);
+            txtPagaCon.Size = new Size(85, 27);
             txtPagaCon.TextChanged += txtPagaCon_TextChanged;
             txtPagaCon.KeyPress += txtPagaCon_KeyPress;
-            // 
-            // btnCrearVenta
-            // 
+
+            // ==================== BOTONES FINALES ====================
+            btnCrearVenta.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnCrearVenta.BackColor = Color.SeaGreen;
-            btnCrearVenta.FlatAppearance.BorderSize = 0;
             btnCrearVenta.FlatStyle = FlatStyle.Flat;
             btnCrearVenta.ForeColor = Color.White;
-            btnCrearVenta.Location = new Point(872, 527);
-            btnCrearVenta.Name = "btnCrearVenta";
-            btnCrearVenta.Size = new Size(75, 23);
-            btnCrearVenta.TabIndex = 0;
+            btnCrearVenta.Location = new Point(1380, 760);
+            btnCrearVenta.Size = new Size(150, 40);
             btnCrearVenta.Text = "Crear Venta";
-            btnCrearVenta.UseVisualStyleBackColor = false;
             btnCrearVenta.Click += btnCrearVenta_Click;
-            // 
-            // lblHistorial
-            // 
-            lblHistorial.AutoSize = true;
-            lblHistorial.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblHistorial.Location = new Point(15, 20);
-            lblHistorial.Name = "lblHistorial";
-            lblHistorial.Size = new Size(134, 19);
-            lblHistorial.TabIndex = 0;
-            lblHistorial.Text = "Ventas Registradas";
-            // 
-            // lblDetalleVenta
-            // 
-            lblDetalleVenta.AutoSize = true;
-            lblDetalleVenta.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblDetalleVenta.Location = new Point(15, 280);
-            lblDetalleVenta.Name = "lblDetalleVenta";
-            lblDetalleVenta.Size = new Size(118, 19);
-            lblDetalleVenta.TabIndex = 1;
-            lblDetalleVenta.Text = "Detalle de Venta";
-            // 
-            // dgvDetalleHistorial
-            // 
-            dgvDetalleHistorial.AllowUserToAddRows = false;
-            dgvDetalleHistorial.AllowUserToDeleteRows = false;
-            dgvDetalleHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDetalleHistorial.ColumnHeadersHeight = 29;
-            dgvDetalleHistorial.Location = new Point(15, 305);
-            dgvDetalleHistorial.Name = "dgvDetalleHistorial";
-            dgvDetalleHistorial.ReadOnly = true;
-            dgvDetalleHistorial.RowHeadersWidth = 51;
-            dgvDetalleHistorial.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDetalleHistorial.Size = new Size(470, 270);
-            dgvDetalleHistorial.TabIndex = 1;
-            // 
-            // btnHistorialVentas
-            // 
+
+            btnHistorialVentas.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnHistorialVentas.BackColor = SystemColors.ActiveCaption;
-            btnHistorialVentas.FlatAppearance.BorderSize = 0;
             btnHistorialVentas.FlatStyle = FlatStyle.Flat;
-            btnHistorialVentas.ForeColor = SystemColors.WindowText;
-            btnHistorialVentas.Location = new Point(62, 527);
-            btnHistorialVentas.Name = "btnHistorialVentas";
-            btnHistorialVentas.Size = new Size(127, 49);
-            btnHistorialVentas.TabIndex = 0;
+            btnHistorialVentas.Location = new Point(50, 760);
+            btnHistorialVentas.Size = new Size(150, 40);
             btnHistorialVentas.Text = "Historial de Ventas";
-            btnHistorialVentas.UseVisualStyleBackColor = false;
             btnHistorialVentas.Click += btnHistorialVentas_Click;
-            // 
-            // VentaControl
-            // 
+
+            // ==================== CONTROL PRINCIPAL ====================
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             Controls.Add(btnHistorialVentas);
             Controls.Add(btnCrearVenta);
-            Controls.Add(grpVenta);
-            Controls.Add(grpCliente);
-            Controls.Add(grpProducto);
-            Controls.Add(dgvDetalle);
             Controls.Add(pnlTotales);
+            Controls.Add(dgvDetalle);
+            Controls.Add(grpProducto);
+            Controls.Add(grpCliente);
+            Controls.Add(grpVenta);
             Name = "VentaControl";
-            Size = new Size(1583, 1065);
+            Size = new Size(1583, 830);
+
             grpVenta.ResumeLayout(false);
             grpVenta.PerformLayout();
             grpCliente.ResumeLayout(false);
@@ -615,72 +363,59 @@
             ((System.ComponentModel.ISupportInitialize)dgvDetalle).EndInit();
             pnlTotales.ResumeLayout(false);
             pnlTotales.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDetalleHistorial).EndInit();
             ResumeLayout(false);
-
-
         }
 
         #endregion
-        public Label lblHistorial;
-        public Label lblDetalleVenta;
-        public DataGridView dgvDetalleHistorial;
- 
 
-
-        public System.Windows.Forms.GroupBox grpVenta;
-        public System.Windows.Forms.Label lblFecha;
-        public System.Windows.Forms.DateTimePicker dtpFecha;
-        public System.Windows.Forms.Label lblTipoDoc;
-        public System.Windows.Forms.ComboBox cbTipoDoc;
-
-
-        public System.Windows.Forms.GroupBox grpCliente;
-        public System.Windows.Forms.Label lblDocumento;
-        public System.Windows.Forms.TextBox txtDocumentoCliente;
-        public System.Windows.Forms.Button btnBuscarCliente;
-        public System.Windows.Forms.Label lblNombreCliente;
-        public System.Windows.Forms.TextBox txtNombreCliente;
-
-        public System.Windows.Forms.GroupBox grpProducto;
-        public System.Windows.Forms.Label lblCodProd;
-        public System.Windows.Forms.TextBox txtCodProducto;
-        public System.Windows.Forms.Button btnBuscarProducto;
-        public System.Windows.Forms.Label lblNombreProd;
-        public System.Windows.Forms.TextBox txtNombreProd;
-        public System.Windows.Forms.Label lblPrecio;
-        public System.Windows.Forms.TextBox txtPrecio;
-        public System.Windows.Forms.Label lblStock;
-        public System.Windows.Forms.TextBox txtStock;
-        public System.Windows.Forms.Label lblCantidad;
-        public System.Windows.Forms.NumericUpDown nudCantidad;
-        public System.Windows.Forms.Button btnAgregar;
-
-        public System.Windows.Forms.DataGridView dgvDetalle;
-        public System.Windows.Forms.DataGridViewTextBoxColumn colIdProducto;
-        public System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
-        public System.Windows.Forms.DataGridViewTextBoxColumn colPrecio;
-        public System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
-        public System.Windows.Forms.DataGridViewTextBoxColumn colSubTotal;
-        public System.Windows.Forms.DataGridViewButtonColumn colQuitar;
-
-        public System.Windows.Forms.Panel pnlTotales;
-        public System.Windows.Forms.Label lblTotal;
-        public System.Windows.Forms.TextBox txtTotal;
-        public System.Windows.Forms.Label lblPagaCon;
-        public System.Windows.Forms.Label lblCambio;
-        public System.Windows.Forms.TextBox txtCambio;
-        public System.Windows.Forms.Button btnCrearVenta;
-        public PictureBox pbProducto;
-        public Label lblCorreo;
-        public Label lblTelefono;
-        public Label lblApellido;
-        public TextBox txtCorreo;
-        public TextBox txtApellido;
-        public TextBox txtTelefono;
-        public TextBox txtPagaCon;
-        public PictureBox pbCliente;
-        public Button btnHistorialVentas;
-        protected ComboBox cbFormaPago;
+        private GroupBox grpVenta;
+        private Label lblFecha;
+        private DateTimePicker dtpFecha;
+        private Label lblTipoDoc;
+        private ComboBox cbTipoDoc;
+        private GroupBox grpCliente;
+        private Label lblDocumento;
+        private TextBox txtDocumentoCliente;
+        private Button btnBuscarCliente;
+        private Label lblNombreCliente;
+        private TextBox txtNombreCliente;
+        private Label lblApellido;
+        private TextBox txtApellido;
+        private Label lblTelefono;
+        private TextBox txtTelefono;
+        private Label lblCorreo;
+        private TextBox txtCorreo;
+        private PictureBox pbCliente;
+        private GroupBox grpProducto;
+        private PictureBox pbProducto;
+        private Label lblCodProd;
+        private TextBox txtCodProducto;
+        private Button btnBuscarProducto;
+        private Label lblNombreProd;
+        private TextBox txtNombreProd;
+        private Label lblPrecio;
+        private TextBox txtPrecio;
+        private Label lblStock;
+        private TextBox txtStock;
+        private Label lblCantidad;
+        private NumericUpDown nudCantidad;
+        private Button btnAgregar;
+        private DataGridView dgvDetalle;
+        private DataGridViewTextBoxColumn colIdProducto;
+        private DataGridViewTextBoxColumn colProducto;
+        private DataGridViewTextBoxColumn colPrecio;
+        private DataGridViewTextBoxColumn colCantidad;
+        private DataGridViewTextBoxColumn colSubTotal;
+        private DataGridViewButtonColumn colQuitar;
+        private Panel pnlTotales;
+        private Label lblTotal;
+        private TextBox txtTotal;
+        private Label lblPagaCon;
+        private ComboBox cbFormaPago;
+        private Label lblCambio;
+        private TextBox txtCambio;
+        private TextBox txtPagaCon;
+        private Button btnCrearVenta;
+        private Button btnHistorialVentas;
     }
 }
