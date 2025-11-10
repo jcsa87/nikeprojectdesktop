@@ -292,7 +292,7 @@ namespace nikeproject.Forms
         // --- Event handlers ---
         private void DgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             // Botón "Ver"
             if (dgvVentas.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
