@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using nikeproject.Models;
+
 
 namespace nikeproject
 {
@@ -55,7 +55,7 @@ namespace nikeproject
             ClienteData clienteData = new ClienteData();
             dgvCliente.DataSource = clienteData.ListarClientes();
 
-          
+
             // Ocultar la columna Estado, pero mantenerla para el coloreo
             if (dgvCliente.Columns.Contains("Estado"))
                 dgvCliente.Columns["Estado"].Visible = false;
@@ -258,6 +258,15 @@ namespace nikeproject
                     return;
                 }
 
+                // Validar documento
+                if (!ClienteValidacion.DocumentoValido(txtNroDocumento.Text) || !txtNroDocumento.Text.All(char.IsDigit))
+                {
+                    MessageBox.Show("El documento debe ser numérico y no puede estar vacío.",
+                                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNroDocumento.Focus();
+                    return;
+                }
+
                 // Validar correo
                 if (!ClienteValidacion.CorreoValido(txtCorreo.Text))
                 {
@@ -277,7 +286,7 @@ namespace nikeproject
                 }
 
                 // Crear objeto cliente con datos del formulario
-                Cliente  oCliente = new Cliente()
+                Cliente oCliente = new Cliente()
                 {
                     IdCliente = idClienteSeleccionado,
                     Nombre = txtNombre.Text.Trim(),
@@ -404,6 +413,33 @@ namespace nikeproject
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void txtDocumento_TextChanged(object sender, EventArgs e)
+        {
+            // Obtener el control que disparó el evento
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+
+            // 1. Crear un nuevo string que contenga SOLO los dígitos
+            string cleanText = new string(text.Where(char.IsDigit).ToArray());
+
+            // 2. Comprobar si el texto original tenía letras (para evitar un bucle)
+            if (text != cleanText)
+            {
+                // 3. Guardar la posición actual del cursor
+                int cursorPosition = textBox.SelectionStart;
+
+                // 4. Calcular cuántos caracteres "malos" había ANTES del cursor
+                int nonDigitCharsBeforeCursor = text.Take(cursorPosition).Count(c => !char.IsDigit(c));
+
+                // 5. Asignar el texto limpio
+                textBox.Text = cleanText;
+
+                // 6. Restaurar el cursor a su posición correcta
+                // (Esto es para que el cursor no salte al inicio cada vez que pega)
+                textBox.SelectionStart = Math.Max(0, cursorPosition - nonDigitCharsBeforeCursor);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace nikeproject
         public Form1() : this(RolUsuario.Vendedor) { }
 
 
-           private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             ConfigurarMenuPorRol(_rol); // ¡Perfecto! Esto llama a ReordenarMenu
             panelContenedor.Controls.Clear();
@@ -189,16 +189,13 @@ namespace nikeproject
         private void MostrarControl(UserControl control)
         {
             panelContenedor.Controls.Clear();
-            control.Dock = DockStyle.Fill;
+            control.Dock = DockStyle.Fill; // <--- Déjalo así de simple
             panelContenedor.Controls.Add(control);
         }
 
 
 
-        private void flowMenu_Paint(object sender, PaintEventArgs e)
-        {
 
-        }
     }
 }
 

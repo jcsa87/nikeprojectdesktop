@@ -27,7 +27,7 @@
             txtDestino = new TextBox();
             btnSeleccionarDestino = new Button();
             grpOpciones = new GroupBox();
-            label1 = new Label();
+            lbBackUp = new Label();
             clbTablas = new CheckedListBox();
             rbBackupCompleto = new RadioButton();
             lblNombreBackup = new Label();
@@ -40,6 +40,7 @@
             // 
             // lblDestino
             // 
+            lblDestino.Anchor = AnchorStyles.None;
             lblDestino.AutoSize = true;
             lblDestino.Location = new Point(40, 40);
             lblDestino.Name = "lblDestino";
@@ -49,6 +50,7 @@
             // 
             // txtDestino
             // 
+            txtDestino.Anchor = AnchorStyles.None;
             txtDestino.BorderStyle = BorderStyle.FixedSingle;
             txtDestino.Location = new Point(40, 58);
             txtDestino.Name = "txtDestino";
@@ -57,6 +59,7 @@
             // 
             // btnSeleccionarDestino
             // 
+            btnSeleccionarDestino.Anchor = AnchorStyles.None;
             btnSeleccionarDestino.BackColor = Color.DarkGray;
             btnSeleccionarDestino.Cursor = Cursors.Hand;
             btnSeleccionarDestino.FlatStyle = FlatStyle.Flat;
@@ -70,7 +73,8 @@
             // 
             // grpOpciones
             // 
-            grpOpciones.Controls.Add(label1);
+            grpOpciones.Anchor = AnchorStyles.None;
+            grpOpciones.Controls.Add(lbBackUp);
             grpOpciones.Controls.Add(clbTablas);
             grpOpciones.Controls.Add(rbBackupCompleto);
             grpOpciones.Controls.Add(lblNombreBackup);
@@ -83,15 +87,15 @@
             grpOpciones.TabStop = false;
             grpOpciones.Text = "Configuraciones";
             // 
-            // label1
+            // lbBackUp
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
-            label1.Location = new Point(31, 52);
-            label1.Name = "label1";
-            label1.Size = new Size(297, 15);
-            label1.TabIndex = 6;
-            label1.Text = "El back up guardará un registro de los siguientes datos:";
+            lbBackUp.AutoSize = true;
+            lbBackUp.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lbBackUp.Location = new Point(31, 52);
+            lbBackUp.Name = "lbBackUp";
+            lbBackUp.Size = new Size(297, 15);
+            lbBackUp.TabIndex = 6;
+            lbBackUp.Text = "El back up guardará un registro de los siguientes datos:";
             // 
             // clbTablas
             // 
@@ -146,6 +150,7 @@
             // 
             // btnBackup
             // 
+            btnBackup.Anchor = AnchorStyles.None;
             btnBackup.BackColor = Color.RoyalBlue;
             btnBackup.Cursor = Cursors.Hand;
             btnBackup.FlatStyle = FlatStyle.Flat;
@@ -181,6 +186,7 @@
             Controls.Add(lblDestino);
             Name = "BackUpControl";
             Size = new Size(600, 450);
+            Resize += BackUpControl_Resize;
             grpOpciones.ResumeLayout(false);
             grpOpciones.PerformLayout();
             ResumeLayout(false);
@@ -201,6 +207,6 @@
         private System.Windows.Forms.CheckBox chkAgregarFecha;
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Label lblResultado;
-        private Label label1;
+        private Label lbBackUp;
     }
 }

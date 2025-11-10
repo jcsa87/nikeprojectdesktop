@@ -23,7 +23,7 @@ namespace nikeproject.DataAccess
                     cmd.Parameters.AddWithValue("@apellido", oUsuario.Apellido);
                     cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
                     cmd.Parameters.AddWithValue("@clave", oUsuario.Clave);
-                    cmd.Parameters.AddWithValue("@rol", oUsuario.Rol);
+                    cmd.Parameters.AddWithValue("@rol", oUsuario.Rol.ToString());
                     cmd.Parameters.AddWithValue("@estado", oUsuario.Estado);
                     cmd.CommandType = CommandType.Text;
                     return cmd.ExecuteNonQuery() > 0;
@@ -78,7 +78,7 @@ namespace nikeproject.DataAccess
                         cmd.Parameters.AddWithValue("@apellido", oUsuario.Apellido);
                         cmd.Parameters.AddWithValue("@documento", oUsuario.Documento);
                         cmd.Parameters.AddWithValue("@clave", oUsuario.Clave);
-                        cmd.Parameters.AddWithValue("@rol", oUsuario.Rol);
+                        cmd.Parameters.AddWithValue("@rol", oUsuario.Rol.ToString());
                         cmd.Parameters.AddWithValue("@estado", oUsuario.Estado);
                         cmd.Parameters.AddWithValue("@idusuario", oUsuario.IdUsuario);
                         cmd.CommandType = CommandType.Text;

@@ -128,7 +128,7 @@
             flowMenu.Size = new Size(110, 603);
             flowMenu.TabIndex = 0;
             flowMenu.WrapContents = false;
-            flowMenu.Paint += flowMenu_Paint;
+
             // 
             // pbUsuario
             // 
@@ -359,6 +359,7 @@
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(862, 702);
             panelContenedor.TabIndex = 1;
+
             // 
             // Form1
             // 
