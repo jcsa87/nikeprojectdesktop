@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using nikeproject.Auth;
 using nikeproject.DataAccess;
 using nikeproject.Helpers;
@@ -171,6 +171,7 @@ namespace nikeproject
                 txtNombre.Text = Convert.ToString(filaSeleccionada.Cells["Nombre"].Value) ?? string.Empty;
                 txtApellido.Text = Convert.ToString(filaSeleccionada.Cells["Apellido"].Value) ?? string.Empty;
                 txtNroDocumento.Text = Convert.ToString(filaSeleccionada.Cells["Documento"].Value) ?? string.Empty;
+                txtNroDocumento.ReadOnly = true;
                 txtCorreo.Text = Convert.ToString(filaSeleccionada.Cells["Correo"].Value) ?? string.Empty;
                 txtTelefono.Text = Convert.ToString(filaSeleccionada.Cells["Telefono"].Value) ?? string.Empty;
 

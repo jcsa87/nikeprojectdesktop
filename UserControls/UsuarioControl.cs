@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using nikeproject.Auth;
 using nikeproject.DataAccess;
 using nikeproject.Helpers;
@@ -182,6 +182,7 @@ namespace nikeproject
             txtNombre.Clear();
             txtApellido.Clear();
             txtNroDocumento.Clear();
+            txtNroDocumento.ReadOnly = false;
             txtClave.Clear();
             txtConfirmarClave.Clear();
             cbRol.SelectedIndex = 0;
@@ -251,6 +252,7 @@ namespace nikeproject
                 txtNombre.Text = filaSeleccionada.Cells["Nombre"].Value.ToString();
                 txtApellido.Text = filaSeleccionada.Cells["Apellido"].Value.ToString();
                 txtNroDocumento.Text = filaSeleccionada.Cells["Documento"].Value.ToString();
+                txtNroDocumento.ReadOnly = true;
                 claveOriginal = Convert.ToString(filaSeleccionada.Cells["Clave"].Value) ?? string.Empty;
                 txtClave.Text = claveOriginal;
                 txtConfirmarClave.Text = "";
