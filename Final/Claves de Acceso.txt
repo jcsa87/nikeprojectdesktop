@@ -1,0 +1,11 @@
+administrador
+documento: 1
+contraseña: 111111
+
+vendedor
+documento: 2
+contraseña: 222222
+
+supervisor
+documento: 3
+contraseña: 333333
